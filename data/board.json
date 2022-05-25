@@ -1,6 +1,6 @@
 {
     "_id": "b101",
-    "title": "Robot dev proj",
+    "title": "Trello",
     "archivedAt": 1589983468418,
     "createdAt": 1589983468418,
     "createdBy": {
@@ -153,7 +153,7 @@
     "activities": [
         {
             "id": "a101",
-            "txt": "Changed Color",
+            "title": "Changed Color",
             "createdAt": 154514,
             "byMember": {
                 "_id": "u101",
