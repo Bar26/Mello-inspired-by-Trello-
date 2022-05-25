@@ -3,10 +3,13 @@
 @import './setup/variables';
 @import './basic/basic';
 
-body{
- background-image: linear-gradient(0deg, rgb(255, 255, 255), rgb(234, 230, 255) 100%) ;
- background-repeat: no-repeat;
- height: 100vh;
+
+@import './cmps/board-preview';
+
+body {
+    background-image: linear-gradient(0deg, rgb(255, 255, 255), rgb(234, 230, 255) 100%);
+    background-repeat: no-repeat;
+    height: 100vh;
 }
 
 
@@ -18,39 +21,40 @@ body{
     // box-shadow: 0 0 10px rgb(0 0 0 / 30%);
 }
 
-.main-header .logo{
+.main-header .logo {
     font-size: 40px;
     font-weight: 600;
     color: $clr1;
 }
 
-.main-header .login{
+.main-header .login {
     color: $clr2;
     background-color: transparent;
-} 
-.main-header .signup{
+}
+
+.main-header .signup {
     color: white;
     background-color: $clr2;
-} 
+}
 
-.home-text{
-    font-family:Charlie-display-semi-bold;
+.home-text {
+    font-family: Charlie-display-semi-bold;
     font-size: 48px;
     font-weight: 500;
     line-height: 60px;
-    color: rgb(9,30,66);
+    color: rgb(9, 30, 66);
 }
 
-p{
+p {
     font-family: Charlie-text-reg;
     font-size: 32px;
     font-weight: 400;
     background-color: transparent;
-   
+
 }
 
-img{
+img {
     width: 445px;
-    
+
 
 }
