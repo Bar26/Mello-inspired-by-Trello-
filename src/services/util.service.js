@@ -5,7 +5,8 @@ export const utilService = {
     delay
 }
 
-function makeId(length = 6) {
+//? makeId length =10
+function makeId(type,length = 6) {
     var txt = '';
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -38,3 +39,11 @@ function delay(ms = 1500) {
     })
 }
 
+
+
+console.log('id:' , makeId('task'));
+console.log('id:' , makeId('group'));
+console.log('id:' , makeId('checklist'));
+//!BUG WITH THE TASK !
+console.log('id:' , makeId('todos'));
+console.log('id:' , makeId('labels'));

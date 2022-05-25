@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom'
 import hero1 from '../assets/img/hero1.png'
+
 export function Home() {
     return <main className='main-container'>
         <section className='main-article flex justify-center align-center'>
@@ -9,5 +11,7 @@ export function Home() {
             </section>
             <img className='hero1' src={hero1} />
         </section>
+        <button><Link to='boards'>Go Boards</Link></button>
+
     </main>
 }
