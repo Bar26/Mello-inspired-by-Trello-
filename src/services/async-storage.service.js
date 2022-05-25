@@ -1,21 +1,35 @@
-
+const board = require('../data/board.json')
+const templates = require('../data/templete.json')
 export const storageService = {
     query,
     get,
     post,
     put,
     remove,
-    postMany
 }
 
 function query(entityType, delay = 600) {
-    var entities = JSON.parse(localStorage.getItem(entityType)) || []
+    var entities = JSON.parse(localStorage.getItem(entityType))
+    if (!entities) {
+        if (entityType === 'Board') {
+            entities = board
+            _save('Board',entities)
 
-    return new Promise((resolve, reject)=>{
-        setTimeout(()=>{
+        }
+        else {
+            entities = templates
+            _save('Templates',entities)
+        }
+
+    }
+
+    // console.log(entities);
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
             // reject('OOOOPs')
+            // _save(entities)
             resolve(entities)
-        }, delay)   
+        }, delay)
     })
     // return Promise.resolve(entities)
 }
@@ -66,12 +80,12 @@ function _makeId(length = 5) {
     return text
 }
 
-function postMany(entityType, newEntities) {
-    return query(entityType)
-        .then(entities => {
-            newEntities = newEntities.map(entity => ({...entity, _id: _makeId()}))
-            entities.push(...newEntities)
-            _save(entityType, entities)
-            return entities
-        })
-}
+// function postMany(entityType, newEntities) {
+//     return query(entityType)
+//         .then(entities => {
+//             newEntities = newEntities.map(entity => ({...entity, _id: _makeId()}))
+//             entities.push(...newEntities)
+//             _save(entityType, entities)
+//             return entities
+//         })
+// }

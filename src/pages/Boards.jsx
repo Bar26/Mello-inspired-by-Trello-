@@ -1,40 +1,45 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { BoardPreview } from '../cmps/BoardPreview'
-import { TempletePreview } from '../cmps/TempletePreview'
+import { TemplatePreview } from '../cmps/TempletePreview'
 import { boardService } from '../services/board.service.js'
 
 export const Boards = () => {
 	const [boards, setBoards] = useState([])
-	const [templetes, setTempletes] = useState([])
+	const [templates, setTemplates] = useState([])
 
 	useEffect(() => {
 		loadBoards()
-		loadTempletes()
+		loadTemplates()
 	}, [])
 
 	const loadBoards = () => {
-		boardService.query().then(setBoards)
+		boardService.query().then((board) => setBoards(board))
+		// .then(console.log(boards))
 	}
-	const loadTempletes = () => {
-		boardService.queryTempletes().then((templetes) => setTempletes(templetes))
+	const loadTemplates = () => {
+		boardService.queryTemplates().then((template) => setTemplates(template))
+		// .then((templates) => setTemplatestes(templates))
 	}
-	//<BoardHeader/>
-	// console.log(boards)
-	console.log(templetes)
+	//<setTemplatesdHeader/>
+	console.log(boards)
+	console.log(templates)
+
 	return (
-		<section>
+		< section >
+			<h1>Templates</h1>
+			{templates.map((template) => {
+				return <TemplatePreview template={template} key={template.id} />
+			})}
 			<h1>Starred Boards</h1>
-			{boards.map((board) => {
-				return <BoardPreview board={board}  key={board._id}/>
-			})}
-			{templetes[0].map((templete) => {
-				return <TempletePreview templete={templete} key={templete.id} />
-			})}
+			{/* {boards.map((board) => {
+			return <BoardPreview board={board} key={board._id} />
+		})
+	} */}
 
 			<h1>Recently Viewed Boards</h1>
 
 			<h1>All Boards</h1>
-		</section>
+		</section >
 	)
 }

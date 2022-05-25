@@ -1,20 +1,24 @@
 import winter from '../assets/img/winter.png'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+// import templateImg from `${template.img}`
 
-const style = {
-	backgroundImage: winter,
-}
+// const style = {
+// backgroundImage: winter,
+// } 
 
-export const TempletePreview = ({ templete }) => {
-	// console.log(templete[0])
+export const TemplatePreview = ({ template }) => {
+	// console.log(template[0])
 	///<BoardHeader/>
+	const img = template.img
+	// console.log(template.img)
 	return (
-		<article className="board-preview" style={{ backgroundColor: 'green' }}>
+		<article className="template-preview" style={{backgroundImage: "'url('+`${img}`+')'"}}>
 			<Link to={`boards/`}>
-				<h1>{templete.title}</h1>
+				<h1>{template.title}</h1>
 				<button className="star">%</button>
-				<img src={templete.img} />
+				{/* <img src={template.img} /> */}
+				{/* <img src={img} /> */}
 			</Link>
 		</article>
 	)
