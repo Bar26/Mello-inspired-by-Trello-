@@ -1,0 +1,25 @@
+.board-preview {
+	// display: grid;
+	// grid-template-columns: 1fr 1fr;
+	// grid-template-rows: 1fr 1fr;
+	// // background-color: green;
+	height: 180px;
+	width: 250px;
+	border-radius: 20px;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+
+	.star {
+		background: transparent;
+		height: fit-content;
+		align-self: flex-end;
+	}
+
+	h1 {
+		align-self: flex-start;
+		padding-left:1rem ;		
+	}
+
+}
