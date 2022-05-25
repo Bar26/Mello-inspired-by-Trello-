@@ -1,36 +1,49 @@
 .main-header {
- 
+
     height: 68px;
     // background-color: white;
     background-color: transparent;
-    padding:16px ;
+    padding: 16px;
+
     // box-shadow: 0 0 10px rgb(0 0 0 / 30%);
-    .logo{
+    .logo {
         font-family: Charlie-text-bold;
         font-size: 40px;
         font-weight: bold;
         color: $clr1;
-        @include flex-center;     //?????????????????????????????????????????????????
+        @include flex-center; 
     }
 
-    .nav-header{
-        &>*{
+    .nav-header {
+        gap:5px;
+        &>* {
             @include flex-center;
-            font-family: charlie-text-reg;
-            line-height: rem(26.25px);
-            font-size: rem(16px);
+            // font-family: charlie-text-reg;
+            // line-height: 1.6rem; //??????????????????????
+            padding-bottom: 4px;
+            padding-left: 8px;
+            padding-right: 8px;
+            padding-top: 4px;
+            border-radius: 3.2px;
+            font-size: 1.09rem;
+            height: 100%;
+            width:80px;
+            line-height: rem(25px);
         }
-        .login{
+
+        .login {
             color: $clr2;
             background-color: transparent;
+            font-family:charlie-text-reg ;
+            width:67px;
         }
         
-        .signup{
+        .signup {
             color: white;
             background-color: $clr2;
+            font-family:charlie-text-semi-bold ;
         }
     }
 
 
 }
-

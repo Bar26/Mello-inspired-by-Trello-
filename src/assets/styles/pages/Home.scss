@@ -1,21 +1,46 @@
 .main-container{
     .main-article{
+            gap:6.875rem;
         .hero1{
             width: 445px;
         }
         .content{
+            width: 41rem;
+        
             .title{
                 font-family:Charlie-display-semi-bold;
                 font-size: 48px;
                 font-weight: 500;
                 line-height: 60px;
                 color: rgb(9,30,66);
+                display: flex;
+                align-items: center;
+                text-align: start;
+                margin-bottom:8px ;
             }
             .trello-prev{
                 font-family: Charlie-text-reg;
                 font-size: 32px;
                 font-weight: 400;
                 background-color: transparent;
+                display: flex;
+                align-items: center;
+                text-align: start;
+                margin-bottom: 24px;
+            }
+            .start-as-guest{
+                line-height: 1.6rem; //??????????????????????
+                padding-bottom: 4px;
+                padding-left: 8px;
+                padding-right: 8px;
+                padding-top: 4px;
+                border-radius: 3.2px;
+                font-size: 1.09rem;
+                height: 44px;
+                width:215px;
+                color: white;
+                background-color: $clr2;
+                font-family:charlie-text-semi-bold ;
             }
         }
     }
