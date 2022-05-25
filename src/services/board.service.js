@@ -1,12 +1,17 @@
 import { storageService } from './async-storage.service.js'
 
-const STORAGE_KEY = 'Borad'
+const STORAGE_KEY = 'Board'
+const STORAGE_KEY2 = 'Templete'
 export const boardService = {
 	query,
+	queryTempletes,
 }
 
 function query() {
 	return storageService.query(STORAGE_KEY)
+}
+function queryTempletes() {
+	return storageService.query(STORAGE_KEY2)
 }
 
 storageService
