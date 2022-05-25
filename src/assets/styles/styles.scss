@@ -4,8 +4,10 @@
 @import './setup/variables';
 @import './basic/basic';
 @import './setup/mixins';
-@import './cmps/app-header';
 @import './setup/functions';
+
+@import './cmps/app-header';
+@import './cmps/main-header';
 
 @import './cmps/board-preview';
 @import './pages/Home.scss';
