@@ -1,0 +1,24 @@
+.main-container{
+    .main-article{
+        .hero1{
+            width: 445px;
+        }
+        .content{
+            .title{
+                font-family:Charlie-display-semi-bold;
+                font-size: 48px;
+                font-weight: 500;
+                line-height: 60px;
+                color: rgb(9,30,66);
+            }
+            .trello-prev{
+                font-family: Charlie-text-reg;
+                font-size: 32px;
+                font-weight: 400;
+                background-color: transparent;
+            }
+        }
+    }
+
+}
+
