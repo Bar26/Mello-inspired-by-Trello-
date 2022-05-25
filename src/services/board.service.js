@@ -1,17 +1,17 @@
 import { storageService } from './async-storage.service.js'
 
 const STORAGE_KEY = 'Board'
+const STORAGE_KEY2 = 'Templete'
 export const boardService = {
 	query,
-	hello
+	queryTempletes,
 }
 
 function query() {
 	return storageService.query(STORAGE_KEY)
 }
-
-function hello() {
-	 return console.log('Hello');
+function queryTempletes() {
+	return storageService.query(STORAGE_KEY2)
 }
 
 // storageService
@@ -187,3 +187,61 @@ function hello() {
 // 		],
 // 	})
 // 	.then((x) => console.log(x))
+
+// storageService.post(STORAGE_KEY2, [
+// 	{
+// 		id: 't101',
+// 		title: 'cleaning',
+// 		img: '../src/assets/img/cleaning.jpg',
+// 		createdAt: new Date(),
+// 	},
+// 	{
+// 		id: 't102',
+// 		title: 'gaming',
+// 		img: '../src/assets/img/gaming.jpg',
+// 		createdAt: new Date(),
+// 	},
+// 	{
+// 		id: 't103',
+// 		title: 'hello',
+// 		img: '../src/assets/img/hello.jpg',
+// 		createdAt: new Date(),
+// 	},
+
+// 	{
+// 		id: 't104',
+// 		title: 'home',
+// 		img: '../src/assets/img/home.jpg',
+// 		createdAt: new Date(),
+// 	},
+// 	{
+// 		id: 't105',
+// 		title: 'new-project',
+// 		img: '../src/assets/img/new-project.jpg',
+// 		createdAt: new Date(),
+// 	},
+// 	{
+// 		id: 't106',
+// 		title: 'next-trip',
+// 		img: '../src/assets/img/next-trip.jpg',
+// 		createdAt: new Date(),
+// 	},
+// 	{
+// 		id: 't107',
+// 		title: 'orange',
+// 		img: '../src/assets/img/orange.jpg',
+// 		createdAt: new Date(),
+// 	},
+// 	{
+// 		id: 't108',
+// 		title: 'todos',
+// 		img: '../src/assets/img/todos.jpg',
+// 		createdAt: new Date(),
+// 	},
+// 	{
+// 		id: 't109',
+// 		title: 'diet-plan',
+// 		img: '../src/assets/img/diet-plan.jpg',
+// 		createdAt: new Date(),
+// 	},
+// ])
