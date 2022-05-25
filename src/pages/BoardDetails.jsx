@@ -1,4 +1,4 @@
-import { BoardGroup } from "../cmps/BoardGroup"
+import { GroupPreview } from "../cmps/groupPreview"
 
 
 
@@ -9,6 +9,6 @@ export const BoardDeatails = ({board}) => {
 
 
     return <section>
-        <BoardGroup/>
+        {/* <BoardGroup/>  // change to grouplist */}
     </section>
 }

@@ -12,7 +12,6 @@ function App() {
   return (
     <Router>
     <div className="App">
-      <AppHeader/>
     <Routes>
           <Route path='/boards/:boardId' element={<BoardDeatails/>} />
           <Route path='/boards' element={<Boards />} />
