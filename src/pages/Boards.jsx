@@ -1,30 +1,45 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { BoardPreview } from '../cmps/BoardPreview'
+import { TemplatePreview } from '../cmps/TempletePreview'
 import { boardService } from '../services/board.service.js'
 
 export const Boards = () => {
 	const [boards, setBoards] = useState([])
+	const [templates, setTemplates] = useState([])
 
 	useEffect(() => {
 		loadBoards()
+		loadTemplates()
 	}, [])
 
 	const loadBoards = () => {
-		boardService.query().then(setBoards)
+		boardService.query().then((board) => setBoards(board))
+		// .then(console.log(boards))
 	}
-	//<BoardHeader/>
+	const loadTemplates = () => {
+		boardService.queryTemplates().then((template) => setTemplates(template))
+		// .then((templates) => setTemplatestes(templates))
+	}
+	//<setTemplatesdHeader/>
 	console.log(boards)
+	console.log(templates)
+
 	return (
-		<section>
-			<h1>Starred Boards</h1>
-			{boards.map((board) => {
-				return <BoardPreview board={board} />
+		< section >
+			<h1>Templates</h1>
+			{templates.map((template) => {
+				return <TemplatePreview template={template} key={template.id} />
 			})}
+			<h1>Starred Boards</h1>
+			{/* {boards.map((board) => {
+			return <BoardPreview board={board} key={board._id} />
+		})
+	} */}
 
 			<h1>Recently Viewed Boards</h1>
 
 			<h1>All Boards</h1>
-		</section>
+		</section >
 	)
 }

@@ -21,5 +21,10 @@
 		align-self: flex-start;
 		padding-left:1rem ;		
 	}
+	img {
+		object-fit: cover;
+		height: 100px;
+		width: 100px;
+	}
 
 }
