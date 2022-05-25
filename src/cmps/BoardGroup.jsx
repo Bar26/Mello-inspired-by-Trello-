@@ -15,5 +15,8 @@ export const BoardGroup = () => {
             <div>Task2</div>
             <div>Task3</div>
         </div>
+        <form>
+            <input></input>
+        </form>
     </article>
 }
