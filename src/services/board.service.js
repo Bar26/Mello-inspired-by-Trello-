@@ -20,10 +20,11 @@ export const boardService = {
 	queryTemplates,
 	getById,
 	update,
-	createTask
+	createTask,
+	getEmptyBoard,
 }
 
-async function query () {
+async function query() {
 	const board = await storageService.query(STORAGE_KEY)
 	// console.log(board)
 	return board
@@ -35,16 +36,49 @@ async function queryTemplates() {
 	// console.log(templates)
 	return templates
 	// if(res===[]){
-		// res = templates
-		
+	// res = templates
+
 	// } 
 	// .then(console.log)
-
 }
 
-function getById(type,id) {
-    return (type==='board')? storageService.get(STORAGE_KEY, id):storageService.get(STORAGE_KEY2, id)
-    // return axios.get(`/api/car/${carId}`)
+// "id":"t102",
+// "title": "gaming",
+// "img": "../src/assets/img/gaming.jpg",
+// "createdAt": "new Date() ",
+// "isStared" : false,
+// "viewedAt": "new Date() "
+
+function getEmptyBoard(template) {
+	const newBoard = {
+		title: template.title,
+		// createdBy: {
+		// "_id": "u101",
+		// "fullname": "Itamar Sahar",
+		// "imgUrl": "http://some-img"
+		// },
+		style: { backgroundImage: template.img },
+		labels: [{
+			id: "l101",
+			title: "Done",
+			color: "#61bd4f"
+		},
+		{
+			id: "l102",
+			title: "Progress",
+			color: "#61bd33"
+		}],
+		members: [],
+		groups: [],
+		activities: []
+	}
+	return storageService.post(STORAGE_KEY,newBoard)
+}
+
+function getById(type, id) {
+	// console.log('HELLOOOOOOO');
+	return (type === 'board') ? storageService.get(STORAGE_KEY, id) : storageService.get(STORAGE_KEY2, id)
+	// return axios.get(`/api/car/${carId}`)
 }
 
 async function update(board) {

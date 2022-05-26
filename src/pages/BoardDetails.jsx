@@ -13,7 +13,7 @@ export const BoardDeatails = () => {
     const params = useParams()
 
     return <section> 
-        {/* <SecondaryHeader /> */}
+        <SecondaryHeader />
         <GroupList boardId={params.boardId}/>
         {/* <BoardGroup/> */}
     </section>

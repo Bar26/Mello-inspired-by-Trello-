@@ -13,14 +13,13 @@ function query(entityType, delay = 600) {
     if (!entities) {
         if (entityType === 'Board') {
             entities = board
-            _save('Board',entities)
+            _save('Board', entities)
 
         }
         else {
             entities = templates
-            _save('Templates',entities)
+            _save('Templates', entities)
         }
-
     }
 
     // console.log(entities);
@@ -36,10 +35,17 @@ function query(entityType, delay = 600) {
 
 function get(entityType, entityId) {
     return query(entityType)
-        .then(entities => entities.find(entity => entity._id === entityId))
+        .then(entities => entities.find(entity => {
+            if (entity._id === entityId) {
+                // console.log('in get async  ', entity)
+                return entity
+            }
+        }
+        ))
 }
 function post(entityType, newEntity) {
     newEntity._id = _makeId()
+    // console.log(newEntity)
     return query(entityType)
         .then(entities => {
             entities.push(newEntity)

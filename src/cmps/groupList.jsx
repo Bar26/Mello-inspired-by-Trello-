@@ -6,9 +6,9 @@ export function GroupList({ boardId }) {
     const [type, setType] = useState('board')
     const [board, setBoard] = useState({})
 
-    console.log('in groupList ', boardId);
+    // console.log('in groupList ', boardId);
     useEffect(() => {
-      console.log('in groupList inside effect');
+      // console.log('in groupList inside effect');
       boardService.getById(type,boardId).then(setBoard)
     //   console.log(board.groups)
     }, [])

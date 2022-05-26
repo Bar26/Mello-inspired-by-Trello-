@@ -22,8 +22,7 @@ export const BoardList = () => {
 		// .then((templates) => setTemplatestes(templates))
 	}
 	//<setTemplatesdHeader/>
-	console.log('in boardlist',boards)
-	console.log(templates)
+	
 	if(!boards||!templates) return 'loading...'
 	return (
 		< section >
