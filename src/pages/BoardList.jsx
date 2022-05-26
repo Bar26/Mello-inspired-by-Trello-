@@ -4,7 +4,7 @@ import { BoardPreview } from '../cmps/BoardPreview'
 import { TemplatePreview } from '../cmps/TempletePreview'
 import { boardService } from '../services/board.service.js'
 
-export const Boards = () => {
+export const BoardList = () => {
 	const [boards, setBoards] = useState([])
 	const [templates, setTemplates] = useState([])
 
@@ -22,9 +22,9 @@ export const Boards = () => {
 		// .then((templates) => setTemplatestes(templates))
 	}
 	//<setTemplatesdHeader/>
-	console.log(boards)
+	console.log('in boardlist',boards)
 	console.log(templates)
-
+	if(!boards||!templates) return 'loading...'
 	return (
 		< section >
 			<h1>Templates</h1>
@@ -32,14 +32,12 @@ export const Boards = () => {
 				return <TemplatePreview template={template} key={template.id} />
 			})}
 			<h1>Starred Boards</h1>
-			{/* {boards.map((board) => {
-			return <BoardPreview board={board} key={board._id} />
-		})
-	} */}
+			{boards.map(board => <BoardPreview board={board} key={board._id} />)}
 
 			<h1>Recently Viewed Boards</h1>
 
 			<h1>All Boards</h1>
+			{boards.map(board => <BoardPreview board={board} key={board._id} />)}
 		</section >
 	)
 }

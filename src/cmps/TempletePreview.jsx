@@ -14,7 +14,7 @@ export const TemplatePreview = ({ template }) => {
 	// console.log(template.img)
 	return (
 		<article className="template-preview" style={{backgroundImage: "'url('+`${img}`+')'"}}>
-			<Link to={`boards/`}>
+			 <Link to={`/boards/${template._id}`}>
 				<h1>{template.title}</h1>
 				<button className="star">%</button>
 				{/* <img src={template.img} /> */}

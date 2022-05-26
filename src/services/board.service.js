@@ -18,6 +18,7 @@ const STORAGE_KEY2 = 'Template'
 export const boardService = {
 	query,
 	queryTemplates,
+	getById
 }
 
 async function query() {
@@ -68,6 +69,11 @@ function getEmptyBoard(template) {
 		groups: [],
 		activities: []
 	}
+}
+
+function getById(type,id) {
+    return (type==='board')? storageService.get(STORAGE_KEY, id):storageService.get(STORAGE_KEY2, id)
+    // return axios.get(`/api/car/${carId}`)
 }
 
 // ////&&Test DATA!!!!!!1

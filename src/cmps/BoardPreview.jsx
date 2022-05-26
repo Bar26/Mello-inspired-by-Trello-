@@ -8,12 +8,11 @@ const style = {
 
 export const BoardPreview = ({ board }) => {
     ///<BoardHeader/>
-
-    console.log(board)
+    // console.log('in boardlist',board)
     ///<BoardHeader/>
     return (
         <article className="board-preview" style={{ backgroundColor: 'green' }}>
-            <Link to={`boards/${board._id}`}>
+            <Link to={`/boards/${board._id}`}>
                 <h1>{board.title}</h1>
                 <label className="star">
                     <button></button>
