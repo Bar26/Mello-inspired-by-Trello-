@@ -16,6 +16,6 @@ export function GroupList({ boardId }) {
    if(!Object.keys(board).length) return <h1>loading...</h1>
 
     return <section className="groups-container">
-        {board.groups.map(group=> <GroupPreview group={group}/>)}
+        {board.groups.map(group=> <GroupPreview group={group} board={board}/>)}
     </section>
 }

@@ -1,6 +1,6 @@
 
 export function TaskPreview({task}){
-    return <section>
+    return <section className="task">
         {task.title}
     </section>
 }

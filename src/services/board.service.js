@@ -1,5 +1,5 @@
 import { storageService } from './async-storage.service.js'
-
+import {utilService} from './util.service.js'
 // const fs = require('fs')
 
 // const board = require('../data/board.json')
@@ -18,7 +18,9 @@ const STORAGE_KEY2 = 'Template'
 export const boardService = {
 	query,
 	queryTemplates,
-	getById
+	getById,
+	update,
+	createTask
 }
 
 async function query () {
@@ -44,6 +46,19 @@ function getById(type,id) {
     return (type==='board')? storageService.get(STORAGE_KEY, id):storageService.get(STORAGE_KEY2, id)
     // return axios.get(`/api/car/${carId}`)
 }
+
+async function update(board) {
+    var updatedBoard
+	updatedBoard = await storageService.put(STORAGE_KEY, board)
+
+    return updatedBoard
+}
+
+async function createTask(title){
+	const id=utilService.makeId()
+	return {id,title}
+}
+
 
 // ////&&Test DATA!!!!!!1
 // storageService.post(STORAGE_KEY2, {

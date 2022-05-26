@@ -12,4 +12,17 @@
         justify-content: flex-start;
         align-items: center;
     }
+
+    .task-list{
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+    }
+
+    .add-card-form{
+        &.close{
+            display: none;
+        }
+    } 
 }
