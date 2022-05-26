@@ -2,7 +2,7 @@ import { TaskPreview } from "./TaskPreview"
 
 
 export const GroupPreview = ({group}) => {
-    console.log(group)
+    // console.log(group)
 
  //TODO: ADD STYLE
     return <article className='group'>

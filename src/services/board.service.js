@@ -18,7 +18,8 @@ const STORAGE_KEY2 = 'Template'
 export const boardService = {
 	query,
 	queryTemplates,
-	getById
+	getById,
+	getEmptyBoard,
 }
 
 async function query() {
@@ -47,7 +48,7 @@ async function queryTemplates() {
 // "viewedAt": "new Date() "
 
 function getEmptyBoard(template) {
-	return {
+	const newBoard = {
 		title: template.title,
 		// createdBy: {
 		// "_id": "u101",
@@ -69,11 +70,13 @@ function getEmptyBoard(template) {
 		groups: [],
 		activities: []
 	}
+	return storageService.post(STORAGE_KEY,newBoard)
 }
 
-function getById(type,id) {
-    return (type==='board')? storageService.get(STORAGE_KEY, id):storageService.get(STORAGE_KEY2, id)
-    // return axios.get(`/api/car/${carId}`)
+function getById(type, id) {
+	// console.log('HELLOOOOOOO');
+	return (type === 'board') ? storageService.get(STORAGE_KEY, id) : storageService.get(STORAGE_KEY2, id)
+	// return axios.get(`/api/car/${carId}`)
 }
 
 // ////&&Test DATA!!!!!!1

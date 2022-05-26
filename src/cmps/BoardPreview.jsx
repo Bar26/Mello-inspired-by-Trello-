@@ -16,7 +16,7 @@ export const BoardPreview = ({ board }) => {
                 <h1>{board.title}</h1>
                 <label className="star">
                     <button></button>
-                    <i class="fa-regular fa-star"></i>
+                    <i className="fa-regular fa-star"></i>
                     {/* <i className="fa-solid fa-copy"></i> */}
                 </label>
             </Link>
