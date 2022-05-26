@@ -2,10 +2,41 @@
     visibility: hidden;
 }
 
+.user-logo {
+    height: 40px;
+    width: 40px;
+    line-height: 32px;
+    border-radius: 20px;
+    background-color: green;
+}
+
+.secondary-header {
+    display: flex;
+    // flex-direction: ;
+    height: 68px;
+    // background-color: white;
+    background-color: blue;
+    padding: 16px;
+}
+
 .select-recent {
     height: 350px;
-    width:305px;
+    width: 305px;
     background-color: green;
     list-style: none;
+    position: fixed;
+    // width: 304px;
+    // will-change: top, left;
+    top: 48px;
+    left: 54px;
+}
 
+.header-search-div {
+    box-sizing: border-box;
+    border:1px solid grey;
+}
+
+.header-search {
+    background: transparent;
+    border: none;
 }

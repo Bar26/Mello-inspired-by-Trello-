@@ -20,7 +20,7 @@ export const boardService = {
 	queryTemplates,
 }
 
-async function query () {
+async function query() {
 	const board = await storageService.query(STORAGE_KEY)
 	// console.log(board)
 	return board
@@ -32,11 +32,42 @@ async function queryTemplates() {
 	// console.log(templates)
 	return templates
 	// if(res===[]){
-		// res = templates
-		
+	// res = templates
+
 	// } 
 	// .then(console.log)
+}
 
+// "id":"t102",
+// "title": "gaming",
+// "img": "../src/assets/img/gaming.jpg",
+// "createdAt": "new Date() ",
+// "isStared" : false,
+// "viewedAt": "new Date() "
+
+function getEmptyBoard(template) {
+	return {
+		title: template.title,
+		// createdBy: {
+		// "_id": "u101",
+		// "fullname": "Itamar Sahar",
+		// "imgUrl": "http://some-img"
+		// },
+		style: { backgroundImage: template.img },
+		labels: [{
+			id: "l101",
+			title: "Done",
+			color: "#61bd4f"
+		},
+		{
+			id: "l102",
+			title: "Progress",
+			color: "#61bd33"
+		}],
+		members: [],
+		groups: [],
+		activities: []
+	}
 }
 
 // ////&&Test DATA!!!!!!1
