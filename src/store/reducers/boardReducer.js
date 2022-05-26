@@ -2,6 +2,7 @@
 
 
 const INITIAL_STATE = {
+    currBoard:{},
     // boards: null,
     // filterBy: null
     board:null,
@@ -10,10 +11,11 @@ const INITIAL_STATE = {
 export function boardReducer(state = INITIAL_STATE, action) {
 
     switch (action.type) {
-        case 'SET_BOARD':
+        case 'SET_CURRBOARD':
             return {
                 ...state,
-                board: action.boards
+                currBoard: action.board
+            
             }
 
         case 'ADD_BOARD':

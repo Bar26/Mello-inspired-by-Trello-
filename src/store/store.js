@@ -1,5 +1,6 @@
 import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 import thunk from "redux-thunk";
+import { boardReducer } from "./reducers/boardReducer";
 // import { robotReducer } from "./reducers/robotReducer";
 // import { userReducer } from "./reducers/userReducer";
 

@@ -2,9 +2,12 @@ import { TaskPreview } from "./TaskPreview"
 import React from "react"
 import { boardService } from "../services/board.service"
 import { useCallback, useEffect, useState, useRef } from 'react'
+import { setCurrBoard } from "../store/actions/board.actions"
+import { useDispatch } from "react-redux"
 
 export const GroupPreview = ({ group, board }) => {
     console.log(group)
+    const dispatch = useDispatch()
     const formRef = React.createRef()
     let onMount = useRef()
     const [newCardTitle, setNewCardTitle] = useState('')
@@ -33,11 +36,12 @@ export const GroupPreview = ({ group, board }) => {
         console.log(groupIdx)
         const updatedBoard = { ...board }
         boardService.createTask(newCardTitle)
-            .then((task) =>{
+            .then((task) => {
                 updatedBoard.groups[groupIdx].tasks.push(task)
                 return updatedBoard
-            } )
+            })
             .then(boardService.update)
+            .then((board)=>dispatch(setCurrBoard(board)))
 
     }
 
