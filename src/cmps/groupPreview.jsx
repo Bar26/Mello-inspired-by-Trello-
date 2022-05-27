@@ -21,7 +21,7 @@ export const GroupPreview = ({ group, board }) => {
 
 
     const onSubmit = (ev) => {
-        console.log('in onsubmit')
+        // console.log('in onsubmit')
         ev.preventDefault()
         // console.log('adding card')
         // console.log(ev.target[0]);           ////????????????
