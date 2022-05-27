@@ -18,7 +18,7 @@ function query(entityType, delay = 600) {
         }
         else {
             entities = templates
-            _save('Templates', entities)
+            _save('Template', entities)
         }
     }
 

@@ -80,7 +80,13 @@
                                     "id": "212jX",
                                     "title": "To Do 1",
                                     "isDone": false
+                                },
+                                {
+                                    "id": "213jX",
+                                    "title": "To Do 2",
+                                    "isDone": true
                                 }
+
                             ]
                         }
                     ],
@@ -95,7 +101,7 @@
                         "imgUrl": "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg"
                     },
                     "style": {
-                        "bgColor": "#26de81"
+                        "backgroundColor": "#26de81"
                     }
                 }
             ],
