@@ -15,7 +15,7 @@ export const BoardDeatails = () => {
 	return (
 		<section>
 			<SecondaryHeader />
-			<GroupList boardId={params.boardId} />
+			<GroupList boardId={params.boardId} board={currBoard} />
 			{/* <BoardGroup/> */}
 		</section>
 	)

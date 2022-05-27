@@ -13,6 +13,7 @@ export const SecondaryHeader = () => {
     const navigate = useNavigate()
     const refRecent = React.createRef()
     const refMore = React.createRef()
+
     // const { currBoard } = useSelector(state => state.boardModule)
     const dispatch = useDispatch()
 
@@ -22,7 +23,7 @@ export const SecondaryHeader = () => {
     }, [])
 
     useEffect(() => {
-        if(!board._id) return 
+        if (!board._id) return
         console.log(board)
         dispatch(setCurrBoard(board))
         navigate(`/boards/${board._id}`)
@@ -40,15 +41,16 @@ export const SecondaryHeader = () => {
     }
 
     const onSelectTemplate = async (templateId) => {
-        const template = await boardService.getById('tamplate',templateId)
+        const template = await boardService.getById('tamplate', templateId)
         const newBoard = await boardService.getEmptyBoard(template)
         console.log('on Select', newBoard)
         setBoards(newBoard)
+        dispatch(setCurrBoard(board))
     }
 
     return <header className='secondary-header'>
-        <h1 className="logo">Trello</h1>
         <section className="nav-header flex">
+            <h1 className="logo">Trello</h1>
             <button className="secondary-header-recent-button" onClick={() => toggleDiv(refRecent)}>Recent</button>
             <section ref={refRecent} className='select-recent hide'>
                 <h1>Recent Boards</h1>
@@ -56,7 +58,7 @@ export const SecondaryHeader = () => {
                 <hr />
                 <ul>
                     {templates.map(template => {
-                            return <li><button onClick={()=>{onSelectTemplate(template._id)}}>{template.title}</button></li>
+                        return <li><button onClick={() => { onSelectTemplate(template._id) }}>{template.title}</button></li>
                     })}
                 </ul>
             </section>

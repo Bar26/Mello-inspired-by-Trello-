@@ -2,16 +2,16 @@ import { GroupPreview } from "./groupPreview"
 import { boardService } from "../services/board.service"
 import { useCallback, useEffect, useState } from 'react'
 
-export function GroupList({ boardId }) {
+export function GroupList({ boardId, board }) {
     const [type, setType] = useState('board')
-    const [board, setBoard] = useState({})
+    // const [board, setBoard] = useState({})
 
     // console.log('in groupList ', boardId);
-    useEffect(() => {
-      // console.log('in groupList inside effect');
-      boardService.getById(type,boardId).then(setBoard)
-    //   console.log(board.groups)
-    }, [])
+    // useEffect(() => {
+    //   // console.log('in groupList inside effect');
+    //   boardService.getById(type,boardId).then(setBoard)
+    // //   console.log(board.groups)
+    // }, [])
 
    if(!Object.keys(board).length) return <h1>loading...</h1>
 

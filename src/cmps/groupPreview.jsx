@@ -4,6 +4,7 @@ import { boardService } from "../services/board.service"
 import { useCallback, useEffect, useState, useRef } from 'react'
 import { setCurrBoard } from "../store/actions/board.actions"
 import { useDispatch } from "react-redux"
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
 export const GroupPreview = ({ group, board }) => {
     // console.log(group)
@@ -41,7 +42,7 @@ export const GroupPreview = ({ group, board }) => {
                 return updatedBoard
             })
             .then(boardService.update)
-            .then((board)=>dispatch(setCurrBoard(board)))
+            .then((board) => dispatch(setCurrBoard(board)))
 
     }
 
@@ -60,10 +61,23 @@ export const GroupPreview = ({ group, board }) => {
         <header className='group-title'>
             {group.title}
         </header>
+        <DragDropContext>
+            <Droppable droppableId="task-list">
+                {(provided) => {
 
-        <div className="task-list">
-            {group.tasks.map(task => <TaskPreview task={task} key={task.id} />)}
-        </div>
+                    <div className="task-list" {...provided.droppableProps} ref={provided.innerRef}>
+                        {group.tasks.map((task,idx) => {
+                            <Draggable key={task.id} draggableId={task.id} idx={idx}>
+                                {(provided)=>{
+                                    <TaskPreview task={task} provided={provided} />
+                                }}
+                            </Draggable>
+                        })}
+                        {provided.placeholder}
+                    </div>
+                }}
+            </Droppable>
+        </DragDropContext>
 
         <button className="add-card-btn" onClick={toggleForm}>+ Add a card </button>
         <form className="add-card-form close" onSubmit={onSubmit} ref={formRef}>
