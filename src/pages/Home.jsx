@@ -3,7 +3,7 @@ import hero1 from '../assets/img/hero1.png'
 import {AppHeader} from '../cmps/header'
 
 export function Home() {
-    return <>
+    return <section className='home'>
     <AppHeader/>
      <main className='main-container'>
         <section className='main-article flex justify-center align-center'>
@@ -17,5 +17,5 @@ export function Home() {
         <button><Link to='boards'>Go Boards</Link></button>
 
     </main>
-    </>
+    </section>
 }

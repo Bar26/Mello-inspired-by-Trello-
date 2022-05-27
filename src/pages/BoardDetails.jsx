@@ -1,23 +1,21 @@
-import { useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { GroupPreview } from '../cmps/groupPreview'
-import {boardService} from '../services/board.service.js'
 // import { BoardGroup } from "../cmps/BoardGroup"
 import { SecondaryHeader } from '../cmps/MainHeader'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { GroupList } from '../cmps/groupList'
+import { useDispatch, useSelector } from 'react-redux'
+import { setCurrBoard } from '../store/actions/board.actions'
 
 export const BoardDeatails = () => {
-	const [board, setBoard] = useState([])
-	const { boardId } = useParams()
-
-    const loadBorad =() => {
-
-    }
+	// console.log('in boardDetails')
+	const params = useParams()
+	const dispatch = useDispatch()
+	const { currBoard } = useSelector((state) => state.boardModule)
+	console.log(currBoard)
 
 	return (
 		<section>
-			{/* <BoardGroup/>  // change to grouplist */}
 			<SecondaryHeader />
-            <h1>{boardId}</h1>
+			<GroupList boardId={params.boardId} />
 			{/* <BoardGroup/> */}
 		</section>
 	)

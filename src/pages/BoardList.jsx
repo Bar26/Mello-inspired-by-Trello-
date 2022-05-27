@@ -5,7 +5,7 @@ import { CreateModal } from '../cmps/createModal'
 import { TemplatePreview } from '../cmps/TempletePreview'
 import { boardService } from '../services/board.service.js'
 
-export const Boards = () => {
+export const BoardList = () => {
 	const [boards, setBoards] = useState([])
 	const [templates, setTemplates] = useState([])
 	const [createMode, setCreateMode] = useState('')

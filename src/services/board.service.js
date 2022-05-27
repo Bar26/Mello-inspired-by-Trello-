@@ -1,5 +1,5 @@
 import { storageService } from './async-storage.service.js'
-
+import { utilService } from './util.service.js'
 const board = require('../data/board.json')
 const templates = require('../data/templete.json')
 
@@ -9,6 +9,10 @@ export const boardService = {
 	query,
 	queryTemplates,
 	setStarred,
+	getById,
+	update,
+	createTask,
+	getEmptyBoard,
 }
 
 async function query() {
@@ -27,9 +31,7 @@ function setStarred(templete) {
 	} else {
 		templete.isStared = false
 	}
-	 storageService.put(STORAGE_KEY2, templete)
-	 .then(console.log)
-	
+	storageService.put(STORAGE_KEY2, templete).then(console.log)
 }
 
 // async function add(title, style) {
@@ -144,6 +146,68 @@ function setStarred(templete) {
 // 		console.log('Cannot add task', err)
 // 	}
 // }
+// if(res===[]){
+// res = templates
+
+// }
+// .then(console.log)
+// }
+
+// "id":"t102",
+// "title": "gaming",
+// "img": "../src/assets/img/gaming.jpg",
+// "createdAt": "new Date() ",
+// "isStared" : false,
+// "viewedAt": "new Date() "
+
+function getEmptyBoard(template) {
+	const newBoard = {
+		title: template.title,
+		// createdBy: {
+		// "_id": "u101",
+		// "fullname": "Itamar Sahar",
+		// "imgUrl": "http://some-img"
+		// },
+		style: { backgroundImage: template.img },
+		labels: [
+			{
+				id: 'l101',
+				title: 'Done',
+				color: '#61bd4f',
+			},
+			{
+				id: 'l102',
+				title: 'Progress',
+				color: '#61bd33',
+			},
+		],
+		members: [],
+		groups: [],
+		activities: [],
+	}
+	return storageService.post(STORAGE_KEY, newBoard)
+}
+
+function getById(type, id) {
+	// console.log('HELLOOOOOOO');
+	return type === 'board'
+		? storageService.get(STORAGE_KEY, id)
+		: storageService.get(STORAGE_KEY2, id)
+	// return axios.get(`/api/car/${carId}`)
+}
+
+async function update(board) {
+	var updatedBoard
+	updatedBoard = await storageService.put(STORAGE_KEY, board)
+
+	return updatedBoard
+}
+
+async function createTask(title) {
+	const id = utilService.makeId()
+	return { id, title }
+}
+
 // ////&&Test DATA!!!!!!1
 // storageService.post(STORAGE_KEY2, {
 // 	"id": "t101",
