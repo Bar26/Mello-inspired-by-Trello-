@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { BoardPreview } from '../cmps/BoardPreview'
+import { CreateModal } from '../cmps/createModal'
 import { TemplatePreview } from '../cmps/TempletePreview'
 import { boardService } from '../services/board.service.js'
 
 export const Boards = () => {
 	const [boards, setBoards] = useState([])
 	const [templates, setTemplates] = useState([])
+	const [createMode, setCreateMode] = useState('')
 
 	useEffect(() => {
 		loadBoards()
@@ -14,32 +16,46 @@ export const Boards = () => {
 	}, [])
 
 	const loadBoards = () => {
-		boardService.query().then((board) => setBoards(board))
+		boardService.query().then(setBoards)
 		// .then(console.log(boards))
 	}
 	const loadTemplates = () => {
-		boardService.queryTemplates().then((template) => setTemplates(template))
-		// .then((templates) => setTemplatestes(templates))
+		boardService.queryTemplates().then(setTemplates)
 	}
-	//<setTemplatesdHeader/>
-	console.log(boards)
-	console.log(templates)
 
+	const onSetCreateMode = () => {
+		if (!createMode.length) {
+			setCreateMode('create-mode')
+		} else {
+			setCreateMode('')
+		}
+	}
+	if (!boards.length) return <h1>loading...</h1>
 	return (
-		< section >
+		<section className="workspace">
 			<h1>Templates</h1>
-			{templates.map((template) => {
-				return <TemplatePreview template={template} key={template.id} />
-			})}
-			<h1>Starred Boards</h1>
-			{/* {boards.map((board) => {
-			return <BoardPreview board={board} key={board._id} />
-		})
-	} */}
+			<section className="board-list">
+				<article className="create-preview" onClick={onSetCreateMode}>
+					<h1>Create New Board</h1>
+				</article>
+				{templates.map((template) => {
+					return <TemplatePreview template={template} key={template.id} />
+				})}
+			</section>
+			<h1>
+				<i className="fa-regular fa-star"></i>
+				Starred Boards
+			</h1>
+			<section className="board-list">
+				{boards.map((board) => {
+					return <BoardPreview board={board} key={board._id} />
+				})}
+			</section>
 
 			<h1>Recently Viewed Boards</h1>
 
 			<h1>All Boards</h1>
-		</section >
+			<CreateModal createMode={createMode} onSetCreateMode={onSetCreateMode} />
+		</section>
 	)
 }

@@ -1,0 +1,144 @@
+.create-modal {
+	flex-direction: column;
+	align-items: center;
+	width: 321px;
+	min-height: 50px;
+	margin: auto;
+	border: 1px solid rgba(147, 147, 147, 0.525);
+    padding: 0px 10px 10px 10px;
+	display: none;
+	position: fixed;
+	left: 210px;
+	top: 35px;
+	background-color: white;
+	border-radius: 3px;
+	color: #5e6c84;
+	.create-board-title {
+		display: flex;
+		flex-direction: row-reverse;
+		align-items: center;
+		justify-content: center;
+		line-height: 40px;
+		width: 100%;
+        padding: 0 32px;
+		margin: 0 12px 10px;
+		border-bottom: 1px solid #091e4221;
+		position: relative;
+
+		.close-btn {
+			align-self: flex-end;
+			cursor: pointer;
+			position: absolute;
+			right: 0;
+			top: 5px;
+			background-color: inherit;
+			border: none;
+			font-size: 12px;
+			padding: 10px 0 10px 8px;
+		}
+		p {
+			align-self: flex-start;
+			margin-bottom: 10px;
+			font-size: 1.1rem;
+		}
+	}
+	.img-preview {
+		background-color: gray;
+		margin-bottom: 10px;
+		padding: 5px;
+		border-radius: 3px;
+	}
+	.colors-container {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		margin-bottom: 10px;
+
+		.colors-wrapper {
+			margin: auto;
+			display: flex;
+			gap: 10px;
+
+			.color-select {
+				height: 32px;
+				width: 40px;
+				border-radius: 3px;
+				cursor: pointer;
+			}
+			.red {
+				background-color: rgb(237, 90, 70);
+			}
+
+			.green {
+				background-color: rgb(97, 189, 79);
+			}
+			.purple {
+				background-color: rgb(195, 119, 224);
+			}
+			.yellow {
+				background-color: rgb(242, 214, 0);
+			}
+			.orange {
+				background-color: rgb(255, 159, 26);
+			}
+			.turquoise {
+				background-color: rgb(81, 232, 152);
+			}
+		}
+	}
+	.create-title {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		margin-bottom: 10px;
+
+		input {
+			width: 100%;
+			margin-top: 2px;
+			outline: none;
+			border: none;
+			box-sizing: border-box;
+			color: #172b4d;
+			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+				'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
+			font-size: 14px;
+			line-height: 20px;
+			font-weight: 400;
+			transition-property: background-color, border-color, box-shadow;
+			transition-duration: 85ms;
+			transition-timing-function: ease;
+			border-radius: 3px;
+			padding: 8px 12px;
+			box-shadow: inset 0 0 0 2px #dfe1e6;
+			background-color: #fafbfc;
+			width: 100%;
+			margin-bottom: 0;
+		}
+	}
+	label {
+		font-size: 0.8rem;
+		margin-bottom: 3px;
+	}
+
+	.create-btn {
+		background-color: gray;
+		padding: 6px 12px;
+		cursor: not-allowed;
+		opacity: 0.2;
+		width: 100%;
+		border-radius: 3px;
+
+		&.filled {
+			background-color: #0079bf;
+			color: #fff;
+			opacity: 1;
+			cursor: pointer;
+		}
+	}
+
+	&.create-mode {
+		display: flex;
+	}
+}

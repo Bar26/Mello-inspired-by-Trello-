@@ -1,25 +1,41 @@
-import winter from '../assets/img/winter.png'
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-// import templateImg from `${template.img}`
-
-// const style = {
-// backgroundImage: winter,
-// } 
+import { useNavigate } from 'react-router-dom'
+import { boardService } from '../services/board.service.js'
 
 export const TemplatePreview = ({ template }) => {
-	// console.log(template[0])
-	///<BoardHeader/>
-	const img = template.img
-	// console.log(template.img)
+	const [star, setStar] = useState('')
+	const navigate = useNavigate()
+
+	const onSetStar = (e) => {
+		e.stopPropagation()
+		if (!star.length) {
+			setStar('starred fa-solid')
+		} else {
+			setStar('')
+		}
+		boardService.setStarred(template)
+	}
+	const onGetBoard = () => {
+		navigate(`/1`)
+	}
+	// console.log(template);
 	return (
-		<article className="template-preview" style={{backgroundImage: "'url('+`${img}`+')'"}}>
-			<Link to={`boards/`}>
+		<article
+			className="board-preview"
+			style={{
+				background: `URL(${template.img})`,
+				backgroundSize: 'cover',
+			}}
+		>
+			<div className="link" onClick={onGetBoard}>
 				<h1>{template.title}</h1>
-				<button className="star">%</button>
-				{/* <img src={template.img} /> */}
-				{/* <img src={img} /> */}
-			</Link>
+				<label className="star">
+					<i
+						className={`fa-regular fa-star ${star}`}
+						onClick={(event) => onSetStar(event)}
+					></i>
+				</label>
+			</div>
 		</article>
 	)
 }

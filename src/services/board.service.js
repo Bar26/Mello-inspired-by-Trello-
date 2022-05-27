@@ -1,44 +1,149 @@
 import { storageService } from './async-storage.service.js'
 
-// const fs = require('fs')
-
-// const board = require('../data/board.json')
-// const templates = require('../data/templete.json')
-
-// console.log('board', template)
-
-
-// getJSONFromFile('../data/board.json', (err, board) => {
-//     if (err) return console.log('Cannot read Pets file', err)
-//     console.log('board', board)
-// })
+const board = require('../data/board.json')
+const templates = require('../data/templete.json')
 
 const STORAGE_KEY = 'Board'
 const STORAGE_KEY2 = 'Template'
 export const boardService = {
 	query,
 	queryTemplates,
+	setStarred,
 }
 
-async function query () {
+async function query() {
 	const board = await storageService.query(STORAGE_KEY)
-	// console.log(board)
+
 	return board
-	// if(res===[]) res = board
 }
 async function queryTemplates() {
-	// console.log(storageService.query(STORAGE_KEY2))
 	const templates = await storageService.query(STORAGE_KEY2)
-	// console.log(templates)
 	return templates
-	// if(res===[]){
-		// res = templates
-		
-	// } 
-	// .then(console.log)
-
 }
 
+function setStarred(templete) {
+	if (!templete.isStared) {
+		templete.isStared = true
+	} else {
+		templete.isStared = false
+	}
+	 storageService.put(STORAGE_KEY2, templete)
+	 .then(console.log)
+	
+}
+
+// async function add(title, style) {
+// 	const loggedUser = userService.getLoggedinUser()
+// 	const board = {
+// 		isStarred: false,
+// 		title,
+// 		isPublic: false,
+// 		createdAt: Date.now(),
+// 		createdBy: loggedUser,
+// 		style,
+// 		archive: [],
+// 		labels: [
+// 			// green
+// 			{
+// 				id: 'l101',
+// 				title: '',
+// 				color: '#61bd4f',
+// 			},
+// 			// yellow
+// 			{
+// 				id: 'l102',
+// 				title: '',
+// 				color: '#f2d600',
+// 			},
+// 			// orange
+// 			{
+// 				id: 'l103',
+// 				title: '',
+// 				color: '#ff9f1a',
+// 			},
+// 			// red
+// 			{
+// 				id: 'l104',
+// 				title: '',
+// 				color: '#eb5a46',
+// 			},
+// 			// purple
+// 			{
+// 				id: 'l105',
+// 				title: '',
+// 				color: '#c377e0',
+// 			},
+// 			// blue
+// 			{
+// 				id: 'l106',
+// 				title: '',
+// 				color: '#0079bf',
+// 			},
+// 		],
+// 		members: [{ ...loggedUser }],
+// 		groups: [],
+// 		activities: [],
+// 	}
+// 	try {
+// 		const savedBoard = await httpService.post('board', board)
+// 		return savedBoard
+// 	} catch (err) {
+// 		console.log('Cannot save board', err)
+// 	}
+// }
+
+// async function addGroup(title, boardId) {
+// 	const newGroup = {
+// 		id: utilService.makeId(),
+// 		title,
+// 		tasks: [],
+// 	}
+// 	try {
+// 		const board = await getById(boardId)
+// 		board.groups.push(newGroup)
+
+// 		update(board)
+// 		return board
+// 	} catch (err) {
+// 		console.log('Cannot add group', err)
+// 	}
+// }
+
+// async function addTask(title, groupId, boardId) {
+// 	const taskToAdd = {
+// 		id: utilService.makeId(),
+// 		createdAt: Date.now(),
+// 		title,
+// 		style: {
+// 			backgroundColor: null,
+// 			backgroundImage: {
+// 				title: null,
+// 				url: null,
+// 			},
+// 		},
+// 		description: '',
+// 		dueDate: null,
+// 		isDone: false,
+// 		archiveAt: null,
+// 		byMember: userService.getLoggedinUser(),
+// 		checklists: [],
+// 		labelIds: [],
+// 		members: [],
+// 		attachments: [],
+// 		comments: [],
+// 	}
+
+// 	try {
+// 		const board = await getById(boardId)
+// 		const groupIdx = board.groups.findIndex((group) => group.id === groupId)
+// 		board.groups[groupIdx].tasks.push(taskToAdd)
+
+// 		update(board)
+// 		return board
+// 	} catch (err) {
+// 		console.log('Cannot add task', err)
+// 	}
+// }
 // ////&&Test DATA!!!!!!1
 // storageService.post(STORAGE_KEY2, {
 // 	"id": "t101",
@@ -47,7 +152,6 @@ async function queryTemplates() {
 // 	"createdAt": "new Date() ",
 // 	"viewedAt": "new Date() "
 // }).then(x => console.log(x))
-
 
 // storageService.post(STORAGE_KEY2, {
 // 	"id": "t102",
@@ -131,7 +235,6 @@ async function queryTemplates() {
 // 		"viewedAt": "new Date() "
 // 	}
 // ]
-
 
 // storageService
 // 	.post(STORAGE_KEY, {
