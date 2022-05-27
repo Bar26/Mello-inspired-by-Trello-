@@ -2,6 +2,8 @@ import { boardService } from '../services/board.service.js'
 import React from "react"
 import { useEffect, useState } from 'react'
 import { useHistory, NavLink, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { setCurrBoard } from '../store/actions/board.actions.js'
 
 
 
@@ -11,6 +13,8 @@ export const SecondaryHeader = () => {
     const navigate = useNavigate()
     const refRecent = React.createRef()
     const refMore = React.createRef()
+    // const { currBoard } = useSelector(state => state.boardModule)
+    const dispatch = useDispatch()
 
     useEffect(() => {
         // loadBoards()
@@ -20,8 +24,11 @@ export const SecondaryHeader = () => {
     useEffect(() => {
         if(!board._id) return 
         console.log(board)
+        dispatch(setCurrBoard(board))
         navigate(`/boards/${board._id}`)
     }, [board])
+
+
 
     const toggleDiv = (refType) => {
         refType.current.classList.toggle('hide')
