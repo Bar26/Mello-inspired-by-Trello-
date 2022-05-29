@@ -2,11 +2,12 @@ export const utilService = {
     makeId,
     makeLorem,
     getRandomIntInclusive,
-    delay
+    delay,
+    getMonthName
 }
 
 //? makeId length =10
-function makeId(type,length = 6) {
+function makeId(type, length = 6) {
     var txt = '';
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -41,9 +42,14 @@ function delay(ms = 1500) {
 
 
 
-// console.log('id:' , makeId('task'));
-// console.log('id:' , makeId('group'));
-// console.log('id:' , makeId('checklist'));
+// console.log('id:', makeId('task'));
+// console.log('id:', makeId('group'));
+// console.log('id:', makeId('checklist'));
 // //!BUG WITH THE TASK !
-// console.log('id:' , makeId('todos'));
-// console.log('id:' , makeId('labels'));
+// console.log('id:', makeId('todos'));
+// console.log('id:', makeId('labels'));
+
+function getMonthName(date) {
+  
+    return date.toLocaleString('default', { month: 'short' })
+}

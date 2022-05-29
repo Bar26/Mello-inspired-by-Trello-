@@ -3,24 +3,22 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory, NavLink, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { setCurrBoard } from '../store/actions/board.actions.js'
 
 export const SecondaryHeader = () => {
 	const [templates, setTemplates] = useState([])
 	const [board, setBoards] = useState({})
-	const dispatch = useDispatch()
-
 	const navigate = useNavigate()
 	const refRecent = React.createRef()
 	const refMore = React.createRef()
-
-	useEffect(() => {
-		// loadBoards()
-		loadTemplates()
-	}, [])
+	// const { currBoard } = useSelector(state => state.boardModule)
+	const dispatch = useDispatch()
 
 	useEffect(() => {
 		if (!board._id) return
 		console.log(board)
+		dispatch(setCurrBoard(board))
 		navigate(`/boards/${board._id}`)
 	}, [board])
 
@@ -38,7 +36,7 @@ export const SecondaryHeader = () => {
 		const newBoard = await boardService.getEmptyBoard(template)
 		console.log('on Select', newBoard)
 		setBoards(newBoard)
-        dispatch(newBoard)
+		dispatch(newBoard)
 	}
 
 	return (
@@ -58,7 +56,7 @@ export const SecondaryHeader = () => {
 					<ul>
 						{templates.map((template, idx) => {
 							return (
-								<li key={template._id+idx} >
+								<li key={template._id + idx}>
 									<button
 										onClick={() => {
 											onSelectTemplate(template._id)

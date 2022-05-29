@@ -14,6 +14,8 @@ export const boardService = {
 	update,
 	createTask,
 	getEmptyBoard,
+	removeTask,
+	copyTask
 }
 
 async function query() {
@@ -211,9 +213,23 @@ async function update(board) {
 	return updatedBoard
 }
 
+
 async function createTask(title) {
 	const id = utilService.makeId()
 	return { id, title }
+}
+
+async function copyTask(task) {
+	const taskCopy = { ...task }
+	const newId = utilService.makeId()
+	taskCopy.id = newId
+	return taskCopy
+}
+
+async function removeTask(board, groupIdx, taskIdx) {
+	board.groups[groupIdx].tasks.splice(taskIdx, 1)
+
+	return board
 }
 
 // ////&&Test DATA!!!!!!1

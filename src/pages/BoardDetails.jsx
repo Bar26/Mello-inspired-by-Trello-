@@ -6,11 +6,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setCurrBoard } from '../store/actions/board.actions'
 
 export const BoardDeatails = () => {
-	// console.log('in boardDetails')
-	const params = useParams()
-	const dispatch = useDispatch()
-	const { currBoard } = useSelector((state) => state.boardModule)
-	// console.log(currBoard)
+    // console.log('in boardDetails')
+    const params = useParams()
+    const dispatch = useDispatch()
+    const { currBoard } = useSelector(state => state.boardModule)
+    // console.log(currBoard)
 
 	return (
 		<section>
