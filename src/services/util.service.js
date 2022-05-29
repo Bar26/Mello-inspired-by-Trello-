@@ -42,12 +42,12 @@ function delay(ms = 1500) {
 
 
 
-console.log('id:', makeId('task'));
-console.log('id:', makeId('group'));
-console.log('id:', makeId('checklist'));
-//!BUG WITH THE TASK !
-console.log('id:', makeId('todos'));
-console.log('id:', makeId('labels'));
+// console.log('id:', makeId('task'));
+// console.log('id:', makeId('group'));
+// console.log('id:', makeId('checklist'));
+// //!BUG WITH THE TASK !
+// console.log('id:', makeId('todos'));
+// console.log('id:', makeId('labels'));
 
 function getMonthName(date) {
   

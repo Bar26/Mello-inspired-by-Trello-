@@ -1,3 +1,132 @@
-.task{
+.task {
     background-color: white;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    // align-items: flex-start;
+    // justify-content: center;
+    // gap:4px;
+    border-radius: 3px;
+    color: $clr-text-group;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 1px 0 #091e4240;
+    overflow-y: auto;
+    // padding:6px 8px;
+    overflow: visible;
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.611);
+
+        .pen-container {
+            display: flex;
+        }
+        
+       
+    }
+
+    
+
+    .pen-container {
+        width: 28px;
+        height: 28px;
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        z-index: 2;
+        // display: none;
+        opacity: 0;
+        align-items: center;
+        justify-content: center;
+
+        .pen-img {
+            width: 40%;
+            height: 40%;
+        }
+
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.626);
+            opacity: 1;
+         
+        }
+
+        &.noLabel:hover {
+            background-color: rgba(237, 237, 237, 0.611);
+            opacity: 1;
+        }
+
+    }
+
+    .edit-card-modal {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        position: absolute;
+        top: 0;
+        left: 103%;
+        gap: 4px;
+        z-index: 5;
+        width: fit-content;
+        
+
+        >* {
+            background-color: rgba(0, 0, 0, 0.772);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 3px;
+            padding: 6px 12px 6px 8px;
+
+           
+        }
+
+        .hide {
+            display: none;
+        }
+    }
+
+    .task-details {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 4px;
+        padding: 6px 8px;
+    }
+
+    .task-bg {
+        padding: 0;
+        border-top-right-radius: 3px;
+        border-top-left-radius: 3px;
+    }
+
+    &>* {}
+
+
+    .labels-container{
+        display: flex;
+        gap: 4px;
+
+        .label-container {
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 8px;
+            .label-title {
+                // display: flex;
+                // align-items: center;
+                color:white;
+                font-weight: 700;
+                font-size: 12px;
+                &.hide {
+                    display: none;
+    
+                }
+            }
+        }
+    }
+ 
 }

@@ -12,14 +12,18 @@
         font-weight: bold;
         color: $clr1;
         @include flex-center; 
+        text-decoration: none;
+        color:$clr1;
+     
+       
+        
     }
 
     .nav-header {
         gap:5px;
         &>* {
             @include flex-center;
-            // font-family: charlie-text-reg;
-            // line-height: 1.6rem; //??????????????????????
+
             padding-bottom: 4px;
             padding-left: 8px;
             padding-right: 8px;
@@ -42,6 +46,7 @@
             color: white;
             background-color: $clr2;
             font-family:charlie-text-semi-bold ;
+            text-decoration: none;
         }
 
     }

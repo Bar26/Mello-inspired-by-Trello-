@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react'
+import { boardService } from '../services/board.service.js'
+import { setCurrBoard } from '../store/actions/board.actions.js'
+import { useNavigate } from 'react-router-dom'
 
 export const CreateModal = ({ createMode, onSetCreateMode }) => {
 	const [board, setBoard] = useState({ color: '', title: '' })
-
 	const [btnActive, setBtnActive] = useState('')
+	const navigate = useNavigate()
+
 	const onSetBoardColor = (newColor) => {
 		setBoard({ ...board, color: newColor })
 	}
@@ -19,6 +23,19 @@ export const CreateModal = ({ createMode, onSetCreateMode }) => {
 	const handleChange = (ev) => {
 		const value = ev.target.value
 		setBoard({ ...board, title: value })
+	}
+
+	
+	
+	const onCreateBoard = async () => {
+		if(!board.title.length) return
+		try {
+			const CurrBoard = await boardService.getEmptyBoard(board)
+			setCurrBoard(CurrBoard)
+			navigate(`/boards/${CurrBoard._id}`)
+		} catch {
+			console.log('ERORR')
+		}
 	}
 
 	return (
@@ -43,7 +60,7 @@ export const CreateModal = ({ createMode, onSetCreateMode }) => {
 						></path>
 					</svg>
 				</button>
-				Create Board 
+				Create Board
 			</div>
 
 			<div className="img-preview" style={{ backgroundColor: board.color }}>
@@ -94,12 +111,7 @@ export const CreateModal = ({ createMode, onSetCreateMode }) => {
 				<label htmlFor="name">Board Title</label>
 				<input name="title" type="text" onChange={handleChange} />
 			</div>
-			<button
-				className={`create-btn ${btnActive}`}
-				onClick={() => {
-					if (board.title.length) console.log(board)
-				}}
-			>
+			<button className={`create-btn ${btnActive}`} onClick={onCreateBoard}>
 				Create
 			</button>
 		</section>

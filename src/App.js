@@ -4,6 +4,7 @@ import './App.css';
 import { BoardDeatails } from './pages/BoardDetails';
 import { BoardList } from './pages/BoardList.jsx';
 import {Home} from './pages/Home'
+import { Signup } from './pages/Signup.jsx';
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
     <Routes>
           <Route path='/boards/:boardId' element={<BoardDeatails/>} />
           <Route path='/boards' element={<BoardList />} />
+          <Route path='/signup' element={<Signup />} />
           <Route path='/' element={<Home />} />
         </Routes>
     </div>

@@ -5,6 +5,7 @@ const templates = require('../data/templete.json')
 
 const STORAGE_KEY = 'Board'
 const STORAGE_KEY2 = 'Template'
+
 export const boardService = {
 	query,
 	queryTemplates,
@@ -13,6 +14,8 @@ export const boardService = {
 	update,
 	createTask,
 	getEmptyBoard,
+	removeTask,
+	copyTask
 }
 
 async function query() {
@@ -25,13 +28,13 @@ async function queryTemplates() {
 	return templates
 }
 
-function setStarred(templete) {
-	if (!templete.isStared) {
-		templete.isStared = true
+function setStarred(board) {
+	if (!board.isStared) {
+		board.isStared = true
 	} else {
-		templete.isStared = false
+		board.isStared = false
 	}
-	storageService.put(STORAGE_KEY2, templete).then(console.log)
+	storageService.put(STORAGE_KEY, board).then(console.log)
 }
 
 // async function add(title, style) {
@@ -161,6 +164,12 @@ function setStarred(templete) {
 // "viewedAt": "new Date() "
 
 function getEmptyBoard(template) {
+	let newStyle
+	if (template.img) {
+		newStyle = { backgroundImage: template.img }
+	} else {
+		newStyle = { backgroundColor: template.color }
+	}
 	const newBoard = {
 		title: template.title,
 		// createdBy: {
@@ -168,7 +177,7 @@ function getEmptyBoard(template) {
 		// "fullname": "Itamar Sahar",
 		// "imgUrl": "http://some-img"
 		// },
-		style: { backgroundImage: template.img },
+		style: newStyle,
 		labels: [
 			{
 				id: 'l101',
@@ -184,6 +193,7 @@ function getEmptyBoard(template) {
 		members: [],
 		groups: [],
 		activities: [],
+		isStared: false,
 	}
 	return storageService.post(STORAGE_KEY, newBoard)
 }
@@ -203,9 +213,23 @@ async function update(board) {
 	return updatedBoard
 }
 
+
 async function createTask(title) {
 	const id = utilService.makeId()
 	return { id, title }
+}
+
+async function copyTask(task) {
+	const taskCopy = { ...task }
+	const newId = utilService.makeId()
+	taskCopy.id = newId
+	return taskCopy
+}
+
+async function removeTask(board, groupIdx, taskIdx) {
+	board.groups[groupIdx].tasks.splice(taskIdx, 1)
+
+	return board
 }
 
 // ////&&Test DATA!!!!!!1
