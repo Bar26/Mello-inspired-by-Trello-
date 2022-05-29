@@ -10,7 +10,7 @@ export const BoardDeatails = () => {
 	const params = useParams()
 	const dispatch = useDispatch()
 	const { currBoard } = useSelector((state) => state.boardModule)
-	console.log(currBoard)
+	// console.log(currBoard)
 
 	return (
 		<section>

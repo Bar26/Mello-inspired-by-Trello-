@@ -5,6 +5,7 @@ const templates = require('../data/templete.json')
 
 const STORAGE_KEY = 'Board'
 const STORAGE_KEY2 = 'Template'
+
 export const boardService = {
 	query,
 	queryTemplates,
@@ -25,13 +26,13 @@ async function queryTemplates() {
 	return templates
 }
 
-function setStarred(templete) {
-	if (!templete.isStared) {
-		templete.isStared = true
+function setStarred(board) {
+	if (!board.isStared) {
+		board.isStared = true
 	} else {
-		templete.isStared = false
+		board.isStared = false
 	}
-	storageService.put(STORAGE_KEY2, templete).then(console.log)
+	storageService.put(STORAGE_KEY, board).then(console.log)
 }
 
 // async function add(title, style) {
@@ -161,6 +162,12 @@ function setStarred(templete) {
 // "viewedAt": "new Date() "
 
 function getEmptyBoard(template) {
+	let newStyle
+	if (template.img) {
+		newStyle = { backgroundImage: template.img }
+	} else {
+		newStyle = { backgroundColor: template.color }
+	}
 	const newBoard = {
 		title: template.title,
 		// createdBy: {
@@ -168,7 +175,7 @@ function getEmptyBoard(template) {
 		// "fullname": "Itamar Sahar",
 		// "imgUrl": "http://some-img"
 		// },
-		style: { backgroundImage: template.img },
+		style: newStyle,
 		labels: [
 			{
 				id: 'l101',
@@ -184,6 +191,7 @@ function getEmptyBoard(template) {
 		members: [],
 		groups: [],
 		activities: [],
+		isStared: false,
 	}
 	return storageService.post(STORAGE_KEY, newBoard)
 }

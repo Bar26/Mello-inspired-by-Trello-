@@ -1,7 +1,8 @@
 [
 	{
 		"_id": "b101",
-		"title": "Trello",
+		"title": "Workflow",
+		"isStared": false,
 		"archivedAt": 1589983468418,
 		"createdAt": 1589983468418,
 		"createdBy": {
@@ -9,7 +10,7 @@
 			"fullname": "Itamar Sahar",
 			"imgUrl": "http://some-img"
 		},
-		"style": {},
+		"style": { "backgroundColor": "rgb(195, 119, 224)" },
 		"labels": [
 			{
 				"id": "l101",

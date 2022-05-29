@@ -6,6 +6,8 @@
 	height: 96px;
 	width: 190px;
 	border-radius: 3px;
+	background-repeat: no-repeat;
+	background-size: 100%;
 	cursor: pointer;
 
 	.link {
@@ -28,18 +30,21 @@
 		height: fit-content;
 		align-self: flex-end;
 		cursor: pointer;
+		opacity: 0;
+		transition: 0.3s;
 
 		.starred {
-			color: yellow;
+			color: rgba(252, 238, 32, 0.701);
+			opacity: 1;
 		}
+	}
+
+	&:hover .star {
+		opacity: 1;
 	}
 
 	h1 {
 		align-self: flex-start;
 		padding-left: 1rem;
-	}
-	img {
-		height: 100px;
-		width: 100px;
 	}
 }

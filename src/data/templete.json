@@ -65,7 +65,7 @@
 		"viewedAt": "new Date() "
 	},
 	{
-		"id": "t109",
+		"_id": "t109",
 		"title": "diet-plan",
 		"img": "https://res.cloudinary.com/dgjmjxkct/image/upload/v1653560465/Trello/diet-plan_kihnxb.jpg",
 		"createdAt": "new Date() ",

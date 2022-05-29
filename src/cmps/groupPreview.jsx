@@ -6,34 +6,34 @@ import { setCurrBoard } from "../store/actions/board.actions"
 import { useDispatch } from "react-redux"
 
 export const GroupPreview = ({ group, board }) => {
-    console.log(group)
+    // console.log(group)
     const dispatch = useDispatch()
     const formRef = React.createRef()
     let onMount = useRef()
     const [newCardTitle, setNewCardTitle] = useState('')
 
     useEffect(() => {
-        console.log(onMount)
+        // console.log(onMount)
         if (!onMount.current) onMount.current = true
         else onAddCard()
     }, [newCardTitle])
 
 
     const onSubmit = (ev) => {
-        console.log('in onsubmit')
+        // console.log('in onsubmit')
         ev.preventDefault()
-        console.log('adding card')
-        console.log(ev.target[0]);           ////????????????
+        // console.log('adding card')
+        // console.log(ev.target[0]);           ////????????????
         const { value } = ev.target[0]
-        console.log(value);
+        // console.log(value);
         setNewCardTitle(value)
     }
 
     const onAddCard = () => {
-        console.log(newCardTitle)
+        // console.log(newCardTitle)
         // console.log(board.groups)
         const groupIdx = board.groups.findIndex(_group => _group.id === group.id)
-        console.log(groupIdx)
+        // console.log(groupIdx)
         const updatedBoard = { ...board }
         boardService.createTask(newCardTitle)
             .then((task) => {
