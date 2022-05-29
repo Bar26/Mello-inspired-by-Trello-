@@ -3,73 +3,73 @@
 		"_id": "t101",
 		"title": "cleaning",
 		"img": "https://res.cloudinary.com/dgjmjxkct/image/upload/v1653560464/Trello/cleaning_zdmtlw.jpg",
-		"createdAt": "new Date() ",
+		"createdAt": 1653749581806,
 		"isStared": false,
-		"viewedAt": "new Date() "
+		"viewedAt": ""
 	},
 	{
 		"_id": "t102",
 		"title": "gaming",
 		"img": "https://res.cloudinary.com/dgjmjxkct/image/upload/v1653560465/Trello/gaming_qrvhx1.jpg",
-		"createdAt": "new Date() ",
+		"createdAt": 1653749581806,
 		"isStared": false,
-		"viewedAt": "new Date() "
+		"viewedAt": ""
 	},
 	{
 		"_id": "t103",
 		"title": "hello",
 		"img": "https://res.cloudinary.com/dgjmjxkct/image/upload/v1653560465/Trello/hello_goxlx1.jpg",
-		"createdAt": "new Date() ",
+		"createdAt": 1653749581806,
 		"isStared": false,
-		"viewedAt": "new Date() "
+		"viewedAt": ""
 	},
 
 	{
 		"_id": "t104",
 		"title": "home",
 		"img": "https://res.cloudinary.com/dgjmjxkct/image/upload/v1653560470/Trello/home_suugxw.jpg",
-		"createdAt": "new Date() ",
+		"createdAt": 1653749581806,
 		"isStared": false,
-		"viewedAt": "new Date() "
+		"viewedAt": ""
 	},
 	{
 		"_id": "t105",
 		"title": "new-project",
 		"img": "https://res.cloudinary.com/dgjmjxkct/image/upload/v1653560468/Trello/new-project_a8uprs.jpg",
-		"createdAt": "new Date() ",
+		"createdAt": 1653749581806,
 		"isStared": false,
-		"viewedAt": "new Date() "
+		"viewedAt": ""
 	},
 	{
 		"_id": "t106",
 		"title": "next-trip",
 		"img": "https://res.cloudinary.com/dgjmjxkct/image/upload/v1653560473/Trello/next-trip_lhiqnn.jpg",
-		"createdAt": "new Date() ",
+		"createdAt": 1653749581806,
 		"isStared": false,
-		"viewedAt": "new Date() "
+		"viewedAt": ""
 	},
 	{
 		"_id": "t107",
 		"title": "orange",
 		"img": "https://res.cloudinary.com/dgjmjxkct/image/upload/v1653560465/Trello/orange_wpu5oz.jpg",
-		"createdAt": "new Date() ",
+		"createdAt": 1653749581806,
 		"isStared": false,
-		"viewedAt": "new Date() "
+		"viewedAt": ""
 	},
 	{
 		"_id": "t108",
 		"title": "todos",
 		"img": "https://res.cloudinary.com/dgjmjxkct/image/upload/v1653560466/Trello/todos_hsswnu.jpg",
-		"createdAt": "new Date() ",
+		"createdAt": 1653749581806,
 		"isStared": false,
-		"viewedAt": "new Date() "
+		"viewedAt": ""
 	},
 	{
 		"id": "t109",
 		"title": "diet-plan",
 		"img": "https://res.cloudinary.com/dgjmjxkct/image/upload/v1653560465/Trello/diet-plan_kihnxb.jpg",
-		"createdAt": "new Date() ",
+		"createdAt": 1653749581806,
 		"isStared": false,
-		"viewedAt": "new Date() "
+		"viewedAt": ""
 	}
 ]

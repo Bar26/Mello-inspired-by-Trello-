@@ -11,9 +11,6 @@
     "fontawesome-cli": "^1.0.1",
     "fs": "^0.0.1-security",
     "react": "^18.1.0",
-    "react-beautiful-dnd": "^13.1.0",
-    "react-dnd": "^16.0.1",
-    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.1.0",
     "react-redux": "^8.0.0",
     "react-router-dom": "^6.3.0",
@@ -21,10 +18,11 @@
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
     "sass": "^1.50.0",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "react-beautiful-dnd": "13.1.0"
   },
   "scripts": {
-    "start": "cross-env NODE_PATH=./src react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

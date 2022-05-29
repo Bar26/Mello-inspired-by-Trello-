@@ -3,7 +3,7 @@ import { boardService } from "../../services/board.service"
 // import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 
 export function setCurrBoard(board){
-    // console.log(board)
+    // console.log("HEY FROM DISPATCH")
     return (dispatch)=> dispatch({
                 type: 'SET_CURRBOARD',
                 board

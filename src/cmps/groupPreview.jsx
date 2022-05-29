@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState, useRef } from 'react'
 import { setCurrBoard } from "../store/actions/board.actions"
 import { useDispatch } from "react-redux"
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
+import { utilService } from "../services/util.service"
 
 export const GroupPreview = ({ group, board }) => {
     // console.log(group)
@@ -56,33 +57,36 @@ export const GroupPreview = ({ group, board }) => {
     //     setNewCardTitle({value })
     // }
 
+
+    const handleOnDragEnd = (res) => {
+        console.log("HELOO", res);
+        if (!res.destination) return;
+    }
+
+    /////
     //TODO: ADD STYLE
     return <article className='group'>
         <header className='group-title'>
             {group.title}
         </header>
-        <DragDropContext>
-            <Droppable droppableId="task-list">
-                {(provided) => {
-
-                    <div className="task-list" {...provided.droppableProps} ref={provided.innerRef}>
-                        {group.tasks.map((task,idx) => {
-                            <Draggable key={task.id} draggableId={task.id} idx={idx}>
-                                {(provided)=>{
-                                    <TaskPreview task={task} provided={provided} />
-                                }}
-                            </Draggable>
-                        })}
-                        {provided.placeholder}
-                    </div>
-                }}
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+            <Droppable droppableId={utilService.makeId()}>
+                {(provided) => (
+                    <ul className={utilService.makeId()} {...provided.droppableProps} ref={provided.innerRef}>
+                            {group.tasks.map((task, index) => {
+                                return <li id={utilService.makeId()}><TaskPreview key={utilService.makeId()} index={index} task={task} /></li>
+                            })}
+                            {provided.placeholder}
+                    </ul>
+                )
+}
             </Droppable>
         </DragDropContext>
 
-        <button className="add-card-btn" onClick={toggleForm}>+ Add a card </button>
-        <form className="add-card-form close" onSubmit={onSubmit} ref={formRef}>
-            <input name="card-title" type="text" placeholder="Enter a title for this card" />
-        </form>
+            <button className="add-card-btn" onClick={toggleForm}>+ Add a card </button>
+            <form className="add-card-form close" onSubmit={onSubmit} ref={formRef}>
+                <input name="card-title" type="text" placeholder="Enter a title for this card" />
+            </form>
 
 
     </article>
