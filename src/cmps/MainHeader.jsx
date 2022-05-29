@@ -3,7 +3,7 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory, NavLink, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+
 import { setCurrBoard } from '../store/actions/board.actions.js'
 
 export const SecondaryHeader = () => {

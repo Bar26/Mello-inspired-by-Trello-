@@ -8,7 +8,7 @@
         "fullname": "Itamar Sahar",
         "imgUrl": "http://some-img"
     },
-    "style": {},
+    "style": { "backgroundColor" : "rgb(255, 159, 26)"},
     "labels": [
         {
             "id": "l101",
