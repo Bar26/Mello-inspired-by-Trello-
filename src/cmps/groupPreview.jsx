@@ -39,7 +39,7 @@ export const GroupPreview = ({ group, board }) => {
 
 
     const onAddCard = () => {
-        if (!newCardTitle) return  ///////plaster???????????
+        // if (!newCardTitle) return  ///////plaster???????????
         const groupIdx = board.groups.findIndex(_group => _group.id === group.id)
         // console.log(groupIdx)
         const updatedBoard = { ...board }
