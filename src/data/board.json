@@ -13,13 +13,24 @@
         {
             "id": "l101",
             "title": "Done",
-            "color": "#61bd4f"
+            "backgroundColor": "#61bd4f"
         },
         {
             "id": "l102",
             "title": "Progress",
-            "color": "#61bd33"
+            "backgroundColor": "#C70A80"
+        },
+        {
+            "id": "l103",
+            "title": "feature",
+            "backgroundColor": "#FBCB0A"
+        },
+        {
+            "id": "l104",
+            "title": "to-update",
+            "backgroundColor": "#590696"
         }
+
     ],
     "members": [
         {
@@ -36,7 +47,9 @@
             "tasks": [
                 {
                     "id": "c101",
-                    "title": "Replace logo"
+                    "title": "Replace logo",
+                    "labelIds": ["l103", "l104"]
+
                 },
                 {
                     "id": "c102",
