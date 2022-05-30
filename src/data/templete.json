@@ -12,7 +12,7 @@
 		"title": "gaming",
 		"img": "https://res.cloudinary.com/dgjmjxkct/image/upload/v1653560465/Trello/gaming_qrvhx1.jpg",
 		"createdAt": 1653749581806,
-		"isStared": false,
+		"isStared": true,
 		"viewedAt": ""
 	},
 	{
@@ -20,7 +20,7 @@
 		"title": "hello",
 		"img": "https://res.cloudinary.com/dgjmjxkct/image/upload/v1653560465/Trello/hello_goxlx1.jpg",
 		"createdAt": 1653749581806,
-		"isStared": false,
+		"isStared": true,
 		"viewedAt": ""
 	},
 

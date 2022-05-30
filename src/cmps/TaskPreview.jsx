@@ -8,7 +8,7 @@ import { setCurrBoard } from '../store/actions/board.actions'
 import { boardService } from "../services/board.service"
 import { useParams } from "react-router-dom"
 
-//////ADD INDEXX
+
 export function TaskPreview({ task, onRemoveCard, onCopyCard }) {
     const [date, setDate] = useState(new Date())
     const [style, setStyle] = useState({ height: "32px", width: "100%" })
