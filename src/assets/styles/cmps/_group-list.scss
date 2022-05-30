@@ -6,5 +6,38 @@
     grid-template-columns: repeat(auto-fill, 270px);
     padding-inline-start: 16px;
 
+    .add-list-btn {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding-top: 6px;
+        padding-bottom: 10px;
+        padding-left: 8px;
+        button {
+            color: $clr-text-add-card;
+            font-size: 14px;
+            font-family: 'Segoe UI';
+        }
+        
+        &.close {
+            display: none;
+        }
+        
+        .plus {
+            color: $clr-text-add-card;
+            font-size: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
 
+    .add-list-form {
+        &.close {
+            display: none;
+        }
+
+    }
 }
+
+

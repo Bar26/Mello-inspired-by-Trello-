@@ -97,7 +97,7 @@ export const GroupPreview = ({ group, board }) => {
         </header>
 
         <div className="task-list">
-            {group.tasks.map(task => <TaskPreview onCopyCard={onCopyCard} onRemoveCard={onRemoveCard} group={group} task={task} key={task.id} />)}
+            {group.tasks.map(task => <TaskPreview group={group} onCopyCard={onCopyCard} onRemoveCard={onRemoveCard} group={group} task={task} key={task.id} />)}
         </div>
 
         <div className="add-card-btn flex" onClick={toggleForm} ref={addCardBtnRef} ><span className="plus">+</span><button > Add a card </button></div>

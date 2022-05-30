@@ -15,8 +15,13 @@ export const boardService = {
 	createTask,
 	getEmptyBoard,
 	removeTask,
-	copyTask
+	copyTask,
+	createList,
+	getTaskGroupById,
+
 }
+
+
 
 async function query() {
 	const board = await storageService.query(STORAGE_KEY)
@@ -206,6 +211,16 @@ function getById(type, id) {
 	// return axios.get(`/api/car/${carId}`)
 }
 
+async function getTaskGroupById(board, taskId) {
+	console.log(board)
+	const group = (board.groups.filter(group => group.tasks.find(task => task.id === taskId)))[0]
+	const task = group.tasks.find(task => task.id === taskId)
+
+	return {task,group}
+}
+
+
+
 async function update(board) {
 	var updatedBoard
 	updatedBoard = await storageService.put(STORAGE_KEY, board)
@@ -214,9 +229,15 @@ async function update(board) {
 }
 
 
+
 async function createTask(title) {
 	const id = utilService.makeId()
 	return { id, title }
+}
+
+async function createList(title) {
+	const id = utilService.makeId()
+	return { id, title, tasks: [] }
 }
 
 async function copyTask(task) {
