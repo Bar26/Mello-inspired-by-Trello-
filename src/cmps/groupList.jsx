@@ -1,4 +1,8 @@
 import { GroupPreview } from "./groupPreview"
+import React, { useCallback, useEffect, useState, useRef } from 'react'
+import { useEffectUpdate } from "./useEffectUpdate"
+import { setCurrBoard } from "../store/actions/board.actions"
+import { useDispatch } from "react-redux"
 import { boardService } from "../services/board.service"
 import { useCallback, useEffect, useState } from 'react'
 import { Droppable } from "react-beautiful-dnd"
@@ -17,12 +21,7 @@ export function GroupList() {
     const { currBoard } = useSelector(state => state.boardModule)
     const params = useParams()
 
-    // console.log('in groupList ', boardId);
-    // useEffect(() => {
-    // console.log('in groupList inside effect');
-    // boardService.getById(type,board).then(setBoard)
-    //   console.log(board.groups)
-    // }, [])
+    
 
     useEffect(() => {
         if (!Object.keys(currBoard).length) {
@@ -32,47 +31,60 @@ export function GroupList() {
 
     }, [])
 
+    useEffect(() => {
+        // console.log('in groupList inside effect');
+        boardService.getById(type, boardId).then(setBoard)
+        //   console.log(board.groups)
+    }, [])
+
+    useEffectUpdate(() => {
+        // console.log('in use effect update')
+        // if (!onMount.current) onMount.current = false
+        onAddList()
+    }, [newListTitle])
+
+
+    const onAddList = () => {
+        const updatedBoard = { ...board }
+        boardService.createList(newListTitle)
+            .then((list) => {
+                updatedBoard.groups.push(list)
+                return updatedBoard
+            })
+            .then(boardService.update)
+            .then((board) => dispatch(setCurrBoard(board)))
+
+    }
+
+    const toggleListForm = () => {
+        listFormRef.current.classList.toggle('close')
+        inputListRef.current.value = ''
+        addListRef.current.classList.toggle('close')
+
+    }
+
+
+    const onListSubmit = (ev) => {
+
+        ev.preventDefault()
+        const { value } = ev.target[0]
+        setNewListTitle(value)
+        ev.target[0].value = ''
+
+    }
+
     const onDrop = (res) => {
         let newBoard = { ...currBoard }
-        // console.log("ON DROP", newBoard)
-        // console.log(board);
-        // const groupToMove = board.groups.find(_group => _group.id === res.draggableId)
         const gtm = newBoard.groups.splice(res.source.index, 1)
         console.log(gtm);
         newBoard.groups.splice(res.destination.index, 0, gtm[0])
-        // newBoard.groups.splice(res.destination.index, 0, groupToMove)
-        // setBoard(newBoard)
         boardService.update(newBoard)
-
-
-
-        // console.log(newBoard, 'NewBoard');
-        // console.log(groupToMove, 'Group');
-        // let lastBoard = newBoard.groups.splice(res.destination.index, 0, groupToMove)
-        // const afterDnDBoard = board
-        // const groupDest = board.groups.find(_group => _group.id === groupIdDest)
-        // const groupSource = board.groups.find(_group => _group.id === groupIdSource)
-        // const taskToMove = groupSource.tasks.splice(res.source.index,1)
-        // const groupIdxDest = board.groups.findIndex(_group => _group.id === groupIdDest)
-        // const groupIdxSour = board.groups.findIndex(_group => _group.id === groupIdSource)
-        // groupDest.tasks.splice(res.destination.index,0,taskToMove[0])
-        // newBoard.groups.splice(groupIdxDest,1,groupDest)
-        // newBoard.groups.splice(groupIdxSour,1,groupSource)
-        // setBoard()
-        // boardService.update(newBoard)
     }
 
     const handleOnDragEnd = (res) => {
         console.log(res, "Yes")
         if (!res.destination) return;
         onDrop(res)
-        // let newBoard={...board}
-        // const groups = board.groups;
-        // const movingGroup = groups.splice(res.source.index, 1);
-        // groups.splice(res.destination.index, 0, movingGroup);
-        // newBoard.groups=groups
-        // boardService.update(newBoard)
-        // onMyDrop(res,res.destination.droppableId, res.draggableId, res.source.droppableId)
     }
     ////////לחלץ פה את הפארמס ולנסות לרנדר מחדש
 
@@ -97,5 +109,79 @@ export function GroupList() {
                 }}
             </Droppable>
         </DragDropContext>
+        <div className="add-list-btn flex" onClick={toggleListForm} ref={addListRef} ><span className="plus">+</span><button > Add another list </button></div>
+        <form className="add-list-form close" onSubmit={onListSubmit} ref={listFormRef}>
+            <input ref={inputListRef} name="list-title" type="text" placeholder="Enter list title..." />
+            <button type="button" className="close-list-form" onClick={toggleListForm}>X</button>
+            <button className="save-list">Add list</button>
+        </form>
     </section>
 }
+
+
+// export function GroupList({ boardId }) {
+//     const [type, setType] = useState('board')
+//     const [board, setBoard] = useState({})
+//     const dispatch = useDispatch()
+//     const listFormRef = React.createRef()
+//     let onMount = useRef(true)
+//     const [newListTitle, setNewListTitle] = useState('')
+//     const inputListRef = useRef()
+//     const addListRef = useRef()
+
+//     // console.log('in groupList ', boardId);
+//     useEffect(() => {
+//         // console.log('in groupList inside effect');
+//         boardService.getById(type, boardId).then(setBoard)
+//         //   console.log(board.groups)
+//     }, [])
+
+//     useEffectUpdate(() => {
+//         // console.log('in use effect update')
+//         // if (!onMount.current) onMount.current = false
+//         onAddList()
+//     }, [newListTitle])
+
+
+//     const onAddList = () => {
+//         const updatedBoard = { ...board }
+//         boardService.createList(newListTitle)
+//             .then((list) => {
+//                 updatedBoard.groups.push(list)
+//                 return updatedBoard
+//             })
+//             .then(boardService.update)
+//             .then((board) => dispatch(setCurrBoard(board)))
+
+//     }
+
+//     const toggleListForm = () => {
+//         listFormRef.current.classList.toggle('close')
+//         inputListRef.current.value = ''
+//         addListRef.current.classList.toggle('close')
+
+//     }
+
+
+//     const onListSubmit = (ev) => {
+
+//         ev.preventDefault()
+//         const { value } = ev.target[0]
+//         setNewListTitle(value)
+//         ev.target[0].value = ''
+
+//     }
+
+//     if (!Object.keys(board).length) return <h1>loading...</h1>
+
+//     return <section className="groups-container">
+//         {board.groups.map(group => <GroupPreview group={group} key={group.id} board={board} />)}
+
+//         <div className="add-list-btn flex" onClick={toggleListForm} ref={addListRef} ><span className="plus">+</span><button > Add another list </button></div>
+//         <form className="add-list-form close" onSubmit={onListSubmit} ref={listFormRef}>
+//             <input ref={inputListRef} name="list-title" type="text" placeholder="Enter list title..." />
+//             <button type="button" className="close-list-form" onClick={toggleListForm}>X</button>
+//             <button className="save-list">Add list</button>
+//         </form>
+//     </section>
+// }

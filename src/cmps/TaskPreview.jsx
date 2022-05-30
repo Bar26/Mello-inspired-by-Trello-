@@ -6,11 +6,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import pen from '../assets/img/pen.png'
 import { setCurrBoard } from '../store/actions/board.actions'
 import { boardService } from "../services/board.service"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
+import { TaskDetails } from "./taskDetails"
+import { useEffectUpdate } from "./useEffectUpdate"
 
 
-export function TaskPreview({ task, onRemoveCard, onCopyCard }) {
+
+
+export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
+    const navigate = useNavigate()
     const [date, setDate] = useState(new Date())
+    const [isDetailsOpen, setIsDetailsOpen] = useState(false)
     const [style, setStyle] = useState({ height: "32px", width: "100%" })
     const { currBoard } = useSelector(state => state.boardModule)
     const refs = useRef([])
@@ -20,6 +26,7 @@ export function TaskPreview({ task, onRemoveCard, onCopyCard }) {
     const penRef = useRef()
     const [isLabel, setIsLabel] = useState(false)
     const editModalRef = useRef()
+
 
 
     useEffect(() => {
@@ -41,19 +48,19 @@ export function TaskPreview({ task, onRemoveCard, onCopyCard }) {
         if (!task.labelIds) penRef.current.classList.add('noLabel')
     }, [])
 
+    // useEffectUpdate(() => {
+    //     cardDetailsRef.current.classList.toggle('close')
+    // }, [isDetailsOpen])
+
     const getLabel = (labelId) => {
         if (!currBoard.labels) return
         return (currBoard.labels.find(label => label.id === labelId))
     }
 
-    const onOpenLabel = () => {
+    const onOpenLabel = (ev) => {
+        ev.stopPropagation()
         refs.current.map(ref => ref.classList.toggle('hide'))
     }
-
-    const onChangePad = () => {
-        console.log('in changegap')
-        // detailsRef.current.style.paddingTop="4px"
-    } //?????????????????????????????????
 
     const onToggleEditModal = () => {
         editModalRef.current.classList.toggle('hide')
@@ -89,7 +96,8 @@ export function TaskPreview({ task, onRemoveCard, onCopyCard }) {
     //         </section>
     //     )}
     // </Draggable>)
-    return <section className="task">
+   
+    return <section className="task" onClick={() => navigate(`/boards/${currBoard._id}/${task.id}`)}>
         <div ref={penRef} className="pen-container" onClick={onToggleEditModal}>
             <img className="pen-img" src={pen} />
 
@@ -112,17 +120,17 @@ export function TaskPreview({ task, onRemoveCard, onCopyCard }) {
         }
         <section className="task-details">
             {task.labelIds && currBoard.labels &&
-            <div className="labels-container">
-                {task.labelIds.map((labelId, idx) => {
+                <div className="labels-container">
+                    {task.labelIds.map((labelId, idx) => {
 
-                    const label = getLabel(labelId)
+                        const label = getLabel(labelId)
 
-                    const backgroundColor = label.backgroundColor
-                    const title = label.title
-                    return <div key={labelId + idx} className="label-container" onClick={onOpenLabel} style={{ backgroundColor: backgroundColor, minHeight: "8px", minWidth: "40px" }}>
-                        <span ref={(element) => { refs.current[idx] = element }} className="label-title hide">{label.title}</span>
-                    </div>
-                })}
+                        const backgroundColor = label.backgroundColor
+                        const title = label.title
+                        return <div key={labelId + idx} className="label-container" onClick={onOpenLabel} style={{ backgroundColor: backgroundColor, minHeight: "8px", minWidth: "40px" }}>
+                            <span ref={(element) => { refs.current[idx] = element }} className="label-title hide">{label.title}</span>
+                        </div>
+                    })}
                 </div>
             }
 
@@ -145,5 +153,7 @@ export function TaskPreview({ task, onRemoveCard, onCopyCard }) {
 
             {/* <button onClick={() => onRemoveCard(task.id)}>X</button> */}
         </section>
+
+
     </section>
 }
