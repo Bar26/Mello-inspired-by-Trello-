@@ -7,7 +7,7 @@ import pen from '../assets/img/pen.png'
 import { setCurrBoard } from '../store/actions/board.actions'
 import { boardService } from "../services/board.service"
 import { useNavigate, useParams } from "react-router-dom"
-import { TaskDetails } from "./taskDetails"
+import { TaskDetails } from "./TaskDetails"
 import { useEffectUpdate } from "./useEffectUpdate"
 
 

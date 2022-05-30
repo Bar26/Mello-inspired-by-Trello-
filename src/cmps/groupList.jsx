@@ -1,10 +1,7 @@
 import { GroupPreview } from "./groupPreview"
 import React, { useCallback, useEffect, useState, useRef } from 'react'
 import { useEffectUpdate } from "./useEffectUpdate"
-import { setCurrBoard } from "../store/actions/board.actions"
-import { useDispatch } from "react-redux"
 import { boardService } from "../services/board.service"
-import { useCallback, useEffect, useState } from 'react'
 import { Droppable } from "react-beautiful-dnd"
 import { DragDropContext } from "react-beautiful-dnd"
 import { utilService } from "../services/util.service"
@@ -20,12 +17,18 @@ export function GroupList() {
     const dispatch = useDispatch()
     const { currBoard } = useSelector(state => state.boardModule)
     const params = useParams()
+    const [board, setBoard] = useState({})
+    const listFormRef = React.createRef()
+    let onMount = useRef(true)
+    const [newListTitle, setNewListTitle] = useState('')
+    const inputListRef = useRef()
+    const addListRef = useRef()
 
-    
+
 
     useEffect(() => {
         if (!Object.keys(currBoard).length) {
-            boardService.getById('board', params.boardId)
+            boardService.getById('board', params.currBoard._id)
                 .then((board) => dispatch(setCurrBoard(board)))
         }
 
@@ -33,7 +36,7 @@ export function GroupList() {
 
     useEffect(() => {
         // console.log('in groupList inside effect');
-        boardService.getById(type, boardId).then(setBoard)
+        boardService.getById(type, currBoard._id).then(setBoard)
         //   console.log(board.groups)
     }, [])
 
