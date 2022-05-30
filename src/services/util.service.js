@@ -7,7 +7,7 @@ export const utilService = {
 }
 
 //? makeId length =10
-function makeId(type, length = 6) {
+function makeId( length = 6) {
     var txt = '';
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 

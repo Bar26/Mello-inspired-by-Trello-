@@ -1,3 +1,5 @@
+// import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
+import { Draggable } from "react-beautiful-dnd"
 import React, { useEffect, useRef, useState } from "react"
 import { utilService } from "../services/util.service"
 import { useDispatch, useSelector } from 'react-redux'
@@ -5,7 +7,7 @@ import pen from '../assets/img/pen.png'
 import { setCurrBoard } from '../store/actions/board.actions'
 import { boardService } from "../services/board.service"
 import { useNavigate, useParams } from "react-router-dom"
-import { TaskDetails } from "./taskDetails"
+import { TaskDetails } from "./TaskDetails"
 import { useEffectUpdate } from "./useEffectUpdate"
 
 
@@ -64,7 +66,37 @@ export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
         editModalRef.current.classList.toggle('hide')
     }
 
+        // const updatedCmp = wap.cmps.map((currCmp, currIdx) => currIdx === idx ? template : currCmp)
 
+
+
+    // return( 
+    // <Draggable  key={utilService.makeId()} draggableId={utilService.makeId()} index={index}>
+    //     {(provided) => (
+    //         <section className={task.id} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} >
+    //             {task.style &&
+    //                 <div style={{ ...style }}></div>
+    //             }
+    //             {task.title}
+    //             {task.checklists &&
+    //                 task.checklists.map(checklist => {
+    //                     return <div className="checklists-prev" id={checklist.id}>
+
+    //                         <span>{checklist.todos.filter(todo => todo.isDone).length}</span>
+    //                         <span>/{checklist.todos.length}</span>
+    //                     </div>
+    //                 })}
+
+    //             {task.dueDate && <section className="due-date">
+    //                 <span>{utilService.getMonthName(date)} </span>
+    //                 {/* <span>{date.getDate().toString()}</span> */}
+
+    //             </section>
+    //             }
+    //         </section>
+    //     )}
+    // </Draggable>)
+   
     return <section className="task" onClick={() => navigate(`/boards/${currBoard._id}/${task.id}`)}>
         <div ref={penRef} className="pen-container" onClick={onToggleEditModal}>
             <img className="pen-img" src={pen} />

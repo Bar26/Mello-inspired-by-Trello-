@@ -4,7 +4,7 @@ import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
 import { GroupList } from '../cmps/groupList'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCurrBoard } from '../store/actions/board.actions'
-import { TaskDetails } from '../cmps/taskDetails'
+import { TaskDetails } from '../cmps/TaskDetails'
 
 
 export const BoardDeatails = () => {

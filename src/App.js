@@ -5,7 +5,7 @@ import { BoardDeatails } from './pages/BoardDetails';
 import { BoardList } from './pages/BoardList.jsx';
 import { Home } from './pages/Home'
 import { Signup } from './pages/Signup.jsx';
-import {TaskDetails} from './cmps/taskDetails'
+import {TaskDetails} from './cmps/TaskDetails'
 
 function App() {
 
