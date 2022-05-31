@@ -9,8 +9,7 @@ import { utilService } from "../services/util.service"
 import { useEffectUpdate } from './useEffectUpdate'
 
 
-export const GroupPreview = ({ group, board }) => {
-    // console.log(group)
+export const GroupPreview = ({ group, board, onRemoveGroup }) => {
     const dispatch = useDispatch()
     const formRef = React.createRef()
     let onMount = useRef(true)
@@ -19,14 +18,7 @@ export const GroupPreview = ({ group, board }) => {
     const addCardBtnRef = useRef()
     
 
-    // useEffect(() => {
-    //     console.log('in use effect')
-    //     if (!onMount.current) onMount.current = false
-    //     else onAddCard()
-    // }, [])
     useEffectUpdate(() => {
-        // console.log('in use effect update')
-        // if (!onMount.current) onMount.current = false
         onAddCard()
     }, [newCardTitle])
 
@@ -129,7 +121,7 @@ export const GroupPreview = ({ group, board }) => {
                             <Draggable key={task.id} draggableId={task.id} index={index}>
                                 {(provided) => {
                                     return <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                        <TaskPreview onCopyCard={onCopyCard} onRemoveCard={onRemoveCard} index={index} group={group} task={task} key={task.id} />
+                                        <TaskPreview  onCopyCard={onCopyCard} onRemoveCard={onRemoveCard} index={index} group={group} task={task} key={task.id} />
                                     </div>
                                 }}
                             </Draggable>
@@ -147,6 +139,8 @@ export const GroupPreview = ({ group, board }) => {
             <button type="button" className="close-form" onClick={toggleForm}>X</button>
             <button className="save-card">Add card</button>
         </form>
+        <button onClick={(ev) => onRemoveGroup(ev,group.id)} className="remove-group">X</button>
+
 
 
 

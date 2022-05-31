@@ -62,11 +62,12 @@ export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
         refs.current.map(ref => ref.classList.toggle('hide'))
     }
 
-    const onToggleEditModal = () => {
+    const onToggleEditModal = (ev) => {
+        ev.stopPropogation()
         editModalRef.current.classList.toggle('hide')
     }
 
-        // const updatedCmp = wap.cmps.map((currCmp, currIdx) => currIdx === idx ? template : currCmp)
+    // const updatedCmp = wap.cmps.map((currCmp, currIdx) => currIdx === idx ? template : currCmp)
 
 
 
@@ -96,7 +97,7 @@ export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
     //         </section>
     //     )}
     // </Draggable>)
-   
+
     return <section className="task" onClick={() => navigate(`/boards/${currBoard._id}/${task.id}`)}>
         <div ref={penRef} className="pen-container" onClick={onToggleEditModal}>
             <img className="pen-img" src={pen} />

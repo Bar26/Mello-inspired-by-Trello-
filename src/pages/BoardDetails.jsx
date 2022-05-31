@@ -14,7 +14,7 @@ export const BoardDeatails = () => {
 
 	return (
 
-		<section>
+		<section className='board-deatails'>
 			<SecondaryHeader />
 			<GroupList boardId={params.boardId} />
 			<Outlet/>
