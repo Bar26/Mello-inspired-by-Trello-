@@ -1,4 +1,5 @@
 import { storageService } from './async-storage.service'
+import { utilService } from './util.service.js'
 // import { httpService } from './http.service'
 import { store } from '../store/store'
 // import {
@@ -21,7 +22,7 @@ export const userService = {
 	getById,
 	remove,
 	update,
-	changeScore,
+	addBoardUser,
 }
 
 window.userService = userService
@@ -33,7 +34,7 @@ function getUsers() {
 
 function onUserUpdate(user) {
 	// showSuccessMsg(
-		// `This user ${user.fullname} just got updated from socket, new score: ${user.score}`
+	// `This user ${user.fullname} just got updated from socket, new score: ${user.score}`
 	// )
 	// store.dispatch({ type: 'SET_WATCHED_USER', user })
 }
@@ -67,14 +68,21 @@ async function login(userCred) {
 	const user = users.find((user) => user.username === userCred.username)
 	// const user = await httpService.post('auth/login', userCred)
 	if (user) {
+		console.log('3');
 		// socketService.login(user._id)
 		return saveLocalUser(user)
+	}else {
+		console.log('3');
+		console.log('NEED TO SIGN IN !');
+		throw new Error('service')
 	}
 }
 async function signup(userCred) {
-	const user = await storageService.post('user', userCred)
+	const newUser = getEmptyUser(userCred)
+	const user = await storageService.post('user', newUser)
 	// const user = await httpService.post('auth/signup', userCred)
 	// socketService.login(user._id)
+
 	return saveLocalUser(user)
 }
 async function logout() {
@@ -83,21 +91,42 @@ async function logout() {
 	// return await httpService.post('auth/logout')
 }
 
-async function changeScore(by) {
-	const user = getLoggedinUser()
-	if (!user) throw new Error('Not loggedin')
-	user.score = user.score + by || by
-	await update(user)
-	return user.score
-}
+// async function changeScore(by) {
+// 	const user = getLoggedinUser()
+// 	if (!user) throw new Error('Not loggedin')
+// 	user.score = user.score + by || by
+// 	await update(user)
+// 	return user.score
+// }
 
 function saveLocalUser(user) {
 	sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
 	return user
 }
 
-function getLoggedinUser() {
+async function getLoggedinUser() {
 	return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
+}
+
+function getEmptyUser(user) {
+	return {
+		_id: '',
+		fullname: user.fullname,
+		username: user.username,
+		password: user.password,
+		boards: [],
+		starredBoards: ['b101'],
+		imgUrl:
+			'https://res.cloudinary.com/dgjmjxkct/image/upload/v1653899076/dl6faof1ecyjnfnknkla_gxwbcq.svg',
+		mentions: [],
+	}
+}
+
+async function addBoardUser(boardId) {
+	let user = await getLoggedinUser()
+	user.boards = [...user.boards, boardId]
+	console.log(user);
+	return user
 }
 
 // ;(async ()=>{

@@ -1,0 +1,49 @@
+.board-details {
+	position: relative;
+	overflow-y: hidden;
+}
+
+.board-menu-details {
+	transition-duration: 1s;
+
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	display: none;
+	height: 530px;
+	z-index: 10;
+	width: 338px;
+	margin: auto;
+	background: #fcfcfde7;
+	position: fixed; /* Stay in place */
+
+	top: -5; /* Stay at the top */
+	right: 0;
+
+	&.show {
+		display: flex;
+		position: fixed;
+		top: 0;
+		height: 100%;
+		margin-top: 68px;
+	}
+
+	h1 {
+		font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans,
+			Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
+		width: 257px;
+		height: 20px;
+		margin: 14px 32px;
+		color: #172b4d;
+	}
+
+	.closebtn {
+		background-color: inherit;
+		border: none;
+		font-size: 12px;
+		padding: 10px 0 10px;
+		position: absolute;
+		top: 6px;
+		right: 25px;
+	}
+}

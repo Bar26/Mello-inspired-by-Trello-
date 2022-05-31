@@ -1,10 +1,10 @@
-import { userService } from '../services/user.service.js'
-import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
-import {
-	socketService,
-	SOCKET_EMIT_USER_WATCH,
-	SOCKET_EVENT_USER_UPDATED,
-} from '../services/socket.service.js'
+import { userService } from '../../services/user.service.js'
+
+// import {
+// 	socketService,
+// 	SOCKET_EMIT_USER_WATCH,
+// 	SOCKET_EVENT_USER_UPDATED,
+// } from '../services/socket.service.js'
 
 export function loadUsers() {
 	return async (dispatch) => {
@@ -31,7 +31,8 @@ export function removeUser(userId) {
 	}
 }
 
-export function onLogin(credentials) {
+export  function onLogin(credentials) {
+	console.log('2')
 	return async (dispatch) => {
 		try {
 			const user = await userService.login(credentials)
@@ -40,8 +41,9 @@ export function onLogin(credentials) {
 				user,
 			})
 		} catch (err) {
-			showErrorMsg('Cannot login')
-			console.log('Cannot login', err)
+			console.log('4')
+			// console.log('Cannot login', err)
+			throw err
 		}
 	}
 }
@@ -55,7 +57,6 @@ export function onSignup(credentials) {
 				user,
 			})
 		} catch (err) {
-			showErrorMsg('Cannot signup')
 			console.log('Cannot signup', err)
 		}
 	}
@@ -67,32 +68,43 @@ export function onLogout() {
 			await userService.logout()
 			dispatch({
 				type: 'SET_USER',
-				user: null,
+				user: {},
 			})
 		} catch (err) {
-			showErrorMsg('Cannot logout')
 			console.log('Cannot logout', err)
 		}
 	}
 }
 
-export function loadAndWatchUser(userId) {
+export function setCurrUser(user) {
+	
 	return async (dispatch) => {
 		try {
-			const user = await userService.getById(userId)
-			dispatch({ type: 'SET_WATCHED_USER', user })
-			// TODO: refactor to service
-			socketService.emit(SOCKET_EMIT_USER_WATCH, userId)
-			socketService.off(SOCKET_EVENT_USER_UPDATED)
-			socketService.on(SOCKET_EVENT_USER_UPDATED, (user) => {
-				showSuccessMsg(
-					`This user ${user.fullname} just got updated from socket, new score: ${user.score}`
-				)
-				dispatch({ type: 'SET_WATCHED_USER', user })
+			dispatch({
+				type: 'SET_USER',
+				user,
 			})
 		} catch (err) {
-			showErrorMsg('Cannot load user')
-			console.log('Cannot load user', err)
+			console.log('Cannot SET USER', err)
 		}
 	}
 }
+
+// export function loadAndWatchUser(userId) {
+// 	return async (dispatch) => {
+// 		try {
+// 			const user = await userService.getById(userId)
+// 			dispatch({ type: 'SET_WATCHED_USER', user })
+// 			// TODO: refactor to service
+// 			socketService.emit(SOCKET_EMIT_USER_WATCH, userId)
+// 			socketService.off(SOCKET_EVENT_USER_UPDATED)
+// 			socketService.on(SOCKET_EVENT_USER_UPDATED, (user) => {
+
+// 				dispatch({ type: 'SET_WATCHED_USER', user })
+// 			})
+// 		} catch (err) {
+
+// 			console.log('Cannot load user', err)
+// 		}
+// 	}
+// }

@@ -1,5 +1,7 @@
 const board = require('../data/board.json')
 const templates = require('../data/templete.json')
+const user = require('../data/user.json')
+
 export const storageService = {
 	query,
 	get,
@@ -14,9 +16,12 @@ function query(entityType, delay = 600) {
 		if (entityType === 'Board') {
 			entities = board
 			_save('Board', entities)
-		} else {
+		} else if (entityType === 'Template') {
 			entities = templates
 			_save('Template', entities)
+		} else if (entityType === 'user') {
+			entities = user
+			_save('user', entities)
 		}
 	}
 

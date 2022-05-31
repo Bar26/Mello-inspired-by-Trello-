@@ -1,4 +1,5 @@
 import { storageService } from './async-storage.service.js'
+import { userService } from './user.service.js'
 import { utilService } from './util.service.js'
 const board = require('../data/board.json')
 const templates = require('../data/templete.json')
@@ -15,7 +16,8 @@ export const boardService = {
 	createTask,
 	getEmptyBoard,
 	removeTask,
-	copyTask
+	copyTask,
+	setTitle,
 }
 
 async function query() {
@@ -37,6 +39,13 @@ function setStarred(board) {
 	storageService.put(STORAGE_KEY, board).then(console.log)
 }
 
+async function setTitle(newBoard) {
+	try {
+		return storageService.put(STORAGE_KEY, newBoard)
+	} catch {
+		console.log('Service ERROR')
+	}
+}
 // async function add(title, style) {
 // 	const loggedUser = userService.getLoggedinUser()
 // 	const board = {
@@ -163,7 +172,7 @@ function setStarred(board) {
 // "isStared" : false,
 // "viewedAt": "new Date() "
 
-function getEmptyBoard(template) {
+async function getEmptyBoard(template) {
 	let newStyle
 	if (template.img) {
 		newStyle = { backgroundImage: template.img }
@@ -172,11 +181,7 @@ function getEmptyBoard(template) {
 	}
 	const newBoard = {
 		title: template.title,
-		// createdBy: {
-		// "_id": "u101",
-		// "fullname": "Itamar Sahar",
-		// "imgUrl": "http://some-img"
-		// },
+		createdBy: await userService.getLoggedinUser(),
 		style: newStyle,
 		labels: [
 			{
@@ -190,7 +195,7 @@ function getEmptyBoard(template) {
 				color: '#61bd33',
 			},
 		],
-		members: [],
+		members: [await userService.getLoggedinUser()],
 		groups: [],
 		activities: [],
 		isStared: false,
@@ -198,7 +203,8 @@ function getEmptyBoard(template) {
 	return storageService.post(STORAGE_KEY, newBoard)
 }
 
-function getById(type, id) {
+async function getById(type, id) {
+	console.log(id);
 	// console.log('HELLOOOOOOO');
 	return type === 'board'
 		? storageService.get(STORAGE_KEY, id)
@@ -212,7 +218,6 @@ async function update(board) {
 
 	return updatedBoard
 }
-
 
 async function createTask(title) {
 	const id = utilService.makeId()

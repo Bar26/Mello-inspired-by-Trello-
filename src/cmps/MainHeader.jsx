@@ -1,18 +1,37 @@
 import { boardService } from '../services/board.service.js'
 import React from 'react'
 import { useEffect, useState } from 'react'
-import { useHistory, NavLink, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 
+import { useHistory, NavLink, useNavigate } from 'react-router-dom'
+import { userService } from '../services/user.service.js'
+import { setCurrUser , onLogout } from '../store/actions/user.actions.js'
 import { setCurrBoard } from '../store/actions/board.actions.js'
 
 export const SecondaryHeader = () => {
 	const [templates, setTemplates] = useState([])
 	const [board, setBoards] = useState({})
+	const [user, setUser] = useState({ imgUrl: '', fullname: '' })
+	const { currUser } = useSelector((state) => state.userModule)
+
 	const navigate = useNavigate()
 	const refRecent = React.createRef()
 	const refMore = React.createRef()
-	// const { currBoard } = useSelector(state => state.boardModule)
 	const dispatch = useDispatch()
+
+	useEffect(() => {
+		loadUser()
+		// console.log(currUser);
+	}, [])
+
+
+	useEffect(() => {
+		if (!Object.keys(currUser).length) {
+			userService
+				.getLoggedinUser()
+				.then((user) => dispatch(setCurrUser(user)))
+		}
+	}, [])
 
 	useEffect(() => {
 		if (!board._id) return
@@ -25,6 +44,16 @@ export const SecondaryHeader = () => {
 		refType.current.classList.toggle('hide')
 	}
 
+	const loadUser = async () => {
+		const user = await userService.getLoggedinUser()
+		setUser(user)
+	}
+
+	const onLogOutUser = () => {
+		dispatch(onLogout())
+		navigate(`/`)
+	}
+	
 	const loadTemplates = () => {
 		boardService.queryTemplates().then((template) => setTemplates(template))
 		// .then((templates) => setTemplatestes(templates))
@@ -88,7 +117,10 @@ export const SecondaryHeader = () => {
 					<input className="header-search" />
 				</label>
 			</div>
-			<div className="user-logo"></div>
+			<div className="user-logo" style={{height: '30px' , width: '30px'}}>
+				<img src={`${currUser.imgUrl}`} alt="" />
+			</div>
+				<button onClick={onLogOutUser}>Log out</button>
 		</header>
 	)
 }

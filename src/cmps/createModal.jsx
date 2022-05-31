@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
 import { boardService } from '../services/board.service.js'
 import { setCurrBoard } from '../store/actions/board.actions.js'
+import { setCurrUser } from '../store/actions/user.actions.js'
 import { useNavigate } from 'react-router-dom'
-
+import { userService } from '../services/user.service.js'
+import { useDispatch } from 'react-redux'
 export const CreateModal = ({ createMode, onSetCreateMode }) => {
 	const [board, setBoard] = useState({ color: '', title: '' })
 	const [btnActive, setBtnActive] = useState('')
 	const navigate = useNavigate()
+	const dispatch = useDispatch()
 
 	const onSetBoardColor = (newColor) => {
 		setBoard({ ...board, color: newColor })
@@ -30,9 +33,12 @@ export const CreateModal = ({ createMode, onSetCreateMode }) => {
 	const onCreateBoard = async () => {
 		if(!board.title.length) return
 		try {
-			const CurrBoard = await boardService.getEmptyBoard(board)
-			setCurrBoard(CurrBoard)
-			navigate(`/boards/${CurrBoard._id}`)
+			const currBoard = await boardService.getEmptyBoard(board)
+			const updateUser = await userService.addBoardUser(currBoard._id)
+			userService.update(updateUser)
+			dispatch(setCurrUser(updateUser))
+			dispatch(setCurrBoard(currBoard))
+			navigate(`/boards/${currBoard._id}`)
 		} catch {
 			console.log('ERORR')
 		}
