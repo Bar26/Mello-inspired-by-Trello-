@@ -1,17 +1,17 @@
 .groups-container {
+    flex:1;
+    overflow-x: auto;
     .dnd-board-main {
 
         width: 100%;
-        height: fit-content;
-        display: grid;
+        height: 100%;
         gap: 8px;
-        grid-template-columns: repeat(auto-fill, 270px);
-        // display: flex;
-        // flex-wrap: wrap;
+        display: flex;
         padding-inline-start: 16px;
-
+        
         >* {
-            // width:270px
+            min-width: 270px;
+           
         }
 
         .add-list-btn {

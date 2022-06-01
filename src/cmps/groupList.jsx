@@ -28,7 +28,7 @@ export function GroupList() {
 
     useEffect(() => {
         if (!Object.keys(currBoard).length) {
-            boardService.getById('board', params.currBoard._id)
+            boardService.getById('board', params.boardId)
                 .then((board) => dispatch(setCurrBoard(board)))
         }
 
@@ -68,7 +68,6 @@ export function GroupList() {
 
 
     const onListSubmit = (ev) => {
-
         ev.preventDefault()
         const { value } = ev.target[0]
         setNewListTitle(value)
@@ -112,6 +111,16 @@ export function GroupList() {
 
     }
     ////////לחלץ פה את הפארמס ולנסות לרנדר מחדש
+
+    const onRemoveGroup = (ev,groupId) => {
+
+        console.log('in on remove group');
+
+        boardService.removeGroup(currBoard, groupId)
+            .then(boardService.update)
+            .then((board) => dispatch(setCurrBoard(board)))
+
+    }
 
     if (!Object.keys(currBoard).length) return <h1>loading...</h1>
     return <section className="groups-container">

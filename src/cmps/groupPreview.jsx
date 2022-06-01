@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux"
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 import { utilService } from "../services/util.service"
 import { useEffectUpdate } from './useEffectUpdate'
+import { useSelector } from "react-redux"
 
 
 export const GroupPreview = ({ dragFunc, group, board }) => {
@@ -17,36 +18,32 @@ export const GroupPreview = ({ dragFunc, group, board }) => {
     const [newCardTitle, setNewCardTitle] = useState('')
     const inputRef = useRef()
     const addCardBtnRef = useRef()
+    const { currBoard } = useSelector(state => state.boardModule)
 
+    
 
-    // useEffect(() => {
-    //     console.log('in use effect')
-    //     if (!onMount.current) onMount.current = false
-    //     else onAddCard()
-    // }, [])
-    useEffectUpdate(() => {
-        // console.log('in use effect update')
-        // if (!onMount.current) onMount.current = false
-        onAddCard()
-    }, [newCardTitle])
+    // useEffectUpdate(() => {
+    //     onAddCard()
+    // }, [newCardTitle])
 
 
     const onSubmit = (ev) => {
-        console.log('in on submit')
         ev.preventDefault()
         const { value } = ev.target[0]
-        setNewCardTitle(value)
+        onAddCard(value)
+        // setNewCardTitle(value)
         ev.target[0].value = ''
 
     }
+    
 
 
-    const onAddCard = () => {
+    const onAddCard = (value) => {
         // if (!newCardTitle) return  ///////plaster???????????
-        const groupIdx = board.groups.findIndex(_group => _group.id === group.id)
+        const groupIdx = currBoard.groups.findIndex(_group => _group.id === group.id)
         // console.log(groupIdx)
-        const updatedBoard = { ...board }
-        boardService.createTask(newCardTitle)
+        const updatedBoard = { ...currBoard }
+        boardService.createTask(value)
             .then((task) => {
                 updatedBoard.groups[groupIdx].tasks.push(task)
                 return updatedBoard
@@ -56,11 +53,11 @@ export const GroupPreview = ({ dragFunc, group, board }) => {
 
     }
     const onCopyCard = (task) => {
-        const updatedBoard = { ...board }
+        const updatedBoard = { ...currBoard }
         boardService.copyTask(task)
             .then((task) => {
                 console.log(task)
-                const groupIdx = board.groups.findIndex(_group => _group.id === group.id)
+                const groupIdx = currBoard.groups.findIndex(_group => _group.id === group.id)
                 updatedBoard.groups[groupIdx].tasks.push(task)
                 return updatedBoard
             })
@@ -76,10 +73,10 @@ export const GroupPreview = ({ dragFunc, group, board }) => {
     }
 
     const onRemoveCard = (taskId) => {
-        const groupIdx = board.groups.findIndex(_group => _group.id === group.id)
-        const taskIdx = board.groups[groupIdx].tasks.findIndex(_task => _task.id === taskId)
+        const groupIdx = currBoard.groups.findIndex(_group => _group.id === group.id)
+        const taskIdx = currBoard.groups[groupIdx].tasks.findIndex(_task => _task.id === taskId)
         // console.log(groupIdx)
-        const updatedBoard = { ...board }
+        const updatedBoard = { ...currBoard }
         boardService.removeTask(updatedBoard, groupIdx, taskIdx)
             .then(boardService.update)
             .then((board) => dispatch(setCurrBoard(board)))
@@ -116,13 +113,21 @@ export const GroupPreview = ({ dragFunc, group, board }) => {
 
     }
 
+    const onChangeGroupTitle = (ev) => {
+        const { value } = ev.target
+        boardService.changeGroupTitle(currBoard, group, value)
+        .then(boardService.update)
+        .then((board) => dispatch(setCurrBoard(board)))
+    }
+
     /////
     //TODO: ADD STYLE
     return <article className='group'>
-        <header className='group-title'>
+        {/* <header className='group-title'>
             {group.title}
-        </header>
-
+        </header> */}
+         <input className="group-title" defaultValue={group.title} type="text" onChange={onChangeGroupTitle} onBlur={onChangeGroupTitle} />
+        
         <DragDropContext onDragEnd={handleOnDragEnd}>
             <Droppable droppableId={group.id} >
                 {(provided) => {
@@ -131,7 +136,7 @@ export const GroupPreview = ({ dragFunc, group, board }) => {
                             <Draggable key={task.id} draggableId={task.id} index={index}>
                                 {(provided) => {
                                     return <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                        <TaskPreview onCopyCard={onCopyCard} onRemoveCard={onRemoveCard} index={index} group={group} task={task} key={task.id} />
+                                        <TaskPreview key={task.id}  onCopyCard={onCopyCard} onRemoveCard={onRemoveCard} index={index} group={group} task={task} key={task.id} />
                                     </div>
                                 }}
                             </Draggable>
@@ -149,6 +154,8 @@ export const GroupPreview = ({ dragFunc, group, board }) => {
             <button type="button" className="close-form" onClick={toggleForm}>X</button>
             <button className="save-card">Add card</button>
         </form>
+        <button onClick={(ev) => onRemoveGroup(ev,group.id)} className="remove-group">X</button>
+
 
 
 

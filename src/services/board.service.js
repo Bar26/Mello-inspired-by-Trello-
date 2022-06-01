@@ -18,7 +18,13 @@ export const boardService = {
 	copyTask,
 	createList,
 	getTaskGroupById,
-	setStarredTemplate
+	setStarredTemplate,
+	saveDesc,
+	removeGroup,
+	changeCardTitle,
+	changeGroupTitle,
+	toggleLabelToTask
+
 }
 
 
@@ -212,7 +218,6 @@ function getEmptyBoard(template) {
 }
 
 function getById(type, id) {
-	// console.log('HELLOOOOOOO');
 	return type === 'board'
 		? storageService.get(STORAGE_KEY, id)
 		: storageService.get(STORAGE_KEY2, id)
@@ -224,9 +229,17 @@ async function getTaskGroupById(board, taskId) {
 	const group = (board.groups.filter(group => group.tasks.find(task => task.id === taskId)))[0]
 	const task = group.tasks.find(task => task.id === taskId)
 
-	return {task,group}
+	return { task, group }
 }
 
+
+
+async function saveDesc(board, groupId, taskId, desc) {
+	const updatedBoard = { ...board }
+	const groupIdx = updatedBoard.groups.findIndex(group => group.id === groupId)
+	updatedBoard.groups[groupIdx].tasks.find(task => task.id === taskId).description = desc
+	return updatedBoard
+}
 
 
 async function update(board) {
@@ -259,6 +272,42 @@ async function removeTask(board, groupIdx, taskIdx) {
 	board.groups[groupIdx].tasks.splice(taskIdx, 1)
 
 	return board
+}
+async function removeGroup(board, groupId) {
+	console.log(' in remove');
+	let updatedBoard = { ...board }
+	const groupIdx = updatedBoard.groups.findIndex(group => group.id === groupId)
+	updatedBoard.groups.splice([groupIdx], 1)
+	console.log(updatedBoard)
+
+	return updatedBoard
+}
+
+async function changeCardTitle(board, group, taskId, value) {
+	const updatedBoard = { ...board }
+	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
+	updatedBoard.groups[groupIdx].tasks.find(task => task.id === taskId).title = value
+	return updatedBoard
+
+}
+
+async function changeGroupTitle(board, group, value) {
+	console.log('in change group title servie')
+	const updatedBoard = { ...board }
+	updatedBoard.groups.find(_group => _group.id === group.id).title = value
+	return updatedBoard
+}
+
+async function toggleLabelToTask(board, group, taskId, labelId) {
+	const updatedBoard = { ...board }
+	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
+	let task = updatedBoard.groups[groupIdx].tasks.find(task => task.id === taskId)
+	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex(task => task.id === taskId)
+	const labelIdx=task.labelIds.findIndex(_labelId => _labelId === labelId)
+	if(labelIdx!==-1) task.labelIds.splice(labelIdx,1)
+	else task.labelIds.push(labelId)
+	updatedBoard.groups[groupIdx].tasks[taskIdx]=task
+	return updatedBoard
 }
 
 // ////&&Test DATA!!!!!!1

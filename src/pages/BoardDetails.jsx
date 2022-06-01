@@ -13,14 +13,17 @@ export const BoardDeatails = () => {
 	const { currBoard } = useSelector(state => state.boardModule)
 
 	return (
-
-		<section>
+		<section
+			className="board-details"
+			// style={{ background: currBoard.style.backgroundColor }}
+		>
 			<SecondaryHeader />
-			<GroupList boardId={params.boardId} />
-			<Outlet/>
+			<section className='board-content'>
+				<GroupList boardId={params.boardId} />
+				<Outlet />
 
 
+			</section>
 		</section>
-
 	)
 }
