@@ -16,11 +16,10 @@ import { useEffectUpdate } from "./useEffectUpdate"
 export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
     const navigate = useNavigate()
     const [date, setDate] = useState(new Date())
-    const [isDetailsOpen, setIsDetailsOpen] = useState(false)
     const [style, setStyle] = useState({ height: "32px", width: "100%" })
     const { currBoard } = useSelector(state => state.boardModule)
     const refs = useRef([])
-    const detailsRef = useRef()
+    // const detailsRef = useRef()
     const params = useParams()
     const dispatch = useDispatch()
     const penRef = useRef()
@@ -48,9 +47,6 @@ export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
         if (!task.labelIds) penRef.current.classList.add('noLabel')
     }, [])
 
-    // useEffectUpdate(() => {
-    //     cardDetailsRef.current.classList.toggle('close')
-    // }, [isDetailsOpen])
 
     const getLabel = (labelId) => {
         if (!currBoard.labels) return
@@ -63,40 +59,12 @@ export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
     }
 
     const onToggleEditModal = (ev) => {
-        ev.stopPropogation()
+        ev.stopPropagation()
         editModalRef.current.classList.toggle('hide')
     }
 
-    // const updatedCmp = wap.cmps.map((currCmp, currIdx) => currIdx === idx ? template : currCmp)
+ 
 
-
-
-    // return( 
-    // <Draggable  key={utilService.makeId()} draggableId={utilService.makeId()} index={index}>
-    //     {(provided) => (
-    //         <section className={task.id} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} >
-    //             {task.style &&
-    //                 <div style={{ ...style }}></div>
-    //             }
-    //             {task.title}
-    //             {task.checklists &&
-    //                 task.checklists.map(checklist => {
-    //                     return <div className="checklists-prev" id={checklist.id}>
-
-    //                         <span>{checklist.todos.filter(todo => todo.isDone).length}</span>
-    //                         <span>/{checklist.todos.length}</span>
-    //                     </div>
-    //                 })}
-
-    //             {task.dueDate && <section className="due-date">
-    //                 <span>{utilService.getMonthName(date)} </span>
-    //                 {/* <span>{date.getDate().toString()}</span> */}
-
-    //             </section>
-    //             }
-    //         </section>
-    //     )}
-    // </Draggable>)
 
     return <section className="task" onClick={() => navigate(`/boards/${currBoard._id}/${task.id}`)}>
         <div ref={penRef} className="pen-container" onClick={onToggleEditModal}>

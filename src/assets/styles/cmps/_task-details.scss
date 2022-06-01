@@ -9,6 +9,7 @@
     background-color: $clr-card-details-bg;
     gap: 8px;
     font-size: 14px;
+    color: $clr-text-group;
 
     button {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -27,7 +28,7 @@
 
     .main-aside-container {
         display: flex;
-        gap:16px;
+        gap: 16px;
 
 
 
@@ -35,14 +36,18 @@
             padding-inline-start: 8px;
             // background-color: $clr-card-details-bg;
             width: 100%;
+            flex:1;
 
             .card-details-title-container {
                 height: 61px;
                 width: 100%;
                 // padding: 12px 40px 8px 56px;
+                margin-bottom: 16px;
                 display: flex;
-                width: 626px;
+           
+                height: 61px;
                 gap: 8px;
+                align-items: center;
 
 
                 .card-icon {
@@ -54,15 +59,40 @@
                     display: flex;
                     flex-direction: column;
                     align-items: flex-start;
-                    justify-content: start;
+                    justify-content: center;
 
-                    .title {}
+                    .details-group-title {
+                        border: none;
+                        height: 33px;
+                        padding: 4px 0;
+                        font-size: em(20px, 14px);
+                        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                        font-weight: 600;
+                        color: $clr-text-group;
+                        background-color: $clr-card-details-bg;
 
-                    .in-group {}
+                        &:focus {
+                            outline: none;
+                            box-shadow: inset 0 0 0 2px #0079bf;
+                        }
+                    }
+
+                    .in-group {
+                       
+                        color: $clr-small-text;
+
+                        .list-name {
+                            text-decoration: underline;
+                            cursor: pointer;
+                        }
+
+                    }
                 }
 
 
             }
+
+        
 
             .card-details-labels {
                 display: flex;
@@ -71,8 +101,13 @@
                 align-items: flex-start;
                 padding-inline-start: 40px;
                 gap: 4px;
+                margin-bottom: 16px;
 
-                .labels-title {}
+                .labels-title {
+                    color:$clr-small-text;
+                    font-weight: 600;
+                    font-size: rem(12px);
+                }
 
                 .card-details-labels-container {
                     display: flex;
@@ -80,9 +115,7 @@
                     align-items: center;
 
                     >* {
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
+                        @include flex-center;
                         padding: 0 12px;
                         color: white;
                         font-size: 14px;
@@ -90,19 +123,50 @@
                         line-height: em(32px, 14px);
                         border-radius: 3px;
                     }
+
+                    .add-label-container{
+                        padding: 0;
+                        position: relative;
+                
+                        .card-details-add-label {
+                            color: $clr-text-group;
+                            background-color: $clr-btn-details;
+                            @include flex-center;
+                            padding: 0 12px;
+                            border-radius: 3px;
+                            &:hover{
+                                background-color: $clr-btn-hover;
+                                cursor: pointer;
+                            }
+    
+                        }
+
+                        .add-label-modal{
+                            width:304px;
+                            background-color: white;
+                            z-index: 30;
+                            position: absolute;
+                            left: 0;
+                            top: calc(100% + 4px);
+
+
+                            &.hide{
+                                display: none;
+                            }
+                        }
+                    }
                 }
             }
 
             .description {
                 display: flex;
                 margin-bottom: 24px;
+                gap:8px;
 
                 .desc-icon {
                     width: 32px;
                     height: 32px;
                     padding-top: 14px;
-
-
 
                 }
 
@@ -117,16 +181,22 @@
                         width: 512px;
                         height: 48px;
                         gap: 8px;
+                        padding: 8px 0;
 
-                        .title {}
+                        .desc-title {
+                            font-weight: 600;
+                            font-size: 1rem;
+
+                        }
 
                         .edit-desc {
                             width: 47px;
                             height: 32px;
                             background-color: $clr-btn-details;
+                            color:$clr-text-group;
 
                             &:hover {
-                                background-color: $clr-btn-details-hover;
+                                background-color: $clr-btn-hover;
                             }
 
                         }
@@ -190,7 +260,7 @@
                                 background-color: $clr-card-details-bg ;
 
                                 &:hover {
-                                    background-color: $clr-btn-details-hover;
+                                    background-color: $clr-btn-hover;
                                 }
                             }
                         }
@@ -224,25 +294,28 @@
                         .activity-icon {
                             width: 32px;
                             height: 32px;
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
+                            @include flex-center
                         }
 
-                        .show-details {
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            font-size: 14px;
+                     
 
+                        .activity-title {
+                            font-weight: 600;
+                            font-size: 1rem;
+                
                         }
-
-                        .title {}
                     }
 
 
 
-                    .show-details {}
+                    .show-details {
+                        @include flex-center;
+                        font-size: 14px;
+                        background-color: $clr-btn-details;
+                        color:$clr-text-group;
+                        padding: 6px 12px;
+
+                    }
 
                 }
 
@@ -256,9 +329,7 @@
                         border-radius: 25em;
                         height: 32px;
                         width: 32px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
+                        @include flex-center;
                         color: white
                     }
 
@@ -283,20 +354,87 @@
 
         }
 
-        .add-to-card {
-            width: 192px;
-            // padding: 0 16px 8px 8px;
-            height: 100%;
+        .details-aside{
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            gap:8px;
-            >*{
-                background-color: $clr-btn-details;
-                padding: 6px 12px;
-                color:$clr-btn-text;
+            gap:16px;
+
+            .add-to-card {
+                padding-top: 77px;
+                width: 192px;
+                // padding: 0 16px 8px 8px;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                padding-right: 16px;
+                gap: 8px;
+    
+                >* {
+                    background-color: $clr-btn-details;
+                    padding: 6px 12px;
+                    // color: $clr-btn-text;
+                    color: $clr-text-group;
+                    border-radius: 3px;
+                    display: flex;
+                    align-items: center;
+                    gap:8px;
+                    
+                    &:hover{
+                        background-color: $clr-btn-hover;
+                        cursor: pointer;
+                    }
+                }
+    
+                .add-to-card-title{
+                    
+                    background-color: transparent;
+                    font-size: rem(12px);
+                    font-weight: 600;
+                    color: $clr-small-text;
+                    padding: 0;
+                    align-self: flex-start;
+                }
+            }
+
+            .card-details-actions{
+          
+                width: 192px;
+                // padding: 0 16px 8px 8px;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                padding-right: 16px;
+                gap: 8px;
+    
+                >* {
+                    background-color: $clr-btn-details;
+                    padding: 6px 12px;
+                    // color: $clr-btn-text;
+                    color: $clr-text-group;
+                    border-radius: 3px;
+                    display: flex;
+                    align-items: center;
+                    gap:8px;
+                    
+                    &:hover{
+                        background-color: $clr-btn-hover;
+                        cursor: pointer;
+                    }
+                }
+                .actions-title{
+                    
+                    background-color: transparent;
+                    font-size: rem(12px);
+                    font-weight: 600;
+                    color: $clr-small-text;
+                    padding: 0;
+                    align-self: flex-start;
+                }
             }
         }
+
 
 
     }
