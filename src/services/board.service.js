@@ -22,7 +22,8 @@ export const boardService = {
 	removeGroup,
 	changeCardTitle,
 	changeGroupTitle,
-	toggleLabelToTask
+	toggleLabelToTask,
+	createLabel
 
 }
 
@@ -294,12 +295,27 @@ async function toggleLabelToTask(board, group, taskId, labelId) {
 	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
 	let task = updatedBoard.groups[groupIdx].tasks.find(task => task.id === taskId)
 	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex(task => task.id === taskId)
-	const labelIdx=task.labelIds.findIndex(_labelId => _labelId === labelId)
-	if(labelIdx!==-1) task.labelIds.splice(labelIdx,1)
+	const labelIdx = task.labelIds.findIndex(_labelId => _labelId === labelId)
+	if (labelIdx !== -1) task.labelIds.splice(labelIdx, 1)
 	else task.labelIds.push(labelId)
-	updatedBoard.groups[groupIdx].tasks[taskIdx]=task
+	updatedBoard.groups[groupIdx].tasks[taskIdx] = task
 	return updatedBoard
 }
+
+async function createLabel(board,group, task, backgroundColor, title) {
+	const updatedBoard = { ...board }
+	console.log(backgroundColor, title)
+	const id = utilService.makeId()
+	updatedBoard.labels.push({ id, backgroundColor, title })
+	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
+	console.log(groupIdx)
+	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex(_task => _task.id === task.id)
+	updatedBoard.groups[groupIdx].tasks[taskIdx].labelIds.push(id)
+	console.log(updatedBoard)
+	return updatedBoard
+}
+
+
 
 // ////&&Test DATA!!!!!!1
 // storageService.post(STORAGE_KEY2, {

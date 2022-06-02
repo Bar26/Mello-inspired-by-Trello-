@@ -2,10 +2,11 @@
 
 
 const INITIAL_STATE = {
-    currBoard:{},
+    currBoard: {},
     // boards: null,
     // filterBy: null
-    board:null,
+    board: null,
+    isTaskDetailScreenOpen: false
 }
 
 export function boardReducer(state = INITIAL_STATE, action) {
@@ -15,7 +16,13 @@ export function boardReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 currBoard: action.board
-            
+
+            }
+        case 'SET_IS_TASK_DETAILS_SCREEN_OPEN':
+            return {
+                ...state,
+                isTaskDetailScreenOpen: action.isTaskDetailScreenOpen
+
             }
 
         case 'ADD_BOARD':
@@ -38,7 +45,7 @@ export function boardReducer(state = INITIAL_STATE, action) {
         case 'SET_FILTER_BY':
             return {
                 ...state,
-                filterBy: {...action.filterBy}
+                filterBy: { ...action.filterBy }
             }
 
         default:

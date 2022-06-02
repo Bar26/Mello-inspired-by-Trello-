@@ -5,6 +5,7 @@ import { GroupList } from '../cmps/groupList'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCurrBoard } from '../store/actions/board.actions'
 import { TaskDetails } from '../cmps/TaskDetails'
+import { Screen } from '../cmps/Screen.jsx'
 
 
 export const BoardDeatails = () => {
@@ -21,7 +22,7 @@ export const BoardDeatails = () => {
 			<section className='board-content'>
 				<GroupList boardId={params.boardId} />
 				<Outlet />
-
+				<Screen/>
 
 			</section>
 		</section>

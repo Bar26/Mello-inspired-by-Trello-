@@ -5,6 +5,7 @@
 @import './basic/basic';
 @import './setup/mixins';
 @import './setup/functions';
+@import './basic/screen';
 
 @import './cmps/app-header';
 @import './cmps/main-header';
@@ -19,7 +20,8 @@
 @import './cmps/task-preview';
 @import './cmps/task-details';
 @import './pages/boardDetails';
-@import './modal/addLabelModal'
+@import './modal/addLabelModal';
+@import './modal/createLabel';
 
 
 
