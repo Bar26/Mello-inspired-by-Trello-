@@ -127,6 +127,7 @@
                     .add-label-container{
                         padding: 0;
                         position: relative;
+
                 
                         .card-details-add-label {
                             color: $clr-text-group;
@@ -144,7 +145,7 @@
                         .add-label-modal{
                             width:304px;
                             background-color: white;
-                            z-index: 30;
+                            z-index: 100000;
                             position: absolute;
                             left: 0;
                             top: calc(100% + 4px);
@@ -154,6 +155,8 @@
                                 display: none;
                             }
                         }
+
+                     
                     }
                 }
             }

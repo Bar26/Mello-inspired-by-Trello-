@@ -26,8 +26,8 @@ export const boardService = {
 	removeGroup,
 	changeCardTitle,
 	changeGroupTitle,
-	toggleLabelToTask
-
+	toggleLabelToTask,
+	createLabel,
 }
 
 async function query(filterBy = {}) {
@@ -151,9 +151,11 @@ async function removeTask(board, groupIdx, taskIdx) {
 	return board
 }
 async function removeGroup(board, groupId) {
-	console.log(' in remove');
+	console.log(' in remove')
 	let updatedBoard = { ...board }
-	const groupIdx = updatedBoard.groups.findIndex(group => group.id === groupId)
+	const groupIdx = updatedBoard.groups.findIndex(
+		(group) => group.id === groupId
+	)
 	updatedBoard.groups.splice([groupIdx], 1)
 	console.log(updatedBoard)
 
@@ -162,293 +164,52 @@ async function removeGroup(board, groupId) {
 
 async function changeCardTitle(board, group, taskId, value) {
 	const updatedBoard = { ...board }
-	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
-	updatedBoard.groups[groupIdx].tasks.find(task => task.id === taskId).title = value
+	const groupIdx = updatedBoard.groups.findIndex(
+		(_group) => _group.id === group.id
+	)
+	updatedBoard.groups[groupIdx].tasks.find((task) => task.id === taskId).title =
+		value
 	return updatedBoard
-
 }
 
 async function changeGroupTitle(board, group, value) {
 	console.log('in change group title servie')
 	const updatedBoard = { ...board }
-	updatedBoard.groups.find(_group => _group.id === group.id).title = value
+	updatedBoard.groups.find((_group) => _group.id === group.id).title = value
 	return updatedBoard
 }
 
 async function toggleLabelToTask(board, group, taskId, labelId) {
 	const updatedBoard = { ...board }
-	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
-	let task = updatedBoard.groups[groupIdx].tasks.find(task => task.id === taskId)
-	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex(task => task.id === taskId)
-	const labelIdx=task.labelIds.findIndex(_labelId => _labelId === labelId)
-	if(labelIdx!==-1) task.labelIds.splice(labelIdx,1)
+	const groupIdx = updatedBoard.groups.findIndex(
+		(_group) => _group.id === group.id
+	)
+	let task = updatedBoard.groups[groupIdx].tasks.find(
+		(task) => task.id === taskId
+	)
+	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex(
+		(task) => task.id === taskId
+	)
+	const labelIdx = task.labelIds.findIndex((_labelId) => _labelId === labelId)
+	if (labelIdx !== -1) task.labelIds.splice(labelIdx, 1)
 	else task.labelIds.push(labelId)
-	updatedBoard.groups[groupIdx].tasks[taskIdx]=task
+	updatedBoard.groups[groupIdx].tasks[taskIdx] = task
 	return updatedBoard
 }
 
-// ////&&Test DATA!!!!!!1
-// storageService.post(STORAGE_KEY2, {
-// 	"id": "t101",
-// 	"name": "cleaning",
-// 	"img": "../src/assets/img/cleaning.jpg",
-// 	"createdAt": "new Date() ",
-// 	"viewedAt": "new Date() "
-// }).then(x => console.log(x))
-
-// storageService.post(STORAGE_KEY2, {
-// 	"id": "t102",
-// 	"name": "gaming",
-// 	"img": "../src/assets/img/gaming.jpg",
-// 	"createdAt": "new Date() ",
-// 	"viewedAt": "new Date() "
-// }).then(x => console.log(x))
-
-// storageService.post(STORAGE_KEY2, {
-// 	"id": "t103",
-// 	"title": "hello",
-// 	"img": "../src/assets/img/hello.jpg",
-// 	"createdAt": "new Date() ",
-// 	"viewedAt": "new Date() "
-// }).then(x => console.log(x))
-
-// // [
-// // 	{
-// // 		"id": "t101",
-// // 		"name": "cleaning",
-// // 		"img": "../src/assets/img/cleaning.jpg",
-// // 		"createdAt": "new Date() ",
-// // 		"viewedAt": "new Date() "
-// // 	},
-// // 	{
-// // 		"id": "t102",
-// // 		"name": "gaming",
-// // 		"img": "../src/assets/img/gaming.jpg",
-// // 		"createdAt": "new Date() ",
-// // 		"viewedAt": "new Date() "
-// // 	},
-// // 	{
-// // 		"id": "t103",
-// // 		"title": "hello",
-// // 		"img": "../src/assets/img/hello.jpg",
-// // 		"createdAt": "new Date() ",
-// // 		"viewedAt": "new Date() "
-// // 	},
-
-// // 	{
-// // 		"id": "t104",
-// // 		"title": "home",
-// // 		"img": "../src/assets/img/home.jpg",
-// // 		"createdAt": "new Date() ",
-// // 		"viewedAt": "new Date() "
-// // 	},
-// // 	{
-// // 		"id": "t105",
-// // 		"title": "new-project",
-// // 		"img": "../src/assets/img/new-project.jpg",
-// // 		"createdAt": "new Date() ",
-// // 		"viewedAt": "new Date() "
-// // 	},
-// // 	{
-// // 		"id": "t106",
-// // 		"title": "next-trip",
-// // 		"img": "../src/assets/img/next-trip.jpg",
-// // 		"createdAt": "new Date() ",
-// // 		"viewedAt": "new Date() "
-// // 	},
-// // 	{
-// // 		"id": "t107",
-// // 		"title": "orange",
-// // 		"img": "../src/assets/img/orange.jpg",
-// // 		"createdAt": "new Date() ",
-// // 		"viewedAt": "new Date() "
-// // 	},
-// // 	{
-// // 		"id": "t108",
-// 		"title": "todos",
-// 		"img": "../src/assets/img/todos.jpg",
-// 		"createdAt": "new Date() ",
-// 		"viewedAt": "new Date() "
-// 	},
-// 	{
-// 		"id": "t109",
-// 		"title": "diet-plan",
-// 		"img": "../src/assets/img/diet-plan.jpg",
-// 		"createdAt": "new Date() ",
-// 		"viewedAt": "new Date() "
-// 	}
-// ]
-
-// storageService
-// 	.post(STORAGE_KEY, {
-// 		_id: 'b101',
-// 		title: 'Trello',
-// 		archivedAt: 1589983468418,
-// 		createdAt: 1589983468418,
-// 		createdBy: {
-// 			_id: 'u101',
-// 			fullname: 'Itamar Sahar',
-// 			imgUrl: 'http://some-img',
-// 		},
-// 		style: {},
-// 		labels: [
-// 			{
-// 				id: 'l101',
-// 				title: 'Done',
-// 				color: '#61bd4f',
-// 			},
-// 			{
-// 				id: 'l102',
-// 				title: 'Progress',
-// 				color: '#61bd33',
-// 			},
-// 		],
-// 		members: [
-// 			{
-// 				_id: 'u101',
-// 				fullname: 'Noam Bar',
-// 				imgUrl: 'https://www.google.com',
-// 			},
-// 		],
-// 		groups: [
-// 			{
-// 				id: 'g101',
-// 				title: 'To Do',
-// 				archivedAt: 1589983468418,
-// 				tasks: [
-// 					{
-// 						id: 'c101',
-// 						title: 'Replace logo',
-// 					},
-// 					{
-// 						id: 'c102',
-// 						title: 'Add Samples',
-// 					},
-// 				],
-// 				style: {},
-// 			},
-// 			{
-// 				id: 'g102',
-// 				title: ' Progress',
-// 				tasks: [
-// 					{
-// 						id: 'c103',
-// 						title: 'Login Auth',
-// 						archivedAt: 1589983468418,
-// 					},
-// 					{
-// 						id: 'c104',
-// 						title: 'Add Socket',
-// 						status: 'in-progress',
-// 						description: 'description',
-// 						comments: [
-// 							{
-// 								id: 'ZdPnm',
-// 								txt: 'also @yaronb please CR this',
-// 								createdAt: 1590999817436.0,
-// 								byMember: {
-// 									_id: 'u101',
-// 									fullname: 'Tal Tarablus',
-// 									imgUrl:
-// 										'http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg',
-// 								},
-// 							},
-// 						],
-// 						checklists: [
-// 							{
-// 								id: 'YEhmF',
-// 								title: 'Checklist',
-// 								todos: [
-// 									{
-// 										id: '212jX',
-// 										title: 'To Do 1',
-// 										isDone: false,
-// 									},
-// 								],
-// 							},
-// 						],
-// 						memberIds: ['u101'],
-// 						labelIds: ['l101', 'l102'],
-// 						createdAt: 1590999730348,
-// 						dueDate: 16156215211,
-// 						byMember: {
-// 							_id: 'u101',
-// 							username: 'Tal',
-// 							fullname: 'Tal Tarablus',
-// 							imgUrl:
-// 								'http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg',
-// 						},
-// 						style: {
-// 							bgColor: '#26de81',
-// 						},
-// 					},
-// 				],
-// 				style: {},
-// 			},
-// 			{
-// 				id: 'g103',
-// 				title: 'QA',
-// 				archivedAt: 1589983468418,
-// 				tasks: [
-// 					{
-// 						id: 'c105',
-// 						title: 'Remove Task',
-// 					},
-// 					{
-// 						id: 'c106',
-// 						title: 'Add Task',
-// 					},
-// 				],
-// 				style: {},
-// 			},
-// 			{
-// 				id: 'g104',
-// 				title: 'BUGS',
-// 				archivedAt: 1589983468418,
-// 				tasks: [
-// 					{
-// 						id: 'c107',
-// 						title: 'Handle Refresh',
-// 					},
-// 					{
-// 						id: 'c108',
-// 						title: 'Broken Image',
-// 					},
-// 				],
-// 				style: {},
-// 			},
-// 			{
-// 				id: 'g105',
-// 				title: 'Done',
-// 				archivedAt: 1589983468418,
-// 				tasks: [
-// 					{
-// 						id: 'c109',
-// 						title: 'Sign Up',
-// 					},
-// 					{
-// 						id: 'c110',
-// 						title: 'Home Page Design',
-// 					},
-// 				],
-// 				style: {},
-// 			},
-// 		],
-// 		activities: [
-// 			{
-// 				id: 'a101',
-// 				title: 'Changed Color',
-// 				createdAt: 154514,
-// 				byMember: {
-// 					_id: 'u101',
-// 					fullname: 'Itamar Sahar',
-// 					imgUrl: 'http://some-img',
-// 				},
-// 				task: {
-// 					id: 'c101',
-// 					title: 'Replace Logo',
-// 				},
-// 			},
-// 		],
-// 	})
-// 	.then((x) => console.log(x))
+async function createLabel(board, group, task, backgroundColor, title) {
+	const updatedBoard = { ...board }
+	console.log(backgroundColor, title)
+	const id = utilService.makeId()
+	updatedBoard.labels.push({ id, backgroundColor, title })
+	const groupIdx = updatedBoard.groups.findIndex(
+		(_group) => _group.id === group.id
+	)
+	console.log(groupIdx)
+	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex(
+		(_task) => _task.id === task.id
+	)
+	updatedBoard.groups[groupIdx].tasks[taskIdx].labelIds.push(id)
+	console.log(updatedBoard)
+	return updatedBoard
+}

@@ -1,10 +1,10 @@
 import { boardService } from '../../services/board.service.js'
 
-export  function setCurrBoard(boardId) {
+export function setCurrBoard(boardId) {
 	return async (dispatch) => {
 		try {
 			const currBoard = await boardService.getById(boardId)
-			console.log("board from backend:" , currBoard);
+			console.log('board from backend:', currBoard)
 			dispatch({ type: 'SET_BOARD', currBoard })
 		} catch (err) {
 			console.log('Cannot set board', err)
@@ -21,6 +21,15 @@ export function setFilter(filterBy) {
 			console.log('Cant load boards', err)
 		}
 	}
+}
+export function setIsTaskDetailsScreenOpen(isTaskDetailScreenOpen) {
+	// console.log("HEY FROM DISPATCH")
+	console.log(isTaskDetailScreenOpen)
+	return (dispatch) =>
+		dispatch({
+			type: 'SET_IS_TASK_DETAILS_SCREEN_OPEN',
+			isTaskDetailScreenOpen,
+		})
 }
 
 export function loadBoards() {

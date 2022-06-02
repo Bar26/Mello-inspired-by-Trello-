@@ -6,6 +6,8 @@ import { setCurrBoard } from '../store/actions/board.actions'
 import { BoardHeader } from '../cmps/BoardHeader.jsx'
 import { BoardMenu } from '../cmps/BoardMenu.jsx'
 import { useEffect, useState } from 'react'
+import { TaskDetails } from '../cmps/TaskDetails'
+import { Screen } from '../cmps/Screen.jsx'
 
 export const BoardDeatails = () => {
 	const [menuShow, setMenuShow] = useState('')
@@ -44,6 +46,7 @@ export const BoardDeatails = () => {
 				<BoardMenu menuShow={menuShow} toggleBoardMenu={toggleBoardMenu} />
 				<GroupList boardId={boardId} />
 				<Outlet />
+				<Screen />
 			</section>
 			{/* <BoardGroup/> */}
 		</section>

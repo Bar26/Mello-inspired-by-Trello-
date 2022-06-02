@@ -2,6 +2,7 @@ const initialState = {
 	currBoard: {},
 	boards: [],
 	filterBy: { labels: [], members: [], txt: '' },
+	isTaskDetailScreenOpen: false,
 }
 
 export function boardReducer(state = initialState, action) {
@@ -9,7 +10,7 @@ export function boardReducer(state = initialState, action) {
 	let boards
 	switch (action.type) {
 		case 'SET_BOARD':
-			console.log('action',action);
+			console.log('action', action)
 			return (newState = { ...state, currBoard: action.currBoard })
 		case 'ADD_BOARD':
 			return (newState = { ...state, boards: [...state.boards, action.board] })
@@ -23,7 +24,39 @@ export function boardReducer(state = initialState, action) {
 				board._id === action.board._id ? action.board : board
 			)
 			return (newState = { ...state, boards, board: { ...action.board } })
+
+		case 'SET_IS_TASK_DETAILS_SCREEN_OPEN':
+			return {
+				...state,
+				isTaskDetailScreenOpen: action.isTaskDetailScreenOpen,
+			}
+
+		case 'ADD_BOARD':
+			return {
+				...state,
+				board: [...state.robots, action.robot],
+			}
+
+		case 'REMOVE_ROBOT':
+			return {
+				...state,
+				robots: state.robots.filter((robot) => robot._id !== action.robotId),
+			}
+
+		case 'UPDATE_ROBOT':
+			return {
+				...state,
+				robots: state.robots.map((robot) =>
+					robot._id === action.robot._id ? action.robot : robot
+				),
+			}
+		case 'SET_FILTER_BY':
+			return {
+				...state,
+				filterBy: { ...action.filterBy },
+			}
+
 		default:
-			return newState
+			return state
 	}
 }
