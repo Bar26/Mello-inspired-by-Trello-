@@ -23,8 +23,8 @@ export const BoardDeatails = () => {
 		}
 	}, [])
 
-	const getCurrBoard = () => {
-		dispatch(setCurrBoard(boardId))
+	const getCurrBoard = async () => {
+		await dispatch(setCurrBoard(boardId))
 	}
 
 	const toggleBoardMenu = () => {

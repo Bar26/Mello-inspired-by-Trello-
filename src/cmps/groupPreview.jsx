@@ -37,6 +37,15 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
     /////
     //TODO: ADD STYLE
 
+    const onSubmit = (ev) => {
+        ev.preventDefault()
+        const { value } = ev.target[0]
+        onAddCard(value)
+        // setNewCardTitle(value)
+        ev.target[0].value = ''
+
+    }
+    
     const onCopyCard = (task) => {
         const updatedBoard = { ...currBoard }
         boardService.copyTask(task)
