@@ -18,6 +18,7 @@ export const boardService = {
 	copyTask,
 	createList,
 	getTaskGroupById,
+	setStarredTemplate,
 	saveDesc,
 	removeGroup,
 	changeCardTitle,
@@ -46,6 +47,14 @@ function setStarred(board) {
 		board.isStared = false
 	}
 	storageService.put(STORAGE_KEY, board).then(console.log)
+}
+function setStarredTemplate(template) {
+	if (!template.isStared) {
+		template.isStared = true
+	} else {
+		template.isStared = false
+	}
+	storageService.put(STORAGE_KEY2, template).then(console.log)
 }
 
 // async function add(title, style) {

@@ -75,18 +75,40 @@ export function GroupList() {
 
     }
 
-    const onDrop = (res) => {
+    const moveGroup = (res) => {
         let newBoard = { ...currBoard }
         const gtm = newBoard.groups.splice(res.source.index, 1)
         console.log(gtm);
         newBoard.groups.splice(res.destination.index, 0, gtm[0])
         boardService.update(newBoard)
     }
+    
+    const moveTaskInGroup = (res) => {
+        const groupDest = board.groups.find(_group => _group.id === res.destination.droppableId)
+        const groupSource = board.groups.find(_group => _group.id === res.source.droppableId)
+        const taskToMove = groupSource.tasks.splice(res.source.index, 1)
+        const groupIdxDest = board.groups.findIndex(_group => _group.id === res.destination.droppableId)
+        const groupIdxSour = board.groups.findIndex(_group => _group.id === res.source.droppableId)
+        groupDest.tasks.splice(res.destination.index, 0, taskToMove[0])
+        let newBoard = { ...board }
+        newBoard.groups.splice(groupIdxDest, 1, groupDest)
+        newBoard.groups.splice(groupIdxSour, 1, groupSource)
+        console.log(newBoard);
+        boardService.update(newBoard)
+        dispatch(setCurrBoard(board))
+    }
 
     const handleOnDragEnd = (res) => {
-        console.log(res, "Yes")
+        console.log(res);
         if (!res.destination) return;
-        onDrop(res)
+        if (res.destination.droppableId === res.source.droppableId && res.destination.droppableId === board._id) {
+            console.log('moving group');
+            moveGroup(res)
+        }
+        if (res.destination.droppableId === res.source.droppableId && res.destination.droppableId !== board._id) {
+            moveTaskInGroup(res)
+        }
+
     }
     ////////לחלץ פה את הפארמס ולנסות לרנדר מחדש
 
@@ -103,14 +125,15 @@ export function GroupList() {
     if (!Object.keys(currBoard).length) return <h1>loading...</h1>
     return <section className="groups-container">
         <DragDropContext onDragEnd={handleOnDragEnd}>
-            <Droppable droppableId={currBoard._id}>
+            <Droppable droppableId={currBoard._id} isCombineEnabled={true}>
                 {(provided) => {
-                    return <div className="dnd-board-main" {...provided.droppableProps} ref={provided.innerRef}>
+                    return <div className="dnd-board-main"  {...provided.droppableProps} ref={provided.innerRef}>
                         {currBoard.groups.map((group, index) => (
                             <Draggable key={group.id} draggableId={group.id} index={index}>
                                 {(provided) => {
                                     return <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                        <GroupPreview  onRemoveGroup={onRemoveGroup} index={index} key={group.id} group={group} board={currBoard} />
+                                            <GroupPreview dragFunc={handleOnDragEnd} index={index} key={group.id} group={group} board={currBoard} />
+                                        {provided.placeholder}
                                     </div>
                                 }}
                             </Draggable>
@@ -120,14 +143,14 @@ export function GroupList() {
 
                 }}
             </Droppable>
-        </DragDropContext>
+        </DragDropContext >
         <div className="add-list-btn flex" onClick={toggleListForm} ref={addListRef} ><span className="plus">+</span><button > Add another list </button></div>
         <form className="add-list-form close" onSubmit={onListSubmit} ref={listFormRef}>
             <input ref={inputListRef} name="list-title" type="text" placeholder="Enter list title..." />
             <button type="button" className="close-list-form" onClick={toggleListForm}>X</button>
             <button className="save-list">Add list</button>
         </form>
-    </section>
+    </section >
 }
 
 

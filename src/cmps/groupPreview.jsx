@@ -10,8 +10,8 @@ import { useEffectUpdate } from './useEffectUpdate'
 import { useSelector } from "react-redux"
 
 
-
-export const GroupPreview = ({ group, onRemoveGroup }) => {
+export const GroupPreview = ({ dragFunc, group, board }) => {
+    // console.log(group)
     const dispatch = useDispatch()
     const formRef = React.createRef()
     let onMount = useRef(true)
@@ -90,16 +90,16 @@ export const GroupPreview = ({ group, onRemoveGroup }) => {
     //     setNewCardTitle({value })
     // }
 
-    const onMyDrop = (res,groupIdDest, groupIdSource) => {
-        const groupDest = currBoard.groups.find(_group => _group.id === groupIdDest)
-        const groupSource = currBoard.groups.find(_group => _group.id === groupIdSource)
-        const taskToMove = groupSource.tasks.splice(res.source.index,1)
-        const groupIdxDest = currBoard.groups.findIndex(_group => _group.id === groupIdDest)
-        const groupIdxSour = currBoard.groups.findIndex(_group => _group.id === groupIdSource)
-        groupDest.tasks.splice(res.destination.index,0,taskToMove[0])
-        let newBoard = {...currBoard}
-        newBoard.groups.splice(groupIdxDest,1,groupDest)
-        newBoard.groups.splice(groupIdxSour,1,groupSource)
+    const onMyDrop = (res, groupIdDest, groupIdSource) => {
+        const groupDest = board.groups.find(_group => _group.id === groupIdDest)
+        const groupSource = board.groups.find(_group => _group.id === groupIdSource)
+        const taskToMove = groupSource.tasks.splice(res.source.index, 1)
+        const groupIdxDest = board.groups.findIndex(_group => _group.id === groupIdDest)
+        const groupIdxSour = board.groups.findIndex(_group => _group.id === groupIdSource)
+        groupDest.tasks.splice(res.destination.index, 0, taskToMove[0])
+        let newBoard = { ...board }
+        newBoard.groups.splice(groupIdxDest, 1, groupDest)
+        newBoard.groups.splice(groupIdxSour, 1, groupSource)
         boardService.update(newBoard)
     }
 
@@ -108,7 +108,9 @@ export const GroupPreview = ({ group, onRemoveGroup }) => {
         console.log(res)
         if (!res.destination) return;
         console.log("HRY BAR");
-        onMyDrop(res,res.destination.droppableId, res.source.droppableId)
+        dragFunc(res)
+        // onMyDrop(res,res.destination.droppableId, res.source.droppableId)
+
     }
 
     const onChangeGroupTitle = (ev) => {
@@ -127,7 +129,7 @@ export const GroupPreview = ({ group, onRemoveGroup }) => {
          <input className="group-title" defaultValue={group.title} type="text" onChange={onChangeGroupTitle} onBlur={onChangeGroupTitle} />
         
         <DragDropContext onDragEnd={handleOnDragEnd}>
-            <Droppable droppableId={group.id}>
+            <Droppable droppableId={group.id} >
                 {(provided) => {
                     return <div className="task-list" {...provided.droppableProps} ref={provided.innerRef}>
                         {group.tasks.map((task, index) => (

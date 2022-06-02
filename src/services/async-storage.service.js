@@ -8,7 +8,7 @@ export const storageService = {
 	remove,
 }
 
-function query(entityType, delay = 600) {
+function query(entityType, delay = 200) {
 	var entities = JSON.parse(localStorage.getItem(entityType))
 	if (!entities) {
 		if (entityType === 'Board') {
