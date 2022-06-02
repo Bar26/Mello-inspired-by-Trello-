@@ -53,22 +53,3 @@ export const BoardPreview = ({ board, getStarredBoards }) => {
 		</article>
 	)
 }
-
-// export const BoardPreview = ({ board }) => {
-//     const dispatch = useDispatch()
-//     ///<BoardHeader/>
-//     // console.log('in boardlist',board)
-//     ///<BoardHeader/>
-//     return (
-//         <article className="board-preview" style={{ backgroundColor: 'green' }}>
-//             <Link onClick={() => dispatch(setCurrBoard(board))} to={`/boards/${board._id}`}>
-//                 <h1>{board.title}</h1>
-//                 <label className="star">
-//                     <button></button>
-//                     <i className="fa-regular fa-star"></i>
-//                     {/* <i className="fa-solid fa-copy"></i> */}
-//                 </label>
-//             </Link>
-//         </article>
-//     )
-//}

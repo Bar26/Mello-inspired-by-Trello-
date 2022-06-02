@@ -4,6 +4,9 @@
 
 body {
     background-image: url('../../img/forest.jpg');
+    object-fit: contain ;
+    overflow: hidden;
+    height: 90vh;
 }
 
 button {

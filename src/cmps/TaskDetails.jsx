@@ -1,14 +1,9 @@
 import React, { useEffect, useRef, useState } from "react"
-import { utilService } from "../services/util.service"
 import { useDispatch, useSelector } from 'react-redux'
 import pen from '../assets/img/pen.png'
 import { boardService } from "../services/board.service"
 import { useNavigate, useParams } from "react-router-dom"
 import { setCurrBoard } from "../store/actions/board.actions"
-
-
-
-import { useEffectUpdate } from "./useEffectUpdate"
 
 
 export function TaskDetails() {
@@ -41,19 +36,7 @@ export function TaskDetails() {
 
     }, [])
 
-    // useEffectUpdate(() => {
 
-    //     onAddDesc()
-    // }, [newDesc])
-
-
-    // const onAddDesc = () => {
-
-    //     boardService.saveDesc(currBoard, group.id, task.id, newDesc)
-    //         .then(boardService.update)
-    //         .then((board) => dispatch(setCurrBoard(board)))
-
-    // }
 
     const toggleDescInput = () => {
         descInputContainerRef.current.classList.toggle('close')
@@ -81,7 +64,6 @@ export function TaskDetails() {
 
         ev.preventDefault()
         const { value } = ev.target
-        // setNewDesc(value)
         toggleDescInput()
         boardService.saveDesc(currBoard, group.id, task.id, value)
             .then(boardService.update)
@@ -105,7 +87,6 @@ export function TaskDetails() {
 
     const onCancelDescChange = () => {
         console.log('in cancel')
-        // setNewDesc(newDescCopy.current)
         toggleDescInput()
         descInputRef.current.value = ''
     }
@@ -270,25 +251,25 @@ export function TaskDetails() {
             </main>
             <section className="details-aside">
                 <section className="add-to-card"><span className="add-to-card-title" >Add to card</span>
-                    <div className=""><span className="">O</span><span>Members</span></div>
-                    <div className=""><span className="">O</span><span>Checklist</span></div>
-                    <div className=""><span className="">O</span><span>Attachment</span></div>
-                    <div className=""><span className="">O</span><span>Cover</span></div>
-                    <div className=""><span className="">O</span><span>Labels</span></div>
-                    <div className=""><span className="">O</span><span>Dates</span></div>
-                    <div className=""><span className="">O</span><span>Location</span></div>
-                    <div className=""><span className="">O</span><span>Custom fields</span></div>
+                    <div className=""><span className=""><i class="fa-regular fa-user"></i></span><span>Members</span></div>
+                    <div className=""><span className=""><i class="fa-solid fa-tag"></i></span><span>Labels</span></div>
+                    <div className=""><span className=""><i class="fa-regular fa-square-check"></i></span><span>Checklist</span></div>
+                    <div className=""><span className=""><i class="fa-solid fa-paperclip"></i></span><span>Attachment</span></div>
+                    <div className=""><span className=""><i class="fa-solid fa-tv"></i></span><span>Cover</span></div>
+                    <div className=""><span className=""><i class="fa-regular fa-clock"></i></span><span>Dates</span></div>
+                    <div className=""><span className=""><i class="fa-solid fa-location-dot"></i></span><span>Location</span></div>
+                    <div className=""><span className=""><i class="fa-regular fa-pen-field"></i></span><span>Custom fields</span></div>
                 </section>
                 <section className="card-details-actions"><span className="actions-title" >Actions</span>
-                    <div className=""><span className="">O</span><span>Move</span></div>
-                    <div className=""><span className="">O</span><span>Copy</span></div>
-                    <div className=""><span className="">O</span><span>Make template</span></div>
-                    <div className=""><span className="">O</span><span>Watch</span></div>
-                    <div className=""><span className="">O</span><span>Archive</span></div>
-                    <div className=""><span className="">O</span><span>Share</span></div>
+                    <div className=""><span className=""><i class="fa-solid fa-arrow-right"></i></span><span>Move</span></div>
+                    <div className=""><span className=""><i class="fa-regular fa-copy"></i></span><span>Copy</span></div>
+                    <div className=""><span className=""><i class="fa-solid fa-photo-film"></i></span><span>Make template</span></div>
+                    <div className=""><span className=""><i class="fa-regular fa-eye"></i></span><span>Watch</span></div>
+                    <div className=""><span className=""><i class="fa-solid fa-box-archive"></i></span><span>Archive</span></div>
+                    <div className=""><span className=""><i class="fa-solid fa-share-nodes"></i></span><span>Share</span></div>
 
                 </section></section>
         </div>
-        <button onClick={onCloseCardDetails}>X</button>
+        <button onClick={onCloseCardDetails}><i class="fa-solid fa-xmark"></i></button>
     </div>
 }

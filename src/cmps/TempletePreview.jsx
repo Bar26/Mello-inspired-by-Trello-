@@ -15,11 +15,6 @@ export const TemplatePreview = ({ template, getStarredBoards }) => {
 			console.log('ERORR')
 		}
 	}
-
-	// const onGetBoard = () => {
-	// 	navigate(`/1`)
-	// }
-	// console.log(template);
 	return (
 		<article
 			className="board-preview"

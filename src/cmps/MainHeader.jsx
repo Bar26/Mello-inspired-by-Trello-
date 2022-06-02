@@ -1,7 +1,7 @@
 import { boardService } from '../services/board.service.js'
 import React from 'react'
 import { useEffect, useState } from 'react'
-import { useHistory, NavLink, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setCurrBoard } from '../store/actions/board.actions.js'
 import { utilService } from '../services/util.service.js'
@@ -17,9 +17,6 @@ export const SecondaryHeader = () => {
     const refCreate = React.createRef()
     const refInfo = React.createRef()
     const refCreate1 = React.createRef()
-    // const refMore = React.createRef()
-
-    // const { currBoard } = useSelector(state => state.boardModule)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -30,26 +27,6 @@ export const SecondaryHeader = () => {
         navigate(`/boards/${board._id}`)
     }, [board])
 
-    // useEffect(() => {
-    //     if (!board._id) return
-    //     // console.log(board)
-    //     // dispatch(setCurrBoard(board))
-    //     navigate(`/boards/${board._id}`)
-    // }, [board])
-
-    // const loadTemplates = () => {
-    // 	boardService.queryTemplates().then((template) => setTemplates(template))
-    // 	// .then((templates) => setTemplatestes(templates))
-    // }
-
-    // const onSelectTemplate = async (templateId) => {
-    // 	const template = await boardService.getById('tamplate', templateId)
-    // 	const newBoard = await boardService.getEmptyBoard(template)
-    // 	console.log('on Select', newBoard)
-    // 	setBoards(newBoard)
-    // 	dispatch(newBoard)
-    // }
-
     const toggleModal = (refType) => {
         refType.current.classList.toggle('hide')
         boardService.queryTemplates().then((templates) => setTemplates(templates))
@@ -59,12 +36,6 @@ export const SecondaryHeader = () => {
         ev.stopPropagation()
         boardService.setStarred(template);
     }
-
-    // const loadTemplates = (refType) => {
-    //     console.log(templates);
-    //     toggleModal(refType)
-    //     setTemplatestes(templates)
-    // }
 
     //////// !!!!!! NOT GOOD LOG
     const recentMap = (template) => {
@@ -113,7 +84,7 @@ export const SecondaryHeader = () => {
                         <section ref={refRecent} className='header-modal recent hide'>
                             <div className='modal-title'>
                                 <h1 >Recent Boards</h1>
-                                <button className='close-modal-btn' onClick={() => toggleModal(refRecent)}>X</button>
+                                <button className='close-modal-btn' onClick={() => toggleModal(refRecent)}><i class="fa-solid fa-xmark"></i></button>
                             </div>
                             <hr />
                             <ul>
@@ -144,7 +115,7 @@ export const SecondaryHeader = () => {
                         <section ref={refStarred} className='header-modal starred hide'>
                             <div className='modal-title'>
                                 <h1 >Starred Templates</h1>
-                                <button className='close-modal-btn' onClick={() => toggleModal(refStarred)}>X</button>
+                                <button className='close-modal-btn' onClick={() => toggleModal(refStarred)}><i class="fa-solid fa-xmark"></i></button>
                             </div>
                             <hr />
                             <ul>
@@ -173,7 +144,7 @@ export const SecondaryHeader = () => {
                         <section ref={refTemplates} className='header-modal template hide'>
                             <div className='modal-title'>
                                 <h1 >Templates</h1>
-                                <button className='close-modal-btn' onClick={() => toggleModal(refTemplates)}>X</button>
+                                <button className='close-modal-btn' onClick={() => toggleModal(refTemplates)}><i class="fa-solid fa-xmark"></i></button>
                             </div>
                             <hr />
                             <ul>
@@ -199,7 +170,7 @@ export const SecondaryHeader = () => {
                         <section ref={refCreate} className='header-modal recent hide'>
                             <div className='modal-title'>
                                 <h1 >Create</h1>
-                                <button className='close-modal-btn' onClick={() => toggleModal(refCreate)}>X</button>
+                                <button className='close-modal-btn' onClick={() => toggleModal(refCreate)}><i class="fa-solid fa-xmark"></i></button>
                             </div>
                             <hr />
                             <ul>
@@ -244,8 +215,10 @@ export const SecondaryHeader = () => {
                 </section>
             </div>
             <div className='button-top  flex'>
-                <button className="secondary-header-button" onClick={() => toggleModal(refInfo)}>
-                    <i class="fa-regular fa-circle-info"></i></button>
+                <label>
+                <button className="secondary-header-button" onClick={() => toggleModal(refInfo)}></button>
+                <i class="fa-regular fa-square-info"></i>
+                </label>
                 <section ref={refInfo} className='header-modal info-modal hide'>
                     <div className='modal-title'>
                         <h1 >Information</h1>
@@ -270,21 +243,12 @@ export const SecondaryHeader = () => {
                 </section>
             </div >
 
-
-            <button><i class="fa-regular fa-bell"></i></button>
+<label>
+            <button></button>
+            <i class="fa-regular fa-bell"></i>
+</label>
             <div style={{ height: 32 }} className='user-logo'></div>
         </div>
     </header >
 }
 
-
-
-////#####!!!!! for Media Query
-{/* <button className="secondary-header-more-button" onClick={() => toggleModal(refMore)}>More</button>
-<section ref={refMore} className='select-more hide'>
-<ul>
-    <li>Hey</li>
-    <li>Noam</li>
-    <li>Bar</li>
-</ul>
-</section> */}

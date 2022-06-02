@@ -1,5 +1,4 @@
 // import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
-import { Draggable } from "react-beautiful-dnd"
 import React, { useEffect, useRef, useState } from "react"
 import { utilService } from "../services/util.service"
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,8 +6,6 @@ import pen from '../assets/img/pen.png'
 import { setCurrBoard } from '../store/actions/board.actions'
 import { boardService } from "../services/board.service"
 import { useNavigate, useParams } from "react-router-dom"
-import { TaskDetails } from "./TaskDetails"
-import { useEffectUpdate } from "./useEffectUpdate"
 
 
 
@@ -19,7 +16,6 @@ export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
     const [style, setStyle] = useState({ height: "32px", width: "100%" })
     const { currBoard } = useSelector(state => state.boardModule)
     const refs = useRef([])
-    // const detailsRef = useRef()
     const params = useParams()
     const dispatch = useDispatch()
     const penRef = useRef()
@@ -63,7 +59,7 @@ export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
         editModalRef.current.classList.toggle('hide')
     }
 
- 
+
 
 
     return <section className="task" onClick={() => navigate(`/boards/${currBoard._id}/${task.id}`)}>
@@ -120,7 +116,6 @@ export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
             </section>
             }
 
-            {/* <button onClick={() => onRemoveCard(task.id)}>X</button> */}
         </section>
 
 

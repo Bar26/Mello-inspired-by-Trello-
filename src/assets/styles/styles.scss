@@ -1,25 +1,30 @@
 @import './setup/functions';
 @import './setup/typography';
-@import './basic/helpers';
 @import './setup/variables';
-@import './basic/basic';
 @import './setup/mixins';
 @import './setup/functions';
 
+
+@import './basic/helpers';
+@import './basic/basic';
+
+@import './pages/Home.scss';
 @import './cmps/app-header';
 @import './cmps/main-header';
 
+@import './pages/boardDetails';
 @import './cmps/board-preview';
-@import './cmps/create-preview';
-@import './cmps/create-modal';
 @import './cmps/board-list';
-@import './pages/Home.scss';
+
 @import './cmps/group-list';
 @import './cmps/group-preview';
+
 @import './cmps/task-preview';
 @import './cmps/task-details';
-@import './pages/boardDetails';
-@import './modal/addLabelModal'
+
+@import './cmps/create-preview';
+@import './cmps/create-modal';
+@import './modal/addLabelModal';
 
 
 
