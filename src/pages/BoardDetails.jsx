@@ -16,7 +16,7 @@ export const BoardDeatails = () => {
 	return (
 		<section
 			className="board-details"
-			// style={{ background: currBoard.style.backgroundColor }}
+			// style={{ backgroundImage: currBoard.style.backgroundColor }}
 		>
 			<SecondaryHeader />
 			<section className='board-content'>

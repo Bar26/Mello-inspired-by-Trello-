@@ -103,16 +103,16 @@ export function GroupList() {
             moveTaskInGroup(res)
         }
     }
-    
+
     const handleDragOn = update => {
         if ('res.type' === 'gruop') {
             onSetIsGroupDraggable(true)
             onSetIsTaskDraggable(false)
         }
-        else{
+        else {
             onSetIsGroupDraggable(false)
             onSetIsTaskDraggable(true)
-            
+
         }
     }
 
@@ -138,7 +138,7 @@ export function GroupList() {
 
     if (!Object.keys(currBoard).length) return <h1>loading...</h1>
     return <section className="groups-container">
-        <DragDropContext onDragEnd={handleOnDragEnd} onDragUpdate={update=>{handleDragOn(update)}} >
+        <DragDropContext onDragEnd={handleOnDragEnd} onDragUpdate={update => { handleDragOn(update) }} >
             <Droppable isDropDisabled={isGruopDraggable} type='group' droppableId={currBoard._id} isCombineEnabled={true} direction="horizontal">
                 {(provided) => {
                     return <div className="dnd-board-main"  {...provided.droppableProps} ref={provided.innerRef}>
@@ -151,19 +151,22 @@ export function GroupList() {
                                     </div>
                                 }}
                             </Draggable>
+
                         ))}
+
                         {provided.placeholder}
+                        <div className="add-list-btn flex" onClick={toggleListForm} ref={addListRef} ><span className="plus">+</span><button > Add another list </button></div>
+                        <form className="add-list-form close" onSubmit={onListSubmit} ref={listFormRef}>
+                            <input ref={inputListRef} name="list-title" type="text" placeholder="Enter list title..." />
+                            <button type="button" className="close-list-form" onClick={toggleListForm}>X</button>
+                            <button className="save-list">Add list</button>
+                        </form>
                     </div>
 
                 }}
             </Droppable>
         </DragDropContext >
-        <div className="add-list-btn flex" onClick={toggleListForm} ref={addListRef} ><span className="plus">+</span><button > Add another list </button></div>
-        <form className="add-list-form close" onSubmit={onListSubmit} ref={listFormRef}>
-            <input ref={inputListRef} name="list-title" type="text" placeholder="Enter list title..." />
-            <button type="button" className="close-list-form" onClick={toggleListForm}>X</button>
-            <button className="save-list">Add list</button>
-        </form>
+
     </section >
 }
 

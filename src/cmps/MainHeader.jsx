@@ -126,7 +126,7 @@ export const SecondaryHeader = () => {
                                             <img className='template-img' src={template.img} />
                                             <span>{template.title}</span>
                                         </div>
-                                        ./    <span className='template-indactor'>Template</span>
+                                            <span className='template-indactor'>Template</span>
                                     </li>
                                 })}
                             </ul>
@@ -247,7 +247,7 @@ export const SecondaryHeader = () => {
             <button></button>
             <i class="fa-regular fa-bell"></i>
 </label>
-            <div style={{ height: 32 }} className='user-logo'></div>
+            <div style={{ height: 32 }} className='user-logo'>NB</div>
         </div>
     </header >
 }
