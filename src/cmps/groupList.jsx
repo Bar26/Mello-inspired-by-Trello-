@@ -1,82 +1,83 @@
-import { GroupPreview } from "./groupPreview"
+import { GroupPreview } from './groupPreview'
 import React, { useEffect, useState, useRef } from 'react'
-import { useEffectUpdate } from "./useEffectUpdate"
-import { boardService } from "../services/board.service"
-import { Droppable } from "react-beautiful-dnd"
-import { DragDropContext } from "react-beautiful-dnd"
-import { Draggable } from "react-beautiful-dnd"
-import { setCurrBoard } from "../store/actions/board.actions"
+import { useEffectUpdate } from './useEffectUpdate'
+import { boardService } from '../services/board.service'
+import { Droppable } from 'react-beautiful-dnd'
+import { DragDropContext } from 'react-beautiful-dnd'
+import { Draggable } from 'react-beautiful-dnd'
+import { setCurrBoard } from '../store/actions/board.actions'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from "react-router-dom"
-
+import { useParams } from 'react-router-dom'
 
 export function GroupList() {
-    const [type, setType] = useState('board')
-    const dispatch = useDispatch()
-    const { currBoard } = useSelector(state => state.boardModule)
-    const params = useParams()
-    const [board, setBoard] = useState({})
-    const listFormRef = React.createRef()
-    const [newListTitle, setNewListTitle] = useState('')
-    const inputListRef = useRef()
-    const addListRef = useRef()
-    const [isGruopDraggable, setIsGruopDraggable] = useState(false)
-    const [isTaskDraggable, setIsTaskDraggable] = useState(false)
+	const [type, setType] = useState('board')
+	const dispatch = useDispatch()
+	const { currBoard } = useSelector((state) => state.boardModule)
+	const { boardId } = useParams()
+	const [board, setBoard] = useState({})
+	const listFormRef = React.createRef()
+	const [newListTitle, setNewListTitle] = useState('')
+	const inputListRef = useRef()
+	const addListRef = useRef()
+	const [isGruopDraggable, setIsGruopDraggable] = useState(false)
+	const [isTaskDraggable, setIsTaskDraggable] = useState(false)
 
+	useEffect(() => {
+		boardService.getById(currBoard._id).then(setBoard)
+	}, [])
 
-    useEffect(() => {
-        if (!Object.keys(currBoard).length) {
-            boardService.getById('board', params.boardId)
-                .then((board) => dispatch(setCurrBoard(board)))
-        }
+	useEffectUpdate(() => {
+		onAddList()
+	}, [newListTitle])
 
-    }, [])
+	const onAddList = () => {
+		const updatedBoard = { ...board }
+		boardService
+			.createList(newListTitle)
+			.then((list) => {
+				updatedBoard.groups.push(list)
+				return updatedBoard
+			})
+			.then(boardService.update)
+			.then((board) => dispatch(setCurrBoard(board._id)))
+	}
 
-    useEffect(() => {
-        boardService.getById(type, currBoard._id).then(setBoard)
-    }, [])
+	useEffect(() => {
+		boardService.getById(boardId).then(setBoard)
+	}, [])
 
-    useEffectUpdate(() => {
-        onAddList()
-    }, [newListTitle])
+	useEffectUpdate(() => {
+		onAddList()
+	}, [newListTitle])
 
+	const onListSubmit = (ev) => {
+		ev.preventDefault()
+		const { value } = ev.target[0]
+		setNewListTitle(value)
+		ev.target[0].value = ''
+	}
 
-    const onAddList = () => {
-        const updatedBoard = { ...board }
-        boardService.createList(newListTitle)
-            .then((list) => {
-                updatedBoard.groups.push(list)
-                return updatedBoard
-            })
-            .then(boardService.update)
-            .then((board) => dispatch(setCurrBoard(board)))
-
-    }
-
-    const toggleListForm = () => {
+	const moveGroup = (res) => {
+		let newBoard = { ...currBoard }
+		const gtm = newBoard.groups.splice(res.source.index, 1)
+		console.log(gtm)
+		newBoard.groups.splice(res.destination.index, 0, gtm[0])
+		boardService.update(newBoard)
+	}
+    
+	const onSetIsTaskDraggable = (bool) => {
+        setIsTaskDraggable(bool)
+	}
+	const onSetIsGroupDraggable = (bool) => {
+        setIsGruopDraggable(bool)
+	}
+    
+	const toggleListForm = () => {
         listFormRef.current.classList.toggle('close')
-        inputListRef.current.value = ''
-        addListRef.current.classList.toggle('close')
-
-    }
-
-
-    const onListSubmit = (ev) => {
-        ev.preventDefault()
-        const { value } = ev.target[0]
-        setNewListTitle(value)
-        ev.target[0].value = ''
-
-    }
-
-    const moveGroup = (res) => {
-        let newBoard = { ...currBoard }
-        const gtm = newBoard.groups.splice(res.source.index, 1)
-        console.log(gtm);
-        newBoard.groups.splice(res.destination.index, 0, gtm[0])
-        boardService.update(newBoard)
-    }
-
+		inputListRef.current.value = ''
+		addListRef.current.classList.toggle('close')
+	}
+    
     const moveTaskInGroup = (res) => {
         const groupDest = board.groups.find(_group => _group.id === res.destination.droppableId)
         const groupSource = board.groups.find(_group => _group.id === res.source.droppableId)
@@ -91,8 +92,8 @@ export function GroupList() {
         boardService.update(newBoard)
         dispatch(setCurrBoard(newBoard))
     }
-
-
+    
+    
     const handleOnDragEnd = (res) => {
         if (!res.destination) return;
         if (res.destination.droppableId === res.source.droppableId && res.destination.droppableId === board._id) {
@@ -103,6 +104,7 @@ export function GroupList() {
             moveTaskInGroup(res)
         }
     }
+    
 
     const handleDragOn = update => {
         if ('res.type' === 'gruop') {
@@ -116,13 +118,6 @@ export function GroupList() {
         }
     }
 
-    const onSetIsTaskDraggable = (bool) => {
-        setIsTaskDraggable(bool);
-    }
-    const onSetIsGroupDraggable = (bool) => {
-        setIsGruopDraggable(bool);
-        // console.log(res);
-    }
 
     const onRemoveGroup = (ev, groupId) => {
 
@@ -133,6 +128,7 @@ export function GroupList() {
             .then((board) => dispatch(setCurrBoard(board)))
 
     }
+ 
 
 
 
@@ -169,4 +165,3 @@ export function GroupList() {
 
     </section >
 }
-

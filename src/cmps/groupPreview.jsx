@@ -1,14 +1,13 @@
-import { TaskPreview } from "./TaskPreview"
-import React from "react"
-import { boardService } from "../services/board.service"
+import { TaskPreview } from './TaskPreview'
+import React from 'react'
+import { boardService } from '../services/board.service'
 import { useCallback, useEffect, useState, useRef, useMemo } from 'react'
-import { setCurrBoard } from "../store/actions/board.actions"
-import { useDispatch } from "react-redux"
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
-import { utilService } from "../services/util.service"
+import { setCurrBoard } from '../store/actions/board.actions'
+import { useDispatch } from 'react-redux'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { utilService } from '../services/util.service'
 import { useEffectUpdate } from './useEffectUpdate'
-import { useSelector } from "react-redux"
-
+import { useSelector } from 'react-redux'
 
 export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
     // console.log(group)
@@ -18,34 +17,26 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
     const [newCardTitle, setNewCardTitle] = useState('')
     const inputRef = useRef()
     const addCardBtnRef = useRef()
-    const { currBoard } = useSelector(state => state.boardModule)
-
-
-
-    const onSubmit = (ev) => {
-        ev.preventDefault()
-        const { value } = ev.target[0]
-        onAddCard(value)
-        // setNewCardTitle(value)
-        ev.target[0].value = ''
-
-    }
-
-
+    const { currBoard } = useSelector((state) => state.boardModule)
 
     const onAddCard = (value) => {
         // if (!newCardTitle) return  ///////plaster???????????
-        const groupIdx = currBoard.groups.findIndex(_group => _group.id === group.id)
+        const groupIdx = currBoard.groups.findIndex(
+            (_group) => _group.id === group.id
+        )
         const updatedBoard = { ...currBoard }
-        boardService.createTask(value)
+        boardService
+            .createTask(value)
             .then((task) => {
                 updatedBoard.groups[groupIdx].tasks.push(task)
                 return updatedBoard
             })
             .then(boardService.update)
             .then((board) => dispatch(setCurrBoard(board)))
-
     }
+    /////
+    //TODO: ADD STYLE
+
     const onCopyCard = (task) => {
         const updatedBoard = { ...currBoard }
         boardService.copyTask(task)
@@ -108,8 +99,8 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
     /////
     //TODO: ADD STYLE
     return <article className='group'>
-            <input className="group-title" defaultValue={group.title} type="text" onChange={onChangeGroupTitle} onBlur={onChangeGroupTitle} />
-        <Droppable  droppableId={group.id} direction='vertical'>
+        <input className="group-title" defaultValue={group.title} type="text" onChange={onChangeGroupTitle} onBlur={onChangeGroupTitle} />
+        <Droppable droppableId={group.id} direction='vertical'>
             {(provided) => {
 
                 {/* <DragDropContext onDragEnd={handleOnDragEnd}> */ }
@@ -118,7 +109,7 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
                         <Draggable key={task.id} draggableId={task.id} index={index}>
                             {(provided) => {
                                 return <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                    <TaskPreview key={task.id} onCopyCard={onCopyCard} onRemoveCard={onRemoveCard} index={index} group={group} task={task} key={task.id} />
+                                    <TaskPreview key={task.id} onCopyCard={onCopyCard} onRemoveCard={onRemoveCard} index={index} group={group} task={task} />
                                 </div>
                             }}
                         </Draggable>
@@ -136,10 +127,10 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
             <button type="button" className="close-form" onClick={toggleForm}>X</button>
             <button className="save-card">Add card</button>
         </form>
-        <button onClick={(ev) => onRemoveGroup(ev,group.id)} className="remove-group">X</button>
+        <button onClick={(ev) => onRemoveGroup(ev, group.id)} className="remove-group">X</button>
 
 
 
 
     </article>
-}
+} 

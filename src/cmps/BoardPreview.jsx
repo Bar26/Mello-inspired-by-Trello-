@@ -17,18 +17,21 @@ export const BoardPreview = ({ board, getStarredBoards }) => {
 		}
 	}, [board])
 
-	const onSetStar = (e) => {
+	const onSetStar = async (e) => {
 		e.stopPropagation()
 		if (!star.length) {
 			setStar('starred fa-solid')
 		} else {
 			setStar('')
 		}
-		boardService.setStarred(board)
-		getStarredBoards()
+		const updatedBoard = await boardService.setStarred(board)
+		setStar(updatedBoard.isStared ? 'starred fa-solid' : '')
+		getStarredBoards(updatedBoard)
 	}
 
-	const onGetBoard = () => {
+	const onGetBoard = async () => {
+		const currBoard = await boardService.getById(board._id)
+		setCurrBoard(currBoard.id)
 		navigate(`/boards/${board._id}`)
 	}
 
@@ -46,7 +49,7 @@ export const BoardPreview = ({ board, getStarredBoards }) => {
 		>
 			<div onClick={() => dispatch(setCurrBoard(board))} className="link">
 				<h1>{board.title}</h1>
-				<label className="star" onClick={(event) => onSetStar(event)}>
+				<label className="star" onClick={onSetStar}>
 					<i className={`fa-regular fa-star ${star}`}></i>
 				</label>
 			</div>

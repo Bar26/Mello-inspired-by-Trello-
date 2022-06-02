@@ -1,0 +1,71 @@
+.board-header {
+	display: flex;
+	justify-content: space-between;
+	gap: 4px;
+	background-color: rgba(0, 0, 0, 0);
+	line-height: 20px;
+	color: #fff;
+	padding: 4px 4px 4px 12px;
+	transition-duration: 1s;
+	&.show {
+		margin-inline-end: 339px;
+	}
+
+	.board-info {
+		display: flex;
+		gap: 4px;
+		.board-title {
+			width: 150px;
+			border: none;
+			background-color: $clr2;
+			font-size: 18px;
+			font-weight: 700;
+			line-height: 32px;
+			padding: 0 12px;
+			border-radius: 3px;
+			&:hover {
+				background-color: hsla(0, 0%, 100%, 0.459);
+			}
+		}
+
+		.member-img {
+			border-radius: 25em;
+			cursor: pointer;
+			height: 30px;
+			width: 30px;
+			&:hover {
+				background-color: hsla(0, 0%, 100%, 0.459);
+			}
+		}
+
+		.star {
+			cursor: pointer;
+			width: 30px;
+			height: 32px;
+			background-color: $clr2;
+			border-radius: 3px;
+			padding: 3px;
+			&:hover {
+				background-color: hsla(0, 0%, 100%, 0.459);
+			}
+		}
+	}
+
+	.board-menu {
+        .board-menu-btn {
+            color: #fff;
+            background-color: $clr2;
+			font-weight: 400;
+			width: 116px;
+			height: 32px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 4px;
+
+			&:hover {
+				background-color: hsla(0, 0%, 100%, 0.459);
+			}
+		}
+	}
+}

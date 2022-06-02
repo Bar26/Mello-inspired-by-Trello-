@@ -1,6 +1,8 @@
 import { storageService } from './async-storage.service.js'
+import { userService } from './user.service.js'
+import { httpService } from './http.service.js'
 import { utilService } from './util.service.js'
-const board = require('../data/board.json')
+// const board = require('../data/board.json')
 const templates = require('../data/templete.json')
 
 const STORAGE_KEY = 'Board'
@@ -16,6 +18,7 @@ export const boardService = {
 	getEmptyBoard,
 	removeTask,
 	copyTask,
+	setTitle,
 	createList,
 	getTaskGroupById,
 	setStarredTemplate,
@@ -24,29 +27,19 @@ export const boardService = {
 	changeCardTitle,
 	changeGroupTitle,
 	toggleLabelToTask,
-	createLabel
-
+	createLabel,
 }
 
-
-
-async function query() {
-	const board = await storageService.query(STORAGE_KEY)
-
-	return board
+async function query(filterBy = {}) {
+	return httpService.get(`board`, filterBy)
 }
-async function queryTemplates() {
-	const templates = await storageService.query(STORAGE_KEY2)
-	return templates
+async function queryTemplates(filterBy = {}) {
+	return httpService.get(`templete`, filterBy)
 }
 
 function setStarred(board) {
-	if (!board.isStared) {
-		board.isStared = true
-	} else {
-		board.isStared = false
-	}
-	storageService.put(STORAGE_KEY, board).then(console.log)
+	board.isStared = !board.isStared
+	return storageService.put(STORAGE_KEY, board)
 }
 function setStarredTemplate(template) {
 	if (!template.isStared) {
@@ -57,7 +50,14 @@ function setStarredTemplate(template) {
 	storageService.put(STORAGE_KEY2, template).then(console.log)
 }
 
-function getEmptyBoard(template) {
+async function setTitle(newBoard) {
+	try {
+		return storageService.put(STORAGE_KEY, newBoard)
+	} catch {
+		console.log('Service ERROR')
+	}
+}
+async function getEmptyBoard(template) {
 	let newStyle
 	if (template.img) {
 		newStyle = { backgroundImage: template.img }
@@ -66,11 +66,7 @@ function getEmptyBoard(template) {
 	}
 	const newBoard = {
 		title: template.title,
-		// createdBy: {
-		// "_id": "u101",
-		// "fullname": "Itamar Sahar",
-		// "imgUrl": "http://some-img"
-		// },
+		createdBy: await userService.getLoggedinUser(),
 		style: newStyle,
 		labels: [
 			{
@@ -84,38 +80,43 @@ function getEmptyBoard(template) {
 				color: '#61bd33',
 			},
 		],
-		members: [],
-		groups: [],
+		members: [await userService.getLoggedinUser()],
+		groups: template.groups ? template.groups : [],
 		activities: [],
 		isStared: false,
 	}
-	return storageService.post(STORAGE_KEY, newBoard)
+	try {
+		const savedBoard = await httpService.post('board', newBoard)
+		return savedBoard
+	} catch (err) {
+		console.log('Cannot save board', err)
+	}
 }
 
-function getById(type, id) {
-	return type === 'board'
-		? storageService.get(STORAGE_KEY, id)
-		: storageService.get(STORAGE_KEY2, id)
-	// return axios.get(`/api/car/${carId}`)
+async function getById(id) {
+	return httpService.get(`board/${id}`)
 }
 
 async function getTaskGroupById(board, taskId) {
 	console.log(board)
-	const group = (board.groups.filter(group => group.tasks.find(task => task.id === taskId)))[0]
-	const task = group.tasks.find(task => task.id === taskId)
+	const group = board.groups.filter((group) =>
+		group.tasks.find((task) => task.id === taskId)
+	)[0]
+	const task = group.tasks.find((task) => task.id === taskId)
 
 	return { task, group }
 }
 
-
-
 async function saveDesc(board, groupId, taskId, desc) {
 	const updatedBoard = { ...board }
-	const groupIdx = updatedBoard.groups.findIndex(group => group.id === groupId)
-	updatedBoard.groups[groupIdx].tasks.find(task => task.id === taskId).description = desc
+	const groupIdx = updatedBoard.groups.findIndex(
+		(group) => group.id === groupId
+	)
+	updatedBoard.groups[groupIdx].tasks.find(
+		(task) => task.id === taskId
+	).description = desc
 	return updatedBoard
 }
-
 
 async function update(board) {
 	var updatedBoard
@@ -123,8 +124,6 @@ async function update(board) {
 
 	return updatedBoard
 }
-
-
 
 async function createTask(title) {
 	const id = utilService.makeId()
@@ -149,9 +148,11 @@ async function removeTask(board, groupIdx, taskIdx) {
 	return board
 }
 async function removeGroup(board, groupId) {
-	console.log(' in remove');
+	console.log(' in remove')
 	let updatedBoard = { ...board }
-	const groupIdx = updatedBoard.groups.findIndex(group => group.id === groupId)
+	const groupIdx = updatedBoard.groups.findIndex(
+		(group) => group.id === groupId
+	)
 	updatedBoard.groups.splice([groupIdx], 1)
 	console.log(updatedBoard)
 
@@ -160,43 +161,52 @@ async function removeGroup(board, groupId) {
 
 async function changeCardTitle(board, group, taskId, value) {
 	const updatedBoard = { ...board }
-	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
-	updatedBoard.groups[groupIdx].tasks.find(task => task.id === taskId).title = value
+	const groupIdx = updatedBoard.groups.findIndex(
+		(_group) => _group.id === group.id
+	)
+	updatedBoard.groups[groupIdx].tasks.find((task) => task.id === taskId).title =
+		value
 	return updatedBoard
-
 }
 
 async function changeGroupTitle(board, group, value) {
 	console.log('in change group title servie')
 	const updatedBoard = { ...board }
-	updatedBoard.groups.find(_group => _group.id === group.id).title = value
+	updatedBoard.groups.find((_group) => _group.id === group.id).title = value
 	return updatedBoard
 }
 
 async function toggleLabelToTask(board, group, taskId, labelId) {
 	const updatedBoard = { ...board }
-	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
-	let task = updatedBoard.groups[groupIdx].tasks.find(task => task.id === taskId)
-	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex(task => task.id === taskId)
-	const labelIdx = task.labelIds.findIndex(_labelId => _labelId === labelId)
+	const groupIdx = updatedBoard.groups.findIndex(
+		(_group) => _group.id === group.id
+	)
+	let task = updatedBoard.groups[groupIdx].tasks.find(
+		(task) => task.id === taskId
+	)
+	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex(
+		(task) => task.id === taskId
+	)
+	const labelIdx = task.labelIds.findIndex((_labelId) => _labelId === labelId)
 	if (labelIdx !== -1) task.labelIds.splice(labelIdx, 1)
 	else task.labelIds.push(labelId)
 	updatedBoard.groups[groupIdx].tasks[taskIdx] = task
 	return updatedBoard
 }
 
-async function createLabel(board,group, task, backgroundColor, title) {
+async function createLabel(board, group, task, backgroundColor, title) {
 	const updatedBoard = { ...board }
 	console.log(backgroundColor, title)
 	const id = utilService.makeId()
 	updatedBoard.labels.push({ id, backgroundColor, title })
-	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
+	const groupIdx = updatedBoard.groups.findIndex(
+		(_group) => _group.id === group.id
+	)
 	console.log(groupIdx)
-	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex(_task => _task.id === task.id)
+	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex(
+		(_task) => _task.id === task.id
+	)
 	updatedBoard.groups[groupIdx].tasks[taskIdx].labelIds.push(id)
 	console.log(updatedBoard)
 	return updatedBoard
 }
-
-
-
