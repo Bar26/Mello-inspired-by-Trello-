@@ -28,16 +28,14 @@ export const CreateModal = ({ createMode, onSetCreateMode }) => {
 		setBoard({ ...board, title: value })
 	}
 
-	
-	
 	const onCreateBoard = async () => {
-		if(!board.title.length) return
+		if (!board.title.length) return
 		try {
 			const currBoard = await boardService.getEmptyBoard(board)
 			const updateUser = await userService.addBoardUser(currBoard._id)
 			userService.update(updateUser)
-			dispatch(setCurrUser(updateUser))
-			dispatch(setCurrBoard(currBoard))
+			await dispatch(setCurrUser(updateUser))
+			dispatch(setCurrBoard(currBoard._id))
 			navigate(`/boards/${currBoard._id}`)
 		} catch {
 			console.log('ERORR')

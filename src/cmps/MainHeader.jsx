@@ -2,47 +2,42 @@ import { boardService } from '../services/board.service.js'
 import React from 'react'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-
-import { useHistory, NavLink, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { userService } from '../services/user.service.js'
-import { setCurrUser , onLogout } from '../store/actions/user.actions.js'
+import { setCurrUser, onLogout } from '../store/actions/user.actions.js'
 import { setCurrBoard } from '../store/actions/board.actions.js'
+import { utilService } from '../services/util.service.js'
 
 export const SecondaryHeader = () => {
 	const [templates, setTemplates] = useState([])
 	const [board, setBoards] = useState({})
 	const [user, setUser] = useState({ imgUrl: '', fullname: '' })
 	const { currUser } = useSelector((state) => state.userModule)
-
 	const navigate = useNavigate()
-	const refRecent = React.createRef()
 	const refMore = React.createRef()
+	const refRecent = React.createRef()
+	const refTemplates = React.createRef()
+	const refStarred = React.createRef()
+	const refCreate = React.createRef()
 	const dispatch = useDispatch()
 
 	useEffect(() => {
 		loadUser()
-		// console.log(currUser);
 	}, [])
-
 
 	useEffect(() => {
 		if (!Object.keys(currUser).length) {
-			userService
-				.getLoggedinUser()
-				.then((user) => dispatch(setCurrUser(user)))
+			userService.getLoggedinUser().then((user) => dispatch(setCurrUser(user)))
 		}
 	}, [])
 
 	useEffect(() => {
 		if (!board._id) return
 		console.log(board)
+		loadTemplates()
 		dispatch(setCurrBoard(board))
 		navigate(`/boards/${board._id}`)
 	}, [board])
-
-	const toggleDiv = (refType) => {
-		refType.current.classList.toggle('hide')
-	}
 
 	const loadUser = async () => {
 		const user = await userService.getLoggedinUser()
@@ -53,10 +48,18 @@ export const SecondaryHeader = () => {
 		dispatch(onLogout())
 		navigate(`/`)
 	}
-	
+
+	const toggleDiv = (refType) => {
+		refType.current.classList.toggle('hide')
+	}
+
 	const loadTemplates = () => {
 		boardService.queryTemplates().then((template) => setTemplates(template))
-		// .then((templates) => setTemplatestes(templates))
+	}
+
+	//////// !!!!!! NOT GOOD LOG
+	const recentMap = (template) => {
+		return true
 	}
 
 	const onSelectTemplate = async (templateId) => {
@@ -64,63 +67,162 @@ export const SecondaryHeader = () => {
 		const newBoard = await boardService.getEmptyBoard(template)
 		console.log('on Select', newBoard)
 		setBoards(newBoard)
-		dispatch(newBoard)
+		dispatch(setCurrBoard(newBoard))
 	}
 
 	return (
 		<header className="secondary-header">
-			<h1 className="logo">Trello</h1>
-			<section className="nav-header flex">
-				<button
-					className="secondary-header-recent-button"
-					onClick={() => toggleDiv(refRecent)}
-				>
-					Recent
-				</button>
-				<section ref={refRecent} className="select-recent hide">
-					<h1>Recent Boards</h1>
-					<button onClick={() => toggleDiv(refRecent)}>X</button>
-					<hr />
-					<ul>
-						{templates.map((template, idx) => {
-							return (
-								<li key={template._id + idx}>
+			<div className="flex">
+				<h1 className="logo">Trello</h1>
+				<section className="nav-header flex">
+					<div className="header-btn" style={{ width: '100%' }}>
+						<button
+							className="secondary-header-button"
+							onClick={() => toggleDiv(refRecent)}
+						>
+							Recent
+							<i className="fa-solid fa-chevron-down"></i>
+							<section ref={refRecent} className="header-modal recent hide">
+								<div className="modal-title">
+									<h1>Recent Boards</h1>
 									<button
-										onClick={() => {
-											onSelectTemplate(template._id)
-										}}
+										className="close-modal-btn"
+										onClick={() => toggleDiv(refRecent)}
 									>
-										{template.title}
+										X
 									</button>
-								</li>
-							)
-						})}
-					</ul>
+								</div>
+								<hr />
+								<ul>
+									{templates.map((template) => {
+										if (recentMap(template))
+											return (
+												<li
+													key={utilService.makeId()}
+													id={template.id}
+													onClick={() => {
+														onSelectTemplate(template._id)
+													}}
+												>
+													<img className="template-img" src={template.img} />
+													<span>{template.title}</span>
+												</li>
+											)
+									})}
+								</ul>
+							</section>
+						</button>
+						<button
+							className="secondary-header-button"
+							onClick={() => toggleDiv(refStarred)}
+						>
+							Starred
+							<i className="fa-solid fa-chevron-down"></i>
+							<section ref={refStarred} className="header-modal starred hide">
+								<h1>Starred Boards:</h1>
+								<button onClick={() => toggleDiv(refStarred)}>X</button>
+								<hr />
+								<ul>
+									{templates.map((template) => {
+										if (template.isStared)
+											return (
+												<li key={utilService.makeId()} id={template.id}>
+													{' '}
+													Hey
+													<button
+														onClick={() => {
+															onSelectTemplate(template._id)
+														}}
+													>
+														{template.title}
+													</button>
+												</li>
+											)
+									})}
+								</ul>
+							</section>
+						</button>
+						<button
+							className="secondary-header-button"
+							onClick={() => toggleDiv(refTemplates)}
+						>
+							Templates
+							<i className="fa-solid fa-chevron-down"></i>
+							<section
+								ref={refTemplates}
+								className="header-modal templates hide"
+							>
+								<h1>Templates:</h1>
+								<button onClick={() => toggleDiv(refTemplates)}>X</button>
+								<hr />
+								<ul>
+									{templates.map((template) => {
+										return (
+											<li key={utilService.makeId()} id={template.id}>
+												<button
+													onClick={() => {
+														onSelectTemplate(template._id)
+													}}
+												>
+													{template.title}
+												</button>
+											</li>
+										)
+									})}
+								</ul>
+							</section>
+						</button>
+						<button
+							className="secondary-header-button"
+							onClick={() => toggleDiv(refCreate)}
+						>
+							+{/* <i className="fa-solid fa-chevron-down"></i> */}
+							<section ref={refCreate} className="header-modal recent hide">
+								<h1>Create</h1>
+								<button onClick={() => toggleDiv(refCreate)}>X</button>
+								<hr />
+								<ul>
+									{templates.map((template) => {
+										if (recentMap(template))
+											return (
+												<li key={utilService.makeId()} id={template.id}>
+													<button
+														onClick={() => {
+															onSelectTemplate(template._id)
+														}}
+													>
+														{template.title}
+													</button>
+												</li>
+											)
+									})}
+								</ul>
+							</section>
+						</button>
+					</div>
 				</section>
-				<button
-					className="secondary-header-more-button"
-					onClick={() => toggleDiv(refMore)}
-				>
-					More
-				</button>
-				<section ref={refMore} className="select-more hide">
-					<ul>
-						<li>Hey</li>
-						<li>Noam</li>
-						<li>Bar</li>
-					</ul>
-				</section>
-			</section>
-			<div className="header-search-div">
-				<label className="label-search flex">
-					<i className="fa-solid fa-magnifying-glass"></i>
-					<input className="header-search" />
-				</label>
 			</div>
-			<div className="user-logo" style={{height: '30px' , width: '30px'}}>
-				<img src={`${currUser.imgUrl}`} alt="" />
+			<div className="flex">
+				<div className="header-search-div">
+					<label className="label-search flex">
+						<i className="fa-solid fa-magnifying-glass"></i>
+						<input className="header-search" />
+					</label>
+				</div>
+				<div style={{ height: 32 }} className="user-logo"></div>
 			</div>
-				<button onClick={onLogOutUser}>Log out</button>
 		</header>
 	)
+}
+
+////#####!!!!! for Media Query
+{
+	/* <button className="secondary-header-more-button" onClick={() => toggleDiv(refMore)}>More</button>
+<section ref={refMore} className='select-more hide'>
+<ul>
+    <li>Hey</li>
+    <li>Noam</li>
+    <li>Bar</li>
+</ul>
+</section> */
 }

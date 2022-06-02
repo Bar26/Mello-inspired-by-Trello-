@@ -8,55 +8,57 @@ import { boardService } from '../services/board.service.js'
 import { SecondaryHeader } from '../cmps/MainHeader.jsx'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCurrUser } from '../store/actions/user.actions'
+import { setCurrBoard } from '../store/actions/board.actions'
 
 export const BoardList = () => {
 	const [boards, setBoards] = useState([])
-	const [staredBoards, setStaredBoards] = useState([])
+	// const [staredBoards, setStaredBoards] = useState([])
 	const [templates, setTemplates] = useState([])
 	const [createMode, setCreateMode] = useState('')
 	const { currUser } = useSelector((state) => state.userModule)
+	const { currBoard } = useSelector((state) => state.boardModule)
 	const dispatch = useDispatch()
 
 	useEffect(() => {
-		console.log('11')
-		
 		if (!Object.keys(currUser).length) {
-			userService
-				.getLoggedinUser()
-				.then((user) => dispatch(setCurrUser(user)))
-				.then(loadUserBoards('1'))
+			setUserBoards()
 		}
 	}, [])
 	useEffect(() => {
-		console.log('22')
 		// loadBoards()
 		loadTemplates()
 		if (Object.keys(currUser).length) {
-			loadUserBoards('2')
+			loadUserBoards()
 		}
-	}, [staredBoards])
-	// useEffect(() => {
-	// 	getStarredBoards()
-	// }, [boards])
+	}, [currUser])
 
-	const loadBoards = () => {
-		boardService.query().then(setBoards)
-	}
-	console.log('user:', currUser)
-	const loadUserBoards = async (num) => {
+	useEffect(() => {
+		console.log('currBoard in store:', currBoard)
+	}, [currBoard])
+
+	const loadUserBoards = async () => {
+		if (!Object.keys(currUser).length) return
 		try {
-			const userBoards = await currUser.boards.map(async (userBoardId) => {
-				await boardService
-					.getById('board', userBoardId)
-					.then((board) => setBoards((prevBoards) => [...prevBoards, board]))
+			Promise.all(
+				currUser.boards?.map(async (userBoardId) => {
+					console.log('userBoardId', userBoardId)
+					const board = await boardService.getById(userBoardId)
+					return board
+				})
+			).then((userBoards) => {
+				setBoards(userBoards || [])
 			})
-			// .then(console.log)setBoards((prevBoards)=>[...prevBoards, board])
-		} catch {
-			console.error('Cannot load Boards !')
+		} catch (err) {
+			console.log('Cannot load Boards !', err)
 		}
 	}
-	const loadTemplates = () => {
-		boardService.queryTemplates().then(setTemplates)
+	const loadTemplates = async () => {
+		try {
+			const templates = await boardService.queryTemplates()
+			setTemplates(templates)
+		} catch (err) {
+			console.error('error query templetes', err)
+		}
 	}
 
 	const onSetCreateMode = () => {
@@ -67,10 +69,21 @@ export const BoardList = () => {
 		}
 	}
 
-	const getStarredBoards = () => {
-		setStaredBoards(boards?.map((board) => board.isStared))
+	const getStarredBoards = (board) => {
+		const updatedBoards = boards.map((currBoard) =>
+			currBoard._id === board._id ? board : currBoard
+		)
+		setBoards([...updatedBoards])
 	}
 
+	const setUserBoards = async () => {
+		const user = await userService.getLoggedinUser()
+		await dispatch(setCurrUser(user))
+		loadUserBoards()
+	}
+	const starredBoards = () => {
+		return boards.filter((board) => board.isStared)
+	}
 	if (!Object.keys(currUser).length) return <h1>loading...</h1>
 	return (
 		<section className="workspace">
@@ -91,17 +104,19 @@ export const BoardList = () => {
 				<i className="fa-regular fa-star"></i>
 				Starred Boards
 			</h1>
-			<section className="board-list">
-				{staredBoards.map((board, idx) => {
-					return (
-						<BoardPreview
-							board={board}
-							key={board._id + idx}
-							getStarredBoards={getStarredBoards}
-						/>
-					)
-				})}
-			</section>
+			{!!starredBoards().length && (
+				<section className="board-list">
+					{starredBoards().map((board, idx) => {
+						return (
+							<BoardPreview
+								board={board}
+								key={board._id + idx}
+								getStarredBoards={getStarredBoards}
+							/>
+						)
+					})}
+				</section>
+			)}
 			<h1>Templates</h1>
 			<section className="board-list">
 				<article className="create-preview" onClick={onSetCreateMode}>

@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import pen from '../assets/img/pen.png'
 import { setCurrBoard } from '../store/actions/board.actions'
 import { boardService } from '../services/board.service'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
-export function TaskPreview({ task, onRemoveCard, onCopyCard }) {
+export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
+	const navigate = useNavigate()
 	const [date, setDate] = useState(new Date())
 	const [style, setStyle] = useState({ height: '32px', width: '100%' })
 	const { currBoard } = useSelector((state) => state.boardModule)
@@ -24,16 +25,16 @@ export function TaskPreview({ task, onRemoveCard, onCopyCard }) {
 				.getById('board', params.boardId)
 				.then((board) => dispatch(setCurrBoard(board)))
 		}
+	})
 
-		if (task.dueDate) {
-			const date2 = new Date(task.dueDate)
-			setDate(date2)
-		}
-		if (task.style) {
-			setStyle({ ...style, ...task.style })
-		}
+	useEffect(() => {
+		if (!Object.keys(currBoard).length) {
+			boardService
+				.getById('board', params.boardId)
+				.then((board) => dispatch(setCurrBoard(board)))
 
-		if (!task.labelIds) penRef.current.classList.add('noLabel')
+			if (!task.labelIds) penRef.current.classList.add('noLabel')
+		}
 	}, [])
 
 	const getLabel = (labelId) => {
@@ -41,21 +42,30 @@ export function TaskPreview({ task, onRemoveCard, onCopyCard }) {
 		return currBoard.labels.find((label) => label.id === labelId)
 	}
 
-	const onOpenLabel = () => {
+	const onOpenLabel = (ev) => {
+		ev.stopPropagation()
 		refs.current.map((ref) => ref.classList.toggle('hide'))
 	}
 
-	const onChangePad = () => {
-		console.log('in changegap')
-		// detailsRef.current.style.paddingTop="4px"
-	} //?????????????????????????????????
-
-	const onToggleEditModal = () => {
+	const onToggleEditModal = (ev) => {
+		ev.stopPropogation()
 		editModalRef.current.classList.toggle('hide')
 	}
 
+	{
+		task.dueDate && (
+			<section className="due-date">
+				<span>{utilService.getMonthName(date)} </span>
+				<span>{date?.getDate().toString()}</span>
+			</section>
+		)
+	}
+
 	return (
-		<section className="task">
+		<section
+			className="task"
+			onClick={() => navigate(`/boards/${currBoard._id}/${task.id}`)}
+		>
 			<div ref={penRef} className="pen-container" onClick={onToggleEditModal}>
 				<img className="pen-img" src={pen} />
 			</div>
@@ -100,7 +110,6 @@ export function TaskPreview({ task, onRemoveCard, onCopyCard }) {
 
 			{task.style && (
 				<>
-					{/* {()=>onChangePad()} */}
 					<div className="task-bg" style={{ ...style }}></div>
 				</>
 			)}
@@ -141,7 +150,7 @@ export function TaskPreview({ task, onRemoveCard, onCopyCard }) {
 				{task.checklists &&
 					task.checklists.map((checklist) => {
 						return (
-							<div className="checklists-prev" key={checklist.id}>
+							<div className="checklists-prev">
 								<span>
 									{checklist.todos.filter((todo) => todo.isDone).length}
 								</span>
@@ -157,7 +166,6 @@ export function TaskPreview({ task, onRemoveCard, onCopyCard }) {
 					</section>
 				)}
 
-				{/* <button onClick={() => onRemoveCard(task.id)}>X</button> */}
 			</section>
 		</section>
 	)

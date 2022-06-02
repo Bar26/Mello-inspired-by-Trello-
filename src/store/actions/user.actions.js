@@ -31,8 +31,7 @@ export function removeUser(userId) {
 	}
 }
 
-export  function onLogin(credentials) {
-	console.log('2')
+export function onLogin(credentials) {
 	return async (dispatch) => {
 		try {
 			const user = await userService.login(credentials)
@@ -41,8 +40,6 @@ export  function onLogin(credentials) {
 				user,
 			})
 		} catch (err) {
-			console.log('4')
-			// console.log('Cannot login', err)
 			throw err
 		}
 	}
@@ -52,6 +49,8 @@ export function onSignup(credentials) {
 	return async (dispatch) => {
 		try {
 			const user = await userService.signup(credentials)
+			console.log(user, 'from store')
+
 			dispatch({
 				type: 'SET_USER',
 				user,
@@ -77,7 +76,6 @@ export function onLogout() {
 }
 
 export function setCurrUser(user) {
-	
 	return async (dispatch) => {
 		try {
 			dispatch({

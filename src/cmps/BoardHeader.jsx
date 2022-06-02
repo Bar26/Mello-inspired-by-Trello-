@@ -6,7 +6,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { setCurrBoard } from '../store/actions/board.actions'
 import { useEffectUpdate } from './useEffectUpdate.js'
 
-export const BoardHeader = ({ menuShow,toggleBoardMenu }) => {
+export const BoardHeader = ({ menuShow, toggleBoardMenu }) => {
 	const { currBoard } = useSelector((state) => state.boardModule)
 	const [board, setBoard] = useState(currBoard)
 	const [star, setStar] = useState('')
@@ -17,7 +17,7 @@ export const BoardHeader = ({ menuShow,toggleBoardMenu }) => {
 	useEffect(() => {
 		if (!Object.keys(currBoard).length) {
 			boardService
-				.getById('board', params.boardId)
+				.getById(params.boardId)
 				.then((board) => dispatch(setCurrBoard(board)))
 		}
 	}, [])
@@ -55,7 +55,7 @@ export const BoardHeader = ({ menuShow,toggleBoardMenu }) => {
 	const handleChange = (ev) => {
 		try {
 			const value = ev.target.value
-			console.log('value:', value) //! works only with THE LAST BOARD ASYNC  !!!!
+
 			setBoard({ ...board, title: value })
 		} catch {
 			console.log('STATE ERROR')

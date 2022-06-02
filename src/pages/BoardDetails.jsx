@@ -1,30 +1,29 @@
 import { SecondaryHeader } from '../cmps/MainHeader'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Outlet, useParams } from 'react-router-dom'
 import { GroupList } from '../cmps/groupList'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCurrBoard } from '../store/actions/board.actions'
 import { BoardHeader } from '../cmps/BoardHeader.jsx'
 import { BoardMenu } from '../cmps/BoardMenu.jsx'
 import { useEffect, useState } from 'react'
-import { boardService } from '../services/board.service.js'
 
 export const BoardDeatails = () => {
-	// console.log('in boardDetails')
 	const [menuShow, setMenuShow] = useState('')
-	const {boardId} = useParams()
+	const { boardId } = useParams()
 	const dispatch = useDispatch()
 	const { currBoard } = useSelector((state) => state.boardModule)
-	// console.log(currBoard)
-
-
+	console.log('currBoard form details', currBoard)
 
 	useEffect(() => {
 		if (!Object.keys(currBoard).length) {
-			boardService
-				.getById('board', boardId)
-				.then((board) => dispatch(setCurrBoard(board)))
+			console.log('heyyy')
+			getCurrBoard()
 		}
 	}, [])
+
+	const getCurrBoard =  () => {
+		 dispatch(setCurrBoard(boardId))
+	}
 
 	const toggleBoardMenu = () => {
 		if (!menuShow.length) {
@@ -40,9 +39,12 @@ export const BoardDeatails = () => {
 			style={{ background: currBoard.style.backgroundColor }}
 		>
 			<SecondaryHeader />
-			<BoardHeader menuShow={menuShow} toggleBoardMenu={toggleBoardMenu} />
-			<BoardMenu menuShow={menuShow} toggleBoardMenu={toggleBoardMenu} />
-			<GroupList boardId={boardId} />
+			<section className="board-content">
+				<BoardHeader menuShow={menuShow} toggleBoardMenu={toggleBoardMenu} />
+				<BoardMenu menuShow={menuShow} toggleBoardMenu={toggleBoardMenu} />
+				<GroupList boardId={boardId} />
+				<Outlet />
+			</section>
 			{/* <BoardGroup/> */}
 		</section>
 	)

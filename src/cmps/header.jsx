@@ -7,10 +7,10 @@ export function AppHeader() {
 				Trello
 			</Link>
 			<section className="nav-header flex">
-				<Link className="login" to="login">
+				<Link className="login" to="/login">
 					Log in
 				</Link>
-				<Link className="signup" to="signup">
+				<Link className="signup" to="/signup">
 					Sign up
 				</Link>
 			</section>

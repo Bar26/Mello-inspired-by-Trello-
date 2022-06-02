@@ -12,6 +12,7 @@
     "formik": "^2.2.9",
     "fs": "^0.0.1-security",
     "react": "^18.1.0",
+    "react-beautiful-dnd": "13.1.0",
     "react-debounce-input": "^3.2.5",
     "react-dom": "^18.1.0",
     "react-redux": "^8.0.0",

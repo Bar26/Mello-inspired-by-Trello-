@@ -10,9 +10,7 @@ export function userReducer(state = INITIAL_STATE, action) {
 		case 'SET_USER':
 			newState = { ...state, currUser: action.user }
 			break
-		case 'SET_USER':
-			newState = { ...state, watchedUser: action.user }
-			break
+
 		case 'REMOVE_USER':
 			newState = {
 				...state,
