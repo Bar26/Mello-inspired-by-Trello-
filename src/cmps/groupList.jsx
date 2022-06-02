@@ -24,7 +24,7 @@ export function GroupList() {
 	useEffect(() => {
 		if (!Object.keys(currBoard).length) {
 			boardService
-				.getById( params.boardId)
+				.getById(params.boardId)
 				.then((board) => dispatch(setCurrBoard(board)))
 		}
 	}, [])
@@ -49,6 +49,13 @@ export function GroupList() {
 			.then((board) => dispatch(setCurrBoard(board)))
 	}
 
+	const onDrop = (res) => {
+		let newBoard = { ...currBoard }
+		const gtm = newBoard.groups.splice(res.source.index, 1)
+		newBoard.groups.splice(res.destination.index, 0, gtm[0])
+		boardService.update(newBoard)
+	}
+
 	const toggleListForm = () => {
 		listFormRef.current.classList.toggle('close')
 		inputListRef.current.value = ''
@@ -62,19 +69,59 @@ export function GroupList() {
 		ev.target[0].value = ''
 	}
 
-	const onDrop = (res) => {
+	const moveGroup = (res) => {
 		let newBoard = { ...currBoard }
 		const gtm = newBoard.groups.splice(res.source.index, 1)
+		console.log(gtm)
 		newBoard.groups.splice(res.destination.index, 0, gtm[0])
 		boardService.update(newBoard)
 	}
 
-	const handleOnDragEnd = (res) => {
-		if (!res.destination) return
-		onDrop(res)
+	const moveTaskInGroup = (res) => {
+		const groupDest = board.groups.find(
+			(_group) => _group.id === res.destination.droppableId
+		)
+		const groupSource = board.groups.find(
+			(_group) => _group.id === res.source.droppableId
+		)
+		const taskToMove = groupSource.tasks.splice(res.source.index, 1)
+		const groupIdxDest = board.groups.findIndex(
+			(_group) => _group.id === res.destination.droppableId
+		)
+		const groupIdxSour = board.groups.findIndex(
+			(_group) => _group.id === res.source.droppableId
+		)
+		groupDest.tasks.splice(res.destination.index, 0, taskToMove[0])
+		let newBoard = { ...board }
+		newBoard.groups.splice(groupIdxDest, 1, groupDest)
+		newBoard.groups.splice(groupIdxSour, 1, groupSource)
+		console.log(newBoard)
+		boardService.update(newBoard)
+		dispatch(setCurrBoard(board))
 	}
 
+	const handleOnDragEnd = (res) => {
+		console.log(res)
+		if (!res.destination) return
+		if (
+			res.destination.droppableId === res.source.droppableId &&
+			res.destination.droppableId === board._id
+		) {
+			console.log('moving group')
+			moveGroup(res)
+		}
+		if (
+			res.destination.droppableId === res.source.droppableId &&
+			res.destination.droppableId !== board._id
+		) {
+			moveTaskInGroup(res)
+		}
+	}
+	////////לחלץ פה את הפארמס ולנסות לרנדר מחדש
+
 	const onRemoveGroup = (ev, groupId) => {
+		console.log('in on remove group')
+
 		boardService
 			.removeGroup(currBoard, groupId)
 			.then(boardService.update)
@@ -85,7 +132,7 @@ export function GroupList() {
 	return (
 		<section className="groups-container">
 			<DragDropContext onDragEnd={handleOnDragEnd}>
-				<Droppable droppableId={currBoard._id}>
+				<Droppable droppableId={currBoard._id} isCombineEnabled={true}>
 					{(provided) => {
 						return (
 							<div
@@ -107,12 +154,13 @@ export function GroupList() {
 													{...provided.dragHandleProps}
 												>
 													<GroupPreview
-														onRemoveGroup={onRemoveGroup}
+														dragFunc={handleOnDragEnd}
 														index={index}
 														key={group.id}
 														group={group}
 														board={currBoard}
 													/>
+													{provided.placeholder}
 												</div>
 											)
 										}}

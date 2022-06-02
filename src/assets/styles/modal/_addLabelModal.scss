@@ -1,0 +1,123 @@
+.add-label-modal {
+    padding: 0 12px 12px;
+    // max-height: 100%;
+    // box-shadow: 0 0 10px rgb(0 0 0 / 30%);
+    
+    box-shadow: 0 0px 16px -4px rgb(9 30 66 / 25%), 0 0 0 1px rgb(9 30 66 / 8%);
+    &:focus{
+        outline: none
+    }
+
+    .add-label-modal-header {
+        @include flex-center;
+        height: 41px;
+
+        .add-label-modal-title {
+            color: $clr-small-text;
+            background-color: transparent;
+            font-weight: 400;
+
+        }
+
+        .close-label-modal {
+            background-color: transparent;
+            width: 40px;
+            height: 40px;
+            padding: 12px;
+            position: absolute;
+            right: 0;
+
+        }
+    }
+
+    hr {
+        margin-top: 0;
+        height: 0;
+
+    }
+
+    .search-label {
+        border: 0;
+        padding: 8px 12px;
+        border-radius: 3px;
+        box-shadow: inset 0 0 0 2px #dfe1e6;
+        width: 100%;
+        margin-bottom: 12px;
+
+        &:focus {
+            outline: none;
+            box-shadow: inset 0 0 0 2px #0079bf;
+        }
+
+    }
+
+    .labels-container {
+        .labels-title {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .labels-list {
+            margin-bottom: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            .label-in-modal-container {
+                width: 100%;
+                position: relative;
+                
+                .label-in-modal {
+                    cursor: pointer;
+                    width:calc(100% - 36px) ;
+                    border-radius: 3px;
+                    position: relative;
+                    .label-indication{
+                        background-color: transparent;
+                        width: 32px;
+                        height: 32px;
+                        position: absolute;
+                        z-index: 40;
+                        right: 0;
+                        top:0
+                    }
+                }
+                
+                .edit-label {
+                    cursor: pointer;
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    width: 32px;
+                    height: 32px;
+                    z-index: 40;
+
+                    .pen-img {
+                        width: 40%;
+                        height: 40%;
+                    }
+
+                    .edit-label-modal {
+                        &.hide {
+                            display: none;
+                        }
+                    }
+
+                }
+            }
+        }
+
+        .add-label-btn {
+            width: 100%;
+            border-radius: 3px;
+            padding: 6px 12px;
+            background-color: #091e420a;
+            margin-bottom: 8px;
+            font-size: rem(14px);
+            color:$clr-text-group;
+            &:hover{
+                background-color: $clr-btn-details;
+            }
+        }
+    }
+}
