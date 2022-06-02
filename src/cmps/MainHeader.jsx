@@ -5,10 +5,12 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setCurrBoard } from '../store/actions/board.actions.js'
 import { utilService } from '../services/util.service.js'
+import { userService } from '../services/user.service.js'
 import infoImg from '../assets/img/info.png'
 
 export const SecondaryHeader = () => {
 	const [templates, setTemplates] = useState([])
+	const [user, setUser] = useState({})
 	const [board, setBoards] = useState({})
 	const navigate = useNavigate()
 	const refRecent = React.createRef()
@@ -106,7 +108,7 @@ export const SecondaryHeader = () => {
 										className="close-modal-btn"
 										onClick={() => toggleModal(refRecent)}
 									>
-										<i class="fa-solid fa-xmark"></i>
+										<i className="fa-solid fa-xmark"></i>
 									</button>
 								</div>
 								<hr />
@@ -140,7 +142,7 @@ export const SecondaryHeader = () => {
 													{!template.isStared && (
 														<i
 															onClick={(event) => onSetStar(event, template)}
-															class="fa-regular fa-star"
+															className="fa-regular fa-star"
 														></i>
 													)}
 												</span>
@@ -166,7 +168,7 @@ export const SecondaryHeader = () => {
 										className="close-modal-btn"
 										onClick={() => toggleModal(refStarred)}
 									>
-										<i class="fa-solid fa-xmark"></i>
+										<i className="fa-solid fa-xmark"></i>
 									</button>
 								</div>
 								<hr />
@@ -212,7 +214,7 @@ export const SecondaryHeader = () => {
 										className="close-modal-btn"
 										onClick={() => toggleModal(refTemplates)}
 									>
-										<i class="fa-solid fa-xmark"></i>
+										<i className="fa-solid fa-xmark"></i>
 									</button>
 								</div>
 								<hr />
@@ -253,7 +255,7 @@ export const SecondaryHeader = () => {
 										className="close-modal-btn"
 										onClick={() => toggleModal(refCreate)}
 									>
-										<i class="fa-solid fa-xmark"></i>
+										<i className="fa-solid fa-xmark"></i>
 									</button>
 								</div>
 								<hr />
@@ -316,7 +318,7 @@ export const SecondaryHeader = () => {
 												{!template.isStared && (
 													<i
 														onClick={(event) => onSetStar(event, template)}
-														class="fa-regular fa-star"
+														className="fa-regular fa-star"
 													></i>
 												)}
 											</span>
@@ -343,7 +345,7 @@ export const SecondaryHeader = () => {
 							className="secondary-header-button"
 							onClick={() => toggleModal(refInfo)}
 						></button>
-						<i class="fa-regular fa-square-info"></i>
+						<i className="fa-regular fa-square-info"></i>
 					</label>
 					<section ref={refInfo} className="header-modal info-modal hide">
 						<div className="modal-title">
@@ -376,7 +378,7 @@ export const SecondaryHeader = () => {
 
 				<label>
 					<button></button>
-					<i class="fa-regular fa-bell"></i>
+					<i className="fa-regular fa-bell"></i>
 				</label>
 				<div style={{ height: 32 }} className="user-logo"></div>
 			</div>

@@ -32,9 +32,6 @@ export const boardService = {
 
 async function query(filterBy = {}) {
 	return httpService.get(`board`, filterBy)
-	// const board = await storageService.query(STORAGE_KEY)
-
-	// return board
 }
 async function queryTemplates(filterBy = {}) {
 	return httpService.get(`templete`, filterBy)
@@ -84,7 +81,7 @@ async function getEmptyBoard(template) {
 			},
 		],
 		members: [await userService.getLoggedinUser()],
-		groups: [],
+		groups: template.groups ? template.groups : [],
 		activities: [],
 		isStared: false,
 	}

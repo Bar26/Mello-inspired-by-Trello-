@@ -29,7 +29,9 @@ export const BoardPreview = ({ board, getStarredBoards }) => {
 		getStarredBoards(updatedBoard)
 	}
 
-	const onGetBoard = () => {
+	const onGetBoard = async () => {
+		const currBoard = await boardService.getById(board._id)
+		setCurrBoard(currBoard.id)
 		navigate(`/boards/${board._id}`)
 	}
 

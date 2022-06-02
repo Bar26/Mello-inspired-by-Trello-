@@ -8,9 +8,9 @@ export const TemplatePreview = ({ template, getStarredBoards }) => {
 
 	const onCreateBoard = async () => {
 		try {
-			const CurrBoard = await boardService.getEmptyBoard(template)
-			setCurrBoard(CurrBoard)
-			navigate(`/boards/${CurrBoard._id}`)
+			const currBoard = await boardService.getEmptyBoard(template)
+			setCurrBoard(currBoard._id)
+			navigate(`/boards/${currBoard._id}`)
 		} catch {
 			console.log('ERORR')
 		}
