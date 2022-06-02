@@ -3,6 +3,7 @@
 @import './setup/variables';
 @import './setup/mixins';
 @import './setup/functions';
+@import './basic/screen';
 
 
 @import './basic/helpers';
@@ -24,7 +25,9 @@
 
 @import './cmps/create-preview';
 @import './cmps/create-modal';
+@import './pages/boardDetails';
 @import './modal/addLabelModal';
+@import './modal/createLabel';
 
 
 

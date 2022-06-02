@@ -10,6 +10,15 @@ export function setCurrBoard(board){
             })
 }
 
+export function setIsTaskDetailsScreenOpen(isTaskDetailScreenOpen){
+    // console.log("HEY FROM DISPATCH")
+    console.log(isTaskDetailScreenOpen)
+    return (dispatch)=> dispatch({
+                type: 'SET_IS_TASK_DETAILS_SCREEN_OPEN',
+                isTaskDetailScreenOpen
+            })
+}
+
 
 
 

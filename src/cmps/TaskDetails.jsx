@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import pen from '../assets/img/pen.png'
 import { boardService } from "../services/board.service"
 import { useNavigate, useParams } from "react-router-dom"
-import { setCurrBoard } from "../store/actions/board.actions"
+import { setCurrBoard, setIsTaskDetailsScreenOpen } from "../store/actions/board.actions"
 
 
 export function TaskDetails() {
@@ -19,11 +19,16 @@ export function TaskDetails() {
     const forListenerUpRef = useRef()
     const penRef = useRef()
     const editLabelModalRef = useRef()
-
     const descInputRef = useRef()
     const descInputContainerRef = useRef()
     const descPrevRef = useRef()
     const addLabelModalRef = useRef()
+    const createLabelRef = useRef()
+    const [newLabelColor, setNewLabelColor] = useState('#61bd4f')
+    const [newLabelTitle, setNewLabelTitle] = useState()
+
+    const palette = ['#61bd4f', '#f2d600', '#ff9f1a', '#eb5a46', '#c377e0',
+        '#0079bf', '#00c2e0', '#51e898', '#ff78cb', '#344563']
 
 
     useEffect(() => {
@@ -36,6 +41,11 @@ export function TaskDetails() {
 
     }, [])
 
+    // useEffect(() => {
+
+    // }, [newLabelColor])
+
+    // useEffectUpdate(() => {
 
 
     const toggleDescInput = () => {
@@ -101,7 +111,7 @@ export function TaskDetails() {
     const onToggleLabelModal = () => {
         addLabelModalRef.current.classList.toggle('hide')
         addLabelModalRef.current.focus()
-
+        // dispatch(setIsTaskDetailsScreenOpen(true))
     }
 
     const onToggleEditLabelModal = (ev) => {
@@ -118,6 +128,19 @@ export function TaskDetails() {
 
     const onSearchLabel = () => {
 
+    }
+
+    const onSaveNewLabel = () => {
+        console.log(newLabelColor,newLabelTitle)
+        boardService.createLabel(currBoard,group,task, newLabelColor,newLabelTitle)
+        .then(boardService.update)
+        .then((board) => dispatch(setCurrBoard(board)))
+        onToggleCreateLabelModal()
+    }
+
+    const onToggleCreateLabelModal = () => {
+        createLabelRef.current.classList.toggle('hide')
+        addLabelModalRef.current.classList.toggle('hide')
     }
 
     if (!Object.keys(task).length || !Object.keys(group).length) return 'loading'
@@ -152,7 +175,7 @@ export function TaskDetails() {
                                 <section className="add-label-container" >
                                     <div onClick={onToggleLabelModal} className="card-details-add-label">+</div>
                                     <div ref={addLabelModalRef} className="add-label-modal hide" contentEditable >
-                                    {/* onBlur={onToggleLabelModal} */}
+                                        {/* onBlur={onToggleLabelModal} */}
                                         <header className="add-label-modal-header">
                                             <span className="add-label-modal-title">Labels</span>
                                             <button onClick={onToggleLabelModal} className="close-label-modal" >X</button>
@@ -183,11 +206,42 @@ export function TaskDetails() {
                                                 }
                                             </div>
 
-                                            <button className="add-label-btn">Create a new label</button>
+                                            <button onClick={onToggleCreateLabelModal} className="add-label-btn">Create a new label</button>
                                         </div>
 
                                     </div>
+
+
+
+                                    <div ref={createLabelRef} className="create-label-modal-container hide">
+                                        <header className="create-label-modal-header">
+                                            <span className="go-back-to-label-modal">*</span>
+                                            <span className="create-label-modal-title">Create label</span>
+                                            <button onClick={onToggleCreateLabelModal} className="close-label-modal" >X</button>
+                                        </header>
+                                        <hr />
+                                        <label className="create-label-label">Name
+                                            <input className="create-label-input" type="text" onChange={(ev) => setNewLabelTitle(ev.target.value)} onBlur={(ev) => setNewLabelTitle(ev.target.value)} />
+                                        </label>
+                                        <div className="select-color-title">Select a color</div>
+                                        <div className="colors-for-select">
+                                            {palette.map(clr => {
+                                                console.log(clr)
+                                                return <div onClick={() => setNewLabelColor(clr)} className="label-color" style={{ backgroundColor: clr }}>
+                                                    {newLabelColor === clr && <div>✔</div>}
+                                                </div>
+                                            })}
+                                        </div>
+                                        <button onClick={onSaveNewLabel} className="save-label">Create</button>
+
+
+
+                                    </div>
+
+
+
                                 </section>
+
                             </div>
                         }
                     </section></div>

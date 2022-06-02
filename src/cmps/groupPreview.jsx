@@ -136,7 +136,7 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
             <button type="button" className="close-form" onClick={toggleForm}>X</button>
             <button className="save-card">Add card</button>
         </form>
-        <button onClick={(ev) => onRemoveGroup(ev, group.id)} className="remove-group">X</button>
+        {/* <button onClick={(ev) => onRemoveGroup(ev,group.id)} className="remove-group">X</button> */}
 
 
 
