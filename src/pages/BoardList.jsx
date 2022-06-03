@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+
 import { BoardPreview } from '../cmps/BoardPreview'
 import { userService } from '../services/user.service.js'
 import { CreateModal } from '../cmps/createModal'
@@ -25,6 +25,7 @@ export const BoardList = () => {
 		}
 	}, [])
 	useEffect(() => {
+		console.log(currUser);
 		// loadBoards()
 		loadTemplates()
 		if (Object.keys(currUser).length) {

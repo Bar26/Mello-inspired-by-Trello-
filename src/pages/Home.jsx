@@ -1,8 +1,36 @@
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import hero1 from '../assets/img/hero1.png'
 import { AppHeader } from '../cmps/header'
-
+import { setCurrBoard } from '../store/actions/board.actions'
+import { setCurrUser } from '../store/actions/user.actions.js'
 export function Home() {
+	const dispatch = useDispatch()
+
+	useEffect(()=>{
+		SetStore()
+	}, [])
+	
+	const SetStore = async()=>{
+		await dispatch(setCurrUser({}))
+		await dispatch(setCurrBoard({}))
+
+
+	}
+
+
+
+	const onSetGuestMode = async () => {
+		dispatch(
+			setCurrUser({
+				name: 'Guest',
+				imgUrl:
+					'https://res.cloudinary.com/dgjmjxkct/image/upload/v1653899076/dl6faof1ecyjnfnknkla_gxwbcq.svg',
+			})
+		)
+	}
+
 	return (
 		<section className="home">
 			<AppHeader />
@@ -16,7 +44,9 @@ export function Home() {
 							unique—accomplish it all with Trello
 						</p>
 						<Link to="boards">
-							<button className="start-as-guest">Start now-it's free</button>
+							<button className="start-as-guest" onClick={onSetGuestMode}>
+								Start now-it's free
+							</button>
 						</Link>
 					</section>
 					<img className="hero1" src={hero1} />

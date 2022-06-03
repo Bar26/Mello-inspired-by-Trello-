@@ -64,7 +64,7 @@ export const SecondaryHeader = () => {
 	}
 	// console.log('template', templates);
 	const onSelectTemplate = async (templateId) => {
-		const template = await boardService.getById('tamplate', templateId)
+		const template = await boardService.getTemplateById(templateId)
 		const newBoard = await boardService.getEmptyBoard(template)
 		console.log('on Select', newBoard)
 		setBoards(newBoard)
