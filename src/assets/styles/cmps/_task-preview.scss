@@ -20,6 +20,12 @@
 
         .pen-container {
             display: flex;
+            opacity: 1;
+            &:hover{
+                background-color: rgba(237, 237, 237, 0.611);
+
+            }
+
         }
         
        

@@ -101,7 +101,6 @@ export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
 
 			{task.style && (
 				<>
-					{/* {()=>onChangePad()} */}
 					<div className="task-bg" style={{ ...style }}></div>
 				</>
 			)}
@@ -112,7 +111,6 @@ export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
 							const label = getLabel(labelId)
 
 							const backgroundColor = label.backgroundColor
-							const title = label.title
 							return (
 								<div
 									key={labelId + idx}

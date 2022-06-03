@@ -95,6 +95,7 @@ export function GroupList() {
     
     
     const handleOnDragEnd = (res) => {
+        console.log(res);
         if (!res.destination) return;
         if (res.destination.droppableId === res.source.droppableId && res.destination.droppableId === board._id) {
             onSetIsGroupDraggable(false)

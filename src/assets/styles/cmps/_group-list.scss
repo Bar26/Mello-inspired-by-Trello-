@@ -1,6 +1,7 @@
 .groups-container {
-    flex:1;
+    flex: 1;
     overflow-x: auto;
+
     .dnd-board-main {
 
         width: 100%;
@@ -8,24 +9,39 @@
         gap: 8px;
         display: flex;
         padding-inline-start: 16px;
-        
+
         >* {
             min-width: 270px;
-           
+
         }
 
         .add-list-btn {
             display: flex;
             justify-content: flex-start;
             align-items: flex-start;
-            padding-top: 6px;
-            padding-bottom: 10px;
-            padding-left: 8px;
+            // padding-top: 6px;
+            // padding-bottom: 10px;
+            // padding-left: 8px;
+            gap: 2px;
+            height: 32px;
+            padding: 6px 8px;
+            border-radius: 3px;
+            background-color: rgba(255, 255, 255, 0.317);
+
 
             button {
-                color: $clr-text-add-card;
+                width: 264px;
+                // height: 32px;
+                // padding-bottom: 10px;
+                // padding-left: 8px;
+                // height: 100%;
+                // color: $clr-text-add-card;
                 font-size: 14px;
                 font-family: 'Segoe UI';
+                background-color: transparent;
+
+                color: white;
+
             }
 
             &.close {
@@ -34,14 +50,31 @@
 
             .plus {
                 color: $clr-text-add-card;
-                font-size: 25px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
+                height: 100%;
+                // font-size: 25px;
+                @include flex-center;
+                //    height: 100%;
+
             }
         }
 
         .add-list-form {
+            height: 80px;
+
+            // border: 0;
+            // padding: 8px 12px;
+            // border-radius: 3px;
+            // box-shadow: inset 0 0 0 2px #dfe1e6;
+            // width: 100%;
+            // margin-bottom: 12px;
+            // background-color: rgb(250, 251, 252);
+
+            // &:focus {
+            //     outline: none;
+            //     box-shadow: inset 0 0 0 2px #0079bf;
+            // }
+
+
             &.close {
                 display: none;
             }
