@@ -5,8 +5,9 @@
 	background-color: rgba(0, 0, 0, 0);
 	line-height: 20px;
 	color: #fff;
-	padding: 4px 4px 4px 12px;
-	transition-duration: 1s;
+	padding: 4px 4px;
+	transition-duration: 0.5s;
+	margin-block-end: 5px;
 	&.show {
 		margin-inline-end: 339px;
 	}
@@ -17,7 +18,7 @@
 		.board-title {
 			width: 150px;
 			border: none;
-			background-color: $clr2;
+			background-color: rgba(215, 215, 255, 0.4);
 			font-size: 18px;
 			font-weight: 700;
 			line-height: 32px;
@@ -42,7 +43,7 @@
 			cursor: pointer;
 			width: 30px;
 			height: 32px;
-			background-color: $clr2;
+			background-color: rgba(215, 215, 255, 0.4);
 			border-radius: 3px;
 			padding: 3px;
 			&:hover {
@@ -52,9 +53,9 @@
 	}
 
 	.board-menu {
-        .board-menu-btn {
-            color: #fff;
-            background-color: $clr2;
+		.board-menu-btn {
+			color: #fff;
+			background-color: rgba(215, 215, 255, 0.4);
 			font-weight: 400;
 			width: 116px;
 			height: 32px;

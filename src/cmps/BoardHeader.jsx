@@ -3,7 +3,7 @@ import { DebounceInput } from 'react-debounce-input'
 import { boardService } from '../services/board.service.js'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { setCurrBoard } from '../store/actions/board.actions'
+import { setCurrBoard, onSaveBoard } from '../store/actions/board.actions'
 import { useEffectUpdate } from './useEffectUpdate.js'
 
 export const BoardHeader = ({ menuShow, toggleBoardMenu }) => {
@@ -55,7 +55,6 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu }) => {
 	const handleChange = (ev) => {
 		try {
 			const value = ev.target.value
-
 			setBoard({ ...board, title: value })
 		} catch {
 			console.log('STATE ERROR')
@@ -66,7 +65,7 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu }) => {
 		try {
 			const updatedBoard = await boardService.setTitle(board)
 			console.log(updatedBoard)
-			dispatch(setCurrBoard(updatedBoard))
+			await dispatch(setCurrBoard(updatedBoard._id))
 		} catch {
 			console.log('CMP ERROR')
 		}
@@ -89,7 +88,7 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu }) => {
 				<div
 					className="member-img"
 					style={{
-						background: `url(${currBoard.members[0].imgUrl}) center center / cover`,
+						background: `url(${currUser.imgUrl}) center center / cover`,
 					}}
 				></div>
 			</div>
