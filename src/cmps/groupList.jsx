@@ -64,165 +64,104 @@ export function GroupList() {
 		newBoard.groups.splice(res.destination.index, 0, gtm[0])
 		boardService.update(newBoard)
 	}
-
-	const moveTaskInGroup = (res) => {
-		const groupDest = board.groups.find(
-			(_group) => _group.id === res.destination.droppableId
-		)
-		const groupSource = board.groups.find(
-			(_group) => _group.id === res.source.droppableId
-		)
-		const taskToMove = groupSource.tasks.splice(res.source.index, 1)
-		const groupIdxDest = board.groups.findIndex(
-			(_group) => _group.id === res.destination.droppableId
-		)
-		const groupIdxSour = board.groups.findIndex(
-			(_group) => _group.id === res.source.droppableId
-		)
-		groupDest.tasks.splice(res.destination.index, 0, taskToMove[0])
-		let newBoard = { ...board }
-		newBoard.groups.splice(groupIdxDest, 1, groupDest)
-		newBoard.groups.splice(groupIdxSour, 1, groupSource)
-		console.log(newBoard)
-		boardService.update(newBoard)
-		dispatch(setCurrBoard(newBoard))
-	}
-
-	const handleOnDragEnd = (res) => {
-		if (!res.destination) return
-		if (
-			res.destination.droppableId === res.source.droppableId &&
-			res.destination.droppableId === board._id
-		) {
-			onSetIsGroupDraggable(false)
-			moveGroup(res)
-		}
-		if (res.destination.droppableId !== board._id) {
-			moveTaskInGroup(res)
-		}
-	}
-
-	const handleDragOn = (update) => {
-		if ('res.type' === 'gruop') {
-			onSetIsGroupDraggable(true)
-			onSetIsTaskDraggable(false)
-		} else {
-			onSetIsGroupDraggable(false)
-			onSetIsTaskDraggable(true)
-		}
-	}
-
+    
 	const onSetIsTaskDraggable = (bool) => {
-		setIsTaskDraggable(bool)
+        setIsTaskDraggable(bool)
 	}
 	const onSetIsGroupDraggable = (bool) => {
-		setIsGruopDraggable(bool)
-		// console.log(res);
+        setIsGruopDraggable(bool)
 	}
-
-	const onRemoveGroup = (ev, groupId) => {
-		console.log('in on remove group')
-
-		boardService
-			.removeGroup(currBoard, groupId)
-			.then(boardService.update)
-			.then((board) => dispatch(setCurrBoard(board)))
-	}
-
+    
 	const toggleListForm = () => {
-		listFormRef.current.classList.toggle('close')
+        listFormRef.current.classList.toggle('close')
 		inputListRef.current.value = ''
 		addListRef.current.classList.toggle('close')
 	}
+    
+    const moveTaskInGroup = (res) => {
+        const groupDest = board.groups.find(_group => _group.id === res.destination.droppableId)
+        const groupSource = board.groups.find(_group => _group.id === res.source.droppableId)
+        const taskToMove = groupSource.tasks.splice(res.source.index, 1)
+        const groupIdxDest = board.groups.findIndex(_group => _group.id === res.destination.droppableId)
+        const groupIdxSour = board.groups.findIndex(_group => _group.id === res.source.droppableId)
+        groupDest.tasks.splice(res.destination.index, 0, taskToMove[0])
+        let newBoard = { ...board }
+        newBoard.groups.splice(groupIdxDest, 1, groupDest)
+        newBoard.groups.splice(groupIdxSour, 1, groupSource)
+        console.log(newBoard);
+        boardService.update(newBoard)
+        dispatch(setCurrBoard(newBoard))
+    }
+    
+    
+    const handleOnDragEnd = (res) => {
+        if (!res.destination) return;
+        if (res.destination.droppableId === res.source.droppableId && res.destination.droppableId === board._id) {
+            onSetIsGroupDraggable(false)
+            moveGroup(res)
+        }
+        if (res.destination.droppableId !== board._id) {
+            moveTaskInGroup(res)
+        }
+    }
+    
 
-	if (!Object.keys(currBoard).length) return <h1>loading...</h1>
-	return (
-		<section className="groups-container">
-			<DragDropContext
-				onDragEnd={handleOnDragEnd}
-				onDragUpdate={(update) => {
-					handleDragOn(update)
-				}}
-			>
-				<Droppable
-					isDropDisabled={isGruopDraggable}
-					type="group"
-					droppableId={currBoard._id}
-					isCombineEnabled={true}
-					direction="horizontal"
-				>
-					{(provided) => {
-						return (
-							<div
-								className="dnd-board-main"
-								{...provided.droppableProps}
-								ref={provided.innerRef}
-							>
-								{currBoard.groups.map((group, index) => (
-									<Draggable
-										key={group.id}
-										draggableId={group.id}
-										index={index}
-										type={'group'}
-									>
-										{(provided) => {
-											return (
-												<div
-													ref={provided.innerRef}
-													{...provided.draggableProps}
-													{...provided.dragHandleProps}
-												>
-													<GroupPreview
-														ref={provided.innerRef}
-														{...provided.draggableProps}
-														{...provided.dragHandleProps}
-														onRemoveGroup={onRemoveGroup}
-														dragFunc={handleOnDragEnd}
-														index={index}
-														key={group.id}
-														group={group}
-														board={currBoard}
-													/>
-													{provided.placeholder}
-												</div>
-											)
-										}}
-									</Draggable>
-								))}
-								{provided.placeholder}
-							</div>
-						)
-					}}
-				</Droppable>
-			</DragDropContext>
-			<div
-				className="add-list-btn flex"
-				onClick={toggleListForm}
-				ref={addListRef}
-			>
-				<span className="plus">+</span>
-				<button> Add another list </button>
-			</div>
-			<form
-				className="add-list-form close"
-				onSubmit={onListSubmit}
-				ref={listFormRef}
-			>
-				<input
-					ref={inputListRef}
-					name="list-title"
-					type="text"
-					placeholder="Enter list title..."
-				/>
-				<button
-					type="button"
-					className="close-list-form"
-					onClick={toggleListForm}
-				>
-					X
-				</button>
-				<button className="save-list">Add list</button>
-			</form>
-		</section>
-	)
+    const handleDragOn = update => {
+        if ('res.type' === 'gruop') {
+            onSetIsGroupDraggable(true)
+            onSetIsTaskDraggable(false)
+        }
+        else {
+            onSetIsGroupDraggable(false)
+            onSetIsTaskDraggable(true)
+
+        }
+    }
+
+
+    const onRemoveGroup = (ev, groupId) => {
+
+        console.log('in on remove group');
+
+        boardService.removeGroup(currBoard, groupId)
+            .then(boardService.update)
+            .then((board) => dispatch(setCurrBoard(board)))
+
+    }
+ 
+
+
+
+    if (!Object.keys(currBoard).length) return <h1>loading...</h1>
+    return <section className="groups-container">
+        <DragDropContext onDragEnd={handleOnDragEnd} onDragUpdate={update => { handleDragOn(update) }} >
+            <Droppable isDropDisabled={isGruopDraggable} type='group' droppableId={currBoard._id} isCombineEnabled={true} direction="horizontal">
+                {(provided) => {
+                    return <div className="dnd-board-main"  {...provided.droppableProps} ref={provided.innerRef}>
+                        {currBoard.groups.map((group, index) => (
+                            <Draggable key={group.id} draggableId={group.id} index={index} type={'group'}>
+                                {(provided) => {
+                                    return <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                        <GroupPreview ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} onRemoveGroup={onRemoveGroup} dragFunc={handleOnDragEnd} index={index} key={group.id} group={group} board={currBoard} />
+                                        {provided.placeholder}
+                                    </div>
+                                }}
+                            </Draggable>
+
+                        ))}
+
+                        {provided.placeholder}
+                        <div className="add-list-btn flex" onClick={toggleListForm} ref={addListRef} ><span className="plus">+</span><button > Add another list </button></div>
+                        <form className="add-list-form close" onSubmit={onListSubmit} ref={listFormRef}>
+                            <input ref={inputListRef} name="list-title" type="text" placeholder="Enter list title..." />
+                            <button type="button" className="close-list-form" onClick={toggleListForm}>X</button>
+                            <button className="save-list">Add list</button>
+                        </form>
+                    </div>
+
+                }}
+            </Droppable>
+        </DragDropContext >
+
+    </section >
 }

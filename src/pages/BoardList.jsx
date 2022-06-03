@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-
 import { BoardPreview } from '../cmps/BoardPreview'
 import { userService } from '../services/user.service.js'
 import { CreateModal } from '../cmps/createModal'

@@ -236,10 +236,17 @@ hr {
 .user-logo {
     // margin: 3px/;
     // height: 32px;
+    // width: 32px;
+    // line-height: 32px;
+    // border-radius: 50%;
+    // background-color: green;
+    aspect-ratio: auto 30/30;
+    background-color: #0079bf;
+    border-radius: 25em;
+    height: 32px;
     width: 32px;
-    line-height: 32px;
-    border-radius: 50%;
-    background-color: green;
+    @include flex-center;
+    color: white
 }
 
 .template-indactor {
