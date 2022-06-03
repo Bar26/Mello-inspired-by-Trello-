@@ -34,8 +34,8 @@ export const boardService = {
 async function query(filterBy = {}) {
 	return httpService.get(`board`, filterBy)
 }
-async function queryTemplates(filterBy = {}) {
-	return httpService.get(`template`, filterBy)
+async function queryTemplates() {
+	return httpService.get(`template`)
 }
 
 function setStarred(board) {
@@ -137,9 +137,12 @@ async function createTask(title) {
 	return { id, title }
 }
 
-async function createList(title) {
+async function createList(board,title) {
+	const updatedBoard = { ...board }
 	const id = utilService.makeId()
-	return { id, title, tasks: [] }
+	const list = { id, title, tasks: [] }
+	updatedBoard.groups.push(list)
+	return updatedBoard
 }
 
 async function copyTask(task) {

@@ -455,7 +455,7 @@ export const SecondaryHeader = () => {
                 <div className='button-top flex'>
                     <label>
                         <button className="secondary-header-button"></button>
-                        <i class="fa-regular fa-bell"></i>
+                        <i className="fa-regular fa-bell"></i>
                     </label>
                 </div>
                 <div style={{ height: 32 }} className='user-logo'>NB</div>

@@ -24,7 +24,7 @@ export const BoardList = () => {
 		}
 	}, [])
 	useEffect(() => {
-		console.log(currUser);
+		// console.log(currUser);
 		// loadBoards()
 		loadTemplates()
 		if (Object.keys(currUser).length) {
@@ -54,8 +54,9 @@ export const BoardList = () => {
 	}
 	const loadTemplates = async () => {
 		try {
-			const templates = await boardService.queryTemplates()
-			setTemplates(templates)
+			const templatesT = await boardService.queryTemplates()
+			console.log("LIOISSSO",templatesT);
+			setTemplates(templatesT)
 		} catch (err) {
 			console.error('error query templetes', err)
 		}
