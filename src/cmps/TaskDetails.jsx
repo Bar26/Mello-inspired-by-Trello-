@@ -404,49 +404,49 @@ export function TaskDetails() {
                         <span className="add-to-card-title">Add to card</span>
                         <div className="">
                             <span className="">
-                                <i class="fa-regular fa-user"></i>
+                                <i className="fa-regular fa-user"></i>
                             </span>
                             <span>Members</span>
                         </div>
                         <div className="">
                             <span className="">
-                                <i class="fa-solid fa-tag"></i>
+                                <i className="fa-solid fa-tag"></i>
                             </span>
                             <span>Labels</span>
                         </div>
                         <div className="">
                             <span className="">
-                                <i class="fa-regular fa-square-check"></i>
+                                <i className="fa-regular fa-square-check"></i>
                             </span>
                             <span>Checklist</span>
                         </div>
                         <div className="">
                             <span className="">
-                                <i class="fa-solid fa-paperclip"></i>
+                                <i className="fa-solid fa-paperclip"></i>
                             </span>
                             <span>Attachment</span>
                         </div>
                         <div className="">
                             <span className="">
-                                <i class="fa-solid fa-tv"></i>
+                                <i className="fa-solid fa-tv"></i>
                             </span>
                             <span>Cover</span>
                         </div>
                         <div className="">
                             <span className="">
-                                <i class="fa-regular fa-clock"></i>
+                                <i className="fa-regular fa-clock"></i>
                             </span>
                             <span>Dates</span>
                         </div>
                         <div className="">
                             <span className="">
-                                <i class="fa-solid fa-location-dot"></i>
+                                <i className="fa-solid fa-location-dot"></i>
                             </span>
                             <span>Location</span>
                         </div>
                         <div className="">
                             <span className="">
-                                <i class="fa-regular fa-pen-field"></i>
+                                <i className="fa-regular fa-pen-field"></i>
                             </span>
                             <span>Custom fields</span>
                         </div>
@@ -455,37 +455,37 @@ export function TaskDetails() {
                         <span className="actions-title">Actions</span>
                         <div className="">
                             <span className="">
-                                <i class="fa-solid fa-arrow-right"></i>
+                                <i className="fa-solid fa-arrow-right"></i>
                             </span>
                             <span>Move</span>
                         </div>
                         <div className="">
                             <span className="">
-                                <i class="fa-regular fa-copy"></i>
+                                <i className="fa-regular fa-copy"></i>
                             </span>
                             <span>Copy</span>
                         </div>
                         <div className="">
                             <span className="">
-                                <i class="fa-solid fa-photo-film"></i>
+                                <i className="fa-solid fa-photo-film"></i>
                             </span>
                             <span>Make template</span>
                         </div>
                         <div className="">
                             <span className="">
-                                <i class="fa-regular fa-eye"></i>
+                                <i className="fa-regular fa-eye"></i>
                             </span>
                             <span>Watch</span>
                         </div>
                         <div className="">
                             <span className="">
-                                <i class="fa-solid fa-box-archive"></i>
+                                <i className="fa-solid fa-box-archive"></i>
                             </span>
                             <span>Archive</span>
                         </div>
                         <div className="">
                             <span className="">
-                                <i class="fa-solid fa-share-nodes"></i>
+                                <i className="fa-solid fa-share-nodes"></i>
                             </span>
                             <span>Share</span>
                         </div>
@@ -493,7 +493,7 @@ export function TaskDetails() {
                 </section>
             </div>
             <button onClick={onCloseCardDetails}>
-                <i class="fa-solid fa-xmark"></i>
+                <i className="fa-solid fa-xmark"></i>
             </button>
         </div>
     )

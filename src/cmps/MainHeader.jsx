@@ -376,7 +376,7 @@ export const SecondaryHeader = () => {
                     </section>
                 </div>
 
-
+                {/* 
                 <div className='button-top flex'>
                     <button className="secondary-header-button" onClick={() => toggleModal(refCreate)}>
                         Create</button>
@@ -399,65 +399,65 @@ export const SecondaryHeader = () => {
                             })}
                         </ul>
                     </section>
-                </div >
-            </div>
-            <div className='header-finish flex'>
+                </div > */}
+                {/* <div className='header-finish flex'>
                 <div className='header-search-div'>
-                    <label className='label-search flex'>
-                        <i className="fa-solid fa-magnifying-glass"></i>
+                <label className='label-search flex'>
+                <i className="fa-solid fa-magnifying-glass"></i>
                         <input onChange={handleSearch} className='header-search' placeholder='Search' onFocus={() => { toggleModal(refCreate1) }} />
                     </label>
                     <section ref={refCreate1} className='header-modal hide'>
-                        <ul>
-                            <p className='search-offer'>Recent Board</p>
-                            {templates.map((template, index) => {
-                                return (index < 5) && <li key={utilService.makeId()} id={template.id} >
-                                    <span className='header-search-star'>{template.isStared && <i onClick={(event) => onSetStar(event, template)} className="fa-solid fa-star" style={{ color: 'yellow', '--fa-border-color': 'black' }}></i>}
-                                        {!template.isStared && <i onClick={(event) => onSetStar(event, template)} class="fa-regular fa-star"></i>}</span>
-                                    <span className='to-select-template' onClick={() => { onSelectTemplate(template._id) }}>
-                                        <img className='template-img' src={template.img} />
+                    <ul>
+                    <p className='search-offer'>Recent Board</p>
+                    {templates.map((template, index) => {
+                        return (index < 5) && <li key={utilService.makeId()} id={template.id} >
+                        <span className='header-search-star'>{template.isStared && <i onClick={(event) => onSetStar(event, template)} className="fa-solid fa-star" style={{ color: 'yellow', '--fa-border-color': 'black' }}></i>}
+                        {!template.isStared && <i onClick={(event) => onSetStar(event, template)} class="fa-regular fa-star"></i>}</span>
+                        <span className='to-select-template' onClick={() => { onSelectTemplate(template._id) }}>
+                        <img className='template-img' src={template.img} />
                                         <span className=''>{template.title}</span>
                                         <span className='template-indactor'>Template</span>
                                     </span>
-                                </li>
-                            }
+                                    </li>
+                                }
                             )}
-                        </ul>
-                    </section>
-                </div>
-                <div className='button-top  flex'>
-                    <label>
-                        <button className="secondary-header-button" onClick={() => toggleModal(refInfo)}></button>
+                            </ul>
+                            </section>
+                            </div>
+                            <div className='button-top  flex'>
+                            <label>
+                            <button className="secondary-header-button" onClick={() => toggleModal(refInfo)}></button>
                         <i class="fa-regular fa-square-info"></i>
                     </label>
                     <section ref={refInfo} className='header-modal info-modal hide'>
-                        <div className='modal-title'>
-                            <h1 >Information</h1>
-                            <button className='close-modal-btn' onClick={() => toggleModal(refInfo)}>X</button>
-                        </div>
+                    <div className='modal-title'>
+                    <h1 >Information</h1>
+                    <button className='close-modal-btn' onClick={() => toggleModal(refInfo)}>X</button>
+                    </div>
                         <hr />
                         <section className='info-img-div'>
-                            <img src={infoImg} />
-                            <div className='for-h3'>
-                                <h3 >New to Trello? Check out the guide</h3>
-                            </div>
-                            <button>Get a new tip</button>
-                            <hr />
-                            <div className='info-button-buttom'>
-                                <button>Pricing</button>
-                                <button>Apps</button>
-                                <button>Blog</button>
-                                <button>Privacy</button>
-                                <button>More...</button>
-                            </div>
+                        <img src={infoImg} />
+                        <div className='for-h3'>
+                        <h3 >New to Trello? Check out the guide</h3>
+                        </div>
+                        <button>Get a new tip</button>
+                        <hr />
+                        <div className='info-button-buttom'>
+                        <button>Pricing</button>
+                        <button>Apps</button>
+                        <button>Blog</button>
+                        <button>Privacy</button>
+                        <button>More...</button>
+                        </div>
                         </section>
-                    </section>
-                </div >
-
-                <label>
-                    <button></button>
-                    <i class="fa-regular fa-bell"></i>
-                </label>
+                        </section>
+                    </div > */}
+                <div className='button-top flex'>
+                    <label>
+                        <button className="secondary-header-button"></button>
+                        <i className="fa-regular fa-bell"></i>
+                    </label>
+                </div>
                 <div style={{ height: 32 }} className='user-logo'>NB</div>
             </div>
         </header >

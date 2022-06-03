@@ -26,7 +26,6 @@ hr {
 
     .button-top {
         position: relative;
-
         span {
             padding-right: 3px;
         }
@@ -256,14 +255,42 @@ hr {
 }
 
 .header-finish {
+    .button-top{
+        border-radius: 3px;
+        border: 0;
+        justify-content: center;
+        background-color: transparent;
+        box-shadow: none;
+        font-weight: bold;
+        height: 32px;
+        width: 32px;
+        line-height: 32px;
+        margin: 0 4px 0 0;
+        padding: 0;
+        white-space: nowrap;
+        color: #FFFFFF;
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        &:active {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+    }
     .button-header-finish {
 
         // background-color: #172B4D;
         button {
             width: 32px;
-            background-color: transparent;
+            height: 32px;
             font-size: 16px;
         }
+        label {
+            // background-color: blue;
+            width: 32px;
+            height: 32px;
+        }
+        
     }
 
     .search-offer {
@@ -281,7 +308,7 @@ hr {
     .header-search-div {
         position: relative;
         display: flex;
-
+        margin-right: 4px;
         .header-modal {
             top: 45px;
             width: 600px;
@@ -336,6 +363,7 @@ hr {
                 margin-left: 3px
             }
         }
+
     }
 
     .info-modal {
@@ -421,6 +449,6 @@ hr {
     }
 
     position: relative;
-    gap:5px;
+    gap:4px;
 
 }
