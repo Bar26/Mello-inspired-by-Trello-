@@ -28,13 +28,14 @@ export const boardService = {
 	changeGroupTitle,
 	toggleLabelToTask,
 	createLabel,
+	getTemplateById,
 }
 
 async function query(filterBy = {}) {
 	return httpService.get(`board`, filterBy)
 }
 async function queryTemplates(filterBy = {}) {
-	return httpService.get(`templete`, filterBy)
+	return httpService.get(`template`, filterBy)
 }
 
 function setStarred(board) {
@@ -52,12 +53,13 @@ function setStarredTemplate(template) {
 
 async function setTitle(newBoard) {
 	try {
-		return storageService.put(STORAGE_KEY, newBoard)
+		console.log('newBoard', newBoard)
+		return httpService.put(`board/${newBoard._id}`, newBoard)
 	} catch {
 		console.log('Service ERROR')
 	}
 }
-async function getEmptyBoard(template) {
+async function getEmptyBoard(template, toSave = true) {
 	let newStyle
 	if (template.img) {
 		newStyle = { backgroundImage: template.img }
@@ -85,16 +87,24 @@ async function getEmptyBoard(template) {
 		activities: [],
 		isStared: false,
 	}
-	try {
-		const savedBoard = await httpService.post('board', newBoard)
-		return savedBoard
-	} catch (err) {
-		console.log('Cannot save board', err)
+	if (toSave) {
+		try {
+			const savedBoard = await httpService.post('board', newBoard)
+			return savedBoard
+		} catch (err) {
+			console.log('Cannot save board', err)
+		}
+	} else {
+		return storageService.put(STORAGE_KEY, newBoard)
 	}
 }
 
 async function getById(id) {
 	return httpService.get(`board/${id}`)
+}
+
+async function getTemplateById(id) {
+	return httpService.get(`template/${id}`)
 }
 
 async function getTaskGroupById(board, taskId) {
@@ -119,10 +129,7 @@ async function saveDesc(board, groupId, taskId, desc) {
 }
 
 async function update(board) {
-	var updatedBoard
-	updatedBoard = await storageService.put(STORAGE_KEY, board)
-
-	return updatedBoard
+	return httpService.put(`board/${board._id}`, board)
 }
 
 async function createTask(title) {

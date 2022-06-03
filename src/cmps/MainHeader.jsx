@@ -57,20 +57,20 @@ export const SecondaryHeader = () => {
         boardService.setStarred(template)
     }
 
-    //////// !!!!!! NOT GOOD LOG
-    const recentMap = (template) => {
-        // console.log(template.viewedAt)
-        return true
-    }
-    // console.log('template', templates);
-    const onSelectTemplate = async (templateId) => {
-        const template = await boardService.getById('tamplate', templateId)
-        const newBoard = await boardService.getEmptyBoard(template)
-        console.log('on Select', newBoard)
-        setBoards(newBoard)
-        dispatch(setCurrBoard(newBoard))
-        navigate(`/boards/${newBoard._id}`)
-    }
+	//////// !!!!!! NOT GOOD LOG
+	const recentMap = (template) => {
+		// console.log(template.viewedAt)
+		return true
+	}
+	// console.log('template', templates);
+	const onSelectTemplate = async (templateId) => {
+		const template = await boardService.getTemplateById(templateId)
+		const newBoard = await boardService.getEmptyBoard(template)
+		console.log('on Select', newBoard)
+		setBoards(newBoard)
+		dispatch(setCurrBoard(newBoard))
+		navigate(`/boards/${newBoard._id}`)
+	}
 
     const onSearchTyping = () => { }
 

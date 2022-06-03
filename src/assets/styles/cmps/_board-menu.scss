@@ -5,28 +5,23 @@
 }
 
 .board-menu-details {
-	transition-duration: 1s;
-
 	display: flex;
 	flex-direction: column;
 	position: absolute;
-	display: none;
 	height: 530px;
 	z-index: 10;
 	width: 338px;
 	margin: auto;
 	background: #fcfcfde7;
 	position: fixed; /* Stay in place */
-
-	top: -5; /* Stay at the top */
-	right: 0;
+	top: -25px;
+	height: 100%;
+	margin-top: 68px;
+	transition: 0.4s;
+	right: -100%;
 
 	&.show {
-		display: flex;
-		position: fixed;
-		top: 0;
-		height: 100%;
-		margin-top: 68px;
+		right: 0;
 	}
 
 	h1 {

@@ -24,6 +24,7 @@ export const BoardList = () => {
 		}
 	}, [])
 	useEffect(() => {
+		console.log(currUser);
 		// loadBoards()
 		loadTemplates()
 		if (Object.keys(currUser).length) {

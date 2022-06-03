@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { AppHeader } from '../cmps/header.jsx'
 import { onLogin } from '../store/actions/user.actions.js'
+import { setCurrUser } from '../store/actions/user.actions.js'
 
 export function Login() {
 	const dispatch = useDispatch()
@@ -35,7 +36,14 @@ export function Login() {
 		setTimeout(setIsError, 2000, '')
 	}
 
-	const onLoginGuest = () => {
+	const onSetGuestMode = async () => {
+		await dispatch(
+			setCurrUser({
+				name: 'Guest',
+				imgUrl:
+					'https://res.cloudinary.com/dgjmjxkct/image/upload/v1653899076/dl6faof1ecyjnfnknkla_gxwbcq.svg',
+			})
+		)
 		navigate(`/boards`)
 	}
 
@@ -65,7 +73,7 @@ export function Login() {
 				<button className="sign-up-btn" onClick={onLoginUser}>
 					Log in
 				</button>
-				<button className="guest-login-btn" onClick={onLoginGuest}>
+				<button className="guest-login-btn" onClick={onSetGuestMode}>
 					<div>
 						<img
 							src="https://res.cloudinary.com/dgjmjxkct/image/upload/v1653899076/dl6faof1ecyjnfnknkla_gxwbcq.svg"

@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react'
 import { boardService } from '../services/board.service.js'
-import { setCurrBoard } from '../store/actions/board.actions.js'
+import {
+	setCurrBoard,
+	setGuestCurrBoard,
+} from '../store/actions/board.actions.js'
 import { setCurrUser } from '../store/actions/user.actions.js'
 import { useNavigate } from 'react-router-dom'
 import { userService } from '../services/user.service.js'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 export const CreateModal = ({ createMode, onSetCreateMode }) => {
 	const [board, setBoard] = useState({ color: '', title: '' })
+	const { currUser } = useSelector((state) => state.userModule)
 	const [btnActive, setBtnActive] = useState('')
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
@@ -30,15 +34,21 @@ export const CreateModal = ({ createMode, onSetCreateMode }) => {
 
 	const onCreateBoard = async () => {
 		if (!board.title.length) return
-		try {
-			const currBoard = await boardService.getEmptyBoard(board)
-			const updateUser = await userService.addBoardUser(currBoard._id)
-			userService.update(updateUser)
-			await dispatch(setCurrUser(updateUser))
-			dispatch(setCurrBoard(currBoard._id))
+		if (currUser.name === 'Guest') {
+			const currBoard = await boardService.getEmptyBoard(board , false)
+			dispatch(setGuestCurrBoard(currBoard))
 			navigate(`/boards/${currBoard._id}`)
-		} catch {
-			console.log('ERORR')
+		} else {
+			try {
+				const currBoard = await boardService.getEmptyBoard(board)
+				const updateUser = await userService.addBoardUser(currBoard._id)
+				userService.update(updateUser)
+				await dispatch(setCurrUser(updateUser))
+				dispatch(setCurrBoard(currBoard._id))
+				navigate(`/boards/${currBoard._id}`)
+			} catch {
+				console.log('ERORR')
+			}
 		}
 	}
 
