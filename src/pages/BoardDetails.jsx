@@ -14,7 +14,7 @@ export const BoardDeatails = () => {
 	const { boardId } = useParams()
 	const dispatch = useDispatch()
 	const { currBoard } = useSelector((state) => state.boardModule)
-	console.log('currBoard form details', currBoard)
+	// console.log('currBoard form details', currBoard)
 
 	useEffect(() => {
 		if (!Object.keys(currBoard).length) {

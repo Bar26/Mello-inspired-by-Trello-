@@ -60,7 +60,6 @@ export function GroupList() {
 	const moveGroup = (res) => {
 		let newBoard = { ...currBoard }
 		const gtm = newBoard.groups.splice(res.source.index, 1)
-		console.log(gtm)
 		newBoard.groups.splice(res.destination.index, 0, gtm[0])
 		boardService.update(newBoard)
 	}
@@ -82,15 +81,14 @@ export function GroupList() {
         const groupDest = board.groups.find(_group => _group.id === res.destination.droppableId)
         const groupSource = board.groups.find(_group => _group.id === res.source.droppableId)
         const taskToMove = groupSource.tasks.splice(res.source.index, 1)
-        const groupIdxDest = board.groups.findIndex(_group => _group.id === res.destination.droppableId)
-        const groupIdxSour = board.groups.findIndex(_group => _group.id === res.source.droppableId)
+        console.log('HEYYYYYY',taskToMove);
         groupDest.tasks.splice(res.destination.index, 0, taskToMove[0])
         let newBoard = { ...board }
-        newBoard.groups.splice(groupIdxDest, 1, groupDest)
-        newBoard.groups.splice(groupIdxSour, 1, groupSource)
-        console.log(newBoard);
+        newBoard.groups.splice(res.destination.index, 1, groupDest)
+        newBoard.groups.splice(res.source.index, 1, groupSource)
         boardService.update(newBoard)
-        dispatch(setCurrBoard(newBoard))
+        console.log("BOARDDDDd",newBoard)
+        dispatch(setCurrBoard(newBoard._id))
     }
     
     
@@ -120,9 +118,7 @@ export function GroupList() {
 
 
     const onRemoveGroup = (ev, groupId) => {
-
         console.log('in on remove group');
-
         boardService.removeGroup(currBoard, groupId)
             .then(boardService.update)
             .then((board) => dispatch(setCurrBoard(board)))

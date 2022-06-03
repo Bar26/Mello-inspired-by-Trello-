@@ -5,6 +5,7 @@ export function setCurrBoard(boardId) {
 		try {
 			const currBoard = await boardService.getById(boardId)
 			console.log('board from backend:', currBoard)
+			console.log('boardID FOR BAR from backend:', boardId)
 			dispatch({ type: 'SET_BOARD', currBoard })
 		} catch (err) {
 			console.log('Cannot set board', err)
