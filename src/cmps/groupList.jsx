@@ -5,98 +5,117 @@ import { boardService } from '../services/board.service'
 import { Droppable } from 'react-beautiful-dnd'
 import { DragDropContext } from 'react-beautiful-dnd'
 import { Draggable } from 'react-beautiful-dnd'
-import { setCurrBoard } from '../store/actions/board.actions'
+import { setCurrBoard, onSaveBoard } from '../store/actions/board.actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
 export function GroupList() {
-	const [type, setType] = useState('board')
-	const dispatch = useDispatch()
-	const { currBoard } = useSelector((state) => state.boardModule)
-	const { boardId } = useParams()
-	const [board, setBoard] = useState({})
-	const listFormRef = React.createRef()
-	const [newListTitle, setNewListTitle] = useState('')
-	const inputListRef = useRef()
-	const addListRef = useRef()
-	const [isGruopDraggable, setIsGruopDraggable] = useState(false)
-	const [isTaskDraggable, setIsTaskDraggable] = useState(false)
+    const [type, setType] = useState('board')
+    const dispatch = useDispatch()
+    const { currBoard } = useSelector((state) => state.boardModule)
+    const { boardId } = useParams()
+    const [board, setBoard] = useState({})
+    const listFormRef = React.createRef()
+    const [newListTitle, setNewListTitle] = useState('')
+    const inputListRef = useRef()
+    const addListRef = useRef()
+    const [isGruopDraggable, setIsGruopDraggable] = useState(false)
+    const [isTaskDraggable, setIsTaskDraggable] = useState(false)
 
-	useEffect(() => {
-		boardService.getById(currBoard._id).then(setBoard)
-	}, [])
+    useEffect(() => {
+        boardService.getById(currBoard._id).then(setBoard)
+    }, [])
 
-	useEffectUpdate(() => {
-		onAddList()
-	}, [newListTitle])
+    // useEffectUpdate(() => {
+    // 	onAddList()
+    // }, [newListTitle])
 
-	const onAddList = () => {
-		const updatedBoard = { ...board }
-		boardService
-			.createList(newListTitle)
-			.then((list) => {
-				updatedBoard.groups.push(list)
-				return updatedBoard
-			})
-			.then(boardService.update)
-			.then((board) => dispatch(setCurrBoard(board._id)))
-	}
-
-	useEffect(() => {
-		boardService.getById(boardId).then(setBoard)
-	}, [])
-
-	useEffectUpdate(() => {
-		onAddList()
-	}, [newListTitle])
-
-	const onListSubmit = (ev) => {
-		ev.preventDefault()
-		const { value } = ev.target[0]
-		setNewListTitle(value)
-		ev.target[0].value = ''
-	}
-
-	const moveGroup = (res) => {
-		let newBoard = { ...currBoard }
-		const gtm = newBoard.groups.splice(res.source.index, 1)
-		console.log(gtm)
-		newBoard.groups.splice(res.destination.index, 0, gtm[0])
-		boardService.update(newBoard)
-	}
-    
-	const onSetIsTaskDraggable = (bool) => {
-        setIsTaskDraggable(bool)
-	}
-	const onSetIsGroupDraggable = (bool) => {
-        setIsGruopDraggable(bool)
-	}
-    
-	const toggleListForm = () => {
-        listFormRef.current.classList.toggle('close')
-		inputListRef.current.value = ''
-		addListRef.current.classList.toggle('close')
-	}
-    
-    const moveTaskInGroup = (res) => {
-        const groupDest = board.groups.find(_group => _group.id === res.destination.droppableId)
-        const groupSource = board.groups.find(_group => _group.id === res.source.droppableId)
-        const taskToMove = groupSource.tasks.splice(res.source.index, 1)
-        const groupIdxDest = board.groups.findIndex(_group => _group.id === res.destination.droppableId)
-        const groupIdxSour = board.groups.findIndex(_group => _group.id === res.source.droppableId)
-        groupDest.tasks.splice(res.destination.index, 0, taskToMove[0])
-        let newBoard = { ...board }
-        newBoard.groups.splice(groupIdxDest, 1, groupDest)
-        newBoard.groups.splice(groupIdxSour, 1, groupSource)
-        console.log(newBoard);
-        boardService.update(newBoard)
-        dispatch(setCurrBoard(newBoard))
+    const onAddList = async (value) => {
+        try {
+            const updatedBoard = await boardService.createList(currBoard, value)
+            await dispatch(onSaveBoard(updatedBoard))
+            // await dispatch(setCurrBoard(updatedBoard._id))
+            setBoard(updatedBoard)
+        } catch (err) {
+            console.error('cannot add list', err)
+        }
     }
-    
-    
+
+    useEffect(() => {
+        boardService.getById(boardId).then(setBoard)
+    }, [])
+
+    // useEffectUpdate(() => {
+    // 	onAddList()
+    // }, [newListTitle])
+
+    const onListSubmit = (ev) => {
+        ev.preventDefault()
+        const { value } = ev.target[0]
+        // setNewListTitle(value)
+        onAddList(value)
+        ev.target[0].value = ''
+    }
+
+
+    const onSetIsTaskDraggable = (bool) => {
+        setIsTaskDraggable(bool)
+    }
+    const onSetIsGroupDraggable = (bool) => {
+        setIsGruopDraggable(bool)
+    }
+
+    const toggleListForm = () => {
+        listFormRef.current.classList.toggle('close')
+        inputListRef.current.value = ''
+        addListRef.current.classList.toggle('close')
+    }
+    const moveGroup = async (res) => {
+        console.log('ONMOVEGROUP')
+        let newBoard = { ...currBoard }
+        const gtm = newBoard.groups.splice(res.source.index, 1)
+        console.log(gtm);
+        newBoard.groups.splice(res.destination.index, 0, gtm[0])
+        const ASA = await boardService.update(newBoard)
+        console.log(ASA);
+        console.log(currBoard);
+    }
+
+    const moveTaskInGroup = async (res) => {
+        console.log('on move task', res)
+        let newBoard = { ...currBoard }
+        const groupDest = await currBoard.groups.find(_group => _group.id == res.destination.droppableId)
+        const groupSource = await currBoard.groups.find(_group => _group.id == res.source.droppableId)
+        const groupIdxDest = currBoard.groups.findIndex(_group => _group.id === res.destination.droppableId)
+        const groupIdxSour = currBoard.groups.findIndex(_group => _group.id === res.source.draggableId)
+        console.log(newBoard);
+        console.log('TEN LI ET ZEEEEEE', groupSource);
+        if(res.destination.droppableId === res.source.droppableId){
+            const taskToMove = groupSource.tasks.splice(res.source.index, 1)
+            groupDest.tasks.splice(res.destination.index, 0, taskToMove[0])
+            newBoard.groups.splice(groupIdxDest, 1, groupDest)
+        }
+        if (res.destination.droppableId !== res.source.droppableId){
+            const taskToMove = groupSource.tasks.splice(res.source.index, 1)
+            groupDest.tasks.splice(res.destination.index, 0, taskToMove[0])
+            newBoard.groups.splice(groupIdxSour, 1, groupSource)
+            newBoard.groups.splice(groupIdxDest, 1, groupDest)
+        } 
+        console.log('TEN LI ET ZEEEEEE 222222222', newBoard);
+        // boardService.update(newBoard)
+        // boardService.update(newBoard)
+        // boardService.update(newBoard)
+        setBoard(newBoard)
+        boardService.update(newBoard)
+        // await dispatch(onSaveBoard(newBoard))
+        // await dispatch(setCurrBoard(newBoard._id))
+    }
+
+
     const handleOnDragEnd = (res) => {
         if (!res.destination) return;
         if (res.destination.droppableId === res.source.droppableId && res.destination.droppableId === board._id) {
+            console.log("in Group Move");
             onSetIsGroupDraggable(false)
             moveGroup(res)
         }
@@ -104,8 +123,9 @@ export function GroupList() {
             moveTaskInGroup(res)
         }
     }
-    
 
+
+    ////////////????? check for string
     const handleDragOn = update => {
         if ('res.type' === 'gruop') {
             onSetIsGroupDraggable(true)
@@ -119,16 +139,12 @@ export function GroupList() {
     }
 
 
-    const onRemoveGroup = (ev, groupId) => {
-
-        console.log('in on remove group');
-
-        boardService.removeGroup(currBoard, groupId)
-            .then(boardService.update)
-            .then((board) => dispatch(setCurrBoard(board)))
-
+    const onRemoveGroup = async (ev, groupId) => {
+        const updatedBoard = await boardService.removeGroup(currBoard, groupId)
+        await dispatch(onSaveBoard(updatedBoard))
+        await dispatch(setCurrBoard(updatedBoard._id))
     }
- 
+
 
 
 

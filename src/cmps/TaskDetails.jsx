@@ -6,7 +6,10 @@ import { useNavigate, useParams } from 'react-router-dom'
 import {
     setCurrBoard,
     setIsTaskDetailsScreenOpen,
+    onSaveBoard
 } from '../store/actions/board.actions'
+import ProgressBar from './proggresBar/ProggresBar'
+import { utilService } from '../services/util.service'
 
 export function TaskDetails() {
     const { currBoard } = useSelector((state) => state.boardModule)
@@ -26,6 +29,7 @@ export function TaskDetails() {
     const descPrevRef = useRef()
     const addLabelModalRef = useRef()
     const createLabelRef = useRef()
+    const createCheckListRef = useRef()
     const [newLabelColor, setNewLabelColor] = useState('#61bd4f')
     const [newLabelTitle, setNewLabelTitle] = useState()
 
@@ -47,14 +51,14 @@ export function TaskDetails() {
         descPrevRef.current.classList.toggle('close')
     }
 
-    
+
     useEffect(() => {
         getGroupTask()
         if (!Object.keys(currBoard).length) {
             boardService.getById('board', params.boardId)
                 .then((board) => dispatch(setCurrBoard(board)))
         }
-        console.log(task.labelIds)
+        // console.log(task.labelIds)
 
     }, [])
 
@@ -81,7 +85,7 @@ export function TaskDetails() {
     }
 
     const onDescSubmit = (ev) => {
-        console.log('in desc submit')
+        // console.log('in desc submit')
 
         ev.preventDefault()
         const { value } = ev.target
@@ -94,6 +98,18 @@ export function TaskDetails() {
 
     const onCloseCardDetails = () => {
         navigate(`/boards/${currBoard._id}`)
+    }
+
+    const onChecklist = () => {
+        // createCheckListRef.current.classList.toggle('hide2')
+        // let newBoard = {...currBoard}
+        // console.log('AT CHECKLIST GIVE ME TASK', task);
+        if (!task.checklist) task.checklist = { id: utilService.makeId(), title: 'Check List', todos: [] }
+        // await dispatch(onSaveBoard(newBoard))
+        // await dispatch(setCurrBoard(newBoard._id))
+        console.log(currBoard);
+        return boardService.calculateProg(task);
+        // createCheckListRef.current.classList.toggle('hide2')
     }
 
     const getLabel = (labelId) => {
@@ -134,10 +150,28 @@ export function TaskDetails() {
             .then((board) => dispatch(setCurrBoard(board)))
     }
 
+
+    const onAddItem = async (ev) => {
+        // console.log(ev.target[0].value);
+        const newTodo = ev.target[0].value
+        const newBoard = await boardService.addTodo(currBoard,group,task,newTodo)
+        await dispatch(onSaveBoard(newBoard))
+        // await dispatch(setCurrBoard(newBoard._id))
+    }
+    console.log("REMDER");
+    const onCheckBoxClick = async (ev,todo)=>{
+        // console.log(todo);
+        const newBoard = await boardService.updateTodo(currBoard,group,task,todo)
+        await dispatch(onSaveBoard(newBoard))
+        // await dispatch(setCurrBoard(newBoard._id))
+        // setTask({})
+        // setTask({...task})
+    }
+
     const onSearchLabel = () => { }
 
     const onSaveNewLabel = () => {
-        console.log(newLabelColor, newLabelTitle)
+        // console.log(newLabelColor, newLabelTitle)
         boardService
             .createLabel(currBoard, group, task, newLabelColor, newLabelTitle)
             .then(boardService.update)
@@ -302,7 +336,7 @@ export function TaskDetails() {
                                             <div className="select-color-title">Select a color</div>
                                             <div className="colors-for-select">
                                                 {palette.map((clr) => {
-                                                    console.log(clr)
+                                                    // console.log(clr)
                                                     return (
                                                         <div
                                                             onClick={() => setNewLabelColor(clr)}
@@ -374,6 +408,96 @@ export function TaskDetails() {
                         </div>
                     </section>
 
+
+
+
+                    {/* change collction to checklist insted of checklists */}
+                    {/* Add calculate from boardService */}
+                    {/* add Tnai */}
+                    {<section className='checklist-container '>
+                        <header className='checklist-header'>
+                            <span className="checklist-icon">O</span>
+                            <div className='checklist-title-button flex'>
+                                <span className="checklist-title">Check List</span>
+                                <button className='checklist-title-delete' onClick={console.log('makeDelete')}>Delete</button>
+                            </div>
+                        </header>
+                        <div className='proggres-bar flex'>
+                            <span className='checklist-prog'>{onChecklist()}%</span>
+                            <ProgressBar completed={onChecklist()}></ProgressBar>
+                        </div>
+                        {/* task.checkList.length>0&& */}
+
+                        <section className='checklist-todos-list-container '>
+                            <ul style={{ padding: 0 }}>
+                                {task.checklist.todos.map(todo => {
+                                    return (
+                                        <li className='check-box-per-todo flex'>
+                                            <label className='checkbox-label' >
+                                                <input onChange={(ev)=>onCheckBoxClick(ev,todo)} className='checkbox' checked={todo.isDone} type="checkbox" id="todo.title" />
+                                                {todo.title}</label>
+                                        </li>
+                                    )
+                                })}
+                                {/* <li className='check-box-per-todo flex'>
+                                    <label className='checkbox-label' >
+                                    <input className='checkbox' type="checkbox" id="todo.title" />
+                                        To Do Dynamic</label>
+                                </li>
+                                <li className='check-box-per-todo flex'>
+                                    <label className='checkbox-label' >
+                                    <input className='checkbox' type="checkbox" id="todo.title" />
+                                        To Do Scss Looking Til</label>
+                                </li> */}
+                            </ul>
+                            <div className='add-item-checklist'>
+                                <button className='prev-btn-add-item'>Add an item</button>
+                                {/* add class name hide */}
+                                <div className='add-item-checklist-modal'>
+                                    <form id='add-item' onSubmit={(event)=>onAddItem(event)}>
+                                        <input type='text' className='add-item-checklist-input' placeholder='Add an item' />
+                                    </form>
+                                </div>
+                                <div className='add-item-checklist-controller flex'>
+                                    <div>
+                                        <button className='checklist-add-btn' type='submit' form='add-item'>Add</button>
+                                        <button>Cancel</button>
+                                    </div>
+                                    <div className='checklist-controller-btn'>
+                                        {/* <button className='checklist-add-btn'>Add</button> */}
+                                        <button>Assign</button>
+                                        <button>Due date</button>
+                                        <button>@</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* <h1>{this.titleCheck()}</h1>
+            <ul key={`todo ${id}`}>
+                <div className='li-to-scroll'>
+                {todos.map((todo, idx) => {
+                    return <li className='todo-li flex' key={`line-${idx}`}>
+                        <span className='todo-txt' onClick={() => this.clickTodo(todo, id)} style={{ textDecoration: todo.doneAt ? "line-through" : "none" }} >
+                            {todo.txt}
+                        </span>
+                        <label className='todo-delete' title='Delete Line'>
+                            <i className="fa-solid fa-circle-minus"></i>
+                            <button onClick={(event) => this.onDeleteTodo(todo, id, event)} value={idx}  ></button>
+                        </label>
+                    </li>
+                })}
+                </div>
+                <li className='todo-li flex'>
+                    <form onSubmit={() => this.onAddToDo(id)}>
+                        <input type='text' placeholder='Add Todo...'/>
+                    </form>
+                </li>
+            </ul> */}
+
+
+                    </section>}
+
                     {/* <section className="custom-fields">
             </section> */}
 
@@ -404,49 +528,49 @@ export function TaskDetails() {
                         <span className="add-to-card-title">Add to card</span>
                         <div className="">
                             <span className="">
-                                <i class="fa-regular fa-user"></i>
+                                <i className="fa-regular fa-user"></i>
                             </span>
                             <span>Members</span>
                         </div>
                         <div className="">
                             <span className="">
-                                <i class="fa-solid fa-tag"></i>
+                                <i className="fa-solid fa-tag"></i>
                             </span>
                             <span>Labels</span>
                         </div>
-                        <div className="">
+                        <div className="" onClick={onChecklist}>
                             <span className="">
-                                <i class="fa-regular fa-square-check"></i>
+                                <i className="fa-regular fa-square-check"></i>
                             </span>
                             <span>Checklist</span>
                         </div>
                         <div className="">
                             <span className="">
-                                <i class="fa-solid fa-paperclip"></i>
+                                <i className="fa-solid fa-paperclip"></i>
                             </span>
                             <span>Attachment</span>
                         </div>
                         <div className="">
                             <span className="">
-                                <i class="fa-solid fa-tv"></i>
+                                <i className="fa-solid fa-tv"></i>
                             </span>
                             <span>Cover</span>
                         </div>
                         <div className="">
                             <span className="">
-                                <i class="fa-regular fa-clock"></i>
+                                <i className="fa-regular fa-clock"></i>
                             </span>
                             <span>Dates</span>
                         </div>
                         <div className="">
                             <span className="">
-                                <i class="fa-solid fa-location-dot"></i>
+                                <i className="fa-solid fa-location-dot"></i>
                             </span>
                             <span>Location</span>
                         </div>
                         <div className="">
                             <span className="">
-                                <i class="fa-regular fa-pen-field"></i>
+                                <i className="fa-regular fa-pen-field"></i>
                             </span>
                             <span>Custom fields</span>
                         </div>
@@ -455,37 +579,37 @@ export function TaskDetails() {
                         <span className="actions-title">Actions</span>
                         <div className="">
                             <span className="">
-                                <i class="fa-solid fa-arrow-right"></i>
+                                <i className="fa-solid fa-arrow-right"></i>
                             </span>
                             <span>Move</span>
                         </div>
                         <div className="">
                             <span className="">
-                                <i class="fa-regular fa-copy"></i>
+                                <i className="fa-regular fa-copy"></i>
                             </span>
                             <span>Copy</span>
                         </div>
                         <div className="">
                             <span className="">
-                                <i class="fa-solid fa-photo-film"></i>
+                                <i className="fa-solid fa-photo-film"></i>
                             </span>
                             <span>Make template</span>
                         </div>
                         <div className="">
                             <span className="">
-                                <i class="fa-regular fa-eye"></i>
+                                <i className="fa-regular fa-eye"></i>
                             </span>
                             <span>Watch</span>
                         </div>
                         <div className="">
                             <span className="">
-                                <i class="fa-solid fa-box-archive"></i>
+                                <i className="fa-solid fa-box-archive"></i>
                             </span>
                             <span>Archive</span>
                         </div>
                         <div className="">
                             <span className="">
-                                <i class="fa-solid fa-share-nodes"></i>
+                                <i className="fa-solid fa-share-nodes"></i>
                             </span>
                             <span>Share</span>
                         </div>
@@ -493,7 +617,7 @@ export function TaskDetails() {
                 </section>
             </div>
             <button onClick={onCloseCardDetails}>
-                <i class="fa-solid fa-xmark"></i>
+                <i className="fa-solid fa-xmark"></i>
             </button>
         </div>
     )

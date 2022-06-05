@@ -2,7 +2,7 @@ import { TaskPreview } from './TaskPreview'
 import React from 'react'
 import { boardService } from '../services/board.service'
 import { useCallback, useEffect, useState, useRef, useMemo } from 'react'
-import { setCurrBoard } from '../store/actions/board.actions'
+import { setCurrBoard, onSaveBoard } from '../store/actions/board.actions'
 import { useDispatch } from 'react-redux'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { utilService } from '../services/util.service'
@@ -19,26 +19,24 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
     const addCardBtnRef = useRef()
     const { currBoard } = useSelector((state) => state.boardModule)
 
-    const onAddCard = (value) => {
+    const onAddCard = async (value) => {
         // if (!newCardTitle) return  ///////plaster???????????
         const groupIdx = currBoard.groups.findIndex(
             (_group) => _group.id === group.id
         )
         const updatedBoard = { ...currBoard }
-        boardService
-            .createTask(value)
-            .then((task) => {
-                updatedBoard.groups[groupIdx].tasks.push(task)
-                return updatedBoard
-            })
-            .then(boardService.update)
-            .then((board) => dispatch(setCurrBoard(board)))
+        const taskReturnd= await boardService.createTask(value)
+        updatedBoard.groups[groupIdx].tasks.push(taskReturnd)
+        console.log("BOARDDDDd",updatedBoard)
+        await dispatch(onSaveBoard(updatedBoard))
+        await dispatch(setCurrBoard(updatedBoard._id))
     }
     /////
     //TODO: ADD STYLE
 
     const onSubmit = (ev) => {
         ev.preventDefault()
+        // console.log('GODDAM');
         const { value } = ev.target[0]
         onAddCard(value)
         // setNewCardTitle(value)
@@ -76,18 +74,18 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
             .then((board) => dispatch(setCurrBoard(board)))
     }
 
-    const onMyDrop = (res, groupIdDest, groupIdSource) => {
-        const groupDest = board.groups.find(_group => _group.id === groupIdDest)
-        const groupSource = board.groups.find(_group => _group.id === groupIdSource)
-        const taskToMove = groupSource.tasks.splice(res.source.index, 1)
-        const groupIdxDest = board.groups.findIndex(_group => _group.id === groupIdDest)
-        const groupIdxSour = board.groups.findIndex(_group => _group.id === groupIdSource)
-        groupDest.tasks.splice(res.destination.index, 0, taskToMove[0])
-        let newBoard = { ...board }
-        newBoard.groups.splice(groupIdxDest, 1, groupDest)
-        newBoard.groups.splice(groupIdxSour, 1, groupSource)
-        boardService.update(newBoard)
-    }
+    // const onMyDrop = (res, groupIdDest, groupIdSource) => {
+    //     const groupDest = board.groups.find(_group => _group.id === groupIdDest)
+    //     const groupSource = board.groups.find(_group => _group.id === groupIdSource)
+    //     const taskToMove = groupSource.tasks.splice(res.source.index, 1)
+    //     const groupIdxDest = board.groups.findIndex(_group => _group.id === groupIdDest)
+    //     const groupIdxSour = board.groups.findIndex(_group => _group.id === groupIdSource)
+    //     groupDest.tasks.splice(res.destination.index, 0, taskToMove[0])
+    //     let newBoard = { ...board }
+    //     newBoard.groups.splice(groupIdxDest, 1, groupDest)
+    //     newBoard.groups.splice(groupIdxSour, 1, groupSource)
+    //     boardService.update(newBoard)
+    // }
 
 
     const handleOnDragEnd = (res) => {
