@@ -74,18 +74,18 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
             .then((board) => dispatch(setCurrBoard(board)))
     }
 
-    const onMyDrop = (res, groupIdDest, groupIdSource) => {
-        const groupDest = board.groups.find(_group => _group.id === groupIdDest)
-        const groupSource = board.groups.find(_group => _group.id === groupIdSource)
-        const taskToMove = groupSource.tasks.splice(res.source.index, 1)
-        const groupIdxDest = board.groups.findIndex(_group => _group.id === groupIdDest)
-        const groupIdxSour = board.groups.findIndex(_group => _group.id === groupIdSource)
-        groupDest.tasks.splice(res.destination.index, 0, taskToMove[0])
-        let newBoard = { ...board }
-        newBoard.groups.splice(groupIdxDest, 1, groupDest)
-        newBoard.groups.splice(groupIdxSour, 1, groupSource)
-        boardService.update(newBoard)
-    }
+    // const onMyDrop = (res, groupIdDest, groupIdSource) => {
+    //     const groupDest = board.groups.find(_group => _group.id === groupIdDest)
+    //     const groupSource = board.groups.find(_group => _group.id === groupIdSource)
+    //     const taskToMove = groupSource.tasks.splice(res.source.index, 1)
+    //     const groupIdxDest = board.groups.findIndex(_group => _group.id === groupIdDest)
+    //     const groupIdxSour = board.groups.findIndex(_group => _group.id === groupIdSource)
+    //     groupDest.tasks.splice(res.destination.index, 0, taskToMove[0])
+    //     let newBoard = { ...board }
+    //     newBoard.groups.splice(groupIdxDest, 1, groupDest)
+    //     newBoard.groups.splice(groupIdxSour, 1, groupSource)
+    //     boardService.update(newBoard)
+    // }
 
 
     const handleOnDragEnd = (res) => {

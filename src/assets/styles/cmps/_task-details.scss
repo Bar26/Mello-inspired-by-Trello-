@@ -10,7 +10,7 @@
     gap: 8px;
     font-size: 14px;
     color: $clr-text-group;
-    left:50%;
+    left: 50%;
     transform: translateX(-50%);
     border-radius: 3px;
 
@@ -40,7 +40,7 @@
             padding-inline-start: 8px;
             // background-color: $clr-card-details-bg;
             width: 100%;
-            flex:1;
+            flex: 1;
 
             .card-details-title-container {
                 height: 61px;
@@ -48,7 +48,7 @@
                 // padding: 12px 40px 8px 56px;
                 margin-bottom: 16px;
                 display: flex;
-           
+
                 height: 61px;
                 gap: 8px;
                 align-items: center;
@@ -82,7 +82,7 @@
                     }
 
                     .in-group {
-                       
+
                         color: $clr-small-text;
 
                         .list-name {
@@ -96,7 +96,7 @@
 
             }
 
-        
+
 
             .card-details-labels {
                 display: flex;
@@ -108,7 +108,7 @@
                 margin-bottom: 16px;
 
                 .labels-title {
-                    color:$clr-small-text;
+                    color: $clr-small-text;
                     font-weight: 600;
                     font-size: rem(12px);
                 }
@@ -128,26 +128,27 @@
                         border-radius: 3px;
                     }
 
-                    .add-label-container{
+                    .add-label-container {
                         padding: 0;
                         position: relative;
 
-                
+
                         .card-details-add-label {
                             color: $clr-text-group;
                             background-color: $clr-btn-details;
                             @include flex-center;
                             padding: 0 12px;
                             border-radius: 3px;
-                            &:hover{
+
+                            &:hover {
                                 background-color: $clr-btn-hover;
                                 cursor: pointer;
                             }
-    
+
                         }
 
-                        .add-label-modal{
-                            width:304px;
+                        .add-label-modal {
+                            width: 304px;
                             background-color: white;
                             z-index: 100000;
                             position: absolute;
@@ -155,12 +156,12 @@
                             top: calc(100% + 4px);
 
 
-                            &.hide{
+                            &.hide {
                                 display: none;
                             }
                         }
 
-                     
+
                     }
                 }
             }
@@ -168,7 +169,7 @@
             .description {
                 display: flex;
                 margin-bottom: 24px;
-                gap:8px;
+                gap: 8px;
 
                 .desc-icon {
                     width: 32px;
@@ -200,7 +201,7 @@
                             width: 47px;
                             height: 32px;
                             background-color: $clr-btn-details;
-                            color:$clr-text-group;
+                            color: $clr-text-group;
 
                             &:hover {
                                 background-color: $clr-btn-hover;
@@ -304,12 +305,12 @@
                             @include flex-center
                         }
 
-                     
+
 
                         .activity-title {
                             font-weight: 600;
                             font-size: 1rem;
-                
+
                         }
                     }
 
@@ -319,7 +320,7 @@
                         @include flex-center;
                         font-size: 14px;
                         background-color: $clr-btn-details;
-                        color:$clr-text-group;
+                        color: $clr-text-group;
                         padding: 6px 12px;
 
                     }
@@ -361,10 +362,10 @@
 
         }
 
-        .details-aside{
+        .details-aside {
             display: flex;
             flex-direction: column;
-            gap:16px;
+            gap: 16px;
 
             .add-to-card {
                 padding-top: 77px;
@@ -376,7 +377,7 @@
                 justify-content: space-between;
                 padding-right: 16px;
                 gap: 8px;
-    
+
                 >* {
                     background-color: $clr-btn-details;
                     padding: 6px 12px;
@@ -385,16 +386,16 @@
                     border-radius: 3px;
                     display: flex;
                     align-items: center;
-                    gap:8px;
-                    
-                    &:hover{
+                    gap: 8px;
+
+                    &:hover {
                         background-color: $clr-btn-hover;
                         cursor: pointer;
                     }
                 }
-    
-                .add-to-card-title{
-                    
+
+                .add-to-card-title {
+
                     background-color: transparent;
                     font-size: rem(12px);
                     font-weight: 600;
@@ -404,8 +405,8 @@
                 }
             }
 
-            .card-details-actions{
-          
+            .card-details-actions {
+
                 width: 192px;
                 // padding: 0 16px 8px 8px;
                 height: 100%;
@@ -414,7 +415,7 @@
                 justify-content: space-between;
                 padding-right: 16px;
                 gap: 8px;
-    
+
                 >* {
                     background-color: $clr-btn-details;
                     padding: 6px 12px;
@@ -423,15 +424,16 @@
                     border-radius: 3px;
                     display: flex;
                     align-items: center;
-                    gap:8px;
-                    
-                    &:hover{
+                    gap: 8px;
+
+                    &:hover {
                         background-color: $clr-btn-hover;
                         cursor: pointer;
                     }
                 }
-                .actions-title{
-                    
+
+                .actions-title {
+
                     background-color: transparent;
                     font-size: rem(12px);
                     font-weight: 600;
@@ -448,4 +450,210 @@
 
 
 
+}
+
+
+.checklist-container {
+    .checklist-header {
+        display: flex;
+        align-items: center;
+        width: 512px;
+        height: 48px;
+        gap: 8px;
+        padding: 8px 0;
+
+        .checklist-icon {
+            display: flex;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            width: 32px;
+            height: 32px;
+            // padding-top: 14px;
+        }
+
+        .checklist-title-button {
+            width: 100%;
+            justify-content: space-between;
+            
+            
+            .checklist-title {
+                font-weight: 600;
+                font-size: 1rem;
+            }
+            .checklist-title-delete{
+
+            }
+        }
+
+    }
+
+    .proggres-bar {
+
+        // display:flex;
+        .checklist-prog {
+            // background-color: green;
+            color: #5e6c84;
+            font-size: 11px;
+            // left: 0;
+            line-height: 10px;
+            // position: absolute;
+            text-align: center;
+            // top: -1px;
+            width: 38px;
+        }
+    }
+
+    .checklist-todos-list-container {
+        border-radius: 3px;
+        clear: both;
+        // padding-left: 40px;
+        position: relative;
+        transform-origin: left bottom;
+        transition-duration: .14s;
+        transition-property: transform, opacity, height, padding, margin;
+        transition-timing-function: ease-in;
+        color: #172b4d;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+
+        .check-box-per-todo {
+            // background-color: aqua;
+            height: 36px;
+            padding: 6px;
+            label{
+                display: flex;
+                gap:6px;
+                align-items: center;
+            }
+            .checkbox {
+                background-color: #fafbfc;
+                border-radius: 2px;
+                box-shadow: inset 0 0 0 2px #dfe1e6;
+                cursor: pointer;
+                flex-shrink: 0;
+                height: 16px;
+                left: 0;
+                margin: 6px;
+                overflow: hidden;
+                text-align: center;
+                top: 5px;
+                transition: all .2s ease-in-out;
+                white-space: nowrap;
+                width: 16px;
+            }
+        }
+    }
+
+    .add-item-checklist {
+        padding-left: 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        .prev-btn-add-item {
+            // background-color: $clr-btn-details;
+            padding: 6px 12px;
+            // color: $clr-btn-text;
+            color: $clr-text-group;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+
+            &:hover {
+                background-color: $clr-btn-hover;
+                cursor: pointer;
+            }
+        }
+
+        .add-item-checklist-modal {
+            .add-item-checklist-input {
+                box-shadow: inset 0 0 0 2px #0079bf;
+                color: #172b4d;
+                cursor: text;
+                float: none;
+                height: 37px;
+                // resize: vertical;
+                width: 100%;
+                border-radius: 3px;
+                border: none;
+                padding: 8px 12px;
+
+                &:focus {
+                    outline: none;
+                    height: 56px;
+                }
+            }
+        }
+
+        .add-item-checklist-controller {
+            display: flex;
+            justify-content: space-between;
+
+
+            button {
+                // background-color: $clr-btn-color;
+                // color: white;
+                color: $clr-text-group;
+                padding: 6px 12px;
+                border-radius: 3px;
+                height: 32px;
+                text-align: center;
+                align-items: center;
+                font-size: 14px;
+                line-height: 20px;
+                text-align: center;
+
+                &:hover {
+                    background-color: $clr-btn-hover;
+                }
+                &:active{
+                    background-color: #e4f0f6;
+                    border: none;
+                    box-shadow: none;
+                    color: #0079bf;
+                }
+
+            }
+
+            .checklist-add-btn {
+                background-color: #0079bf;
+                color: white;
+                margin-right: 4px;
+
+                &:hover {
+                    background-color: #026aa7;
+                    border: none;
+                    box-shadow: none;
+                }
+
+                &:active {
+                    background-color: #055a8c;
+                    border: none;
+                    box-shadow: none;
+                }
+            }
+
+            .checklist-controller-btn {
+                button {
+                    color: $clr-small-text;
+                    min-width: 36px;
+                    height: 32px;
+                    padding: 6px 8px;
+                    margin: 0 2px;
+                }
+
+                :nth-child(1) {
+                    text-decoration: underline;
+                }
+
+                :nth-child(2) {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
 }

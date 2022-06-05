@@ -3,7 +3,7 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { setCurrBoard } from '../store/actions/board.actions.js'
+import { setCurrBoard, onSaveBoard, setFilter } from '../store/actions/board.actions.js'
 import { utilService } from '../services/util.service.js'
 import { userService } from '../services/user.service.js'
 import infoImg from '../assets/img/info.png'
@@ -22,30 +22,20 @@ export const SecondaryHeader = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if (!board._id) return
-        console.log(board)
+        if (!board._id) return 
         // loadTemplates()
-        dispatch(setCurrBoard(board))
+        // await dispatch(onSaveBoard(board))
+        onSend(board)
         navigate(`/boards/${board._id}`)
     }, [board])
-
+    
+    const onSend = async (board)=>{
+        await dispatch(setCurrBoard(board._id))
+    }
     const loadUser = async () => {
         const user = await userService.getLoggedinUser()
         setUser(user)
     }
-
-    // const loadTemplates = () => {
-    // 	boardService.queryTemplates().then((template) => setTemplates(template))
-    // 	// .then((templates) => setTemplatestes(templates))
-    // }
-
-    // const onSelectTemplate = async (templateId) => {
-    // 	const template = await boardService.getById('tamplate', templateId)
-    // 	const newBoard = await boardService.getEmptyBoard(template)
-    // 	console.log('on Select', newBoard)
-    // 	setBoards(newBoard)
-    // 	dispatch(newBoard)
-    // }
 
     const toggleModal = (refType) => {
         refType.current.classList.toggle('hide')
@@ -67,24 +57,26 @@ export const SecondaryHeader = () => {
 		const template = await boardService.getTemplateById(templateId)
 		const newBoard = await boardService.getEmptyBoard(template)
 		console.log('on Select', newBoard)
-		setBoards(newBoard)
-		dispatch(setCurrBoard(newBoard))
+		// setBoards(newBoard)
+		await dispatch(onSaveBoard(newBoard))
+        await dispatch(setCurrBoard(newBoard._id))
 		navigate(`/boards/${newBoard._id}`)
 	}
 
     const onSearchTyping = () => { }
 
     const handleSearch = (ev) => {
-        console.log(ev)
+        console.log(ev.target)
         const txt = ev.target.value
-        console.log(board)
-        const returnedTasks = board.groups.map((group) => {
-            return group.task.map((task) => {
-                task.title.includs(txt)
-                return task
-            })
-        })
-        return returnedTasks
+        dispatch(setFilter(txt))
+        // console.log(board)
+        // const returnedTasks = board.groups.map((group) => {
+            // return group.task.map((task) => {
+                // task.title.includs(txt)
+                // return task
+            // })
+        // })
+        // return returnedTasks
     }
 
     return (
