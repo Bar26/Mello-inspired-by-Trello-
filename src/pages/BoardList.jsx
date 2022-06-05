@@ -24,7 +24,7 @@ export const BoardList = () => {
 		}
 	}, [])
 	useEffect(() => {
-		console.log(currUser);
+		console.log('currUser:',currUser);
 		// loadBoards()
 		loadTemplates()
 		if (Object.keys(currUser).length) {
@@ -37,7 +37,7 @@ export const BoardList = () => {
 	}, [currBoard])
 
 	const loadUserBoards = async () => {
-		if (!Object.keys(currUser).length) return
+		if (!Object.keys(currUser).length || !currUser.boards) return
 		try {
 			Promise.all(
 				currUser.boards?.map(async (userBoardId) => {
@@ -78,6 +78,7 @@ export const BoardList = () => {
 
 	const setUserBoards = async () => {
 		const user = await userService.getLoggedinUser()
+		console.log('logged in user boardList 81:' , user);
 		await dispatch(setCurrUser(user))
 		loadUserBoards()
 	}

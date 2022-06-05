@@ -35,7 +35,7 @@ async function query(filterBy = {}) {
 	return httpService.get(`board`, filterBy)
 }
 async function queryTemplates(filterBy = {}) {
-	return httpService.get(`template`, filterBy)
+	return httpService.get(`template`)
 }
 
 function setStarred(board) {
@@ -95,6 +95,7 @@ async function getEmptyBoard(template, toSave = true) {
 			console.log('Cannot save board', err)
 		}
 	} else {
+		newBoard._id = utilService.makeId()
 		return storageService.put(STORAGE_KEY, newBoard)
 	}
 }

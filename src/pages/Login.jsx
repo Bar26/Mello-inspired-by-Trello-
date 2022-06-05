@@ -42,6 +42,7 @@ export function Login() {
 				name: 'Guest',
 				imgUrl:
 					'https://res.cloudinary.com/dgjmjxkct/image/upload/v1653899076/dl6faof1ecyjnfnknkla_gxwbcq.svg',
+				boards: [],
 			})
 		)
 		navigate(`/boards`)

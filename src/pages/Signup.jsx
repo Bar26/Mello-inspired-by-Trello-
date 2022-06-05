@@ -11,22 +11,22 @@ export function Signup() {
 		password: '',
 		fullname: '',
 	})
-	const [users, setUsers] = useState([])
+	// const [users, setUsers] = useState([])
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 
-	useEffect(() => {
-		loadUsers()
-	}, [])
+	// useEffect(() => {
+	// 	loadUsers()
+	// }, [])
 
-	const loadUsers = async () => {
-		try {
-			const users = await userService.getUsers()
-			setUsers(users)
-		} catch {
-			console.error('Cannot load Users !')
-		}
-	}
+	// const loadUsers = async () => {
+	// 	try {
+	// 		const users = await userService.getUsers()
+	// 		setUsers(users)
+	// 	} catch {
+	// 		console.error('Cannot load Users !')
+	// 	}
+	// }
 
 	const handleChange = (ev) => {
 		const field = ev.target.name

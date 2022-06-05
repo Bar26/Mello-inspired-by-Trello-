@@ -35,19 +35,32 @@ export const CreateModal = ({ createMode, onSetCreateMode }) => {
 	const onCreateBoard = async () => {
 		if (!board.title.length) return
 		if (currUser.name === 'Guest') {
-			const currBoard = await boardService.getEmptyBoard(board , false)
-			dispatch(setGuestCurrBoard(currBoard))
-			navigate(`/boards/${currBoard._id}`)
+			try {
+				const currBoard = await boardService.getEmptyBoard(board, false)
+				const updateUser = await userService.addBoardUser(
+					currBoard._id,
+					currUser
+				)
+				await dispatch(setCurrUser(updateUser))
+				dispatch(setGuestCurrBoard(currBoard))
+				navigate(`/boards/${currBoard._id}`)
+				return
+			} catch (err) {
+				console.error('ERROR GUEST MODE !', err)
+			}
 		} else {
 			try {
 				const currBoard = await boardService.getEmptyBoard(board)
-				const updateUser = await userService.addBoardUser(currBoard._id)
+				const updateUser = await userService.addBoardUser(
+					currBoard._id,
+					currUser
+				)
 				userService.update(updateUser)
 				await dispatch(setCurrUser(updateUser))
 				dispatch(setCurrBoard(currBoard._id))
 				navigate(`/boards/${currBoard._id}`)
-			} catch {
-				console.log('ERORR')
+			} catch (err) {
+				console.log('ERORR:', err)
 			}
 		}
 	}

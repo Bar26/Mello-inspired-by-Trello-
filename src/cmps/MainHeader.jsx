@@ -383,7 +383,7 @@ export const SecondaryHeader = () => {
                     <section ref={refCreate} className='header-modal recent hide'>
                         <div className='modal-title'>
                             <h1 >Create</h1>
-                            <button className='close-modal-btn' onClick={() => toggleModal(refCreate)}><i class="fa-solid fa-xmark"></i></button>
+                            <button className='close-modal-btn' onClick={() => toggleModal(refCreate)}><i className="fa-solid fa-xmark"></i></button>
                         </div>
                         <hr />
                         <ul>
@@ -413,7 +413,7 @@ export const SecondaryHeader = () => {
                             {templates.map((template, index) => {
                                 return (index < 5) && <li key={utilService.makeId()} id={template.id} >
                                     <span className='header-search-star'>{template.isStared && <i onClick={(event) => onSetStar(event, template)} className="fa-solid fa-star" style={{ color: 'yellow', '--fa-border-color': 'black' }}></i>}
-                                        {!template.isStared && <i onClick={(event) => onSetStar(event, template)} class="fa-regular fa-star"></i>}</span>
+                                        {!template.isStared && <i onClick={(event) => onSetStar(event, template)} className="fa-regular fa-star"></i>}</span>
                                     <span className='to-select-template' onClick={() => { onSelectTemplate(template._id) }}>
                                         <img className='template-img' src={template.img} />
                                         <span className=''>{template.title}</span>
@@ -428,7 +428,7 @@ export const SecondaryHeader = () => {
                 <div className='button-top  flex'>
                     <label>
                         <button className="secondary-header-button" onClick={() => toggleModal(refInfo)}></button>
-                        <i class="fa-regular fa-square-info"></i>
+                        <i className="fa-regular fa-square-info"></i>
                     </label>
                     <section ref={refInfo} className='header-modal info-modal hide'>
                         <div className='modal-title'>
@@ -456,7 +456,7 @@ export const SecondaryHeader = () => {
 
                 <label>
                     <button></button>
-                    <i class="fa-regular fa-bell"></i>
+                    <i className="fa-regular fa-bell"></i>
                 </label>
                 <div style={{ height: 32 }} className='user-logo'>NB</div>
             </div>
