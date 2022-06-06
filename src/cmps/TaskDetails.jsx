@@ -12,6 +12,8 @@ import {
     setIsTaskDetailsScreenOpen,
     onSaveBoard
 } from '../store/actions/board.actions'
+import ProgressBar from './proggresBar/ProggresBar'
+import { utilService } from '../services/util.service'
 
 export function TaskDetails() {
     const { currBoard } = useSelector((state) => state.boardModule)
@@ -32,6 +34,7 @@ export function TaskDetails() {
 
     const addLabelModalRef = useRef()
     const createLabelRef = useRef()
+    const createCheckListRef = useRef()
     const [newLabelColor, setNewLabelColor] = useState('#61bd4f')
     const [newLabelTitle, setNewLabelTitle] = useState()
     const [filterLabel, setFilterLabel] = useState('')
@@ -88,7 +91,7 @@ export function TaskDetails() {
     }
 
     const onDescSubmit = (ev) => {
-        console.log('in desc submit')
+        // console.log('in desc submit')
 
         ev.preventDefault()
         const { value } = ev.target[0]
@@ -106,6 +109,18 @@ export function TaskDetails() {
 
     const onCloseCardDetails = () => {
         navigate(`/boards/${currBoard._id}`)
+    }
+
+    const onChecklist = () => {
+        // createCheckListRef.current.classList.toggle('hide2')
+        // let newBoard = {...currBoard}
+        // console.log('AT CHECKLIST GIVE ME TASK', task);
+        if (!task.checklist) task.checklist = { id: utilService.makeId(), title: 'Check List', todos: [] }
+        // await dispatch(onSaveBoard(newBoard))
+        // await dispatch(setCurrBoard(newBoard._id))
+        console.log(currBoard);
+        return boardService.calculateProg(task);
+        // createCheckListRef.current.classList.toggle('hide2')
     }
 
     const getLabel = (labelId) => {
@@ -171,6 +186,23 @@ export function TaskDetails() {
             console.log('connot add label to task', err)
         }
     }
+    const onAddItem = async (ev) => {
+        // console.log(ev.target[0].value);
+        const newTodo = ev.target[0].value
+        const newBoard = await boardService.addTodo(currBoard,group,task,newTodo)
+        await dispatch(onSaveBoard(newBoard))
+        // await dispatch(setCurrBoard(newBoard._id))
+    }
+    console.log("REMDER");
+    const onCheckBoxClick = async (ev,todo)=>{
+        // console.log(todo);
+        const newBoard = await boardService.updateTodo(currBoard,group,task,todo)
+        await dispatch(onSaveBoard(newBoard))
+        // await dispatch(setCurrBoard(newBoard._id))
+        // setTask({})
+        // setTask({...task})
+    }
+
 
     const onToggleCreateLabelModal = () => {
         createLabelRef.current.classList.toggle('hide')
@@ -414,6 +446,97 @@ export function TaskDetails() {
 
 
 
+
+                    {/* change collction to checklist insted of checklists */}
+                    {/* Add calculate from boardService */}
+                    {/* add Tnai */}
+                    {<section className='checklist-container '>
+                        <header className='checklist-header'>
+                            <span className="checklist-icon">O</span>
+                            <div className='checklist-title-button flex'>
+                                <span className="checklist-title">Check List</span>
+                                <button className='checklist-title-delete' onClick={console.log('makeDelete')}>Delete</button>
+                            </div>
+                        </header>
+                        <div className='proggres-bar flex'>
+                            <span className='checklist-prog'>{onChecklist()}%</span>
+                            <ProgressBar completed={onChecklist()}></ProgressBar>
+                        </div>
+                        {/* task.checkList.length>0&& */}
+
+                        <section className='checklist-todos-list-container '>
+                            <ul style={{ padding: 0 }}>
+                                {task.checklist.todos.map(todo => {
+                                    return (
+                                        <li className='check-box-per-todo flex'>
+                                            <label className='checkbox-label' >
+                                                <input onChange={(ev)=>onCheckBoxClick(ev,todo)} className='checkbox' checked={todo.isDone} type="checkbox" id="todo.title" />
+                                                {todo.title}</label>
+                                        </li>
+                                    )
+                                })}
+                                {/* <li className='check-box-per-todo flex'>
+                                    <label className='checkbox-label' >
+                                    <input className='checkbox' type="checkbox" id="todo.title" />
+                                        To Do Dynamic</label>
+                                </li>
+                                <li className='check-box-per-todo flex'>
+                                    <label className='checkbox-label' >
+                                    <input className='checkbox' type="checkbox" id="todo.title" />
+                                        To Do Scss Looking Til</label>
+                                </li> */}
+                            </ul>
+                            <div className='add-item-checklist'>
+                                <button className='prev-btn-add-item'>Add an item</button>
+                                {/* add class name hide */}
+                                <div className='add-item-checklist-modal'>
+                                    <form id='add-item' onSubmit={(event)=>onAddItem(event)}>
+                                        <input type='text' className='add-item-checklist-input' placeholder='Add an item' />
+                                    </form>
+                                </div>
+                                <div className='add-item-checklist-controller flex'>
+                                    <div>
+                                        <button className='checklist-add-btn' type='submit' form='add-item'>Add</button>
+                                        <button>Cancel</button>
+                                    </div>
+                                    <div className='checklist-controller-btn'>
+                                        {/* <button className='checklist-add-btn'>Add</button> */}
+                                        <button>Assign</button>
+                                        <button>Due date</button>
+                                        <button>@</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* <h1>{this.titleCheck()}</h1>
+            <ul key={`todo ${id}`}>
+                <div className='li-to-scroll'>
+                {todos.map((todo, idx) => {
+                    return <li className='todo-li flex' key={`line-${idx}`}>
+                        <span className='todo-txt' onClick={() => this.clickTodo(todo, id)} style={{ textDecoration: todo.doneAt ? "line-through" : "none" }} >
+                            {todo.txt}
+                        </span>
+                        <label className='todo-delete' title='Delete Line'>
+                            <i className="fa-solid fa-circle-minus"></i>
+                            <button onClick={(event) => this.onDeleteTodo(todo, id, event)} value={idx}  ></button>
+                        </label>
+                    </li>
+                })}
+                </div>
+                <li className='todo-li flex'>
+                    <form onSubmit={() => this.onAddToDo(id)}>
+                        <input type='text' placeholder='Add Todo...'/>
+                    </form>
+                </li>
+            </ul> */}
+
+
+                    </section>}
+
+                    {/* <section className="custom-fields">
+            </section> */}
+
                     <section className="activity-container">
                         <header className="activity-header">
                             <div className="title-icon-container">
@@ -451,7 +574,7 @@ export function TaskDetails() {
                             </span>
                             <span>Labels</span>
                         </div>
-                        <div className="">
+                        <div className="" onClick={onChecklist}>
                             <span className="">
                                 <i className="fa-regular fa-square-check"></i>
                             </span>

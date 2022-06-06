@@ -29,6 +29,9 @@ export const boardService = {
 	toggleLabelToTask,
 	createLabel,
 	getTemplateById,
+	calculateProg,
+	addTodo,
+	updateTodo
 }
 
 async function query(filterBy = {}) {
@@ -220,4 +223,48 @@ async function createLabel(board, group, task, backgroundColor, title) {
 	updatedBoard.groups[groupIdx].tasks[taskIdx].labelIds.push(id)
 	console.log(updatedBoard)
 	return updatedBoard
+}
+
+async function addTodo(board, group, task, todoTitle) {
+	const id = utilService.makeId()
+	const newTodo = { title: todoTitle, id: id, isDone: false }
+	let newBoard = { ...board }
+	const groupIdx = newBoard.groups.findIndex(
+		(_group) => _group.id === group.id
+	)
+	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(
+		(_task) => _task.id === task.id
+	)
+	newBoard.groups[groupIdx].tasks[taskIdx].checklist.todos.push(newTodo)
+	console.log(newBoard)
+	return newBoard
+}
+
+async function updateTodo(board, group, task, todo) {
+	console.log("ON BOARD SERVICE LOGGER", todo)
+	const newTodo = { ...todo, isDone: !todo.isDone }
+	let newBoard = { ...board }
+	const groupIdx = newBoard.groups.findIndex(
+		(_group) => _group.id === group.id
+	)
+	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(
+		(_task) => _task.id === task.id
+	)
+	const todoIdx = newBoard.groups[groupIdx].tasks[taskIdx].checklist.todos.findIndex(
+		(_todo) => _todo.id === todo.id
+	)
+	console.log("ON BOARD SERVICE LOGGER", newTodo)
+	newBoard.groups[groupIdx].tasks[taskIdx].checklist.todos.splice(todoIdx,1,newTodo)
+	return newBoard
+
+}
+
+function calculateProg(task) {
+	// if(task.checklist.todos===[]) return 0
+	let todoLength = task.checklist.todos.length;
+	if (todoLength === 0) todoLength = 1
+	const todoDone = task.checklist.todos.filter(todo => todo.isDone)
+	// console.log('board Service ', todoLength);
+	let integer =Math.trunc(((todoDone.length / todoLength) * 100))
+	return integer
 }

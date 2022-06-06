@@ -18,7 +18,6 @@ export const BoardDeatails = () => {
 
 	useEffect(() => {
 		if (!Object.keys(currBoard).length) {
-			console.log('heyyy')
 			getCurrBoard()
 		}
 	}, [])

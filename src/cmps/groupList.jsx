@@ -31,12 +31,13 @@ export function GroupList() {
     // }, [newListTitle])
 
     const onAddList = async (value) => {
-        try{
+        try {
             const updatedBoard = await boardService.createList(currBoard, value)
             await dispatch(onSaveBoard(updatedBoard))
-            await dispatch(setCurrBoard(updatedBoard._id))
-        }catch(err){
-            console.error('cannot add list',err)
+            // await dispatch(setCurrBoard(updatedBoard._id))
+            setBoard(updatedBoard)
+        } catch (err) {
+            console.error('cannot add list', err)
         }
     }
 
@@ -56,13 +57,6 @@ export function GroupList() {
         ev.target[0].value = ''
     }
 
-    const moveGroup = (res) => {
-        let newBoard = { ...currBoard }
-        const gtm = newBoard.groups.splice(res.source.index, 1)
-        console.log(gtm);
-        newBoard.groups.splice(res.destination.index, 0, gtm[0])
-        boardService.update(newBoard)
-    }
 
     const onSetIsTaskDraggable = (bool) => {
         setIsTaskDraggable(bool)
@@ -77,20 +71,45 @@ export function GroupList() {
         addListRef.current.classList.toggle('close')
         inputListRef.current.focus()
     }
+    const moveGroup = async (res) => {
+        console.log('ONMOVEGROUP')
+        let newBoard = { ...currBoard }
+        const gtm = newBoard.groups.splice(res.source.index, 1)
+        console.log(gtm);
+        newBoard.groups.splice(res.destination.index, 0, gtm[0])
+        const ASA = await boardService.update(newBoard)
+        console.log(ASA);
+        console.log(currBoard);
+    }
 
     const moveTaskInGroup = async (res) => {
-        const groupDest = board.groups.find(_group => _group.id === res.destination.droppableId)
-        const groupSource = board.groups.find(_group => _group.id === res.source.droppableId)
-        const taskToMove = groupSource.tasks.splice(res.source.index, 1)
-        // console.log('HEYYYYYY',taskToMove);
-        groupDest.tasks.splice(res.destination.index, 0, taskToMove[0])
-        let newBoard = { ...board }
-        newBoard.groups.splice(res.destination.index, 1, groupDest)
-        newBoard.groups.splice(res.source.index, 1, groupSource)
-        // boardService.update(newBoard._id)
-        console.log("BOARDDDDd", newBoard)
-        await dispatch(onSaveBoard(newBoard))
-        await dispatch(setCurrBoard(newBoard._id))
+        console.log('on move task', res)
+        let newBoard = { ...currBoard }
+        const groupDest = await currBoard.groups.find(_group => _group.id == res.destination.droppableId)
+        const groupSource = await currBoard.groups.find(_group => _group.id == res.source.droppableId)
+        const groupIdxDest = currBoard.groups.findIndex(_group => _group.id === res.destination.droppableId)
+        const groupIdxSour = currBoard.groups.findIndex(_group => _group.id === res.source.draggableId)
+        console.log(newBoard);
+        console.log('TEN LI ET ZEEEEEE', groupSource);
+        if(res.destination.droppableId === res.source.droppableId){
+            const taskToMove = groupSource.tasks.splice(res.source.index, 1)
+            groupDest.tasks.splice(res.destination.index, 0, taskToMove[0])
+            newBoard.groups.splice(groupIdxDest, 1, groupDest)
+        }
+        if (res.destination.droppableId !== res.source.droppableId){
+            const taskToMove = groupSource.tasks.splice(res.source.index, 1)
+            groupDest.tasks.splice(res.destination.index, 0, taskToMove[0])
+            newBoard.groups.splice(groupIdxSour, 1, groupSource)
+            newBoard.groups.splice(groupIdxDest, 1, groupDest)
+        } 
+        console.log('TEN LI ET ZEEEEEE 222222222', newBoard);
+        // boardService.update(newBoard)
+        // boardService.update(newBoard)
+        // boardService.update(newBoard)
+        setBoard(newBoard)
+        boardService.update(newBoard)
+        // await dispatch(onSaveBoard(newBoard))
+        // await dispatch(setCurrBoard(newBoard._id))
     }
 
 
@@ -98,6 +117,7 @@ export function GroupList() {
         console.log(res);
         if (!res.destination) return;
         if (res.destination.droppableId === res.source.droppableId && res.destination.droppableId === board._id) {
+            console.log("in Group Move");
             onSetIsGroupDraggable(false)
             moveGroup(res)
         }
@@ -122,7 +142,6 @@ export function GroupList() {
 
 
     const onRemoveGroup = async (ev, groupId) => {
-        console.log('in on remove group');
         const updatedBoard = await boardService.removeGroup(currBoard, groupId)
         await dispatch(onSaveBoard(updatedBoard))
         await dispatch(setCurrBoard(updatedBoard._id))
