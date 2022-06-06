@@ -190,7 +190,7 @@ export function TaskDetails() {
         try {
             const updatedBoard = boardService.createLabel(currBoard, group, task, newLabelColor, newLabelTitle)
             await dispatch(onSaveBoard(updatedBoard))
-            await dispatch(setCurrBoard(updatedBoard._id))
+            // await dispatch(setCurrBoard(updatedBoard._id))
             onToggleCreateLabelModal()
         } catch (err) {
             console.log('connot add label to task', err)
@@ -234,14 +234,11 @@ export function TaskDetails() {
     if (!Object.keys(task).length || !Object.keys(group).length) return 'loading'
     return (
         <div className="card-details" ref={cardDetailsRef}>
-            {task.style && (() => {
-                closeDetailsRef.current.style.backgroundColor = "rgba(0, 0, 0, 0.08)"
-                closeDetailsRef.current.style.hover.backgroundColor = "#00000029"
-                return <header
+            {task.style && ( <header
                     className="card-details-header"
                     style={{ backgroundColor: task.style.backgroundColor }}
                 ></header>
-            }
+            
             )}
             <div className="main-aside-container">
                 <main className="card-details-conatiner">
