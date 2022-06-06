@@ -3,32 +3,30 @@ import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import hero1 from '../assets/img/hero1.png'
 import { AppHeader } from '../cmps/header'
+import { userService } from '../services/user.service'
 import { setCurrBoard } from '../store/actions/board.actions'
 import { setCurrUser } from '../store/actions/user.actions.js'
 export function Home() {
 	const dispatch = useDispatch()
 
-	useEffect(()=>{
+	useEffect(() => {
 		SetStore()
 	}, [])
-	
-	const SetStore = async()=>{
+
+	const SetStore = async () => {
 		await dispatch(setCurrUser({}))
-		await dispatch(setCurrBoard({}))
-
-
+		// await dispatch(setCurrBoard({}))
 	}
 
-
-
 	const onSetGuestMode = async () => {
-		dispatch(
-			setCurrUser({
-				name: 'Guest',
-				imgUrl:
-					'https://res.cloudinary.com/dgjmjxkct/image/upload/v1653899076/dl6faof1ecyjnfnknkla_gxwbcq.svg',
-			})
-		)
+		const guestUser = {
+			name: 'Guest',
+			imgUrl:
+				'https://res.cloudinary.com/dgjmjxkct/image/upload/v1653899076/dl6faof1ecyjnfnknkla_gxwbcq.svg',
+			boards: ['629d8fac2f760e2ec9cf7d8d'],
+		}
+		dispatch(setCurrUser(guestUser))
+		userService.saveLocalUser(guestUser)
 	}
 
 	return (

@@ -24,20 +24,30 @@ export const BoardList = () => {
 		}
 	}, [])
 	useEffect(() => {
-		// console.log(currUser);
-		// loadBoards()
+		console.log('currUser:', currUser)
 		loadTemplates()
-		if (Object.keys(currUser).length) {
-			loadUserBoards()
-		}
+		if (currUser.name !== 'Guest') loadUserBoards()
+		else loadGuestBoards()
 	}, [currUser])
+
+	const loadGuestBoards = async () => {
+		Promise.all(
+			currUser.boards
+				?.map(async (userBoardId) => {
+					console.log('userBoardId', userBoardId)
+					const board = await boardService.getById(userBoardId)
+					return board
+				})
+				)
+				.then((userBoards) => {setBoards(userBoards || [])})
+	}
 
 	useEffect(() => {
 		console.log('currBoard in store:', currBoard)
 	}, [currBoard])
 
 	const loadUserBoards = async () => {
-		if (!Object.keys(currUser).length) return
+		if (!Object.keys(currUser).length || !currUser.boards) return
 		try {
 			Promise.all(
 				currUser.boards?.map(async (userBoardId) => {
@@ -79,6 +89,7 @@ export const BoardList = () => {
 
 	const setUserBoards = async () => {
 		const user = await userService.getLoggedinUser()
+		console.log('logged in user boardList 81:', user)
 		await dispatch(setCurrUser(user))
 		loadUserBoards()
 	}
