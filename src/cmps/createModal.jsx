@@ -121,9 +121,9 @@ export const CreateModal = ({ createMode, onSetCreateMode }) => {
 						}}
 					></button>
 					<button
-						className="color-select green"
+						className="color-select blue"
 						onClick={() => {
-							onSetBoardColor('rgb(97, 189, 79)')
+							onSetBoardColor('#0079bf')
 						}}
 					></button>
 					<button
