@@ -172,16 +172,13 @@ export function TaskDetails() {
         try {
             const updatedBoard = await boardService.toggleLabelToTask(currBoard, group, taskId, labelId)
             await dispatch(onSaveBoard(updatedBoard))
-            await dispatch(setCurrBoard(updatedBoard._id))
+            // await dispatch(setCurrBoard(updatedBoard._id))
         } catch (err) {
             console.log('connot add label to task', err)
         }
 
     }
 
-    const checking = async ({ target }) => {
-        await onSearchLabel
-    }
 
     const onSearchLabel = ({ target }) => {
         const value = target.value
@@ -373,7 +370,7 @@ export function TaskDetails() {
 
                         <div ref={createLabelRef} className="create-label-modal-container hide">
                             <header className="create-label-modal-header">
-                                <span className="go-back-to-label-modal">*</span>
+                                {/* <span className="go-back-to-label-modal">*</span> */}
                                 <span className="create-label-modal-title">
                                     Create label
                                 </span>
@@ -381,7 +378,7 @@ export function TaskDetails() {
                                     onClick={onToggleCreateLabelModal}
                                     className="close-label-modal"
                                 >
-                                    X
+                                    <i class="fa-solid fa-x"></i>
                                 </button>
                             </header>
                             <hr />
