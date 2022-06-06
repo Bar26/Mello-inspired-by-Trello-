@@ -31,10 +31,11 @@ hr {
         display: flex;
         align-items: center;
         font-size: 20px;
-        font-weight: 800;
+        font-weight: 700;
         margin:0 12px;
         // padding: 0 12px;
         span{
+            color:white;
             @include flex-center;
         }
         
@@ -140,6 +141,13 @@ hr {
         height: 100%;
         position: relative;
         gap: 10px;
+        >*{
+            >*{
+
+                color:white;
+                font-size: 14px;
+            }
+        }
     }
 
     // gap:10px;
