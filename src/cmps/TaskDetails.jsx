@@ -33,6 +33,7 @@ export function TaskDetails() {
     const descPrevRef = useRef()
 
     const addLabelModalRef = useRef()
+    const attachmentModalRef = useRef()
     const createLabelRef = useRef()
     const createCheckListRef = useRef()
     const [newLabelColor, setNewLabelColor] = useState('#61bd4f')
@@ -105,7 +106,7 @@ export function TaskDetails() {
     }
 
     const onSaveDesc = async (value) => {
-        const updatedBoard =await  boardService.saveDesc(currBoard, group.id, task.id, value)
+        const updatedBoard = await boardService.saveDesc(currBoard, group.id, task.id, value)
         await dispatch(onSaveBoard(updatedBoard))
     }
 
@@ -113,7 +114,7 @@ export function TaskDetails() {
         navigate(`/boards/${currBoard._id}`)
     }
 
-    const AsyncFuncForBar = async ()=>{
+    const AsyncFuncForBar = async () => {
         let newBoard = await boardService.createChecklist(currBoard, group, task)
         await boardService.update(newBoard)
         await dispatch(onSaveBoard(newBoard))
@@ -234,11 +235,11 @@ export function TaskDetails() {
     if (!Object.keys(task).length || !Object.keys(group).length) return 'loading'
     return (
         <div className="card-details" ref={cardDetailsRef}>
-            {task.style && ( <header
-                    className="card-details-header"
-                    style={{ backgroundColor: task.style.backgroundColor }}
-                ></header>
-            
+            {task.style && (<header
+                className="card-details-header"
+                style={{ backgroundColor: task.style.backgroundColor }}
+            ></header>
+
             )}
             <div className="main-aside-container">
                 <main className="card-details-conatiner">
@@ -417,12 +418,12 @@ export function TaskDetails() {
                                 <div className="desc-title">Description</div>
                                 {/* <button className="edit-desc">Edit</button> */}
                             </header>
-                               
+
                             <div
                                 ref={descPrevRef}
                                 className="edit-prev"
                                 onClick={toggleDescInput}
-                                style={task.description? ({backgroundColor:"transparent"}):({backgroundColor:"rgb(235, 236, 240)"}) }
+                                style={task.description ? ({ backgroundColor: "transparent" }) : ({ backgroundColor: "rgb(235, 236, 240)" })}
                             >
                                 {task.description || 'Add a more detailed description...'}
                             </div>
@@ -431,7 +432,7 @@ export function TaskDetails() {
                                 ref={descInputContainerRef}
                             >
                                 <form onSubmit={onDescSubmit}  >
-                                
+
                                     <textarea
                                         ref={descInputRef}
                                         className="add-desc"
@@ -442,23 +443,51 @@ export function TaskDetails() {
                                         placeholder={
                                             task.description || 'Add a more detailed description...'
                                         }
-                                        />
+                                    />
 
                                     <div className="desc-btn">
-                                <button className="save-desc">Save</button>
+                                        <button className="save-desc">Save</button>
 
-                                    <button
-                                        type="button"
-                                        onClick={(ev) => {
-                                            ev.stopPropagation()
-                                            onCancelDescChange(ev)
-                                        }}
-                                        className="cancel-change"
-                                    >
-                                        Cancel
-                                    </button>
+                                        <button
+                                            type="button"
+                                            onClick={(ev) => {
+                                                ev.stopPropagation()
+                                                onCancelDescChange(ev)
+                                            }}
+                                            className="cancel-change"
+                                        >
+                                            Cancel
+                                        </button>
                                     </div>
                                 </form>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Add Tnai */}
+                    <section className='attachment-container'>
+                        <header className='attachment-header'>
+                            <span className="attachment-icon"><i className="fa-solid fa-paperclip"></i></span>
+                            <div className='attachment-title-button flex'>
+                                <span className="attachment-title">Attachments</span>
+                                <button className='attachment-title-delete' onClick={console.log('Make Delete')}>Delete</button>
+                            </div>
+                        </header>
+                        <div>
+                        <div className='add-item-attachment hide' ref={attachmentModalRef}>
+                                {/* add class name hide */}
+                                <div className='add-item-attachment-modal'>
+                                    <form id='add-item-attachment' onSubmit={(event) => onAddAttachment(event)}>
+                                        <input type='text' className='add-item-attachment-input' placeholder='Add an item' />
+                                    </form>
+                                </div>
+                                Add 
+                                <div className='add-item-attachment-controller flex'>
+                                    <div>
+                                        <button className='attachment-add-btn' type='submit' form='add-item'>Add</button>
+                                        {/* <button onClick={toggleattachmentModal}>Cancel</button> */}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -468,7 +497,7 @@ export function TaskDetails() {
                     {/* checklist title to input */}
                     {task.checklist && task.checklist.todos && <section className='checklist-container '>
                         <header className='checklist-header'>
-                            <span className="checklist-icon">O</span>
+                            <span className="checklist-icon"><i className="fa-regular fa-square-check"></i></span>
                             <div className='checklist-title-button flex'>
                                 <span className="checklist-title">Check List</span>
                                 <button className='checklist-title-delete' onClick={onDeleteChecklist}>Delete</button>
@@ -506,7 +535,7 @@ export function TaskDetails() {
                             <div className='add-item-checklist hide' ref={checklistModalRef}>
                                 {/* add class name hide */}
                                 <div className='add-item-checklist-modal'>
-                                    <form id='add-item' onSubmit={(event) => onAddItem(event)}>
+                                    <form id='add-item' onSubmit={(event) => attachmentModalRef(event)}>
                                         <input type='text' className='add-item-checklist-input' placeholder='Add an item' />
                                     </form>
                                 </div>
@@ -590,7 +619,7 @@ export function TaskDetails() {
                             </span>
                             <span>Labels</span>
                         </div>
-                        <div className="" onClick={()=>AsyncFuncForBar()}>
+                        <div className="" onClick={() => AsyncFuncForBar()}>
                             <span className="">
                                 <i className="fa-regular fa-square-check"></i>
                             </span>
