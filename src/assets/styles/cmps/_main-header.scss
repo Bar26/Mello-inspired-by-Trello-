@@ -18,8 +18,9 @@ hr {
 .secondary-header {
     display: flex;
     height: 44px;
-    background-color: rgba(215, 215, 255, 0.4);
-    padding: 6px 0;
+    // background-color: rgba(215, 215, 255, 0.4);
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 6px 4px;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 5px;

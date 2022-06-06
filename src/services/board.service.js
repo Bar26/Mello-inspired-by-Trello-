@@ -31,7 +31,9 @@ export const boardService = {
 	getTemplateById,
 	calculateProg,
 	addTodo,
-	updateTodo
+	updateTodo,
+	deleteChecklist,
+	createChecklist
 }
 
 async function query(filterBy = {}) {
@@ -215,7 +217,32 @@ async function createLabel(board, group, task, backgroundColor, title) {
 	console.log(updatedBoard)
 	return updatedBoard
 }
+async function createChecklist(board, group, task) {
+	const updatedBoard = { ...board }
+	const groupIdx = updatedBoard.groups.findIndex(
+		(_group) => _group.id === group.id
+	)
+	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex(
+		(_task) => _task.id === task.id
+	)
+	let checklist = { id: utilService.makeId(), title: 'Check List', todos: [] }
+	
+	updatedBoard.groups[groupIdx].tasks[taskIdx].checklist=checklist
+	console.log('AddingCheckList',updatedBoard)
+	return updatedBoard
+}
 
+async function deleteChecklist(board, group, task) {
+	let newBoard = { ...board }
+	const groupIdx = newBoard.groups.findIndex(
+		(_group) => _group.id === group.id
+	)
+	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(
+		(_task) => _task.id === task.id
+	)
+	newBoard.groups[groupIdx].tasks[taskIdx].checklist={}
+	return newBoard
+}
 async function addTodo(board, group, task, todoTitle) {
 	const id = utilService.makeId()
 	const newTodo = { title: todoTitle, id: id, isDone: false }
@@ -251,7 +278,8 @@ async function updateTodo(board, group, task, todo) {
 }
 
 function calculateProg(task) {
-	// if(task.checklist.todos===[]) return 0
+	console.log(task);
+	if(!task.checklist) return 
 	let todoLength = task.checklist.todos.length;
 	if (todoLength === 0) todoLength = 1
 	const todoDone = task.checklist.todos.filter(todo => todo.isDone)

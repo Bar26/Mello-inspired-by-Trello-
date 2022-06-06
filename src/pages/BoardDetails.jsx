@@ -37,10 +37,13 @@ export const BoardDeatails = () => {
 	return (
 		<section
 			className="board-details"
-			style={{ background: currBoard.style.backgroundColor }}
+			style={
+				(currBoard.style.backgroundImage) ? { background: 'url('+currBoard.style.backgroundImage+')',backgroundRepeat:'no-repeat',backgroundSize:'cover', backgroundPosition:'center'} : { background: currBoard.style.backgroundColor }
+			}
 		>
+			{/* {console.log((currBoard.style.backgroundImage) ? { background: currBoard.style.backgroundImage } : { background: currBoard.style.backgroundColor })} */}
 			<SecondaryHeader />
-			<section className="board-content">
+			<section className="board-content" >
 				<BoardHeader menuShow={menuShow} toggleBoardMenu={toggleBoardMenu} />
 				<BoardMenu menuShow={menuShow} toggleBoardMenu={toggleBoardMenu} />
 				<GroupList boardId={boardId} />
