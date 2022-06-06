@@ -31,7 +31,7 @@ export const boardService = {
 	getTemplateById,
 	calculateProg,
 	addTodo,
-	updateTodo
+	updateTodo,
 }
 
 async function query(filterBy = {}) {
@@ -99,12 +99,16 @@ async function getEmptyBoard(template, toSave = true) {
 		}
 	} else {
 		newBoard._id = utilService.makeId()
-		return storageService.put(STORAGE_KEY, newBoard)
+		return storageService.post(STORAGE_KEY, newBoard)
 	}
 }
 
-async function getById(id) {
-	return httpService.get(`board/${id}`)
+async function getById(id, fromLocal = false) {
+	if (fromLocal) {
+		return storageService.get(STORAGE_KEY, id)
+	} else {
+		return httpService.get(`board/${id}`)
+	}
 }
 
 async function getTemplateById(id) {
@@ -229,9 +233,7 @@ async function addTodo(board, group, task, todoTitle) {
 	const id = utilService.makeId()
 	const newTodo = { title: todoTitle, id: id, isDone: false }
 	let newBoard = { ...board }
-	const groupIdx = newBoard.groups.findIndex(
-		(_group) => _group.id === group.id
-	)
+	const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
 	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(
 		(_task) => _task.id === task.id
 	)
@@ -241,30 +243,221 @@ async function addTodo(board, group, task, todoTitle) {
 }
 
 async function updateTodo(board, group, task, todo) {
-	console.log("ON BOARD SERVICE LOGGER", todo)
+	console.log('ON BOARD SERVICE LOGGER', todo)
 	const newTodo = { ...todo, isDone: !todo.isDone }
 	let newBoard = { ...board }
-	const groupIdx = newBoard.groups.findIndex(
-		(_group) => _group.id === group.id
-	)
+	const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
 	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(
 		(_task) => _task.id === task.id
 	)
-	const todoIdx = newBoard.groups[groupIdx].tasks[taskIdx].checklist.todos.findIndex(
-		(_todo) => _todo.id === todo.id
+	const todoIdx = newBoard.groups[groupIdx].tasks[
+		taskIdx
+	].checklist.todos.findIndex((_todo) => _todo.id === todo.id)
+	console.log('ON BOARD SERVICE LOGGER', newTodo)
+	newBoard.groups[groupIdx].tasks[taskIdx].checklist.todos.splice(
+		todoIdx,
+		1,
+		newTodo
 	)
-	console.log("ON BOARD SERVICE LOGGER", newTodo)
-	newBoard.groups[groupIdx].tasks[taskIdx].checklist.todos.splice(todoIdx,1,newTodo)
 	return newBoard
-
 }
 
 function calculateProg(task) {
 	// if(task.checklist.todos===[]) return 0
-	let todoLength = task.checklist.todos.length;
+	let todoLength = task.checklist.todos.length
 	if (todoLength === 0) todoLength = 1
-	const todoDone = task.checklist.todos.filter(todo => todo.isDone)
+	const todoDone = task.checklist.todos.filter((todo) => todo.isDone)
 	// console.log('board Service ', todoLength);
-	let integer =Math.trunc(((todoDone.length / todoLength) * 100))
+	let integer = Math.trunc((todoDone.length / todoLength) * 100)
 	return integer
+}
+// addGuestBoardExp()
+function addGuestBoardExp() {
+	const board = {
+	
+		title: 'Scrum Workflow',
+		archivedAt: 1589983468418,
+		createdAt: 1589983468418,
+		createdBy: {
+			_id: 'u101',
+			fullname: 'Itamar Sahar',
+			imgUrl: 'http://some-img',
+		},
+		style: { backgroundColor: 'rgb(255, 159, 26)' },
+		labels: [
+			{
+				id: 'l101',
+				title: 'Done',
+				backgroundColor: '#61bd4f',
+			},
+			{
+				id: 'l102',
+				title: 'Progress',
+				backgroundColor: '#C70A80',
+			},
+			{
+				id: 'l103',
+				title: 'feature',
+				backgroundColor: '#FBCB0A',
+			},
+			{
+				id: 'l104',
+				title: 'to-update',
+				backgroundColor: '#590696',
+			},
+		],
+		members: [
+			{
+				_id: 'u101',
+				fullname: 'Noam Bar',
+				imgUrl:
+					'https://live-production.wcms.abc-cdn.net.au/ff1221fbfdb2fe163fdda15df5f77676?impolicy=wcms_crop_resize&cropH=394&cropW=700&xPos=0&yPos=37&width=862&height=485',
+			},
+		],
+		groups: [
+			{
+				id: 'g101',
+				title: 'Sprint Backlog',
+				archivedAt: 1589983468418,
+				tasks: [
+					{
+						id: 'c101',
+						title: 'Replace logo',
+						labelIds: ['l103', 'l104'],
+					},
+					{
+						id: 'c102',
+						title: 'CRUDL',
+					},
+					{
+						id: 'c103',
+						title: 'Design Home page',
+						style: {
+							backgroundColor: '#0079bf',
+						},
+					},
+				],
+				style: {},
+			},
+			{
+				id: 'g102',
+				title: 'Dev',
+				tasks: [
+					{
+						id: 'c104',
+						title: 'Login Auth',
+					},
+					{
+						id: 'c105',
+						title: 'Login Page',
+						style: {
+							backgroundColor: '#00c2e0',
+						},
+					},
+
+					{
+						id: 'c106',
+						title: 'Data Structure',
+					},
+				],
+
+				memberIds: ['u101'],
+				labelIds: ['l101', 'l102'],
+				createdAt: 1590999730348,
+				dueDate: 16156215211,
+				byMember: {
+					_id: 'u101',
+					username: 'Itamar',
+					fullname: 'Itamar Sahar',
+					imgUrl:
+						'http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg',
+				},
+				style: {
+					backgroundColor: '#26de81',
+				},
+			},
+
+			{
+				id: 'g103',
+				title: 'Code Review',
+				archivedAt: 1589983468418,
+				tasks: [
+					{
+						id: 'c107',
+						title: 'Sign up Auth',
+						style: {
+							backgroundColor: '#51e898',
+						},
+					},
+					{
+						id: 'c108',
+						title: 'Design Seup SCSS',
+					},
+				],
+				style: {},
+			},
+			{
+				id: 'g104',
+				title: 'Testing',
+				archivedAt: 1589983468418,
+				tasks: [
+					{
+						id: 'c109',
+						title: 'Google Login',
+						style: {
+							backgroundColor: '#ff78cb',
+						},
+					},
+					{
+						id: 'c110',
+						title: 'DB Security',
+					},
+				],
+				style: {},
+			},
+			{
+				id: 'g105',
+				title: 'Done',
+				archivedAt: 1589983468418,
+				tasks: [
+					{
+						id: 'c111',
+						title: 'Home Page functionallity',
+					},
+					{
+						id: 'c112',
+						title: 'Login and Sign up pages Design',
+						style: {
+							backgroundColor: '#344563',
+						},
+					},
+
+					{
+						id: 'c113',
+						title: 'Create Logo ',
+					},
+				],
+				style: {},
+			},
+		],
+		activities: [
+			{
+				id: 'a101',
+				title: 'Changed Color',
+				createdAt: 154514,
+				byMember: {
+					_id: 'u101',
+					fullname: 'Itamar Sahar',
+					imgUrl: 'http://some-img',
+				},
+				task: {
+					id: 'c101',
+					title: 'Replace Logo',
+				},
+			},
+		],
+	}
+	if (storageService.get(STORAGE_KEY, board._id)) {
+		storageService.post(STORAGE_KEY, board)
+	}
 }

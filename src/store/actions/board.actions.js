@@ -2,13 +2,18 @@ import { boardService } from '../../services/board.service.js'
 
 export function setCurrBoard(boardId) {
 	return async (dispatch) => {
+		let currBoard
 		try {
-			const currBoard = await boardService.getById(boardId)
+			currBoard = await boardService.getById(boardId, true)
+			if (!currBoard) {
+				currBoard = await boardService.getById(boardId)
+			}
 			console.log('board from backend:', currBoard)
 			// console.log('boardID FOR BAR from backend:', boardId)
-			dispatch({ type: 'SET_BOARD', currBoard })
 		} catch (err) {
-			console.log('Cannot set board', err)
+			console.error('Cannot set board', err)
+		} finally {
+			dispatch({ type: 'SET_BOARD', currBoard })
 		}
 	}
 }

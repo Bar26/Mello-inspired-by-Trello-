@@ -33,7 +33,7 @@ export const BoardDeatails = () => {
 			setMenuShow('')
 		}
 	}
-	if (!Object.keys(currBoard).length) return <h1>Loading...</h1>
+	if (!Object.keys(currBoard || {}).length) return <h1>Loading...</h1>
 	return (
 		<section
 			className="board-details"

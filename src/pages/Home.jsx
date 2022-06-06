@@ -15,7 +15,7 @@ export function Home() {
 
 	const SetStore = async () => {
 		await dispatch(setCurrUser({}))
-		await dispatch(setCurrBoard({}))
+		// await dispatch(setCurrBoard({}))
 	}
 
 	const onSetGuestMode = async () => {
@@ -23,7 +23,7 @@ export function Home() {
 			name: 'Guest',
 			imgUrl:
 				'https://res.cloudinary.com/dgjmjxkct/image/upload/v1653899076/dl6faof1ecyjnfnknkla_gxwbcq.svg',
-			boards: [],
+			boards: ['629d8fac2f760e2ec9cf7d8d'],
 		}
 		dispatch(setCurrUser(guestUser))
 		userService.saveLocalUser(guestUser)
