@@ -13,10 +13,14 @@
         color: $clr1;
         @include flex-center; 
         text-decoration: none;
-        color:$clr1;
+        gap:10px;
+
+        .fa-logo-container{
+            color:$clr2;
+
+        }
+
      
-       
-        
     }
 
     .nav-header {
@@ -40,6 +44,7 @@
             background-color: transparent;
             font-family:charlie-text-reg ;
             width:67px;
+            text-decoration: none;
         }
         
         .signup {

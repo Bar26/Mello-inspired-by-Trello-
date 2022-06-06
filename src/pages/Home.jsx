@@ -43,9 +43,9 @@ export function Home() {
 							From high rises to the home office, the way your team works is
 							unique—accomplish it all with Trello
 						</p>
-						<Link to="boards">
+						<Link className='link-to-start-as-guest' to="boards">
 							<button className="start-as-guest" onClick={onSetGuestMode}>
-								Start now-it's free
+								Start doing
 							</button>
 						</Link>
 					</section>

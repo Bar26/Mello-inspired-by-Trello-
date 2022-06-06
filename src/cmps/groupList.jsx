@@ -69,6 +69,7 @@ export function GroupList() {
         listFormRef.current.classList.toggle('close')
         inputListRef.current.value = ''
         addListRef.current.classList.toggle('close')
+        inputListRef.current.focus()
     }
     
     const moveGroup = async (res) => {
@@ -105,6 +106,7 @@ export function GroupList() {
 
 
     const handleOnDragEnd = (res) => {
+        console.log(res);
         if (!res.destination) return;
         if (res.destination.droppableId === res.source.droppableId && res.destination.droppableId === board._id) {
             console.log("in Group Move");
@@ -159,11 +161,13 @@ export function GroupList() {
                         ))}
 
                         {provided.placeholder}
-                        <div className="add-list-btn flex" onClick={toggleListForm} ref={addListRef} ><span className="plus">+</span><button > Add another list </button></div>
+                        <div className="add-list-btn flex" onClick={toggleListForm} ref={addListRef} ><span className="plus"><i class="fa-solid fa-plus"></i></span><button > Add another list </button></div>
                         <form className="add-list-form close" onSubmit={onListSubmit} ref={listFormRef}>
-                            <input ref={inputListRef} name="list-title" type="text" placeholder="Enter list title..." />
-                            <button type="button" className="close-list-form" onClick={toggleListForm}>X</button>
+                            <input ref={inputListRef} className="list-title" type="text" placeholder="Enter list title..." />
+                            <div className='add-list-btn'>
                             <button className="save-list">Add list</button>
+                            <button type="button" className="close-list-form" onClick={toggleListForm}><i class="fa-solid fa-xmark"></i></button>
+                            </div>
                         </form>
                     </div>
 

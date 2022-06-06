@@ -4,7 +4,7 @@ export function AppHeader() {
 	return (
 		<header className="main-header flex space-between">
 			<Link className="logo" to="/">
-				Trello
+				<span className='fa-logo-container'><i class="fab fa-trello"></i></span><span>Trello</span>
 			</Link>
 			<section className="nav-header flex">
 				<Link className="login" to="/login">

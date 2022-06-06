@@ -1,11 +1,9 @@
 .add-label-modal {
-    padding: 0 12px 12px;
-    z-index: 101;
+    // z-index: 101;
     
     // max-height: 100%;
     // box-shadow: 0 0 10px rgb(0 0 0 / 30%);
     
-    box-shadow: 0 0px 16px -4px rgb(9 30 66 / 25%), 0 0 0 1px rgb(9 30 66 / 8%);
     &:focus{
         outline: none
     }
@@ -59,8 +57,13 @@
     }
 
     .labels-container {
+        display: flex;
+        flex-direction: column;
         .labels-title {
-           @include flex-center
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            margin-bottom: 8px;
         }
 
         .labels-list {
@@ -77,6 +80,7 @@
                     width:calc(100% - 36px) ;
                     border-radius: 3px;
                     position: relative;
+                    @include flex-center;
                     .label-indication{
                         background-color: transparent;
                         width: 32px;
@@ -96,6 +100,8 @@
                     width: 32px;
                     height: 32px;
                     z-index: 40;
+                    @include flex-center;
+
 
                     .pen-img {
                         width: 40%;
