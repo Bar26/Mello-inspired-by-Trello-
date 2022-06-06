@@ -69,27 +69,23 @@ export function GroupList() {
         listFormRef.current.classList.toggle('close')
         inputListRef.current.value = ''
         addListRef.current.classList.toggle('close')
+        inputListRef.current.focus()
     }
+    
     const moveGroup = async (res) => {
-        console.log('ONMOVEGROUP')
         let newBoard = { ...currBoard }
         const gtm = newBoard.groups.splice(res.source.index, 1)
-        console.log(gtm);
         newBoard.groups.splice(res.destination.index, 0, gtm[0])
-        const ASA = await boardService.update(newBoard)
-        console.log(ASA);
+        await boardService.update(newBoard)
         console.log(currBoard);
     }
 
     const moveTaskInGroup = async (res) => {
-        console.log('on move task', res)
         let newBoard = { ...currBoard }
         const groupDest = await currBoard.groups.find(_group => _group.id == res.destination.droppableId)
         const groupSource = await currBoard.groups.find(_group => _group.id == res.source.droppableId)
         const groupIdxDest = currBoard.groups.findIndex(_group => _group.id === res.destination.droppableId)
         const groupIdxSour = currBoard.groups.findIndex(_group => _group.id === res.source.draggableId)
-        console.log(newBoard);
-        console.log('TEN LI ET ZEEEEEE', groupSource);
         if(res.destination.droppableId === res.source.droppableId){
             const taskToMove = groupSource.tasks.splice(res.source.index, 1)
             groupDest.tasks.splice(res.destination.index, 0, taskToMove[0])
@@ -101,18 +97,13 @@ export function GroupList() {
             newBoard.groups.splice(groupIdxSour, 1, groupSource)
             newBoard.groups.splice(groupIdxDest, 1, groupDest)
         } 
-        console.log('TEN LI ET ZEEEEEE 222222222', newBoard);
-        // boardService.update(newBoard)
-        // boardService.update(newBoard)
-        // boardService.update(newBoard)
         setBoard(newBoard)
         boardService.update(newBoard)
-        // await dispatch(onSaveBoard(newBoard))
-        // await dispatch(setCurrBoard(newBoard._id))
     }
 
 
     const handleOnDragEnd = (res) => {
+        console.log(res);
         if (!res.destination) return;
         if (res.destination.droppableId === res.source.droppableId && res.destination.droppableId === board._id) {
             console.log("in Group Move");
@@ -133,7 +124,6 @@ export function GroupList() {
         }
         else {
             onSetIsGroupDraggable(false)
-            onSetIsTaskDraggable(true)
 
         }
     }
@@ -167,11 +157,13 @@ export function GroupList() {
                         ))}
 
                         {provided.placeholder}
-                        <div className="add-list-btn flex" onClick={toggleListForm} ref={addListRef} ><span className="plus">+</span><button > Add another list </button></div>
+                        <div className="add-list-btn flex" onClick={toggleListForm} ref={addListRef} ><span className="plus"><i class="fa-solid fa-plus"></i></span><button > Add another list </button></div>
                         <form className="add-list-form close" onSubmit={onListSubmit} ref={listFormRef}>
-                            <input ref={inputListRef} name="list-title" type="text" placeholder="Enter list title..." />
-                            <button type="button" className="close-list-form" onClick={toggleListForm}>X</button>
+                            <input ref={inputListRef} className="list-title" type="text" placeholder="Enter list title..." />
+                            <div className='add-list-btn'>
                             <button className="save-list">Add list</button>
+                            <button type="button" className="close-list-form" onClick={toggleListForm}><i class="fa-solid fa-xmark"></i></button>
+                            </div>
                         </form>
                     </div>
 

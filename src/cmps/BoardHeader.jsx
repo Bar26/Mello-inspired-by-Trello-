@@ -64,7 +64,6 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu }) => {
 	const setBoardTitle = async () => {
 		try {
 			const updatedBoard = await boardService.setTitle(board)
-			console.log(updatedBoard)
 			await dispatch(setCurrBoard(updatedBoard._id))
 		} catch {
 			console.log('CMP ERROR')
