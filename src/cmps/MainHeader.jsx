@@ -83,7 +83,7 @@ export const SecondaryHeader = () => {
     return (
         <header className="secondary-header flex">
             <div className="flex">
-                <h1 className="logo"><img src={trelloIcon}/><span>Trello</span></h1>
+                <h1 className="logo"><img src={trelloIcon}/><span>Mello</span></h1>
                 <section className="nav-header flex">
                     <div className="header-btn" style={{ width: '100%' }}>
                         <div className="button-top flex">

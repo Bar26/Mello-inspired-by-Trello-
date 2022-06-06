@@ -1,10 +1,20 @@
 .board-list {
-    margin: 10px;
+    padding: 10px;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
+	width: fit-content;
     gap: 16px;
-	background-color: rgb(250,251,252);
+	background-color: transparent;
 
 	
+}
+
+.workspace-board-list{
+	margin:55px 70px;
+	display: flex;
+	flex-direction: column;
+	h1{
+		margin-bottom: 8px;
+	}
 }

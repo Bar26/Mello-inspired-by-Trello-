@@ -21,7 +21,8 @@
         .pen-container {
             display: flex;
             opacity: 1;
-            &:hover{
+
+            &:hover {
                 background-color: rgba(237, 237, 237, 0.611);
 
             }
@@ -102,18 +103,37 @@
         padding: 6px 8px;
         font-size: 12px;
         color: #5e6c84;
-        
-        .checklists-prev{
-            margin:0;
-            padding-top:4px;
-            color: #5e6c84;
-            // align-items: center;
-            // text-align: center;
-            .fontawsome {
-                height: 20px;
-                width: 20px;
-                font-size: 12px;
-                // background-color: aqua;
+
+        .icon-preview {
+            gap:4px;
+            .checklists-prev {
+                margin: 0;
+                padding-top: 4px;
+                color: #5e6c84;
+
+                // align-items: center;
+                // text-align: center;
+                .fontawsome {
+                    height: 20px;
+                    width: 20px;
+                    font-size: 12px;
+                    // background-color: aqua;
+                }
+            }
+
+            .description-prev {
+                margin: 0;
+                padding-top: 4px;
+                color: #5e6c84;
+
+                // align-items: center;
+                // text-align: center;
+                .fontawsome {
+                    height: 24px;
+                    width: 24px;
+                    font-size: 12px;
+                    // background-color: aqua;
+                }
             }
         }
 

@@ -55,7 +55,7 @@ export const BoardList = () => {
 	const loadTemplates = async () => {
 		try {
 			const templatesT = await boardService.queryTemplates()
-			console.log("LIOISSSO",templatesT);
+			console.log("LIOISSSO", templatesT);
 			setTemplates(templatesT)
 		} catch (err) {
 			console.error('error query templetes', err)
@@ -89,25 +89,10 @@ export const BoardList = () => {
 	return (
 		<section className="workspace">
 			<SecondaryHeader />
-			<h1>All Boards</h1>
-			<section className="board-list">
-				{boards.map((board, idx) => {
-					return (
-						<BoardPreview
-							board={board}
-							key={board._id + idx}
-							getStarredBoards={getStarredBoards}
-						/>
-					)
-				})}
-			</section>
-			<h1>
-				<i className="fa-regular fa-star"></i>
-				Starred Boards
-			</h1>
-			{!!starredBoards().length && (
+			<div className='workspace-board-list'>
+				<h1>All Boards</h1>
 				<section className="board-list">
-					{starredBoards().map((board, idx) => {
+					{boards.map((board, idx) => {
 						return (
 							<BoardPreview
 								board={board}
@@ -117,26 +102,43 @@ export const BoardList = () => {
 						)
 					})}
 				</section>
-			)}
-			<h1>Templates</h1>
-			<section className="board-list">
-				<article className="create-preview" onClick={onSetCreateMode}>
-					<h1>Create New Board</h1>
-				</article>
-				{templates.map((template, idx) => {
-					return (
-						<TemplatePreview
-							template={template}
-							key={template._id + idx}
-							getStarredBoards={getStarredBoards}
-						/>
-					)
-				})}
-			</section>
+				<h1>
+					<i className="fa-regular fa-star"></i>
+					Starred Boards
+				</h1>
+				{!!starredBoards().length && (
+					<section className="board-list">
+						{starredBoards().map((board, idx) => {
+							return (
+								<BoardPreview
+									board={board}
+									key={board._id + idx}
+									getStarredBoards={getStarredBoards}
+								/>
+							)
+						})}
+					</section>
+				)}
+				<h1>Templates</h1>
+				<section className="board-list">
+					<article className="create-preview" onClick={onSetCreateMode}>
+						<h1>Create New Board</h1>
+					</article>
+					{templates.map((template, idx) => {
+						return (
+							<TemplatePreview
+								template={template}
+								key={template._id + idx}
+								getStarredBoards={getStarredBoards}
+							/>
+						)
+					})}
+				</section>
 
-			<h1>Recently Viewed Boards</h1>
+				<h1>Recently Viewed Boards</h1>
 
-			<CreateModal createMode={createMode} onSetCreateMode={onSetCreateMode} />
+				<CreateModal createMode={createMode} onSetCreateMode={onSetCreateMode} />
+			</div>
 		</section>
 	)
 }
