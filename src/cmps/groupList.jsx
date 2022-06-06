@@ -73,13 +73,10 @@ export function GroupList() {
     }
     
     const moveGroup = async (res) => {
-        console.log('ONMOVEGROUP')
         let newBoard = { ...currBoard }
         const gtm = newBoard.groups.splice(res.source.index, 1)
-        console.log(gtm);
         newBoard.groups.splice(res.destination.index, 0, gtm[0])
-        const ASA = await boardService.update(newBoard)
-        console.log(ASA);
+        await boardService.update(newBoard)
         console.log(currBoard);
     }
 
@@ -127,7 +124,6 @@ export function GroupList() {
         }
         else {
             onSetIsGroupDraggable(false)
-            onSetIsTaskDraggable(true)
 
         }
     }
