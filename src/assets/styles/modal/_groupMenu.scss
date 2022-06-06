@@ -1,0 +1,94 @@
+.group-menu {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 40px;
+    width: 40px;
+    @include flex-center;
+    color:$clr-small-text;
+
+
+
+    &.hide {
+        display: none;
+    }
+
+    .menu-modal {
+        width: 304px;
+        background-color: white;
+        z-index: 100000;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 50px;
+        padding: 0 12px 12px;
+        box-shadow: 0 0px 16px -4px rgb(9 30 66 / 25%), 0 0 0 1px rgb(9 30 66 / 8%);
+
+
+        // top: calc(100% + 4px);
+
+        .menu-modal-header {
+            @include flex-center;
+            height: 41px;
+
+            .menu-modal-title {
+                color: $clr-small-text;
+                background-color: transparent;
+                font-weight: 400;
+                @include flex-center;
+            }
+
+            .close-menu-modal {
+                background-color: transparent;
+                color: rgb(107, 119, 140);
+                font-size: 14px;
+                width: 32px;
+                height: 32px;
+                @include flex-center;
+                position: absolute;
+                top: 4px;
+                right: 4px;
+
+            }
+        }
+
+        hr {
+            margin-top: 0;
+            background-color: rgba(9, 30, 66, 0.1294117647);
+            border: 0;
+            height: 1px;
+            padding: 0;
+            width: 100%;
+
+        }
+
+        .menu-btn {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+
+            >* {
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                background-color: transparent;
+                height: 32px;
+                padding: 6px 0;
+                color: $clr-text-group;
+                font-size: 14px;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+                &:hover {
+                    background-color: #091e420a;
+                }
+            }
+
+            .add-card-from-menu {}
+
+            .copy-list-from-menu {}
+
+            .archive-list-from-menu {}
+        }
+    }
+}

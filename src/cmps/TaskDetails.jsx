@@ -3,9 +3,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import pen from '../assets/img/pen.png'
 import { boardService } from '../services/board.service'
 import { useNavigate, useParams } from 'react-router-dom'
+import { onCopyTask, onRemoveTask } from '../store/actions/board.actions'
+import descImg from '../assets/img/desc-img.png'
+
+
 import {
     setCurrBoard,
     setIsTaskDetailsScreenOpen,
+    onSaveBoard
 } from '../store/actions/board.actions'
 
 export function TaskDetails() {
@@ -17,17 +22,20 @@ export function TaskDetails() {
     const [group, setGroup] = useState({})
     const navigate = useNavigate()
     const cardDetailsRef = useRef()
-    const forListenerRef = useRef()
-    const forListenerUpRef = useRef()
     const penRef = useRef()
     const editLabelModalRef = useRef()
+
+    // const [descBeforChange, set
     const descInputRef = useRef()
     const descInputContainerRef = useRef()
     const descPrevRef = useRef()
+
     const addLabelModalRef = useRef()
     const createLabelRef = useRef()
     const [newLabelColor, setNewLabelColor] = useState('#61bd4f')
     const [newLabelTitle, setNewLabelTitle] = useState()
+    const [filterLabel, setFilterLabel] = useState('')
+    const closeDetailsRef = useRef()
 
     const palette = [
         '#61bd4f',
@@ -47,14 +55,13 @@ export function TaskDetails() {
         descPrevRef.current.classList.toggle('close')
     }
 
-    
+
     useEffect(() => {
         getGroupTask()
         if (!Object.keys(currBoard).length) {
             boardService.getById('board', params.boardId)
                 .then((board) => dispatch(setCurrBoard(board)))
         }
-        console.log(task.labelIds)
 
     }, [])
 
@@ -84,12 +91,17 @@ export function TaskDetails() {
         console.log('in desc submit')
 
         ev.preventDefault()
-        const { value } = ev.target
+        const { value } = ev.target[0]
+        console.log(value)
         toggleDescInput()
-        boardService
-            .saveDesc(currBoard, group.id, task.id, value)
-            .then(boardService.update)
-            .then((board) => dispatch(setCurrBoard(board)))
+        onSaveDesc(value)
+
+        // await dispatch(setCurrBoard(updatedBoard._id))
+    }
+
+    const onSaveDesc = async (value) => {
+        const updatedBoard =await  boardService.saveDesc(currBoard, group.id, task.id, value)
+        await dispatch(onSaveBoard(updatedBoard))
     }
 
     const onCloseCardDetails = () => {
@@ -104,7 +116,8 @@ export function TaskDetails() {
     const onCancelDescChange = () => {
         console.log('in cancel')
         toggleDescInput()
-        descInputRef.current.value = ''
+        console.log(task.description)
+        descInputRef.current.value = task.description
     }
 
     const onChangeCardTitle = (ev) => {
@@ -127,22 +140,36 @@ export function TaskDetails() {
         editLabelModalRef.current.classList.toggle('hide')
     }
 
-    const onToggleLabelToTask = (labelId) => {
-        boardService
-            .toggleLabelToTask(currBoard, group, taskId, labelId)
-            .then(boardService.update)
-            .then((board) => dispatch(setCurrBoard(board)))
+    const onToggleLabelToTask = async (labelId) => {
+        try {
+            const updatedBoard = await boardService.toggleLabelToTask(currBoard, group, taskId, labelId)
+            await dispatch(onSaveBoard(updatedBoard))
+            await dispatch(setCurrBoard(updatedBoard._id))
+        } catch (err) {
+            console.log('connot add label to task', err)
+        }
+
     }
 
-    const onSearchLabel = () => { }
+    const checking = async ({ target }) => {
+        await onSearchLabel
+    }
 
-    const onSaveNewLabel = () => {
-        console.log(newLabelColor, newLabelTitle)
-        boardService
-            .createLabel(currBoard, group, task, newLabelColor, newLabelTitle)
-            .then(boardService.update)
-            .then((board) => dispatch(setCurrBoard(board)))
-        onToggleCreateLabelModal()
+    const onSearchLabel = ({ target }) => {
+        const value = target.value
+        console.log(value)
+        setFilterLabel(value)
+    }
+
+    const onSaveNewLabel = async () => {
+        try {
+            const updatedBoard = boardService.createLabel(currBoard, group, task, newLabelColor, newLabelTitle)
+            await dispatch(onSaveBoard(updatedBoard))
+            await dispatch(setCurrBoard(updatedBoard._id))
+            onToggleCreateLabelModal()
+        } catch (err) {
+            console.log('connot add label to task', err)
+        }
     }
 
     const onToggleCreateLabelModal = () => {
@@ -153,188 +180,198 @@ export function TaskDetails() {
     if (!Object.keys(task).length || !Object.keys(group).length) return 'loading'
     return (
         <div className="card-details" ref={cardDetailsRef}>
-            {task.style && (
-                <header
+            {task.style && (() => {
+                closeDetailsRef.current.style.backgroundColor = "rgba(0, 0, 0, 0.08)"
+                closeDetailsRef.current.style.hover.backgroundColor = "#00000029"
+                return <header
                     className="card-details-header"
                     style={{ backgroundColor: task.style.backgroundColor }}
                 ></header>
+            }
             )}
             <div className="main-aside-container">
                 <main className="card-details-conatiner">
-                    <div className="forListener" ref={forListenerUpRef}>
-                        <section className="card-details-title-container">
-                            <div className="card-icon">O</div>
-                            <section className="title-in-group">
-                                <input
-                                    className="details-group-title"
-                                    defaultValue={task.title}
-                                    type="text"
-                                    onChange={onChangeCardTitle}
-                                />
-                                <div className="in-group">
-                                    in list <span className="list-name">{group.title}</span>
-                                </div>
-                            </section>
+                    {/* <div className="forListener" ref={forListenerUpRef}> */}
+                    <section className="card-details-title-container">
+                        <span className="card-icon"><i class="fa-solid fa-window-maximize"></i></span>
+                        <section className="title-in-group">
+                            <input
+                                className="details-group-title"
+                                defaultValue={task.title}
+                                type="text"
+                                onChange={onChangeCardTitle}
+                            />
+                            <div className="in-group">
+                                in list <span className="list-name">{group.title}</span>
+                            </div>
                         </section>
-                        <section className="card-details-labels">
-                            <div className="labels-title">Labels</div>
-                            {task.labelIds && currBoard.labels && (
-                                <div className="card-details-labels-container">
-                                    {task.labelIds.map((labelId) => {
-                                        const label = getLabel(labelId)
+                    </section>
+                    <section className="card-details-labels">
+                        {task.labelIds && currBoard.labels && (
+                            <div className="card-details-labels-container">
+                                {task.labelIds.map((labelId) => {
+                                    <div className="labels-title">Labels</div>
+                                    const label = getLabel(labelId)
+                                    const backgroundColor = label.backgroundColor
+                                    const title = label.title
+                                    return (
+                                        <div
+                                            key={labelId}
+                                            className="card-details-label"
+                                            style={{
+                                                backgroundColor: backgroundColor,
+                                                height: '32px',
+                                                width: '68px',
+                                            }}
+                                        >
+                                            {title}
+                                        </div>
+                                    )
+                                })}
+                                <section className="add-label-container">
+                                    <div
+                                        onClick={onToggleLabelModal}
+                                        className="card-details-add-label"           /////////?????????????
+                                    >
+                                        +
+                                    </div>
+
+                                </section>
+                            </div>
+                        )}
+                        {/* <section className="add-label-container"> */}
+                        <div
+                            ref={addLabelModalRef}
+                            className="add-label-modal hide"
+                            contentEditable
+                        >
+                            {/* onBlur={onToggleLabelModal} */}
+                            <header className="add-label-modal-header">
+                                <span className="add-label-modal-title">Labels</span>
+                                <button
+                                    onClick={onToggleLabelModal}
+                                    className="close-label-modal"
+                                >
+                                    X
+                                </button>
+                            </header>
+                            <hr />
+                            <input
+                                onChange={onSearchLabel}
+                                className="search-label"
+                                placeholder="Search labels..."
+                                value={filterLabel}
+                            />
+                            <div className="labels-container">
+                                <span className="labels-title">Labels</span>
+                                <div className="labels-list">
+                                    {currBoard.labels && currBoard.labels.map((label) => {
                                         const backgroundColor = label.backgroundColor
                                         const title = label.title
-                                        return (
-                                            <div
-                                                key={labelId}
-                                                className="card-details-label"
-                                                style={{
-                                                    backgroundColor: backgroundColor,
-                                                    height: '32px',
-                                                    width: '68px',
-                                                }}
-                                            >
-                                                {title}
-                                            </div>
-                                        )
-                                    })}
-                                    <section className="add-label-container">
-                                        <div
-                                            onClick={onToggleLabelModal}
-                                            className="card-details-add-label"
-                                        >
-                                            +
-                                        </div>
-                                        <div
-                                            ref={addLabelModalRef}
-                                            className="add-label-modal hide"
-                                            contentEditable
-                                        >
-                                            {/* onBlur={onToggleLabelModal} */}
-                                            <header className="add-label-modal-header">
-                                                <span className="add-label-modal-title">Labels</span>
-                                                <button
-                                                    onClick={onToggleLabelModal}
-                                                    className="close-label-modal"
-                                                >
-                                                    X
-                                                </button>
-                                            </header>
-                                            <hr />
-                                            <input
-                                                onClick={onSearchLabel}
-                                                className="search-label"
-                                                placeholder="Search labels..."
-                                            />
-                                            <div className="labels-container">
-                                                <span className="labels-title">Labels</span>
-                                                <div className="labels-list">
-                                                    {currBoard.labels.map((label) => {
-                                                        const backgroundColor = label.backgroundColor
-                                                        const title = label.title
-                                                        return (
-                                                            <section className="label-in-modal-container">
-                                                                <div
-                                                                    key={label.id}
-                                                                    className="label-in-modal"
-                                                                    onClick={() => onToggleLabelToTask(label.id)}
-                                                                    style={{
-                                                                        backgroundColor: backgroundColor,
-                                                                        height: '32px',
-                                                                    }}
-                                                                >
-                                                                    {title}
-                                                                    {task.labelIds.includes(label.id) && (
-                                                                        <div className="label-indication">✔</div>
-                                                                    )}
-                                                                </div>
-                                                                <div
-                                                                    ref={penRef}
-                                                                    className="edit-label"
-                                                                    onClick={onToggleEditLabelModal}
-                                                                >
-                                                                    <img className="pen-img" src={pen} />
-                                                                    <div
-                                                                        ref={editLabelModalRef}
-                                                                        className="edit-label-modal hide"
-                                                                    ></div>
-                                                                </div>
-                                                            </section>
-                                                        )
-                                                    })}
-                                                </div>
+                                        if (label.title.toLowerCase().includes(filterLabel)) {
 
-                                                <button
-                                                    onClick={onToggleCreateLabelModal}
-                                                    className="add-label-btn"
-                                                >
-                                                    Create a new label
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        <div
-                                            ref={createLabelRef}
-                                            className="create-label-modal-container hide"
-                                        >
-                                            <header className="create-label-modal-header">
-                                                <span className="go-back-to-label-modal">*</span>
-                                                <span className="create-label-modal-title">
-                                                    Create label
-                                                </span>
-                                                <button
-                                                    onClick={onToggleCreateLabelModal}
-                                                    className="close-label-modal"
-                                                >
-                                                    X
-                                                </button>
-                                            </header>
-                                            <hr />
-                                            <label className="create-label-label">
-                                                Name
-                                                <input
-                                                    className="create-label-input"
-                                                    type="text"
-                                                    onChange={(ev) => setNewLabelTitle(ev.target.value)}
-                                                    onBlur={(ev) => setNewLabelTitle(ev.target.value)}
-                                                />
-                                            </label>
-                                            <div className="select-color-title">Select a color</div>
-                                            <div className="colors-for-select">
-                                                {palette.map((clr) => {
-                                                    console.log(clr)
-                                                    return (
+                                            return (
+                                                <section className="label-in-modal-container">
+                                                    <div
+                                                        key={label.id}
+                                                        className="label-in-modal"
+                                                        onClick={() => onToggleLabelToTask(label.id)}
+                                                        style={{
+                                                            backgroundColor: backgroundColor,
+                                                            height: '32px',
+                                                        }}
+                                                    >
+                                                        {title}
+                                                        {task.labelIds && task.labelIds.includes(label.id) && (
+                                                            <div className="label-indication">✔</div>
+                                                        )}
+                                                    </div>
+                                                    <div
+                                                        ref={penRef}
+                                                        className="edit-label"
+                                                        onClick={onToggleEditLabelModal}
+                                                    >
+                                                        <img className="pen-img" src={pen} />
                                                         <div
-                                                            onClick={() => setNewLabelColor(clr)}
-                                                            className="label-color"
-                                                            style={{ backgroundColor: clr }}
-                                                        >
-                                                            {newLabelColor === clr && <div>✔</div>}
-                                                        </div>
-                                                    )
-                                                })}
-                                            </div>
-                                            <button onClick={onSaveNewLabel} className="save-label">
-                                                Create
-                                            </button>
-                                        </div>
-                                    </section>
+                                                            ref={editLabelModalRef}
+                                                            className="edit-label-modal hide"
+                                                        ></div>
+                                                    </div>
+                                                </section>
+                                            )
+                                        }
+                                        else return
+                                    })}
                                 </div>
-                            )}
-                        </section>
-                    </div>
+
+                                <button
+                                    onClick={onToggleCreateLabelModal}
+                                    className="add-label-btn"
+                                >
+                                    Create a new label
+                                </button>
+                            </div>
+                        </div>
+                        {/* </section> */}
+
+                        <div ref={createLabelRef} className="create-label-modal-container hide">
+                            <header className="create-label-modal-header">
+                                <span className="go-back-to-label-modal">*</span>
+                                <span className="create-label-modal-title">
+                                    Create label
+                                </span>
+                                <button
+                                    onClick={onToggleCreateLabelModal}
+                                    className="close-label-modal"
+                                >
+                                    X
+                                </button>
+                            </header>
+                            <hr />
+                            <label className="create-label-label">
+                                Name
+                                <input
+                                    className="create-label-input"
+                                    type="text"
+                                    onChange={(ev) => setNewLabelTitle(ev.target.value)}
+                                    onBlur={(ev) => setNewLabelTitle(ev.target.value)}
+                                />
+                            </label>
+                            <div className="select-color-title">Select a color</div>
+                            <div className="colors-for-select">
+                                {palette.map((clr) => {
+                                    // console.log(clr)
+                                    return (
+                                        <div
+                                            onClick={() => setNewLabelColor(clr)}
+                                            className="label-color"
+                                            style={{ backgroundColor: clr }}
+                                        >
+                                            {newLabelColor === clr && <div>✔</div>}
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                            <button onClick={onSaveNewLabel} className="save-label">
+                                Create
+                            </button>
+                        </div>
+
+                    </section>
+                    {/* </div> */}
                     <section className="description">
-                        <div className="desc-icon">O</div>
                         <div className="description-content">
                             <header className="description-header">
+                                <span className="desc-icon"><i class="fa-solid fa-align-left"></i></span>
                                 <div className="desc-title">Description</div>
-                                <button className="edit-desc">Edit</button>
+                                {/* <button className="edit-desc">Edit</button> */}
                             </header>
-
+                               
                             <div
                                 ref={descPrevRef}
                                 className="edit-prev"
                                 onClick={toggleDescInput}
+                                style={task.description? ({backgroundColor:"transparent"}):({backgroundColor:"rgb(235, 236, 240)"}) }
                             >
                                 {task.description || 'Add a more detailed description...'}
                             </div>
@@ -342,45 +379,45 @@ export function TaskDetails() {
                                 className="input-container close"
                                 ref={descInputContainerRef}
                             >
-                                <form onSubmit={onDescSubmit} onBlur={onDescSubmit}>
+                                <form onSubmit={onDescSubmit}  >
+                                
                                     <textarea
                                         ref={descInputRef}
                                         className="add-desc"
                                         defaultValue={task.description || ''}
                                         name="add-desc"
                                         type="text"
-                                        onSubmit={onDescSubmit}
+                                        onBlur={onDescSubmit}
                                         placeholder={
                                             task.description || 'Add a more detailed description...'
                                         }
-                                    // onBlur={onDescSubmit}
-                                    />
+                                        />
 
                                     <div className="desc-btn">
-                                        <button className="save-desc">Save</button>
-                                        <button
-                                            type="button"
-                                            onClick={(ev) => {
-                                                ev.stopPropagation()
-                                                onCancelDescChange(ev)
-                                            }}
-                                            className="cancel-change"
-                                        >
-                                            Cancel
-                                        </button>
+                                <button className="save-desc">Save</button>
+
+                                    <button
+                                        type="button"
+                                        onClick={(ev) => {
+                                            ev.stopPropagation()
+                                            onCancelDescChange(ev)
+                                        }}
+                                        className="cancel-change"
+                                    >
+                                        Cancel
+                                    </button>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </section>
 
-                    {/* <section className="custom-fields">
-            </section> */}
+
 
                     <section className="activity-container">
                         <header className="activity-header">
                             <div className="title-icon-container">
-                                <span className="activity-icon">O</span>
+                                <span className="activity-icon"><i class="fa-solid fa-list-ul"></i></span>
                                 <span className="activity-title">Activity</span>
                             </div>
                             <button className="show-details">Show details</button>
@@ -408,7 +445,7 @@ export function TaskDetails() {
                             </span>
                             <span>Members</span>
                         </div>
-                        <div className="">
+                        <div className=" add-label-aside" onClick={onToggleLabelModal}>
                             <span className="">
                                 <i className="fa-solid fa-tag"></i>
                             </span>
@@ -427,8 +464,8 @@ export function TaskDetails() {
                             <span>Attachment</span>
                         </div>
                         <div className="">
-                            <span className="">
-                                <i className="fa-solid fa-tv"></i>
+                            <span className="add-to-card-cover">
+                                <i class="fa-regular fa-window-maximize"></i>
                             </span>
                             <span>Cover</span>
                         </div>
@@ -444,12 +481,12 @@ export function TaskDetails() {
                             </span>
                             <span>Location</span>
                         </div>
-                        <div className="">
+                        {/* <div className="">
                             <span className="">
                                 <i className="fa-regular fa-pen-field"></i>
                             </span>
                             <span>Custom fields</span>
-                        </div>
+                        </div> */}
                     </section>
                     <section className="card-details-actions">
                         <span className="actions-title">Actions</span>
@@ -459,25 +496,30 @@ export function TaskDetails() {
                             </span>
                             <span>Move</span>
                         </div>
-                        <div className="">
+                        <div className="card-actions-copy" onClick={(ev) => dispatch(onCopyTask(ev, task, group, currBoard))}>
                             <span className="">
                                 <i className="fa-regular fa-copy"></i>
                             </span>
                             <span>Copy</span>
                         </div>
-                        <div className="">
+                        {/* <div className="">
                             <span className="">
                                 <i className="fa-solid fa-photo-film"></i>
                             </span>
                             <span>Make template</span>
-                        </div>
-                        <div className="">
+                        </div> */}
+                        {/* <div className="">
                             <span className="">
                                 <i className="fa-regular fa-eye"></i>
                             </span>
                             <span>Watch</span>
-                        </div>
-                        <div className="">
+                        </div> */}
+                        <div className="card-actions-remove" onClick={(ev) => {
+                            dispatch(onRemoveTask(ev, task.id, group, currBoard))
+                            navigate(`/boards/${currBoard._id}`)
+                        }
+                        }
+                        >
                             <span className="">
                                 <i className="fa-solid fa-box-archive"></i>
                             </span>
@@ -492,8 +534,8 @@ export function TaskDetails() {
                     </section>
                 </section>
             </div>
-            <button onClick={onCloseCardDetails}>
-                <i className="fa-solid fa-xmark"></i>
+            <button ref={closeDetailsRef} className="close-details-btn" onClick={onCloseCardDetails}>
+                <i class="fa-solid fa-x"></i>
             </button>
         </div>
     )

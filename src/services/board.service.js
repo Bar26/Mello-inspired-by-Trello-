@@ -16,8 +16,8 @@ export const boardService = {
 	update,
 	createTask,
 	getEmptyBoard,
-	removeTask,
-	copyTask,
+	removeCard,
+	copyCard,
 	setTitle,
 	createList,
 	getTaskGroupById,
@@ -53,7 +53,6 @@ function setStarredTemplate(template) {
 
 async function setTitle(newBoard) {
 	try {
-		console.log('newBoard', newBoard)
 		return httpService.put(`board/${newBoard._id}`, newBoard)
 	} catch {
 		console.log('Service ERROR')
@@ -108,7 +107,6 @@ async function getTemplateById(id) {
 }
 
 async function getTaskGroupById(board, taskId) {
-	console.log(board)
 	const group = board.groups.filter((group) =>
 		group.tasks.find((task) => task.id === taskId)
 	)[0]
@@ -137,7 +135,7 @@ async function createTask(title) {
 	return { id, title }
 }
 
-async function createList(board,title) {
+async function createList(board, title) {
 	const updatedBoard = { ...board }
 	const id = utilService.makeId()
 	const list = { id, title, tasks: [] }
@@ -145,17 +143,23 @@ async function createList(board,title) {
 	return updatedBoard
 }
 
-async function copyTask(task) {
+async function copyCard(task, group, board) {
+	const updatedBoard = { ...board }
 	const taskCopy = { ...task }
 	const newId = utilService.makeId()
+	console.log(newId)
 	taskCopy.id = newId
-	return taskCopy
+	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
+	updatedBoard.groups[groupIdx].tasks.push(taskCopy)
+	return updatedBoard
 }
 
-async function removeTask(board, groupIdx, taskIdx) {
-	board.groups[groupIdx].tasks.splice(taskIdx, 1)
-
-	return board
+async function removeCard(board, group, taskId) {
+	const updatedBoard = { ...board }
+	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
+	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex(_task => _task.id === taskId)
+	updatedBoard.groups[groupIdx].tasks.splice(taskIdx, 1)
+	return updatedBoard
 }
 async function removeGroup(board, groupId) {
 	console.log(' in remove')
@@ -188,18 +192,15 @@ async function changeGroupTitle(board, group, value) {
 
 async function toggleLabelToTask(board, group, taskId, labelId) {
 	const updatedBoard = { ...board }
-	const groupIdx = updatedBoard.groups.findIndex(
-		(_group) => _group.id === group.id
-	)
-	let task = updatedBoard.groups[groupIdx].tasks.find(
-		(task) => task.id === taskId
-	)
-	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex(
-		(task) => task.id === taskId
-	)
-	const labelIdx = task.labelIds.findIndex((_labelId) => _labelId === labelId)
-	if (labelIdx !== -1) task.labelIds.splice(labelIdx, 1)
-	else task.labelIds.push(labelId)
+	const groupIdx = updatedBoard.groups.findIndex((_group) => _group.id === group.id)
+	let task = updatedBoard.groups[groupIdx].tasks.find((task) => task.id === taskId)
+	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex((task) => task.id === taskId)
+	if (task.labelIds) {
+		const labelIdx = task.labelIds?.findIndex((_labelId) => _labelId === labelId)
+		console.log(labelIdx)
+		if (labelIdx !== -1) task.labelIds?.splice(labelIdx, 1)
+		else task.labelIds.push(labelId)
+	} else task.labelIds = [labelId]
 	updatedBoard.groups[groupIdx].tasks[taskIdx] = task
 	return updatedBoard
 }

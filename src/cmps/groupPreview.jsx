@@ -2,7 +2,7 @@ import { TaskPreview } from './TaskPreview'
 import React from 'react'
 import { boardService } from '../services/board.service'
 import { useCallback, useEffect, useState, useRef, useMemo } from 'react'
-import { setCurrBoard, onSaveBoard } from '../store/actions/board.actions'
+import { setCurrBoard, onSaveBoard, onRemoveTask } from '../store/actions/board.actions'
 import { useDispatch } from 'react-redux'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { utilService } from '../services/util.service'
@@ -18,6 +18,7 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
     const inputRef = useRef()
     const addCardBtnRef = useRef()
     const { currBoard } = useSelector((state) => state.boardModule)
+    const groupMenuRef = useRef()
 
     const onAddCard = async (value) => {
         // if (!newCardTitle) return  ///////plaster???????????
@@ -25,54 +26,36 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
             (_group) => _group.id === group.id
         )
         const updatedBoard = { ...currBoard }
-        const taskReturnd= await boardService.createTask(value)
+        const taskReturnd = await boardService.createTask(value)
         updatedBoard.groups[groupIdx].tasks.push(taskReturnd)
-        console.log("BOARDDDDd",updatedBoard)
+        console.log("BOARDDDDd", updatedBoard)
         await dispatch(onSaveBoard(updatedBoard))
         await dispatch(setCurrBoard(updatedBoard._id))
     }
-    /////
-    //TODO: ADD STYLE
+
 
     const onSubmit = (ev) => {
         ev.preventDefault()
-        // console.log('GODDAM');
         const { value } = ev.target[0]
         onAddCard(value)
-        // setNewCardTitle(value)
+        toggleForm()
         ev.target[0].value = ''
 
     }
-    
-    const onCopyCard = (task) => {
-        const updatedBoard = { ...currBoard }
-        boardService.copyTask(task)
-            .then((task) => {
-                console.log(task)
-                const groupIdx = currBoard.groups.findIndex(_group => _group.id === group.id)
-                updatedBoard.groups[groupIdx].tasks.push(task)
-                return updatedBoard
-            })
-            .then(boardService.update)
-            .then((board) => dispatch(setCurrBoard(board)))
-    }
+
 
     const toggleForm = () => {
         formRef.current.classList.toggle('close')
         inputRef.current.value = ''
+        inputRef.current.focus()
         addCardBtnRef.current.classList.toggle('close')
 
     }
 
-    const onRemoveCard = (taskId) => {
-        const groupIdx = currBoard.groups.findIndex(_group => _group.id === group.id)
-        const taskIdx = currBoard.groups[groupIdx].tasks.findIndex(_task => _task.id === taskId)
-        // console.log(groupIdx)
-        const updatedBoard = { ...currBoard }
-        boardService.removeTask(updatedBoard, groupIdx, taskIdx)
-            .then(boardService.update)
-            .then((board) => dispatch(setCurrBoard(board)))
+    const onOpenGroupMenu = () => {
+        groupMenuRef.current.classList.toggle('hide')
     }
+
 
     const onMyDrop = (res, groupIdDest, groupIdSource) => {
         const groupDest = board.groups.find(_group => _group.id === groupIdDest)
@@ -116,7 +99,7 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
                         <Draggable key={task.id} draggableId={task.id} index={index}>
                             {(provided) => {
                                 return <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                    <TaskPreview key={task.id} onCopyCard={onCopyCard} onRemoveCard={onRemoveCard} index={index} group={group} task={task} />
+                                    <TaskPreview key={task.id} index={index} group={group} task={task} />
                                 </div>
                             }}
                         </Draggable>
@@ -128,16 +111,34 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
             }}
         </Droppable>
 
-        <div className="add-card-btn flex" onClick={toggleForm} ref={addCardBtnRef} ><span className="plus">+</span><button > Add a card </button></div>
+        <div className="add-card-btn flex" onClick={toggleForm} ref={addCardBtnRef} ><span className="plus"><i class="fa-solid fa-plus"></i></span><button > Add a card </button></div>
         <form className="add-card-form close" onSubmit={onSubmit} ref={formRef}>
-            <input ref={inputRef} name="card-title" type="text" placeholder="Enter a title for this card" />
-            <button type="button" className="close-form" onClick={toggleForm}>X</button>
-            <button className="save-card">Add card</button>
+            <input ref={inputRef} className="card-title" type="text" placeholder="Enter a title for this card" />
+            <div className='add-card-btn'>
+                <button className="save-card">Add card</button>
+                <button type="button" className="close-form" onClick={toggleForm}><i class="fa-solid fa-xmark"></i></button>
+            </div>
         </form>
-        <button onClick={(ev) => onRemoveGroup(ev, group.id)} className="remove-group">X</button>
 
 
+        <div className='group-menu' onClick={onOpenGroupMenu} >
+            <i   class="fa-solid fa-ellipsis"></i>
+            <div ref={groupMenuRef} className='menu-modal hide'>
+                <header className="menu-modal-header">
+                    <span className="menu-modal-title">List actions</span>
+                    <button className="close-menu-modal" ><i class="fa-solid fa-xmark"></i></button>
+                </header>
+                <hr />
+                <div className='menu-btn'>
+                    <button className='add-card-from-menu' >Add card...</button>
+                    <button className='copy-list-from-menu'>Copy list...</button>
+                    <button className='archive-list-from-menu' onClick={(ev) => onRemoveGroup(ev, group.id)}>Archive list...</button>
+                </div>
+            </div>
 
 
-    </article>
+        </div>
+
+
+    </article >
 } 

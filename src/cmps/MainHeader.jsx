@@ -7,6 +7,7 @@ import { setCurrBoard } from '../store/actions/board.actions.js'
 import { utilService } from '../services/util.service.js'
 import { userService } from '../services/user.service.js'
 import infoImg from '../assets/img/info.png'
+import trelloIcon from '../assets/img/trello-icon.png'
 
 export const SecondaryHeader = () => {
     const [templates, setTemplates] = useState([])
@@ -90,7 +91,7 @@ export const SecondaryHeader = () => {
     return (
         <header className="secondary-header flex">
             <div className="flex">
-                <h1 className="logo">Trello</h1>
+                <h1 className="logo"><img src={trelloIcon}/><span>Trello</span></h1>
                 <section className="nav-header flex">
                     <div className="header-btn" style={{ width: '100%' }}>
                         <div className="button-top flex">

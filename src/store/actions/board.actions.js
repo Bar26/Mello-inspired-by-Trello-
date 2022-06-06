@@ -69,6 +69,34 @@ export function addBoard(boardToAdd) {
 		}
 	}
 }
+export function onCopyTask(ev,task,group, currBoard) {
+	return async (dispatch) => {
+		try {
+			ev.stopPropagation()
+			const updatedBoard = await boardService.copyCard(task, group, currBoard)
+			await dispatch(onSaveBoard(updatedBoard))
+			await dispatch(setCurrBoard(updatedBoard._id))
+			const action = { type: 'copy_task', board: updatedBoard }
+			dispatch(action)
+		} catch (err) {
+			console.log('Cant copy task', err)
+		}
+	}
+}
+export function onRemoveTask(ev,taskId,group, currBoard) {
+	return async (dispatch) => {
+		try {
+			ev.stopPropagation()
+			const updatedBoard = await boardService.removeCard(currBoard,group,taskId )
+			await dispatch(onSaveBoard(updatedBoard))
+			await dispatch(setCurrBoard(updatedBoard._id))
+			const action = { type: 'remove_task', board: updatedBoard }
+			dispatch(action)
+		} catch (err) {
+			console.log('Cant remove task', err)
+		}
+	}
+}
 
 export function addActivity(boardId, task, txt) {
 	return async (dispatch) => {

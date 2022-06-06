@@ -3,11 +3,11 @@ import React, { useEffect, useRef, useState } from 'react'
 import { utilService } from '../services/util.service'
 import { useDispatch, useSelector } from 'react-redux'
 import pen from '../assets/img/pen.png'
-import { setCurrBoard } from '../store/actions/board.actions'
+import { setCurrBoard, onCopyTask, onRemoveTask } from '../store/actions/board.actions'
 import { boardService } from '../services/board.service'
 import { useNavigate, useParams } from 'react-router-dom'
 
-export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
+export function TaskPreview({ group, task }) {
 	const navigate = useNavigate()
 	const [date, setDate] = useState(new Date())
 	const [style, setStyle] = useState({ height: '32px', width: '100%' })
@@ -81,7 +81,7 @@ export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
 					<span>+</span>
 					<span>Move</span>
 				</div>
-				<div onClick={() => onCopyCard(task)}>
+				<div onClick={(ev) => dispatch(onCopyTask(ev,task,group,currBoard))}>
 					<span>+</span>
 					<span>Copy</span>
 				</div>
@@ -89,7 +89,7 @@ export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
 					<span>+</span>
 					<span>Edit Dates</span>
 				</div>
-				<div onClick={() => onRemoveCard(task.id)}>
+				<div onClick={(ev) => dispatch(onRemoveTask(ev,task.id,group,currBoard))}>
 					<span>+</span>
 					<span>Archive</span>
 				</div>
