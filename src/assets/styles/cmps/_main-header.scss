@@ -70,12 +70,18 @@ hr {
 
 .header-search-div {
     box-sizing: border-box;
-    border: 1px solid white;
+    border: 1px solid rgba(255, 255, 255, 0.292);
+    background-color: rgba(255, 255, 255, 0.235);
     display: flex;
     border-radius: 3px;
+    color:white;
     // outline: none;
     // padding-left: 10px;
     width: 250px;
+    ::placeholder{
+    color:white;
+
+    }
     
     .label-search {
         justify-content: space-between;
@@ -83,6 +89,8 @@ hr {
         // gap: 10px;
         padding-left: 8px;
         flex: 1;
+
+     
         
         &:focus-within {
             background-color: white;
@@ -272,7 +280,7 @@ hr {
     // border-radius: 50%;
     // background-color: green;
     aspect-ratio: auto 30/30;
-    background-color: #0079bf;
+    background-color: #de350b;
     border-radius: 25em;
     height: 32px;
     width: 32px;
