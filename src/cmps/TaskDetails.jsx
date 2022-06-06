@@ -32,6 +32,8 @@ export function TaskDetails() {
     const createCheckListRef = useRef()
     const [newLabelColor, setNewLabelColor] = useState('#61bd4f')
     const [newLabelTitle, setNewLabelTitle] = useState()
+    const checklistModalRef = useRef()
+
 
     const palette = [
         '#61bd4f',
@@ -100,15 +102,26 @@ export function TaskDetails() {
         navigate(`/boards/${currBoard._id}`)
     }
 
+    const AsyncFuncForBar = async ()=>{
+        let newBoard = await boardService.createChecklist(currBoard, group, task)
+        await boardService.update(newBoard)
+        await dispatch(onSaveBoard(newBoard))
+        // return newBoard
+
+    }
+
     const onChecklist = () => {
         // createCheckListRef.current.classList.toggle('hide2')
-        // let newBoard = {...currBoard}
         // console.log('AT CHECKLIST GIVE ME TASK', task);
-        if (!task.checklist) task.checklist = { id: utilService.makeId(), title: 'Check List', todos: [] }
-        // await dispatch(onSaveBoard(newBoard))
+        // task2={...task}
+        // let newTask={...task}
+        // let newBoard = {...currBoard}
+        // console.log(newBoard);
         // await dispatch(setCurrBoard(newBoard._id))
-        console.log(currBoard);
-        return boardService.calculateProg(task);
+        // console.log(currBoard);
+        // setTask(newTask)
+        AsyncFuncForBar();
+        // return boardService.calculateProg(task);
         // createCheckListRef.current.classList.toggle('hide2')
     }
 
@@ -152,16 +165,15 @@ export function TaskDetails() {
 
 
     const onAddItem = async (ev) => {
-        // console.log(ev.target[0].value);
+        console.log(ev.target[0].value);
         const newTodo = ev.target[0].value
-        const newBoard = await boardService.addTodo(currBoard,group,task,newTodo)
+        const newBoard = await boardService.addTodo(currBoard, group, task, newTodo)
         await dispatch(onSaveBoard(newBoard))
         // await dispatch(setCurrBoard(newBoard._id))
     }
-    console.log("REMDER");
-    const onCheckBoxClick = async (ev,todo)=>{
+    const onCheckBoxClick = async (ev, todo) => {
         // console.log(todo);
-        const newBoard = await boardService.updateTodo(currBoard,group,task,todo)
+        const newBoard = await boardService.updateTodo(currBoard, group, task, todo)
         await dispatch(onSaveBoard(newBoard))
         // await dispatch(setCurrBoard(newBoard._id))
         // setTask({})
@@ -182,6 +194,19 @@ export function TaskDetails() {
     const onToggleCreateLabelModal = () => {
         createLabelRef.current.classList.toggle('hide')
         addLabelModalRef.current.classList.toggle('hide')
+    }
+
+    const toggleChecklistModal = () => {
+        console.log('HELP ME');
+        checklistModalRef.current.classList.toggle('hide')
+        // checklistModalRef.current.value = ''
+        // addListRef.current.classList.toggle('close')
+    }
+
+    const onDeleteChecklist = async () => {
+        const newBoard = await boardService.deleteChecklist(currBoard, group, task)
+        await dispatch(onSaveBoard(newBoard))
+
     }
 
     if (!Object.keys(task).length || !Object.keys(group).length) return 'loading'
@@ -410,21 +435,18 @@ export function TaskDetails() {
 
 
 
-
-                    {/* change collction to checklist insted of checklists */}
-                    {/* Add calculate from boardService */}
-                    {/* add Tnai */}
-                    {<section className='checklist-container '>
+                    {/* checklist title to input */}
+                    {task.checklist && task.checklist.todos && <section className='checklist-container '>
                         <header className='checklist-header'>
                             <span className="checklist-icon">O</span>
                             <div className='checklist-title-button flex'>
                                 <span className="checklist-title">Check List</span>
-                                <button className='checklist-title-delete' onClick={console.log('makeDelete')}>Delete</button>
+                                <button className='checklist-title-delete' onClick={onDeleteChecklist}>Delete</button>
                             </div>
                         </header>
                         <div className='proggres-bar flex'>
-                            <span className='checklist-prog'>{onChecklist()}%</span>
-                            <ProgressBar completed={onChecklist()}></ProgressBar>
+                            <span className='checklist-prog'>{boardService.calculateProg(task)}%</span>
+                            <ProgressBar completed={boardService.calculateProg(task)}></ProgressBar>
                         </div>
                         {/* task.checkList.length>0&& */}
 
@@ -434,7 +456,7 @@ export function TaskDetails() {
                                     return (
                                         <li className='check-box-per-todo flex'>
                                             <label className='checkbox-label' >
-                                                <input onChange={(ev)=>onCheckBoxClick(ev,todo)} className='checkbox' checked={todo.isDone} type="checkbox" id="todo.title" />
+                                                <input onChange={(ev) => onCheckBoxClick(ev, todo)} className='checkbox' checked={todo.isDone} type="checkbox" id="todo.title" />
                                                 {todo.title}</label>
                                         </li>
                                     )
@@ -450,18 +472,18 @@ export function TaskDetails() {
                                         To Do Scss Looking Til</label>
                                 </li> */}
                             </ul>
-                            <div className='add-item-checklist'>
-                                <button className='prev-btn-add-item'>Add an item</button>
+                            <button className='prev-btn-add-item' onClick={toggleChecklistModal}>Add an item</button>
+                            <div className='add-item-checklist hide' ref={checklistModalRef}>
                                 {/* add class name hide */}
                                 <div className='add-item-checklist-modal'>
-                                    <form id='add-item' onSubmit={(event)=>onAddItem(event)}>
+                                    <form id='add-item' onSubmit={(event) => onAddItem(event)}>
                                         <input type='text' className='add-item-checklist-input' placeholder='Add an item' />
                                     </form>
                                 </div>
                                 <div className='add-item-checklist-controller flex'>
                                     <div>
                                         <button className='checklist-add-btn' type='submit' form='add-item'>Add</button>
-                                        <button>Cancel</button>
+                                        <button onClick={toggleChecklistModal}>Cancel</button>
                                     </div>
                                     <div className='checklist-controller-btn'>
                                         {/* <button className='checklist-add-btn'>Add</button> */}
@@ -538,7 +560,7 @@ export function TaskDetails() {
                             </span>
                             <span>Labels</span>
                         </div>
-                        <div className="" onClick={onChecklist}>
+                        <div className="" onClick={()=>AsyncFuncForBar()}>
                             <span className="">
                                 <i className="fa-regular fa-square-check"></i>
                             </span>

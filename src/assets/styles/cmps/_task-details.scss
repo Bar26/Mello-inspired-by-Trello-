@@ -570,6 +570,10 @@
         }
 
         .add-item-checklist-modal {
+            &.hide{
+                visibility: hidden;
+                display: none;
+            }
             .add-item-checklist-input {
                 box-shadow: inset 0 0 0 2px #0079bf;
                 color: #172b4d;

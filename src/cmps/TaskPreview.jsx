@@ -139,17 +139,20 @@ export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
 				)}
 
 				<div>{task.title}</div>
-				{task.checklists &&
-					task.checklists.map((checklist) => {
-						return (
-							<div className="checklists-prev">
-								<span>
-									{checklist.todos.filter((todo) => todo.isDone).length}
-								</span>
-								<span>/{checklist.todos.length}</span>
-							</div>
-						)
-					})}
+				{task.checklist && <div className="checklists-prev flex">
+					<span className='fontawsome'><i className="fa-regular fa-square-check"></i></span>
+					<div >
+						<span>
+							{task.checklist.todos.filter((todo) => todo.isDone).length}
+						</span>
+						<span>/{task.checklist.todos.length}</span>
+					</div>
+				</div>
+				}
+				{task.description && <div className="description-prev">
+					<span className='fontawsome'><i class="fa-solid fa-align-left"></i></span>
+					</div>
+				}
 
 				{task.dueDate && (
 					<section className="due-date">
