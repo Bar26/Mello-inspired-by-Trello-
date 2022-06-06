@@ -102,7 +102,7 @@ export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
 			{task.style && (
 				<>
 					{/* {()=>onChangePad()} */}
-					<div className="task-bg" style={{ ...style }}></div>
+					<div className="task-bg" style={{ ...style,...task.style }}></div>
 				</>
 			)}
 			<section className="task-details">

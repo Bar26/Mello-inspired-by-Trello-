@@ -101,7 +101,7 @@ export const BoardList = () => {
 		<section className="workspace">
 			<SecondaryHeader />
 			<div className='workspace-board-list'>
-				<h1>All Boards</h1>
+				<h2>All Boards</h2>
 				<section className="board-list">
 					{boards.map((board, idx) => {
 						return (
@@ -113,10 +113,10 @@ export const BoardList = () => {
 						)
 					})}
 				</section>
-				<h1>
+				<h2>
 					<i className="fa-regular fa-star"></i>
 					Starred Boards
-				</h1>
+				</h2>
 				{!!starredBoards().length && (
 					<section className="board-list">
 						{starredBoards().map((board, idx) => {
@@ -130,7 +130,7 @@ export const BoardList = () => {
 						})}
 					</section>
 				)}
-				<h1>Templates</h1>
+				<h2>Most popular templates</h2>
 				<section className="board-list">
 					<article className="create-preview" onClick={onSetCreateMode}>
 						<h1>Create New Board</h1>
@@ -146,7 +146,7 @@ export const BoardList = () => {
 					})}
 				</section>
 
-				<h1>Recently Viewed Boards</h1>
+				{/* <h1>Recently Viewed Boards</h1> */}
 
 				<CreateModal createMode={createMode} onSetCreateMode={onSetCreateMode} />
 			</div>

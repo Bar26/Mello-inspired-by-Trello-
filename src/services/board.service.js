@@ -75,16 +75,7 @@ async function getEmptyBoard(template, toSave = true) {
 		createdBy: await userService.getLoggedinUser(),
 		style: newStyle,
 		labels: [
-		// 	{
-		// 		id: 'l101',
-		// 		title: 'Done',
-		// 		color: '#61bd4f',
-		// 	},
-		// 	{
-		// 		id: 'l102',
-		// 		title: 'Progress',
-		// 		color: '#61bd33',
-		// 	},
+		
 		],
 		members: [await userService.getLoggedinUser()],
 		groups: template.groups ? template.groups : [],

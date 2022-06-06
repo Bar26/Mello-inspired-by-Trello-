@@ -31,10 +31,11 @@ hr {
         display: flex;
         align-items: center;
         font-size: 20px;
-        font-weight: 800;
+        font-weight: 700;
         margin:0 12px;
         // padding: 0 12px;
         span{
+            color:white;
             @include flex-center;
         }
         
@@ -69,12 +70,18 @@ hr {
 
 .header-search-div {
     box-sizing: border-box;
-    border: 1px solid white;
+    border: 1px solid rgba(255, 255, 255, 0.292);
+    background-color: rgba(255, 255, 255, 0.235);
+    color:white;
     display: flex;
     border-radius: 3px;
     // outline: none;
     // padding-left: 10px;
     width: 250px;
+    ::placeholder{
+    color:white;
+
+    }
     
     .label-search {
         justify-content: space-between;
@@ -82,6 +89,8 @@ hr {
         // gap: 10px;
         padding-left: 8px;
         flex: 1;
+
+     
         
         &:focus-within {
             background-color: white;
@@ -140,6 +149,13 @@ hr {
         height: 100%;
         position: relative;
         gap: 10px;
+        >*{
+            >*{
+
+                color:white;
+                font-size: 14px;
+            }
+        }
     }
 
     // gap:10px;
@@ -264,7 +280,7 @@ hr {
     // border-radius: 50%;
     // background-color: green;
     aspect-ratio: auto 30/30;
-    background-color: #0079bf;
+    background-color: #de350b;
     border-radius: 25em;
     height: 32px;
     width: 32px;

@@ -35,7 +35,7 @@ export function Home() {
 			<main className="main-container">
 				<section className="main-article flex justify-center align-center">
 					<section className="content">
-						<h1 className="title">Trello helps teams move work forward</h1>
+						<h1 className="title">Mello helps teams move work forward</h1>
 						<p className="trello-prev">
 							Collaborate, manage projects, and reach new productivity peaks.
 							From high rises to the home office, the way your team works is

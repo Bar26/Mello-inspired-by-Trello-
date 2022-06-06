@@ -14,7 +14,7 @@ export function GroupList() {
     const dispatch = useDispatch()
     const { currBoard } = useSelector((state) => state.boardModule)
     const { boardId } = useParams()
-    const [board, setBoard] = useState({})
+    const [board, setBoard] = useState({...currBoard})
     const listFormRef = React.createRef()
     const [newListTitle, setNewListTitle] = useState('')
     const inputListRef = useRef()
@@ -71,7 +71,7 @@ export function GroupList() {
         addListRef.current.classList.toggle('close')
         inputListRef.current.focus()
     }
-    
+
     const moveGroup = async (res) => {
         let newBoard = { ...currBoard }
         const gtm = newBoard.groups.splice(res.source.index, 1)
@@ -82,23 +82,27 @@ export function GroupList() {
 
     const moveTaskInGroup = async (res) => {
         let newBoard = { ...currBoard }
-        const groupDest = await currBoard.groups.find(_group => _group.id == res.destination.droppableId)
-        const groupSource = await currBoard.groups.find(_group => _group.id == res.source.droppableId)
-        const groupIdxDest = currBoard.groups.findIndex(_group => _group.id === res.destination.droppableId)
-        const groupIdxSour = currBoard.groups.findIndex(_group => _group.id === res.source.draggableId)
-        if(res.destination.droppableId === res.source.droppableId){
+        const groupDest = await newBoard.groups.find(_group => _group.id == res.destination.droppableId)
+        const groupSource = await newBoard.groups.find(_group => _group.id == res.source.droppableId)
+        const groupIdxDest = newBoard.groups.findIndex(_group => _group.id === res.destination.droppableId)
+        const groupIdxSour = newBoard.groups.findIndex(_group => _group.id === res.source.droppableId)
+        if (res.destination.droppableId === res.source.droppableId) {
             const taskToMove = groupSource.tasks.splice(res.source.index, 1)
             groupDest.tasks.splice(res.destination.index, 0, taskToMove[0])
             newBoard.groups.splice(groupIdxDest, 1, groupDest)
         }
-        if (res.destination.droppableId !== res.source.droppableId){
-            const taskToMove = groupSource.tasks.splice(res.source.index, 1)
-            groupDest.tasks.splice(res.destination.index, 0, taskToMove[0])
+        if (res.destination.droppableId !== res.source.droppableId) {
+            // if (res.destination.droppableId === newBoard._id) return
+            const taskToMove = groupSource.tasks.splice(res.source.index, 1)[0]
+            console.log(groupSource);
+            groupDest.tasks.splice(res.destination.index, 0, taskToMove)
+            console.log(groupDest);
             newBoard.groups.splice(groupIdxSour, 1, groupSource)
             newBoard.groups.splice(groupIdxDest, 1, groupDest)
-        } 
-        setBoard(newBoard)
+        }
+        // setBoard(newBoard)
         boardService.update(newBoard)
+        await dispatch(onSaveBoard(newBoard))
     }
 
 
@@ -137,10 +141,12 @@ export function GroupList() {
 
 
 
-
+    
+    // const groupsForDisplay = [...(new Set(currBoard.groups))]
+    // console.log(groupsForDisplay);
     if (!Object.keys(currBoard).length) return <h1>loading...</h1>
     return <section className="groups-container">
-        <DragDropContext onDragEnd={handleOnDragEnd} onDragUpdate={update => { handleDragOn(update) }} >
+        <DragDropContext onDragEnd={handleOnDragEnd} >
             <Droppable isDropDisabled={isGruopDraggable} type='group' droppableId={currBoard._id} isCombineEnabled={true} direction="horizontal">
                 {(provided) => {
                     return <div className="dnd-board-main"  {...provided.droppableProps} ref={provided.innerRef}>
@@ -161,8 +167,8 @@ export function GroupList() {
                         <form className="add-list-form close" onSubmit={onListSubmit} ref={listFormRef}>
                             <input ref={inputListRef} className="list-title" type="text" placeholder="Enter list title..." />
                             <div className='add-list-btn'>
-                            <button className="save-list">Add list</button>
-                            <button type="button" className="close-list-form" onClick={toggleListForm}><i class="fa-solid fa-xmark"></i></button>
+                                <button className="save-list">Add list</button>
+                                <button type="button" className="close-list-form" onClick={toggleListForm}><i class="fa-solid fa-xmark"></i></button>
                             </div>
                         </form>
                     </div>
