@@ -412,7 +412,7 @@
                 padding-top: 77px;
                 width: 192px;
                 // padding: 0 16px 8px 8px;
-                height: 100%;
+                // height: 100%;
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
@@ -450,7 +450,7 @@
 
                 width: 192px;
                 // padding: 0 16px 8px 8px;
-                height: 100%;
+                // height: 100%;
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
@@ -584,7 +584,7 @@
 
             label {
                 display: flex;
-                gap: 6px;
+                gap: 3px;
                 align-items: center;
             }
 
@@ -608,7 +608,7 @@
     }
 
     .add-item-checklist {
-        padding-left: 40px;
+        padding-left: 37px;
         display: flex;
         flex-direction: column;
         gap: 8px;
@@ -705,6 +705,198 @@
             }
 
             .checklist-controller-btn {
+                button {
+                    color: $clr-small-text;
+                    min-width: 36px;
+                    height: 32px;
+                    padding: 6px 8px;
+                    margin: 0 2px;
+                }
+
+                :nth-child(1) {
+                    text-decoration: underline;
+                }
+
+                :nth-child(2) {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
+
+.attachment-container {
+    .attachment-header {
+        display: flex;
+        align-items: center;
+        width: 512px;
+        height: 48px;
+        gap: 8px;
+        padding: 8px 0;
+
+        .attachment-icon {
+            display: flex;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            width: 32px;
+            height: 32px;
+            // padding-top: 14px;
+        }
+
+        .attachment-title-button {
+            width: 100%;
+            justify-content: space-between;
+
+
+            .attachment-title {
+                font-weight: 600;
+                font-size: 1rem;
+            }
+
+            .attachment-title-delete {}
+        }
+
+    }
+
+    .attachment-list-container {
+        padding-left: 37px;
+        gap:16px;
+        position: relative;
+        transition-duration: .14s;
+        color: #172b4d;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        align-items: center;
+        // justify-content: center;
+        .attachment-img {
+            background-position: 50%;
+            background-repeat: no-repeat;
+            background-size: contain;
+            border-radius: 3px;
+            height: 80px;
+            width: 112px;
+        }
+
+        .attachment-info {
+            flex-direction: column;
+            .attachment-title {
+                padding: 0;
+                color: $clr-text-group;
+                background-color: transparent;
+                border: none;
+                outline: none;
+                font-size: 14px;
+                font-weight: 700;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            }
+
+            .attachment-created-at {
+                color: $clr-small-text;
+            }
+        }
+
+    }
+
+    .add-item-attachment {
+        padding-left: 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        .prev-btn-add-item {
+            // background-color: $clr-btn-details;
+            padding: 6px 12px;
+            // color: $clr-btn-text;
+            color: $clr-text-group;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+
+            &:hover {
+                background-color: $clr-btn-hover;
+                cursor: pointer;
+            }
+        }
+
+        .add-item-attachment-modal {
+            &.hide {
+                visibility: hidden;
+                display: none;
+            }
+
+            .add-item-attachment-input {
+                box-shadow: inset 0 0 0 2px #0079bf;
+                color: #172b4d;
+                cursor: text;
+                float: none;
+                height: 37px;
+                // resize: vertical;
+                width: 100%;
+                border-radius: 3px;
+                border: none;
+                padding: 8px 12px;
+
+                &:focus {
+                    outline: none;
+                    height: 56px;
+                }
+            }
+        }
+
+        .add-item-attachment-controller {
+            display: flex;
+            justify-content: space-between;
+
+
+            button {
+                // background-color: $clr-btn-color;
+                // color: white;
+                color: $clr-text-group;
+                padding: 6px 12px;
+                border-radius: 3px;
+                height: 32px;
+                text-align: center;
+                align-items: center;
+                font-size: 14px;
+                line-height: 20px;
+                text-align: center;
+
+                &:hover {
+                    background-color: $clr-btn-hover;
+                }
+
+                &:active {
+                    background-color: #e4f0f6;
+                    border: none;
+                    box-shadow: none;
+                    color: #0079bf;
+                }
+
+            }
+
+            .attachment-add-btn {
+                background-color: #0079bf;
+                color: white;
+                margin-right: 4px;
+
+                &:hover {
+                    background-color: #026aa7;
+                    border: none;
+                    box-shadow: none;
+                }
+
+                &:active {
+                    background-color: #055a8c;
+                    border: none;
+                    box-shadow: none;
+                }
+            }
+
+            .attachment-controller-btn {
                 button {
                     color: $clr-small-text;
                     min-width: 36px;

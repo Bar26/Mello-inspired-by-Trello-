@@ -33,7 +33,10 @@ export const boardService = {
 	addTodo,
 	updateTodo,
 	deleteChecklist,
-	createChecklist
+	createChecklist,
+	changeAttachmentTitle,
+	addAttachment,
+	makeAttachmentCoverTask
 }
 
 async function query(filterBy = {}) {
@@ -75,7 +78,7 @@ async function getEmptyBoard(template, toSave = true) {
 		createdBy: await userService.getLoggedinUser(),
 		style: newStyle,
 		labels: [
-		
+
 		],
 		members: [await userService.getLoggedinUser()],
 		groups: template.groups ? template.groups : [],
@@ -185,9 +188,21 @@ async function changeCardTitle(board, group, taskId, value) {
 }
 
 async function changeGroupTitle(board, group, value) {
-	console.log('in change group title servie')
+	// console.log('in change group title servie')
 	const updatedBoard = { ...board }
 	updatedBoard.groups.find((_group) => _group.id === group.id).title = value
+	return updatedBoard
+}
+async function changeAttachmentTitle(board, group, task, value) {
+	const updatedBoard = { ...board }
+	const groupIdx = updatedBoard.groups.findIndex(
+		(_group) => _group.id === group.id
+	)
+	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex(
+		(_task) => _task.id === task.id
+	)
+	console.log('in change attachment title servie', task)
+	updatedBoard.groups[groupIdx].tasks[taskIdx].attachment.title = value
 	return updatedBoard
 }
 
@@ -231,9 +246,9 @@ async function createChecklist(board, group, task) {
 		(_task) => _task.id === task.id
 	)
 	let checklist = { id: utilService.makeId(), title: 'Check List', todos: [] }
-	
-	updatedBoard.groups[groupIdx].tasks[taskIdx].checklist=checklist
-	console.log('AddingCheckList',updatedBoard)
+
+	updatedBoard.groups[groupIdx].tasks[taskIdx].checklist = checklist
+	// console.log('AddingCheckList', updatedBoard)
 	return updatedBoard
 }
 
@@ -245,7 +260,7 @@ async function deleteChecklist(board, group, task) {
 	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(
 		(_task) => _task.id === task.id
 	)
-	newBoard.groups[groupIdx].tasks[taskIdx].checklist={}
+	newBoard.groups[groupIdx].tasks[taskIdx].checklist = {}
 	return newBoard
 }
 async function addTodo(board, group, task, todoTitle) {
@@ -260,6 +275,43 @@ async function addTodo(board, group, task, todoTitle) {
 	console.log(newBoard)
 	return newBoard
 }
+async function addAttachment(board, group, task,attachmentImg=null) {
+	// const id = utilService.makeId()
+	const newAttachment = { imgUrl: '', title: 'Uploded Img', createdAt: new Date() }
+	if(attachmentImg!==null) newAttachment.imgUrl=attachmentImg
+	let newBoard = { ...board }
+	const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
+	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(
+		(_task) => _task.id === task.id
+	)
+	newBoard.groups[groupIdx].tasks[taskIdx].attachment = newAttachment
+	console.log(newBoard)
+	return newBoard
+}
+
+async function makeAttachmentCoverTask(board,group,task,bool){
+	let newBoard = { ...board }
+	const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
+	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(
+		(_task) => _task.id === task.id
+	)
+	if(!newBoard.groups[groupIdx].tasks[taskIdx].style) newBoard.groups[groupIdx].tasks[taskIdx].style={isCover:false}
+	else newBoard.groups[groupIdx].tasks[taskIdx].style.isCover=!newBoard.groups[groupIdx].tasks[taskIdx].style.isCover;
+	return newBoard
+}
+// async function updateAttachment(board, group, task, src) {
+// 	// const id = utilService.makeId()
+// 	const newAttachment = { ...task.attachment, imgUrl: src }
+// 	let newBoard = { ...board }
+// 	const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
+// 	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(
+// 		(_task) => _task.id === task.id
+// 	)
+// 	newBoard.groups[groupIdx].tasks[taskIdx].attachment = newAttachment
+// 	console.log(newBoard)
+// 	return newBoard
+// }
+
 
 async function updateTodo(board, group, task, todo) {
 	console.log('ON BOARD SERVICE LOGGER', todo)
@@ -283,7 +335,7 @@ async function updateTodo(board, group, task, todo) {
 
 function calculateProg(task) {
 	console.log(task);
-	if(!task.checklist) return 
+	if (!task.checklist) return
 	let todoLength = task.checklist.todos.length;
 	if (todoLength === 0) todoLength = 1
 	const todoDone = task.checklist.todos.filter((todo) => todo.isDone)
@@ -294,7 +346,7 @@ function calculateProg(task) {
 // addGuestBoardExp()
 function addGuestBoardExp() {
 	const board = {
-	
+
 		title: 'Scrum Workflow',
 		archivedAt: 1589983468418,
 		createdAt: 1589983468418,

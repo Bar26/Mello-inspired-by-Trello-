@@ -154,7 +154,7 @@ export function GroupList() {
                             <Draggable key={group.id} draggableId={group.id} index={index} type={'group'}>
                                 {(provided) => {
                                     return <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                        <GroupPreview ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} onRemoveGroup={onRemoveGroup} dragFunc={handleOnDragEnd} index={index} key={group.id} group={group} board={currBoard} />
+                                        <GroupPreview onRemoveGroup={onRemoveGroup} dragFunc={handleOnDragEnd} index={index} key={group.id} group={group} board={currBoard} />
                                         {provided.placeholder}
                                     </div>
                                 }}
@@ -163,12 +163,12 @@ export function GroupList() {
                         ))}
 
                         {provided.placeholder}
-                        <div className="add-list-btn flex" onClick={toggleListForm} ref={addListRef} ><span className="plus"><i class="fa-solid fa-plus"></i></span><button > Add another list </button></div>
+                        <div className="add-list-btn flex" onClick={toggleListForm} ref={addListRef} ><span className="plus"><i className="fa-solid fa-plus"></i></span><button > Add another list </button></div>
                         <form className="add-list-form close" onSubmit={onListSubmit} ref={listFormRef}>
                             <input ref={inputListRef} className="list-title" type="text" placeholder="Enter list title..." />
                             <div className='add-list-btn'>
                                 <button className="save-list">Add list</button>
-                                <button type="button" className="close-list-form" onClick={toggleListForm}><i class="fa-solid fa-xmark"></i></button>
+                                <button type="button" className="close-list-form" onClick={toggleListForm}><i className="fa-solid fa-xmark"></i></button>
                             </div>
                         </form>
                     </div>
