@@ -116,7 +116,7 @@
             }
 
 
-       
+
 
             .card-details-labels {
                 display: flex;
@@ -127,58 +127,59 @@
                 gap: 16px;
                 margin-bottom: 16px;
 
-                .title-and-labels{
+                .title-and-labels {
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
                     align-items: flex-start;
-                    gap:4px;
-                     .labels-title {
+                    gap: 4px;
+
+                    .labels-title {
                         font-size: 12px;
                         font-weight: 700;
                         color: $clr-small-text;
-                }
-
-
-                .card-details-labels-container {
-                    display: flex;
-                    gap: 4px;
-                    align-items: center;
-
-                    >* {
-                        @include flex-center;
-                        padding: 0 12px;
-                        color: white;
-                        font-size: 14px;
-                        font-weight: 600;
-                        line-height: em(32px, 14px);
-                        border-radius: 3px;
                     }
 
-                    .add-label-container {
-                        padding: 0;
-                        position: relative;
 
+                    .card-details-labels-container {
+                        display: flex;
+                        gap: 4px;
+                        align-items: center;
 
-                        .card-details-add-label {
-                            color: $clr-text-group;
-                            background-color: $clr-btn-details;
+                        >* {
                             @include flex-center;
                             padding: 0 12px;
+                            color: white;
+                            font-size: 14px;
+                            font-weight: 600;
+                            line-height: em(32px, 14px);
                             border-radius: 3px;
+                        }
 
-                            &:hover {
-                                background-color: $clr-btn-hover;
-                                cursor: pointer;
+                        .add-label-container {
+                            padding: 0;
+                            position: relative;
+
+
+                            .card-details-add-label {
+                                color: $clr-text-group;
+                                background-color: $clr-btn-details;
+                                @include flex-center;
+                                padding: 0 12px;
+                                border-radius: 3px;
+
+                                &:hover {
+                                    background-color: $clr-btn-hover;
+                                    cursor: pointer;
+                                }
+
                             }
 
                         }
-
                     }
                 }
-                }
 
-               
+
 
                 .add-label-modal {
                     width: 304px;
@@ -479,7 +480,7 @@
                 padding-top: 77px;
                 width: 192px;
                 // padding: 0 16px 8px 8px;
-                height: 100%;
+                // height: 100%;
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
@@ -523,7 +524,7 @@
 
                 width: 192px;
                 // padding: 0 16px 8px 8px;
-                height: 100%;
+                // height: 100%;
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
@@ -593,6 +594,7 @@
         height: 48px;
         gap: 8px;
         padding: 8px 0;
+        margin-bottom: 4px;
 
         .checklist-icon {
             display: flex;
@@ -601,20 +603,48 @@
             align-items: center;
             width: 32px;
             height: 32px;
+
+            i {
+                font-size: 18px;
+            }
+
             // padding-top: 14px;
         }
 
         .checklist-title-button {
             width: 100%;
             justify-content: space-between;
-
+            align-items: center;
 
             .checklist-title {
                 font-weight: 600;
                 font-size: 1rem;
             }
 
-            .checklist-title-delete {}
+            .checklist-title-delete {
+                color: $clr-small-text;
+                min-width: 36px;
+                // height: 32px;
+                padding: 6px 8px;
+                background-color: #091e420a;
+                border-radius: 3px;
+                border: none;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #091e4214;
+                    border: none;
+                    box-shadow: none;
+                }
+
+                &:active {
+                    background-color: #e4f0f6;
+                    border: none;
+                    box-shadow: none;
+                    color: #0079bf;
+                    outline: 0
+                }
+            }
         }
 
     }
@@ -656,7 +686,7 @@
 
             label {
                 display: flex;
-                gap: 6px;
+                gap: 3px;
                 align-items: center;
             }
 
@@ -669,6 +699,8 @@
                 height: 16px;
                 left: 0;
                 margin: 6px;
+                margin-left: 1px;
+                margin-right: 12px;
                 // overflow: hidden;
                 text-align: center;
                 top: 5px;
@@ -677,13 +709,6 @@
                 width: 16px;
             }
         }
-    }
-
-    .add-item-checklist {
-        padding-left: 40px;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
 
         .prev-btn-add-item {
             // background-color: $clr-btn-details;
@@ -692,7 +717,8 @@
             color: $clr-text-group;
             border-radius: 3px;
             display: flex;
-            align-items: center;
+            margin-left: 37px;
+            // align-items: center;
             gap: 8px;
             font-size: 14px;
 
@@ -701,6 +727,13 @@
                 cursor: pointer;
             }
         }
+    }
+
+    .add-item-checklist {
+        padding-left: 37px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
 
         .add-item-checklist-modal {
             &.hide {
@@ -777,6 +810,238 @@
             }
 
             .checklist-controller-btn {
+                button {
+                    color: $clr-small-text;
+                    min-width: 36px;
+                    height: 32px;
+                    padding: 6px 8px;
+                    margin: 0 2px;
+                }
+
+                :nth-child(1) {
+                    text-decoration: underline;
+                }
+
+                :nth-child(2) {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
+
+.attachment-container {
+    .attachment-header {
+        display: flex;
+        align-items: center;
+        width: 512px;
+        height: 48px;
+        gap: 8px;
+        padding: 8px 0;
+
+        .attachment-icon {
+            display: flex;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            width: 32px;
+            height: 32px;
+            // padding-top: 14px;
+        }
+
+        .attachment-title-button {
+            width: 100%;
+            justify-content: space-between;
+
+
+            .attachment-title {
+                font-weight: 600;
+                font-size: 1rem;
+            }
+
+            .attachment-title-delete {
+                color: $clr-small-text;
+                min-width: 36px;
+                // height: 32px;
+                padding: 6px 8px;
+                background-color: #091e420a;
+                border-radius: 3px;
+                border: none;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #091e4214;
+                    border: none;
+                    box-shadow: none;
+                }
+
+                &:active {
+                    background-color: #e4f0f6;
+                    border: none;
+                    box-shadow: none;
+                    color: #0079bf;
+                    outline: 0
+                }
+            }
+        }
+
+    }
+
+    .attachment-list-container {
+        padding-bottom: 8px;
+        padding-left: 37px;
+        gap: 16px;
+        position: relative;
+        transition-duration: .14s;
+        color: #172b4d;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        align-items: center;
+
+        // justify-content: center;
+        .attachment-img {
+            background-position: 50%;
+            background-repeat: no-repeat;
+            background-size: contain;
+            border-radius: 3px;
+            height: 80px;
+            width: 112px;
+        }
+
+        .attachment-info {
+            flex-direction: column;
+            // justify-content: flex-start;
+
+            .attachment-title {
+                padding: 0;
+                color: $clr-text-group;
+                background-color: transparent;
+                border: none;
+                outline: none;
+                font-size: 14px;
+                font-weight: 700;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            }
+
+            .attachment-created-at {
+                color: $clr-small-text;
+                width:fit-content;
+                justify-self: flex-start;
+                margin-bottom: 8px;
+            }
+            .attachment-to-cover{
+                color: $clr-small-text;
+                width:fit-content;
+                justify-self: flex-start;
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                text-decoration: underline;
+                gap:8px;
+            }
+        }
+
+    }
+
+    .add-item-attachment {
+        padding-left: 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        .prev-btn-add-item {
+            // background-color: $clr-btn-details;
+            padding: 6px 12px;
+            // color: $clr-btn-text;
+            color: $clr-text-group;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+
+            &:hover {
+                background-color: $clr-btn-hover;
+                cursor: pointer;
+            }
+        }
+
+        .add-item-attachment-modal {
+            &.hide {
+                visibility: hidden;
+                display: none;
+            }
+
+            .add-item-attachment-input {
+                box-shadow: inset 0 0 0 2px #0079bf;
+                color: #172b4d;
+                cursor: text;
+                float: none;
+                height: 37px;
+                // resize: vertical;
+                width: 100%;
+                border-radius: 3px;
+                border: none;
+                padding: 8px 12px;
+
+                &:focus {
+                    outline: none;
+                    height: 56px;
+                }
+            }
+        }
+
+        .add-item-attachment-controller {
+            display: flex;
+            justify-content: space-between;
+
+
+            button {
+                // background-color: $clr-btn-color;
+                // color: white;
+                color: $clr-text-group;
+                padding: 6px 12px;
+                border-radius: 3px;
+                height: 32px;
+                text-align: center;
+                align-items: center;
+                font-size: 14px;
+                line-height: 20px;
+                text-align: center;
+
+                &:hover {
+                    background-color: $clr-btn-hover;
+                }
+
+                &:active {
+                    background-color: #e4f0f6;
+                    border: none;
+                    box-shadow: none;
+                    color: #0079bf;
+                }
+
+            }
+
+            .attachment-add-btn {
+                background-color: #0079bf;
+                color: white;
+                margin-right: 4px;
+
+                &:hover {
+                    background-color: #026aa7;
+                    border: none;
+                    box-shadow: none;
+                }
+
+                &:active {
+                    background-color: #055a8c;
+                    border: none;
+                    box-shadow: none;
+                }
+            }
+
+            .attachment-controller-btn {
                 button {
                     color: $clr-small-text;
                     min-width: 36px;

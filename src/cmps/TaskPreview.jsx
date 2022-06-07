@@ -142,11 +142,17 @@ export function TaskPreview({ task, group}) {
 				</div>
 			</div>
 
-			{task.style && (
-
+			{task.style && task.style.backgroundColor && !task.style.isCover && (
 				<>
 					{/* {()=>onChangePad()} */}
-					<div className="task-bg" style={{ ...style, ...task.style }}></div>
+					<div className="task-bg" style={{ ...style, background:`${task.style.backgroundColor}`}}></div>
+				</>
+			)}
+			{task.style && task.style.isCover && (
+				<>
+					{/* {()=>onChangePad()} */}{console.log(task.attachment.imgUrl)}
+					<div className="task-attachment-cover" style={{background:`url(${task.attachment.imgUrl})`,backgroundRepeat:'no-repeat',
+					backgroundSize:'cover', backgroundPosition:'center',height:'160px',width:'100%', borderRadius:'3px' }}></div>
 				</>
 			)}
 			<section className="task-details">
@@ -224,7 +230,7 @@ export function TaskPreview({ task, group}) {
 				<div>{task.title}</div>
 				<div className='icon-preview flex'>
 					{task.description && <div className="description-prev">
-						<span className='fontawsome'><i class="fa-solid fa-align-left"></i></span></div>
+						<span className='fontawsome'><i className="fa-solid fa-align-left"></i></span></div>
 					}
 
 

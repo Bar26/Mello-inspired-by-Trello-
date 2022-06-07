@@ -78,11 +78,10 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
 
     }
 
-    const onChangeGroupTitle = (ev) => {
+    const onChangeGroupTitle = async (ev) => {
         const { value } = ev.target
-        boardService.changeGroupTitle(currBoard, group, value)
-            .then(boardService.update)
-            .then((board) => dispatch(setCurrBoard(board)))
+        const updatedBoard = await boardService.changeGroupTitle(currBoard, group, value)
+        await dispatch(onSaveBoard(updatedBoard))
     }
 
     /////
@@ -110,22 +109,22 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
             }}
         </Droppable>
 
-        <div className="add-card-btn flex" onClick={toggleForm} ref={addCardBtnRef} ><span className="plus"><i class="fa-solid fa-plus"></i></span><button > Add a card </button></div>
+        <div className="add-card-btn flex" onClick={toggleForm} ref={addCardBtnRef} ><span className="plus"><i className="fa-solid fa-plus"></i></span><button > Add a card </button></div>
         <form className="add-card-form close" onSubmit={onSubmit} ref={formRef}>
             <input ref={inputRef} className="card-title" type="text" placeholder="Enter a title for this card" />
             <div className='add-card-btn'>
                 <button className="save-card">Add card</button>
-                <button type="button" className="close-form" onClick={toggleForm}><i class="fa-solid fa-xmark"></i></button>
+                <button type="button" className="close-form" onClick={toggleForm}><i className="fa-solid fa-xmark"></i></button>
             </div>
         </form>
 
 
         <div className='group-menu' onClick={onOpenGroupMenu} >
-            <i   class="fa-solid fa-ellipsis"></i>
+            <i   className="fa-solid fa-ellipsis"></i>
             <div ref={groupMenuRef} className='menu-modal hide'>
                 <header className="menu-modal-header">
                     <span className="menu-modal-title">List actions</span>
-                    <button className="close-menu-modal" ><i class="fa-solid fa-xmark"></i></button>
+                    <button className="close-menu-modal" ><i className="fa-solid fa-xmark"></i></button>
                 </header>
                 <hr />
                 <div className='menu-btn'>

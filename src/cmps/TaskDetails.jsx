@@ -117,13 +117,19 @@ export function TaskDetails() {
         navigate(`/boards/${currBoard._id}`)
     }
 
-    const AsyncFuncForBar = async () => {
+    const onCheckList = async () => {
         let newBoard = await boardService.createChecklist(currBoard, group, task)
         await boardService.update(newBoard)
         await dispatch(onSaveBoard(newBoard))
-
+        // return newBoard
     }
 
+    const onAttachment = async () => {
+        let newBoard = await boardService.addAttachment(currBoard, group, task)
+        await boardService.update(newBoard)
+        await dispatch(onSaveBoard(newBoard))
+        // return newBoard
+    }
 
     const getLabel = (labelId) => {
         if (!currBoard.labels) return
@@ -209,6 +215,16 @@ export function TaskDetails() {
         const newBoard = await boardService.addTodo(currBoard, group, task, newTodo)
         await dispatch(onSaveBoard(newBoard))
     }
+
+    const onAddAttachment = async (ev) => {
+        console.log(ev.target[0].value);
+        const attachmentImg = ev.target[0].value;
+        // (!ev.target[0].value) ? attachmentImg = '' : attachmentImg = ev.target[0].value
+        const newBoard = await boardService.addAttachment(currBoard, group, task, attachmentImg)
+        await dispatch(onSaveBoard(newBoard))
+        // await dispatch(setCurrBoard(newBoard._id))
+    }
+
     const onCheckBoxClick = async (ev, todo) => {
         const newBoard = await boardService.updateTodo(currBoard, group, task, todo)
         await dispatch(onSaveBoard(newBoard))
@@ -225,10 +241,22 @@ export function TaskDetails() {
     }
 
     const toggleChecklistModal = () => {
-        console.log('HELP ME');
         checklistModalRef.current.classList.toggle('hide')
         // checklistModalRef.current.value = ''
         // addListRef.current.classList.toggle('close')
+    }
+
+    const toggleattAchmentModal = () => {
+        console.log('HELP ME');
+        attachmentModalRef.current.classList.toggle('hide')
+        // checklistModalRef.current.value = ''
+        // addListRef.current.classList.toggle('close')
+    }
+
+    const onChangeAttachmentTitle = async (ev) => {
+        const { value } = ev.target
+        const updatedBoard = await boardService.changeAttachmentTitle(currBoard, group, task, value)
+        await dispatch(onSaveBoard(updatedBoard))
     }
 
     const onDeleteChecklist = async () => {
@@ -237,20 +265,35 @@ export function TaskDetails() {
 
     }
 
+    const onMakeAttachmentCoverTask = async () => {
+        const newBoard = await boardService.makeAttachmentCoverTask(currBoard, group, task)
+        await dispatch(onSaveBoard(newBoard))
+    }
+
     if (!Object.keys(task).length || !Object.keys(group).length) return 'loading'
     return (
         <div className="card-details" ref={cardDetailsRef}>
-            {task.style && (<header
+            {task.style && task.style.backgroundColor && !task.style.isCover && (<header
                 className="card-details-header"
                 style={{ backgroundColor: task.style.backgroundColor }}
             ></header>
 
             )}
+            {task.attachment && task.style?.isCover && (<header
+                className="card-details-header"
+                style={{
+                    background: `url(${task.attachment.imgUrl})`, backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'contain', backgroundPosition: 'center', height: '160px', width: '100%', borderRadius: '3px'
+                }}
+            ></header>
+
+            )}
+
             <div className="main-aside-container">
                 <main className="card-details-conatiner">
                     {/* <div className="forListener" ref={forListenerUpRef}> */}
                     <section className="card-details-title-container">
-                        <span className="card-icon"><i class="fa-solid fa-window-maximize"></i></span>
+                        <span className="card-icon"><i className="fa-solid fa-window-maximize fa-lg"></i></span>
                         <section className="title-in-group">
                             <input
                                 className="details-group-title"
@@ -265,43 +308,42 @@ export function TaskDetails() {
                     </section>
                     <section className="card-details-labels">
                         {task.labelIds && currBoard.labels && <>
-                        <div className='title-and-labels'>
-                            <span className="labels-title">Labels</span>
-                            <div className="card-details-labels-container">
-                                {task.labelIds.map((labelId) => {
-                                    const label = getLabel(labelId)
-                                    const backgroundColor = label.backgroundColor
-                                    const title = label.title
-                                    return (
+                            <div className='title-and-labels'>
+                                <span className="labels-title">Labels</span>
+                                <div className="card-details-labels-container">
+                                    {task.labelIds.map((labelId) => {
+                                        const label = getLabel(labelId)
+                                        const backgroundColor = label.backgroundColor
+                                        const title = label.title
+                                        return (
+                                            <div
+                                                key={labelId}
+                                                className="card-details-label"
+                                                style={{
+                                                    backgroundColor: backgroundColor,
+                                                    height: '32px',
+                                                    width: '68px',
+                                                }}
+                                            >
+                                                {title}
+                                            </div>
+                                        )
+                                    })}
+                                    <section className="add-label-container">
                                         <div
-                                            key={labelId}
-                                            className="card-details-label"
-                                            style={{
-                                                backgroundColor: backgroundColor,
-                                                height: '32px',
-                                                width: '68px',
-                                            }}
+                                            onClick={onToggleLabelModal}
+                                            className="card-details-add-label"           /////////?????????????
                                         >
-                                            {title}
+                                            +
                                         </div>
-                                    )
-                                })}
-                                <section className="add-label-container">
-                                    <div
-                                        onClick={onToggleLabelModal}
-                                        className="card-details-add-label"           /////////?????????????
-                                    >
-                                        +
-                                    </div>
 
-                                </section>
-                            </div></div>
+                                    </section>
+                                </div></div>
                         </>}
                         {/* <section className="add-label-container"> */}
                         <div
                             ref={addLabelModalRef}
                             className="add-label-modal hide"
-                            contentEditable
                         >
                             {/* onBlur={onToggleLabelModal} */}
                             <header className="add-label-modal-header">
@@ -382,7 +424,7 @@ export function TaskDetails() {
                                     onClick={onToggleCreateLabelModal}
                                     className="close-label-modal"
                                 >
-                                    <i class="fa-solid fa-x"></i>
+                                    <i className="fa-solid fa-x"></i>
                                 </button>
                             </header>
                             <hr />
@@ -397,10 +439,11 @@ export function TaskDetails() {
                             </label>
                             <div className="select-color-title">Select a color</div>
                             <div className="colors-for-select">
-                                {palette.map((clr) => {
+                                {palette.map((clr, idx) => {
                                     // console.log(clr)
                                     return (
                                         <div
+                                            key={clr + idx}
                                             onClick={() => setNewLabelColor(clr)}
                                             className="label-color"
                                             style={{ backgroundColor: clr }}
@@ -461,7 +504,7 @@ export function TaskDetails() {
                     <section className="description">
                         <div className="description-content">
                             <header className="description-header">
-                                <span className="desc-icon"><i class="fa-solid fa-align-left"></i></span>
+                                <span className="desc-icon"><i className="fa-solid fa-align-left fa-lg"></i></span>
                                 <div className="desc-title">Description</div>
                                 {/* <button className="edit-desc">Edit</button> */}
                             </header>
@@ -512,39 +555,50 @@ export function TaskDetails() {
                     </section>
 
                     {/* Add Tnai */}
-                    <section className='attachment-container'>
+                    {task.attachment && task.attachment.title !== '' && <section className='attachment-container'>
                         <header className='attachment-header'>
-                            <span className="attachment-icon"><i className="fa-solid fa-paperclip"></i></span>
+                            <span className="attachment-icon"><i className="fa-solid fa-paperclip fa-lg"></i></span>
                             <div className='attachment-title-button flex'>
                                 <span className="attachment-title">Attachments</span>
-                                <button className='attachment-title-delete' onClick={console.log('Make Delete')}>Delete</button>
+                                {/* <button className='attachment-title-delete' onClick={console.log('Make Delete')}>Delete</button> */}
                             </div>
                         </header>
-                        <div>
-                        <div className='add-item-attachment hide' ref={attachmentModalRef}>
-                                {/* add class name hide */}
+                        {task.attachment.imgUrl === '' && <div>
+                            <div className='add-item-attachment' ref={attachmentModalRef}>
+                                {/* add className name hide */}
                                 <div className='add-item-attachment-modal'>
-                                    <form id='add-item-attachment' >
-                                        <input type='text' className='add-item-attachment-input' placeholder='Add an item' />
+                                    <form id='add-item-attachment' onSubmit={(event) => onAddAttachment(event)}>
+                                        <input type='text' className='add-item-attachment-input' placeholder='Add an URL' />
                                     </form>
                                 </div>
-                                Add 
                                 <div className='add-item-attachment-controller flex'>
                                     <div>
-                                        <button className='attachment-add-btn' type='submit' form='add-item'>Add</button>
-                                        {/* <button onClick={toggleattachmentModal}>Cancel</button> */}
+                                        <button className='attachment-add-btn' type='submit' form='add-item-attachment'>Add</button>
+                                        <button onClick={toggleattAchmentModal}>Cancel</button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </section>
+                        </div>}
+                        {task.attachment.imgUrl !== '' && <section className='attachment-list-container flex'>
+                            <img className='attachment-img' src={task.attachment.imgUrl} />
+                            <div className='attachment-info flex'>
+                                <input className="attachment-title" defaultValue={task.attachment.title} type="text" onChange={onChangeAttachmentTitle} onBlur={onChangeAttachmentTitle} />
+                                <span className='attachment-created-at'>Added at {task.attachment.createdAt + ''}</span>
+                                <span className='attachment-to-cover' onClick={onMakeAttachmentCoverTask}>
+                                    <i className="fa-regular fa-window-maximize fa-xs"></i>
+                                    {task.style?.isCover && <span>Remove Cover</span>}
+                                    {!task.style?.isCover && <span>Make Cover</span>}
+                                </span>
+                            </div>
+                        </section>}
+                    </section>}
 
 
 
                     {/* checklist title to input */}
                     {task.checklist && task.checklist.todos && <section className='checklist-container '>
                         <header className='checklist-header'>
-                            <span className="checklist-icon"><i className="fa-regular fa-square-check"></i></span>
+                            <span className="checklist-icon"><i className="fa-regular fa-square-check fa-lg"></i></span>
                             <div className='checklist-title-button flex'>
                                 <span className="checklist-title">Check List</span>
                                 <button className='checklist-title-delete' onClick={onDeleteChecklist}>Delete</button>
@@ -560,29 +614,19 @@ export function TaskDetails() {
                             <ul style={{ padding: 0 }}>
                                 {task.checklist.todos.map(todo => {
                                     return (
-                                        <li className='check-box-per-todo flex'>
+                                        <li className='check-box-per-todo flex' key={todo.id}>
                                             <label className='checkbox-label' >
                                                 <input onChange={(ev) => onCheckBoxClick(ev, todo)} className='checkbox' checked={todo.isDone} type="checkbox" id="todo.title" />
                                                 {todo.title}</label>
                                         </li>
                                     )
                                 })}
-                                {/* <li className='check-box-per-todo flex'>
-                                    <label className='checkbox-label' >
-                                    <input className='checkbox' type="checkbox" id="todo.title" />
-                                        To Do Dynamic</label>
-                                </li>
-                                <li className='check-box-per-todo flex'>
-                                    <label className='checkbox-label' >
-                                    <input className='checkbox' type="checkbox" id="todo.title" />
-                                        To Do Scss Looking Til</label>
-                                </li> */}
                             </ul>
                             <button className='prev-btn-add-item' onClick={toggleChecklistModal}>Add an item</button>
                             <div className='add-item-checklist hide' ref={checklistModalRef}>
-                                {/* add class name hide */}
+                                {/* add className name hide */}
                                 <div className='add-item-checklist-modal'>
-                                    <form id='add-item' onSubmit={(event) => checklistModalRef(event)}>
+                                    <form id='add-item' onSubmit={(event) => onAddItem(event)}>
                                         <input type='text' className='add-item-checklist-input' placeholder='Add an item' />
                                     </form>
                                 </div>
@@ -632,7 +676,7 @@ export function TaskDetails() {
                     <section className="activity-container">
                         <header className="activity-header">
                             <div className="title-icon-container">
-                                <span className="activity-icon"><i class="fa-solid fa-list-ul"></i></span>
+                                <span className="activity-icon"><i className="fa-solid fa-list-ul"></i></span>
                                 <span className="activity-title">Activity</span>
                             </div>
                             <button className="show-details">Show details</button>
@@ -683,13 +727,13 @@ export function TaskDetails() {
                             </span>
                             <span>Labels</span>
                         </div>
-                        <div className="" onClick={() => AsyncFuncForBar()}>
+                        <div className="" onClick={() => onCheckList()}>
                             <span className="">
                                 <i className="fa-regular fa-square-check"></i>
                             </span>
                             <span>Checklist</span>
                         </div>
-                        <div className="">
+                        <div className="" onClick={(event) => onAttachment(event)}>
                             <span className="">
                                 <i className="fa-solid fa-paperclip"></i>
                             </span>
@@ -697,7 +741,7 @@ export function TaskDetails() {
                         </div>
                         <div className="">
                             <span className="add-to-card-cover">
-                                <i class="fa-regular fa-window-maximize"></i>
+                                <i className="fa-regular fa-window-maximize"></i>
                             </span>
                             <span>Cover</span>
                         </div>
@@ -767,7 +811,7 @@ export function TaskDetails() {
                 </section>
             </div>
             <button ref={closeDetailsRef} className="close-details-btn" onClick={onCloseCardDetails}>
-                <i class="fa-solid fa-x"></i>
+                <i className="fa-solid fa-x"></i>
             </button>
         </div >
     )

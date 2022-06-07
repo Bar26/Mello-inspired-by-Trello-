@@ -14,7 +14,15 @@ const ProgressBar = ({ completed }) => {
   const fillerStyles = {
     height: '100%',
     width: `${completed}%`,
-    backgroundColor: 'blue',
+    backgroundColor: '#5ba4cf',
+    borderRadius: 'inherit',
+    textAlign: 'right'
+  }
+
+  const fillerStyles2={
+    height: '100%',
+    width: `${completed}%`,
+    backgroundColor: '#61bd4f',
     borderRadius: 'inherit',
     textAlign: 'right'
   }
@@ -27,7 +35,7 @@ const ProgressBar = ({ completed }) => {
 
   return (
     <div style={containerStyles}>
-      <div style={fillerStyles}>
+      <div style={completed===100? fillerStyles2:fillerStyles}>
       <span style={labelStyles}></span>
       </div>
     </div>
