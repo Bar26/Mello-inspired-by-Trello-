@@ -3,11 +3,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import { utilService } from '../services/util.service'
 import { useDispatch, useSelector } from 'react-redux'
 import pen from '../assets/img/pen.png'
-import { setCurrBoard } from '../store/actions/board.actions'
+import { setCurrBoard,onCopyTask,onRemoveTask,onSaveBoard } from '../store/actions/board.actions'
 import { boardService } from '../services/board.service'
 import { useNavigate, useParams } from 'react-router-dom'
+import { AddMemberModal } from './MembersModal.jsx'
 
-export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
+
+export function TaskPreview({ task, group}) {
 	const navigate = useNavigate()
 	const [date, setDate] = useState(new Date())
 	const [style, setStyle] = useState({ height: '32px', width: '100%' })
@@ -18,6 +20,7 @@ export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
 	const penRef = useRef()
 	const [isLabel, setIsLabel] = useState(false)
 	const editModalRef = useRef()
+	const addMemberModalRef = useRef()
 
 	useEffect(() => {
 		if (!Object.keys(currBoard).length) {
@@ -37,10 +40,19 @@ export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
 		}
 	}, [])
 
+	const onToggleMemberModal = () => {
+        addMemberModalRef.current.classList.toggle('hide')
+    }
+
 	const getLabel = (labelId) => {
 		if (!currBoard.labels) return
 		return currBoard.labels.find((label) => label.id === labelId)
 	}
+
+	const getMember = (memberId) => {
+        if (!currBoard.members) return
+        return currBoard.members.find(member => member._id === memberId)
+    }
 
 	const onOpenLabel = (ev) => {
 		ev.stopPropagation()
@@ -51,6 +63,17 @@ export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
 		ev.stopPropagation()
 		editModalRef.current.classList.toggle('hide')
 	}
+
+	const onToggleMemberToTask = async (memberId) => {
+        console.log('in togglemember')
+        try {
+            const updatedBoard = await boardService.toggleMemberToTask(currBoard, group, task.id, memberId)
+            await dispatch(onSaveBoard(updatedBoard))
+        } catch (err) {
+            console.log('connot add member to task', err)
+        }
+
+    }
 
 	return (
 		<section
@@ -69,9 +92,24 @@ export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
 					<span>+</span>
 					<span>Edit labels</span>
 				</div>
-				<div>
+				<div onClick={(ev)=>{
+					ev.stopPropagation()
+					onToggleMemberModal()
+					// addMemberModalRef.current.style.right="100%"
+					// addMemberModalRef.current.style.bottom="100px"
+					}} >
 					<span>+</span>
 					<span>Change Members</span>
+					<div
+                                ref={addMemberModalRef}
+                                className="add-member-modal hide"
+                                onClick={(ev) => ev.stopPropagation()}
+                            >
+                                <AddMemberModal onToggleMemberModal={onToggleMemberModal}
+                                    currBoard={currBoard}
+                                    onToggleMemberToTask={onToggleMemberToTask}
+                                    task={task} />
+                            </div>
 				</div>
 				<div>
 					<span>+</span>
@@ -81,7 +119,9 @@ export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
 					<span>+</span>
 					<span>Move</span>
 				</div>
-				<div onClick={() => onCopyCard(task)}>
+				<div onClick={(ev) =>{
+					ev.stopPropagation()
+					dispatch(onCopyTask(ev,task,group, currBoard))}}>
 					<span>+</span>
 					<span>Copy</span>
 				</div>
@@ -89,7 +129,10 @@ export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
 					<span>+</span>
 					<span>Edit Dates</span>
 				</div>
-				<div onClick={() => onRemoveCard(task.id)}>
+				<div onClick={(ev) =>{ 
+					ev.stopPropagation()
+					dispatch(onRemoveTask(ev,task.id,group, currBoard))
+				}}>
 					<span>+</span>
 					<span>Archive</span>
 				</div>
@@ -99,6 +142,7 @@ export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
 				</div>
 			</div>
 
+<<<<<<< HEAD
 			{task.style && task.style.backgroundColor && (
 				<>
 					{/* {()=>onChangePad()} */}
@@ -110,6 +154,13 @@ export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
 					{/* {()=>onChangePad()} */}{console.log(task.attachment.imgUrl)}
 					<div className="task-attachment-cover" style={{background:`url(${task.attachment.imgUrl})`,backgroundRepeat:'no-repeat',
 					backgroundSize:'cover', backgroundPosition:'center',height:'160px',width:'100%', borderRadius:'3px' }}></div>
+=======
+			{task.style && (
+
+				<>
+					{/* {()=>onChangePad()} */}
+					<div className="task-bg" style={{ ...style, ...task.style }}></div>
+>>>>>>> 836717480f18943bcddb10274ba2f8aec4f0c76e
 				</>
 			)}
 			<section className="task-details">
@@ -145,13 +196,52 @@ export function TaskPreview({ group, task, onRemoveCard, onCopyCard }) {
 					</div>
 				)}
 
+				{task.memberIds && currBoard.members && (
+					<div className="members-container">
+						{task.memberIds.map((memberId, idx) => {
+							const member = getMember(memberId)
+							const src = member.imgUrl
+
+							return (
+								<div
+								key={memberId+idx}
+								className="member-container"
+								// onClick={onOpenMember}
+								style={{
+									background: `url(${src})`,
+									backgroundRepeat: 'no-repeat',
+									backgroundSize: 'cover',
+									backgroundPosition: 'center',
+									height: '28px',
+									width: '28px',
+									borderRadius: '50%'
+									}}
+								>
+									{/* <span
+										ref={(element) => {
+											refs.current[idx] = element
+										}}
+										className="label-title hide"
+									>
+										{label.title}
+									</span> */}
+								</div>
+							)
+						})}
+					</div>
+				)}
+
+
+
+
+
 				<div>{task.title}</div>
 				<div className='icon-preview flex'>
 					{task.description && <div className="description-prev">
 						<span className='fontawsome'><i className="fa-solid fa-align-left"></i></span></div>
 					}
 
-					
+
 					{task.checklist && <div className="checklists-prev flex">
 						<span className='fontawsome'><i className="fa-regular fa-square-check"></i></span>
 						<div >

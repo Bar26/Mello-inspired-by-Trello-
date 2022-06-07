@@ -115,21 +115,29 @@
             }
 
 
+       
 
             .card-details-labels {
                 display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: flex-start;
+                flex-direction: row-reverse;
+                justify-content: flex-end;
+                align-items: center;
                 padding-inline-start: 40px;
-                gap: 4px;
+                gap: 16px;
                 margin-bottom: 16px;
 
-                .labels-title {
-                    color: $clr-small-text;
-                    font-weight: 600;
-                    font-size: rem(12px);
+                .title-and-labels{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: flex-start;
+                    gap:4px;
+                     .labels-title {
+                        font-size: 12px;
+                        font-weight: 700;
+                        color: $clr-small-text;
                 }
+
 
                 .card-details-labels-container {
                     display: flex;
@@ -167,6 +175,9 @@
 
                     }
                 }
+                }
+
+               
 
                 .add-label-modal {
                     width: 304px;
@@ -185,6 +196,61 @@
 
                     &.hide {
                         display: none;
+                    }
+                }
+
+
+
+                .card-details-members {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: flex-start;
+                    gap: 4px;
+
+                    .members-title {
+                        font-size: 12px;
+                        font-weight: 700;
+                        color: $clr-small-text;
+                    }
+
+                    .card-details-members-container {
+                        display: flex;
+                        gap: 4px;
+                        align-items: center;
+
+
+
+                        >* {
+                            @include flex-center;
+                            padding: 0 12px;
+                            color: white;
+                            font-size: 14px;
+                            font-weight: 600;
+                            line-height: em(32px, 14px);
+                            border-radius: 3px;
+                        }
+
+                        .add-member-container {
+                            padding: 0;
+                            position: relative;
+
+
+                            .card-details-add-member {
+                                color: $clr-text-group;
+                                background-color: $clr-btn-details;
+                                @include flex-center;
+                                padding: 0 12px;
+                                border-radius: 50%;
+
+
+                                &:hover {
+                                    background-color: $clr-btn-hover;
+                                    cursor: pointer;
+                                }
+
+                            }
+                        }
                     }
                 }
 
@@ -419,6 +485,10 @@
                 padding-right: 16px;
                 gap: 8px;
 
+                .members-btn {
+                    position: relative;
+                }
+
                 >* {
                     background-color: $clr-btn-details;
                     padding: 6px 12px;
@@ -433,6 +503,8 @@
                         background-color: $clr-btn-hover;
                         cursor: pointer;
                     }
+
+
                 }
 
                 .add-to-card-title {
@@ -474,7 +546,6 @@
                 }
 
                 .actions-title {
-
                     background-color: transparent;
                     font-size: rem(12px);
                     font-weight: 600;

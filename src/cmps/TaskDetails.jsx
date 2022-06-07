@@ -4,8 +4,7 @@ import pen from '../assets/img/pen.png'
 import { boardService } from '../services/board.service'
 import { useNavigate, useParams } from 'react-router-dom'
 import { onCopyTask, onRemoveTask } from '../store/actions/board.actions'
-import descImg from '../assets/img/desc-img.png'
-
+import { AddMemberModal } from './MembersModal.jsx'
 
 import {
     setCurrBoard,
@@ -41,7 +40,11 @@ export function TaskDetails() {
     const checklistModalRef = useRef()
 
     const [filterLabel, setFilterLabel] = useState('')
+    // const [filterMember, setFilterMember] = useState('a')
     const closeDetailsRef = useRef()
+    // console.log(filterMember)
+
+    const addMemberModalRef = useRef()
 
     const palette = [
         '#61bd4f',
@@ -118,6 +121,7 @@ export function TaskDetails() {
         let newBoard = await boardService.createChecklist(currBoard, group, task)
         await boardService.update(newBoard)
         await dispatch(onSaveBoard(newBoard))
+<<<<<<< HEAD
         // return newBoard
     }
 
@@ -127,10 +131,19 @@ export function TaskDetails() {
         await dispatch(onSaveBoard(newBoard))
         // return newBoard
     }
+=======
+
+    }
+
+>>>>>>> 836717480f18943bcddb10274ba2f8aec4f0c76e
 
     const getLabel = (labelId) => {
         if (!currBoard.labels) return
-        return currBoard.labels.find((label) => label.id === labelId)
+        return currBoard.labels.find(label => label.id === labelId)
+    }
+    const getMember = (memberId) => {
+        if (!currBoard.members) return
+        return currBoard.members.find(member => member._id === memberId)
     }
 
     const onCancelDescChange = () => {
@@ -170,13 +183,27 @@ export function TaskDetails() {
         }
 
     }
+    const onToggleMemberToTask = async (memberId) => {
+        console.log('in togglemember')
+        try {
+            const updatedBoard = await boardService.toggleMemberToTask(currBoard, group, taskId, memberId)
+            await dispatch(onSaveBoard(updatedBoard))
+        } catch (err) {
+            console.log('connot add member to task', err)
+        }
+
+    }
 
 
     const onSearchLabel = ({ target }) => {
         const value = target.value
-        console.log(value)
         setFilterLabel(value)
     }
+    // const onSearchMember = ({ target }) => {
+    //     const value = target.value
+    //     console.log(value)
+    //     setFilterMember(value)
+    // }
 
     const onSaveNewLabel = async () => {
         try {
@@ -193,7 +220,6 @@ export function TaskDetails() {
         const newTodo = ev.target[0].value
         const newBoard = await boardService.addTodo(currBoard, group, task, newTodo)
         await dispatch(onSaveBoard(newBoard))
-        // await dispatch(setCurrBoard(newBoard._id))
     }
 
     const onAddAttachment = async (ev) => {
@@ -206,18 +232,18 @@ export function TaskDetails() {
     }
 
     const onCheckBoxClick = async (ev, todo) => {
-        // console.log(todo);
         const newBoard = await boardService.updateTodo(currBoard, group, task, todo)
         await dispatch(onSaveBoard(newBoard))
-        // await dispatch(setCurrBoard(newBoard._id))
-        // setTask({})
-        // setTask({...task})
+
     }
 
 
     const onToggleCreateLabelModal = () => {
         createLabelRef.current.classList.toggle('hide')
         addLabelModalRef.current.classList.toggle('hide')
+    }
+    const onToggleMemberModal = () => {
+        addMemberModalRef.current.classList.toggle('hide')
     }
 
     const toggleChecklistModal = () => {
@@ -285,10 +311,11 @@ export function TaskDetails() {
                         </section>
                     </section>
                     <section className="card-details-labels">
-                        {task.labelIds && currBoard.labels && (
+                        {task.labelIds && currBoard.labels && <>
+                        <div className='title-and-labels'>
+                            <span className="labels-title">Labels</span>
                             <div className="card-details-labels-container">
                                 {task.labelIds.map((labelId) => {
-                                    <div className="labels-title">Labels</div>
                                     const label = getLabel(labelId)
                                     const backgroundColor = label.backgroundColor
                                     const title = label.title
@@ -315,8 +342,8 @@ export function TaskDetails() {
                                     </div>
 
                                 </section>
-                            </div>
-                        )}
+                            </div></div>
+                        </>}
                         {/* <section className="add-label-container"> */}
                         <div
                             ref={addLabelModalRef}
@@ -435,6 +462,47 @@ export function TaskDetails() {
                             </button>
                         </div>
 
+                        <section className="card-details-members">
+                            {task.memberIds && currBoard.members && <>
+                                <span className="members-title">Members</span>
+                                <div className="card-details-members-container">
+                                    {task.memberIds.map((memberId) => {
+                                        const member = getMember(memberId)
+                                        const src = member.imgUrl
+                                        return (
+                                            <div
+                                                key={memberId}
+                                                className="card-details-member"
+                                                style={{
+                                                    background: `url(${src})`,
+                                                    backgroundRepeat: 'no-repeat',
+                                                    backgroundSize: 'cover',
+                                                    backgroundPosition: 'center',
+                                                    height: '32px',
+                                                    width: '32px',
+                                                    borderRadius: '50%'
+                                                }}
+                                            >
+                                            </div>
+                                        )
+                                    })}
+                                    <section className="add-member-container">
+                                        <div
+                                            onClick={onToggleMemberModal}
+                                            className="card-details-add-member"           /////////?????????????
+                                        >
+                                            +
+                                        </div>
+
+                                    </section>
+                                </div>
+                            </>}
+                        </section>
+
+
+
+
+
                     </section>
                     {/* </div> */}
                     <section className="description">
@@ -503,8 +571,13 @@ export function TaskDetails() {
                             <div className='add-item-attachment' ref={attachmentModalRef}>
                                 {/* add className name hide */}
                                 <div className='add-item-attachment-modal'>
+<<<<<<< HEAD
                                     <form id='add-item-attachment' onSubmit={(event) => onAddAttachment(event)}>
                                         <input type='text' className='add-item-attachment-input' placeholder='Add an URL' />
+=======
+                                    <form id='add-item-attachment' >
+                                        <input type='text' className='add-item-attachment-input' placeholder='Add an item' />
+>>>>>>> 836717480f18943bcddb10274ba2f8aec4f0c76e
                                     </form>
                                 </div>
                                 <div className='add-item-attachment-controller flex'>
@@ -558,7 +631,11 @@ export function TaskDetails() {
                             <div className='add-item-checklist hide' ref={checklistModalRef}>
                                 {/* add className name hide */}
                                 <div className='add-item-checklist-modal'>
+<<<<<<< HEAD
                                     <form id='add-item' onSubmit={(event) => onAddItem(event)}>
+=======
+                                    <form id='add-item' onSubmit={(event) => checklistModalRef(event)}>
+>>>>>>> 836717480f18943bcddb10274ba2f8aec4f0c76e
                                         <input type='text' className='add-item-checklist-input' placeholder='Add an item' />
                                     </form>
                                 </div>
@@ -630,11 +707,28 @@ export function TaskDetails() {
                 <section className="details-aside">
                     <section className="add-to-card">
                         <span className="add-to-card-title">Add to card</span>
-                        <div className="">
+                        <div className="members-btn" onClick={onToggleMemberModal}>
                             <span className="">
                                 <i className="fa-regular fa-user"></i>
                             </span>
                             <span>Members</span>
+
+
+                            <div
+                                ref={addMemberModalRef}
+                                className="add-member-modal hide"
+                                onClick={(ev) => ev.stopPropagation()}
+                            >
+                                <AddMemberModal onToggleMemberModal={onToggleMemberModal}
+                                    // onSearchMember={onSearchMember}
+                                    // filterMember={filterMember}
+                                    currBoard={currBoard}
+                                    onToggleMemberToTask={onToggleMemberToTask}
+                                    task={task} />
+                            </div>
+
+
+
                         </div>
                         <div className=" add-label-aside" onClick={onToggleLabelModal}>
                             <span className="">
@@ -728,6 +822,6 @@ export function TaskDetails() {
             <button ref={closeDetailsRef} className="close-details-btn" onClick={onCloseCardDetails}>
                 <i className="fa-solid fa-x"></i>
             </button>
-        </div>
+        </div >
     )
 }

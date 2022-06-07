@@ -175,4 +175,17 @@
         }
     }
 
+
+    .members-container{
+        display: flex;
+        gap:5px;
+        position: absolute;
+        right:8px;
+        bottom: 8px;
+
+        .member-container{
+
+        }
+    }
+
 }

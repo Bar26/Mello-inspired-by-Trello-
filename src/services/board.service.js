@@ -36,7 +36,8 @@ export const boardService = {
 	createChecklist,
 	changeAttachmentTitle,
 	addAttachment,
-	makeAttachmentCoverTask
+	makeAttachmentCoverTask,
+	toggleMemberToTask
 }
 
 async function query(filterBy = {}) {
@@ -213,10 +214,22 @@ async function toggleLabelToTask(board, group, taskId, labelId) {
 	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex((task) => task.id === taskId)
 	if (task.labelIds) {
 		const labelIdx = task.labelIds?.findIndex((_labelId) => _labelId === labelId)
-		console.log(labelIdx)
 		if (labelIdx !== -1) task.labelIds?.splice(labelIdx, 1)
 		else task.labelIds.push(labelId)
 	} else task.labelIds = [labelId]
+	updatedBoard.groups[groupIdx].tasks[taskIdx] = task
+	return updatedBoard
+}
+async function toggleMemberToTask(board, group, taskId, memberId) {
+	const updatedBoard = { ...board }
+	const groupIdx = updatedBoard.groups.findIndex((_group) => _group.id === group.id)
+	let task = updatedBoard.groups[groupIdx].tasks.find((task) => task.id === taskId)
+	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex((task) => task.id === taskId)
+	if (task.memberIds) {
+		const memberIdx = task.memberIds?.findIndex((_memberId) => _memberId === memberId)
+		if (memberIdx !== -1) task.memberIds?.splice(memberIdx, 1)
+		else task.memberIds.push(memberId)
+	} else task.memberIds = [memberId]
 	updatedBoard.groups[groupIdx].tasks[taskIdx] = task
 	return updatedBoard
 }
@@ -463,7 +476,7 @@ function addGuestBoardExp() {
 					},
 					{
 						id: 'c108',
-						title: 'Design Seup SCSS',
+						title: 'Design Setup SCSS',
 					},
 				],
 				style: {},
@@ -533,3 +546,5 @@ function addGuestBoardExp() {
 		storageService.post(STORAGE_KEY, board)
 	}
 }
+
+
