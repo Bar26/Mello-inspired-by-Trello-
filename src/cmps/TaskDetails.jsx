@@ -121,7 +121,6 @@ export function TaskDetails() {
         let newBoard = await boardService.createChecklist(currBoard, group, task)
         await boardService.update(newBoard)
         await dispatch(onSaveBoard(newBoard))
-<<<<<<< HEAD
         // return newBoard
     }
 
@@ -131,11 +130,6 @@ export function TaskDetails() {
         await dispatch(onSaveBoard(newBoard))
         // return newBoard
     }
-=======
-
-    }
-
->>>>>>> 836717480f18943bcddb10274ba2f8aec4f0c76e
 
     const getLabel = (labelId) => {
         if (!currBoard.labels) return
@@ -571,13 +565,8 @@ export function TaskDetails() {
                             <div className='add-item-attachment' ref={attachmentModalRef}>
                                 {/* add className name hide */}
                                 <div className='add-item-attachment-modal'>
-<<<<<<< HEAD
                                     <form id='add-item-attachment' onSubmit={(event) => onAddAttachment(event)}>
                                         <input type='text' className='add-item-attachment-input' placeholder='Add an URL' />
-=======
-                                    <form id='add-item-attachment' >
-                                        <input type='text' className='add-item-attachment-input' placeholder='Add an item' />
->>>>>>> 836717480f18943bcddb10274ba2f8aec4f0c76e
                                     </form>
                                 </div>
                                 <div className='add-item-attachment-controller flex'>
@@ -631,11 +620,7 @@ export function TaskDetails() {
                             <div className='add-item-checklist hide' ref={checklistModalRef}>
                                 {/* add className name hide */}
                                 <div className='add-item-checklist-modal'>
-<<<<<<< HEAD
                                     <form id='add-item' onSubmit={(event) => onAddItem(event)}>
-=======
-                                    <form id='add-item' onSubmit={(event) => checklistModalRef(event)}>
->>>>>>> 836717480f18943bcddb10274ba2f8aec4f0c76e
                                         <input type='text' className='add-item-checklist-input' placeholder='Add an item' />
                                     </form>
                                 </div>

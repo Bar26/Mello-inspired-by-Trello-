@@ -142,7 +142,6 @@ export function TaskPreview({ task, group}) {
 				</div>
 			</div>
 
-<<<<<<< HEAD
 			{task.style && task.style.backgroundColor && (
 				<>
 					{/* {()=>onChangePad()} */}
@@ -154,13 +153,6 @@ export function TaskPreview({ task, group}) {
 					{/* {()=>onChangePad()} */}{console.log(task.attachment.imgUrl)}
 					<div className="task-attachment-cover" style={{background:`url(${task.attachment.imgUrl})`,backgroundRepeat:'no-repeat',
 					backgroundSize:'cover', backgroundPosition:'center',height:'160px',width:'100%', borderRadius:'3px' }}></div>
-=======
-			{task.style && (
-
-				<>
-					{/* {()=>onChangePad()} */}
-					<div className="task-bg" style={{ ...style, ...task.style }}></div>
->>>>>>> 836717480f18943bcddb10274ba2f8aec4f0c76e
 				</>
 			)}
 			<section className="task-details">
