@@ -63,11 +63,17 @@ export const BoardCoverModal = ({ coverMode, onSetCoverMode }) => {
 						style={{
 							background: `URL(https://i.pinimg.com/736x/bc/0e/09/bc0e09b8128012312eb392c59f36b9ef.jpg) center center / cover`,
 						}}
+						onClick={() => {
+							onChangeImgStyle('https://i.pinimg.com/736x/bc/0e/09/bc0e09b8128012312eb392c59f36b9ef.jpg')
+						}}
 					></div>
 					<div
 						className="img-select"
 						style={{
 							background: `URL(https://4krelax.com/img/w-1.jpg) center center / cover`,
+						}}
+						onClick={() => {
+							onChangeImgStyle('https://4krelax.com/img/w-1.jpg')
 						}}
 					></div>
 					<div
@@ -75,17 +81,27 @@ export const BoardCoverModal = ({ coverMode, onSetCoverMode }) => {
 						style={{
 							background: `URL(https://images-na.ssl-images-amazon.com/images/I/81tlEXrWjAL.png) center center / cover`,
 						}}
+						onClick={() => {
+							onChangeImgStyle('https://images-na.ssl-images-amazon.com/images/I/81tlEXrWjAL.png')
+						}}
 					></div>
 					<div
 						className="img-select"
 						style={{
 							background: `URL(https://i.pinimg.com/736x/87/ec/a0/87eca0aa25be58c27a4831853d1fcf85.jpg) center center / cover`,
 						}}
+						onClick={() => {
+							onChangeImgStyle('https://i.pinimg.com/736x/87/ec/a0/87eca0aa25be58c27a4831853d1fcf85.jpg')
+						}}
+						
 					></div>
 					<div
 						className="img-select"
 						style={{
 							background: `URL(https://img.wallpapersafari.com/desktop/1680/1050/86/40/bJ3UtF.jpg) center center / cover`,
+						}}
+						onClick={() => {
+							onChangeImgStyle('https://img.wallpapersafari.com/desktop/1680/1050/86/40/bJ3UtF.jpg')
 						}}
 					></div>
 					<button
