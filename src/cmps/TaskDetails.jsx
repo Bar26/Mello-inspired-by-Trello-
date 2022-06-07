@@ -32,6 +32,7 @@ export function TaskDetails() {
     const descPrevRef = useRef()
 
     const addLabelModalRef = useRef()
+    const attachmentModalRef = useRef()
     const createLabelRef = useRef()
     const createCheckListRef = useRef()
     const [newLabelColor, setNewLabelColor] = useState('#61bd4f')
@@ -510,12 +511,40 @@ export function TaskDetails() {
                         </div>
                     </section>
 
+                    {/* Add Tnai */}
+                    <section className='attachment-container'>
+                        <header className='attachment-header'>
+                            <span className="attachment-icon"><i className="fa-solid fa-paperclip"></i></span>
+                            <div className='attachment-title-button flex'>
+                                <span className="attachment-title">Attachments</span>
+                                <button className='attachment-title-delete' onClick={console.log('Make Delete')}>Delete</button>
+                            </div>
+                        </header>
+                        <div>
+                        <div className='add-item-attachment hide' ref={attachmentModalRef}>
+                                {/* add class name hide */}
+                                <div className='add-item-attachment-modal'>
+                                    <form id='add-item-attachment' >
+                                        <input type='text' className='add-item-attachment-input' placeholder='Add an item' />
+                                    </form>
+                                </div>
+                                Add 
+                                <div className='add-item-attachment-controller flex'>
+                                    <div>
+                                        <button className='attachment-add-btn' type='submit' form='add-item'>Add</button>
+                                        {/* <button onClick={toggleattachmentModal}>Cancel</button> */}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
 
 
                     {/* checklist title to input */}
                     {task.checklist && task.checklist.todos && <section className='checklist-container '>
                         <header className='checklist-header'>
-                            <span className="checklist-icon">O</span>
+                            <span className="checklist-icon"><i className="fa-regular fa-square-check"></i></span>
                             <div className='checklist-title-button flex'>
                                 <span className="checklist-title">Check List</span>
                                 <button className='checklist-title-delete' onClick={onDeleteChecklist}>Delete</button>
@@ -553,7 +582,7 @@ export function TaskDetails() {
                             <div className='add-item-checklist hide' ref={checklistModalRef}>
                                 {/* add class name hide */}
                                 <div className='add-item-checklist-modal'>
-                                    <form id='add-item' onSubmit={(event) => onAddItem(event)}>
+                                    <form id='add-item' onSubmit={(event) => checklistModalRef(event)}>
                                         <input type='text' className='add-item-checklist-input' placeholder='Add an item' />
                                     </form>
                                 </div>

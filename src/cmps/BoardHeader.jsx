@@ -6,7 +6,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { setCurrBoard, onSaveBoard } from '../store/actions/board.actions'
 import { useEffectUpdate } from './useEffectUpdate.js'
 
-export const BoardHeader = ({ menuShow, toggleBoardMenu }) => {
+export const BoardHeader = ({ menuShow, toggleBoardMenu , onSetCoverMode }) => {
 	const { currBoard } = useSelector((state) => state.boardModule)
 	const [board, setBoard] = useState(currBoard)
 	const [star, setStar] = useState('')
@@ -51,6 +51,9 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu }) => {
 	const onToggleBoardMenu = () => {
 		toggleBoardMenu()
 	}
+	const onToggleCoverMode = () => {
+		onSetCoverMode()
+	}
 
 	const handleChange = (ev) => {
 		try {
@@ -92,6 +95,7 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu }) => {
 				></div>
 			</div>
 			<div className="board-menu">
+				<button className="board-menu-btn" onClick={onToggleCoverMode}>Cover</button>
 				<button className="board-menu-btn" onClick={onToggleBoardMenu}>
 					<svg
 						stroke="currentColor"

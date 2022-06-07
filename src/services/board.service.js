@@ -424,7 +424,7 @@ function addGuestBoardExp() {
 					},
 					{
 						id: 'c108',
-						title: 'Design Seup SCSS',
+						title: 'Design Setup SCSS',
 					},
 				],
 				style: {},
@@ -494,3 +494,5 @@ function addGuestBoardExp() {
 		storageService.post(STORAGE_KEY, board)
 	}
 }
+
+
