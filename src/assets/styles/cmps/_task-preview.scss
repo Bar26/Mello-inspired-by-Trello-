@@ -105,19 +105,18 @@
         color: #5e6c84;
 
         .icon-preview {
-            gap:4px;
+            gap:6px;
             .checklists-prev {
                 margin: 0;
                 padding-top: 4px;
                 color: #5e6c84;
 
-                // align-items: center;
-                // text-align: center;
+              
                 .fontawsome {
                     height: 20px;
                     width: 20px;
                     font-size: 12px;
-                    // background-color: aqua;
+                    padding-right: 5px;
                 }
             }
 

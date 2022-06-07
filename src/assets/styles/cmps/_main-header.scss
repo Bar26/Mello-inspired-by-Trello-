@@ -43,6 +43,7 @@ hr {
             width: 30px;
             height: 30px;
             object-fit: contain;
+
             @include flex-center
         
     }
@@ -273,19 +274,15 @@ hr {
 }
 
 .user-logo {
-    // margin: 3px/;
-    // height: 32px;
-    // width: 32px;
-    // line-height: 32px;
-    // border-radius: 50%;
-    // background-color: green;
-    aspect-ratio: auto 30/30;
+
+    aspect-ratio: auto 32/32;
     background-color: #de350b;
     border-radius: 25em;
     height: 32px;
     width: 32px;
     @include flex-center;
-    color: white
+    color: white;
+    margin-inline-start: 4px;
 
   
 }
@@ -301,13 +298,14 @@ hr {
         border-radius: 3px;
         border: 0;
         justify-content: center;
+        align-items: center;
         background-color: transparent;
         box-shadow: none;
         font-weight: bold;
         height: 32px;
-        width: 32px;
+        width: 28px;
         line-height: 32px;
-        margin: 0 4px 0 0;
+        // margin: 0 4px 0 0;
         padding: 0;
         white-space: nowrap;
         color: #FFFFFF;

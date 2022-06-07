@@ -16,6 +16,7 @@
     // padding-top: 16px;
     padding-bottom: 24px;
     overflow-x: hidden;
+    min-height: 80vh;
 
     &::-webkit-scrollbar {
         width: 8px;
@@ -668,7 +669,7 @@
                 height: 16px;
                 left: 0;
                 margin: 6px;
-                overflow: hidden;
+                // overflow: hidden;
                 text-align: center;
                 top: 5px;
                 transition: all .2s ease-in-out;

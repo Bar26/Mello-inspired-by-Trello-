@@ -1,11 +1,10 @@
 .main-header {
 
     height: 68px;
-    // background-color: white;
     background-color: transparent;
     padding: 16px;
+    margin-bottom: 30px;
 
-    // box-shadow: 0 0 10px rgb(0 0 0 / 30%);
     .logo {
         font-family: Charlie-text-bold;
         font-size: 40px;
@@ -45,6 +44,7 @@
             font-family:charlie-text-reg ;
             width:67px;
             text-decoration: none;
+            padding-top: 1px;
         }
         
         .signup {
@@ -52,6 +52,7 @@
             background-color: $clr2;
             font-family:charlie-text-semi-bold ;
             text-decoration: none;
+            padding-top: 1px;
         }
 
     }
