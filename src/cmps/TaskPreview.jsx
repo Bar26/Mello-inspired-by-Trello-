@@ -142,7 +142,7 @@ export function TaskPreview({ task, group}) {
 				</div>
 			</div>
 
-			{task.style && task.style.backgroundColor && (
+			{task.style && task.style.backgroundColor && !task.style.isCover && (
 				<>
 					{/* {()=>onChangePad()} */}
 					<div className="task-bg" style={{ ...style, background:`${task.style.backgroundColor}`}}></div>

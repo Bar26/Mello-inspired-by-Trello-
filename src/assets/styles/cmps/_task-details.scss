@@ -115,7 +115,7 @@
             }
 
 
-       
+
 
             .card-details-labels {
                 display: flex;
@@ -126,58 +126,59 @@
                 gap: 16px;
                 margin-bottom: 16px;
 
-                .title-and-labels{
+                .title-and-labels {
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
                     align-items: flex-start;
-                    gap:4px;
-                     .labels-title {
+                    gap: 4px;
+
+                    .labels-title {
                         font-size: 12px;
                         font-weight: 700;
                         color: $clr-small-text;
-                }
-
-
-                .card-details-labels-container {
-                    display: flex;
-                    gap: 4px;
-                    align-items: center;
-
-                    >* {
-                        @include flex-center;
-                        padding: 0 12px;
-                        color: white;
-                        font-size: 14px;
-                        font-weight: 600;
-                        line-height: em(32px, 14px);
-                        border-radius: 3px;
                     }
 
-                    .add-label-container {
-                        padding: 0;
-                        position: relative;
 
+                    .card-details-labels-container {
+                        display: flex;
+                        gap: 4px;
+                        align-items: center;
 
-                        .card-details-add-label {
-                            color: $clr-text-group;
-                            background-color: $clr-btn-details;
+                        >* {
                             @include flex-center;
                             padding: 0 12px;
+                            color: white;
+                            font-size: 14px;
+                            font-weight: 600;
+                            line-height: em(32px, 14px);
                             border-radius: 3px;
+                        }
 
-                            &:hover {
-                                background-color: $clr-btn-hover;
-                                cursor: pointer;
+                        .add-label-container {
+                            padding: 0;
+                            position: relative;
+
+
+                            .card-details-add-label {
+                                color: $clr-text-group;
+                                background-color: $clr-btn-details;
+                                @include flex-center;
+                                padding: 0 12px;
+                                border-radius: 3px;
+
+                                &:hover {
+                                    background-color: $clr-btn-hover;
+                                    cursor: pointer;
+                                }
+
                             }
 
                         }
-
                     }
                 }
-                }
 
-               
+
 
                 .add-label-modal {
                     width: 304px;
@@ -592,6 +593,7 @@
         height: 48px;
         gap: 8px;
         padding: 8px 0;
+        margin-bottom: 4px;
 
         .checklist-icon {
             display: flex;
@@ -600,20 +602,48 @@
             align-items: center;
             width: 32px;
             height: 32px;
+
+            i {
+                font-size: 18px;
+            }
+
             // padding-top: 14px;
         }
 
         .checklist-title-button {
             width: 100%;
             justify-content: space-between;
-
+            align-items: center;
 
             .checklist-title {
                 font-weight: 600;
                 font-size: 1rem;
             }
 
-            .checklist-title-delete {}
+            .checklist-title-delete {
+                color: $clr-small-text;
+                min-width: 36px;
+                // height: 32px;
+                padding: 6px 8px;
+                background-color: #091e420a;
+                border-radius: 3px;
+                border: none;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #091e4214;
+                    border: none;
+                    box-shadow: none;
+                }
+
+                &:active {
+                    background-color: #e4f0f6;
+                    border: none;
+                    box-shadow: none;
+                    color: #0079bf;
+                    outline: 0
+                }
+            }
         }
 
     }
@@ -668,12 +698,32 @@
                 height: 16px;
                 left: 0;
                 margin: 6px;
+                margin-left: 1px;
+                margin-right: 12px;
                 overflow: hidden;
                 text-align: center;
                 top: 5px;
                 transition: all .2s ease-in-out;
                 white-space: nowrap;
                 width: 16px;
+            }
+        }
+
+        .prev-btn-add-item {
+            // background-color: $clr-btn-details;
+            padding: 6px 12px;
+            // color: $clr-btn-text;
+            color: $clr-text-group;
+            border-radius: 3px;
+            display: flex;
+            margin-left: 37px;
+            // align-items: center;
+            gap: 8px;
+            font-size: 14px;
+
+            &:hover {
+                background-color: $clr-btn-hover;
+                cursor: pointer;
             }
         }
     }
@@ -683,23 +733,6 @@
         display: flex;
         flex-direction: column;
         gap: 8px;
-
-        .prev-btn-add-item {
-            // background-color: $clr-btn-details;
-            padding: 6px 12px;
-            // color: $clr-btn-text;
-            color: $clr-text-group;
-            border-radius: 3px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-
-            &:hover {
-                background-color: $clr-btn-hover;
-                cursor: pointer;
-            }
-        }
 
         .add-item-checklist-modal {
             &.hide {
@@ -825,14 +858,38 @@
                 font-size: 1rem;
             }
 
-            .attachment-title-delete {}
+            .attachment-title-delete {
+                color: $clr-small-text;
+                min-width: 36px;
+                // height: 32px;
+                padding: 6px 8px;
+                background-color: #091e420a;
+                border-radius: 3px;
+                border: none;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #091e4214;
+                    border: none;
+                    box-shadow: none;
+                }
+
+                &:active {
+                    background-color: #e4f0f6;
+                    border: none;
+                    box-shadow: none;
+                    color: #0079bf;
+                    outline: 0
+                }
+            }
         }
 
     }
 
     .attachment-list-container {
+        padding-bottom: 8px;
         padding-left: 37px;
-        gap:16px;
+        gap: 16px;
         position: relative;
         transition-duration: .14s;
         color: #172b4d;
@@ -840,6 +897,7 @@
         font-weight: 400;
         line-height: 20px;
         align-items: center;
+
         // justify-content: center;
         .attachment-img {
             background-position: 50%;
@@ -852,6 +910,8 @@
 
         .attachment-info {
             flex-direction: column;
+            // justify-content: flex-start;
+
             .attachment-title {
                 padding: 0;
                 color: $clr-text-group;
@@ -865,6 +925,19 @@
 
             .attachment-created-at {
                 color: $clr-small-text;
+                width:fit-content;
+                justify-self: flex-start;
+                margin-bottom: 8px;
+            }
+            .attachment-to-cover{
+                color: $clr-small-text;
+                width:fit-content;
+                justify-self: flex-start;
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                text-decoration: underline;
+                gap:8px;
             }
         }
 

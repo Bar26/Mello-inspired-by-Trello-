@@ -265,15 +265,15 @@ export function TaskDetails() {
 
     }
 
-    const onMakeAttachmentCoverTask = async () =>{
-        const newBoard = await boardService.makeAttachmentCoverTask(currBoard,group,task)
+    const onMakeAttachmentCoverTask = async () => {
+        const newBoard = await boardService.makeAttachmentCoverTask(currBoard, group, task)
         await dispatch(onSaveBoard(newBoard))
     }
 
     if (!Object.keys(task).length || !Object.keys(group).length) return 'loading'
     return (
         <div className="card-details" ref={cardDetailsRef}>
-            {task.style && task.style.backgroundColor && (<header
+            {task.style && task.style.backgroundColor && !task.style.isCover && (<header
                 className="card-details-header"
                 style={{ backgroundColor: task.style.backgroundColor }}
             ></header>
@@ -281,17 +281,19 @@ export function TaskDetails() {
             )}
             {task.attachment && task.style?.isCover && (<header
                 className="card-details-header"
-                style={{background:`url(${task.attachment.imgUrl})`,backgroundRepeat:'no-repeat',
-					backgroundSize:'contain' , backgroundPosition:'center',height:'160px',width:'100%', borderRadius:'3px' }}
+                style={{
+                    background: `url(${task.attachment.imgUrl})`, backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'contain', backgroundPosition: 'center', height: '160px', width: '100%', borderRadius: '3px'
+                }}
             ></header>
 
             )}
-            
+
             <div className="main-aside-container">
                 <main className="card-details-conatiner">
                     {/* <div className="forListener" ref={forListenerUpRef}> */}
                     <section className="card-details-title-container">
-                        <span className="card-icon"><i className="fa-solid fa-window-maximize"></i></span>
+                        <span className="card-icon"><i className="fa-solid fa-window-maximize fa-lg"></i></span>
                         <section className="title-in-group">
                             <input
                                 className="details-group-title"
@@ -306,37 +308,37 @@ export function TaskDetails() {
                     </section>
                     <section className="card-details-labels">
                         {task.labelIds && currBoard.labels && <>
-                        <div className='title-and-labels'>
-                            <span className="labels-title">Labels</span>
-                            <div className="card-details-labels-container">
-                                {task.labelIds.map((labelId) => {
-                                    const label = getLabel(labelId)
-                                    const backgroundColor = label.backgroundColor
-                                    const title = label.title
-                                    return (
+                            <div className='title-and-labels'>
+                                <span className="labels-title">Labels</span>
+                                <div className="card-details-labels-container">
+                                    {task.labelIds.map((labelId) => {
+                                        const label = getLabel(labelId)
+                                        const backgroundColor = label.backgroundColor
+                                        const title = label.title
+                                        return (
+                                            <div
+                                                key={labelId}
+                                                className="card-details-label"
+                                                style={{
+                                                    backgroundColor: backgroundColor,
+                                                    height: '32px',
+                                                    width: '68px',
+                                                }}
+                                            >
+                                                {title}
+                                            </div>
+                                        )
+                                    })}
+                                    <section className="add-label-container">
                                         <div
-                                            key={labelId}
-                                            className="card-details-label"
-                                            style={{
-                                                backgroundColor: backgroundColor,
-                                                height: '32px',
-                                                width: '68px',
-                                            }}
+                                            onClick={onToggleLabelModal}
+                                            className="card-details-add-label"           /////////?????????????
                                         >
-                                            {title}
+                                            +
                                         </div>
-                                    )
-                                })}
-                                <section className="add-label-container">
-                                    <div
-                                        onClick={onToggleLabelModal}
-                                        className="card-details-add-label"           /////////?????????????
-                                    >
-                                        +
-                                    </div>
 
-                                </section>
-                            </div></div>
+                                    </section>
+                                </div></div>
                         </>}
                         {/* <section className="add-label-container"> */}
                         <div
@@ -437,11 +439,11 @@ export function TaskDetails() {
                             </label>
                             <div className="select-color-title">Select a color</div>
                             <div className="colors-for-select">
-                                {palette.map((clr,idx) => {
+                                {palette.map((clr, idx) => {
                                     // console.log(clr)
                                     return (
                                         <div
-                                        key={clr+idx}
+                                            key={clr + idx}
                                             onClick={() => setNewLabelColor(clr)}
                                             className="label-color"
                                             style={{ backgroundColor: clr }}
@@ -502,7 +504,7 @@ export function TaskDetails() {
                     <section className="description">
                         <div className="description-content">
                             <header className="description-header">
-                                <span className="desc-icon"><i className="fa-solid fa-align-left"></i></span>
+                                <span className="desc-icon"><i className="fa-solid fa-align-left fa-lg"></i></span>
                                 <div className="desc-title">Description</div>
                                 {/* <button className="edit-desc">Edit</button> */}
                             </header>
@@ -553,9 +555,9 @@ export function TaskDetails() {
                     </section>
 
                     {/* Add Tnai */}
-                    {task.attachment && task.attachment.title!=='' && <section className='attachment-container'>
+                    {task.attachment && task.attachment.title !== '' && <section className='attachment-container'>
                         <header className='attachment-header'>
-                            <span className="attachment-icon"><i className="fa-solid fa-paperclip"></i></span>
+                            <span className="attachment-icon"><i className="fa-solid fa-paperclip fa-lg"></i></span>
                             <div className='attachment-title-button flex'>
                                 <span className="attachment-title">Attachments</span>
                                 {/* <button className='attachment-title-delete' onClick={console.log('Make Delete')}>Delete</button> */}
@@ -581,8 +583,12 @@ export function TaskDetails() {
                             <img className='attachment-img' src={task.attachment.imgUrl} />
                             <div className='attachment-info flex'>
                                 <input className="attachment-title" defaultValue={task.attachment.title} type="text" onChange={onChangeAttachmentTitle} onBlur={onChangeAttachmentTitle} />
-                                <span className='attachment-created-at'>Added at {task.attachment.createdAt+''}</span>
-                                <button onClick={onMakeAttachmentCoverTask}>Remove cover</button>
+                                <span className='attachment-created-at'>Added at {task.attachment.createdAt + ''}</span>
+                                <span className='attachment-to-cover' onClick={onMakeAttachmentCoverTask}>
+                                    <i className="fa-regular fa-window-maximize fa-xs"></i>
+                                    {task.style?.isCover && <span>Remove Cover</span>}
+                                    {!task.style?.isCover && <span>Make Cover</span>}
+                                </span>
                             </div>
                         </section>}
                     </section>}
@@ -592,7 +598,7 @@ export function TaskDetails() {
                     {/* checklist title to input */}
                     {task.checklist && task.checklist.todos && <section className='checklist-container '>
                         <header className='checklist-header'>
-                            <span className="checklist-icon"><i className="fa-regular fa-square-check"></i></span>
+                            <span className="checklist-icon"><i className="fa-regular fa-square-check fa-lg"></i></span>
                             <div className='checklist-title-button flex'>
                                 <span className="checklist-title">Check List</span>
                                 <button className='checklist-title-delete' onClick={onDeleteChecklist}>Delete</button>
