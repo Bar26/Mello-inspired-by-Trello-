@@ -477,7 +477,7 @@ export function TaskDetails() {
                         <div className='add-item-attachment hide' ref={attachmentModalRef}>
                                 {/* add class name hide */}
                                 <div className='add-item-attachment-modal'>
-                                    <form id='add-item-attachment' onSubmit={(event) => onAddAttachment(event)}>
+                                    <form id='add-item-attachment' >
                                         <input type='text' className='add-item-attachment-input' placeholder='Add an item' />
                                     </form>
                                 </div>
@@ -535,7 +535,7 @@ export function TaskDetails() {
                             <div className='add-item-checklist hide' ref={checklistModalRef}>
                                 {/* add class name hide */}
                                 <div className='add-item-checklist-modal'>
-                                    <form id='add-item' onSubmit={(event) => attachmentModalRef(event)}>
+                                    <form id='add-item' onSubmit={(event) => checklistModalRef(event)}>
                                         <input type='text' className='add-item-checklist-input' placeholder='Add an item' />
                                     </form>
                                 </div>
