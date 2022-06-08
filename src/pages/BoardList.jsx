@@ -96,12 +96,12 @@ export const BoardList = () => {
 	const starredBoards = () => {
 		return boards.filter((board) => board.isStared)
 	}
-	if (!Object.keys(currUser).length) return <h1>loading...</h1>
+	if (!Object.keys(currUser).length) return <div className="loader"></div>
 	return (
 		<section className="workspace">
 			<SecondaryHeader />
 			<div className='workspace-board-list'>
-				<h2>All Boards</h2>
+				<h2>Your workspace</h2>
 				<section className="board-list">
 					{boards.map((board, idx) => {
 						return (
@@ -113,10 +113,10 @@ export const BoardList = () => {
 						)
 					})}
 				</section>
-				<h2>
+				{/* <h2>
 					<i className="fa-regular fa-star"></i>
 					Starred Boards
-				</h2>
+				</h2> */}
 				{!!starredBoards().length && (
 					<section className="board-list">
 						{starredBoards().map((board, idx) => {
@@ -130,7 +130,7 @@ export const BoardList = () => {
 						})}
 					</section>
 				)}
-				<h2>Most popular templates</h2>
+				<h3>Most popular templates</h3>
 				<section className="board-list">
 					<article className="create-preview" onClick={onSetCreateMode}>
 						<h1>Create New Board</h1>
