@@ -8,14 +8,14 @@ body {
     background-repeat: no-repeat;
     height: 100vh;
     ::-webkit-scrollbar{
-        width: 8px;
+        height: 14px;
     }
     ::-webkit-scrollbar-track{
-        background-color: #6e6a6b5e;
+        background-color: rgba(0, 0, 0, 0.176);
     }
 
     ::-webkit-scrollbar-thumb{
-        background-color: #c1b8bb61;
+        background-color: rgba(255, 255, 255, 0.404);
         border-radius: 50vh;
 
     }

@@ -43,6 +43,7 @@ export function GroupList() {
         const { value } = ev.target[0]
         // setNewListTitle(value)
         onAddList(value)
+        toggleListForm()
         ev.target[0].value = ''
     }
 
