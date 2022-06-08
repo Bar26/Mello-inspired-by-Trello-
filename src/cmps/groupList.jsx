@@ -10,25 +10,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
 export function GroupList() {
-    const [type, setType] = useState('board')
     const dispatch = useDispatch()
     const { currBoard } = useSelector((state) => state.boardModule)
     const { boardId } = useParams()
     const [board, setBoard] = useState({...currBoard})
     const listFormRef = React.createRef()
-    const [newListTitle, setNewListTitle] = useState('')
     const inputListRef = useRef()
     const addListRef = useRef()
     const [isGruopDraggable, setIsGruopDraggable] = useState(false)
-    const [isTaskDraggable, setIsTaskDraggable] = useState(false)
 
     useEffect(() => {
         boardService.getById(currBoard._id).then(setBoard)
     }, [])
-
-    // useEffectUpdate(() => {
-    // 	onAddList()
-    // }, [newListTitle])
 
     const onAddList = async (value) => {
         try {
@@ -45,10 +38,6 @@ export function GroupList() {
         boardService.getById(boardId).then(setBoard)
     }, [])
 
-    // useEffectUpdate(() => {
-    // 	onAddList()
-    // }, [newListTitle])
-
     const onListSubmit = (ev) => {
         ev.preventDefault()
         const { value } = ev.target[0]
@@ -58,10 +47,6 @@ export function GroupList() {
         ev.target[0].value = ''
     }
 
-
-    const onSetIsTaskDraggable = (bool) => {
-        setIsTaskDraggable(bool)
-    }
     const onSetIsGroupDraggable = (bool) => {
         setIsGruopDraggable(bool)
     }
@@ -87,25 +72,13 @@ export function GroupList() {
         const groupSource = await newBoard.groups.find(_group => _group.id == res.source.droppableId)
         const groupIdxDest = newBoard.groups.findIndex(_group => _group.id === res.destination.droppableId)
         const groupIdxSour = newBoard.groups.findIndex(_group => _group.id === res.source.droppableId)
-        if (res.destination.droppableId === res.source.droppableId) {
-            const taskToMove = groupSource.tasks.splice(res.source.index, 1)
-            groupDest.tasks.splice(res.destination.index, 0, taskToMove[0])
-            newBoard.groups.splice(groupIdxDest, 1, groupDest)
-        }
-        if (res.destination.droppableId !== res.source.droppableId) {
-            // if (res.destination.droppableId === newBoard._id) return
-            const taskToMove = groupSource.tasks.splice(res.source.index, 1)[0]
-            console.log(groupSource);
-            groupDest.tasks.splice(res.destination.index, 0, taskToMove)
-            console.log(groupDest);
-            newBoard.groups.splice(groupIdxSour, 1, groupSource)
-            newBoard.groups.splice(groupIdxDest, 1, groupDest)
-        }
-        // setBoard(newBoard)
+        const taskToMove = groupSource.tasks.splice(res.source.index, 1)[0]
+        groupDest.tasks.splice(res.destination.index, 0, taskToMove)
+        newBoard.groups.splice(groupIdxDest, 1, groupDest)
+        if (res.destination.droppableId !== res.source.droppableId) newBoard.groups.splice(groupIdxSour, 1, groupSource)
         boardService.update(newBoard)
         await dispatch(onSaveBoard(newBoard))
     }
-
 
     const handleOnDragEnd = (res) => {
         console.log(res);
@@ -120,31 +93,12 @@ export function GroupList() {
         }
     }
 
-
-    ////////////????? check for string
-    const handleDragOn = update => {
-        if ('res.type' === 'gruop') {
-            onSetIsGroupDraggable(true)
-            onSetIsTaskDraggable(false)
-        }
-        else {
-            onSetIsGroupDraggable(false)
-
-        }
-    }
-
-
     const onRemoveGroup = async (ev, groupId) => {
         const updatedBoard = await boardService.removeGroup(currBoard, groupId)
         await dispatch(onSaveBoard(updatedBoard))
         await dispatch(setCurrBoard(updatedBoard._id))
     }
-
-
-
-    
-    // const groupsForDisplay = [...(new Set(currBoard.groups))]
-    // console.log(groupsForDisplay);
+ 
     if (!Object.keys(currBoard).length) return <h1>loading...</h1>
     return <section className="groups-container">
         <DragDropContext onDragEnd={handleOnDragEnd} >
@@ -160,10 +114,9 @@ export function GroupList() {
                                     </div>
                                 }}
                             </Draggable>
-
                         ))}
-
                         {provided.placeholder}
+
                         <div className="add-list-btn flex" onClick={toggleListForm} ref={addListRef} ><span className="plus"><i className="fa-solid fa-plus"></i></span><button > Add another list </button></div>
                         <form className="add-list-form close" onSubmit={onListSubmit} ref={listFormRef}>
                             <input ref={inputListRef} className="list-title" type="text" placeholder="Enter list title..." />
@@ -173,10 +126,10 @@ export function GroupList() {
                             </div>
                         </form>
                     </div>
-
                 }}
             </Droppable>
         </DragDropContext >
+
 
     </section >
 }
