@@ -43,7 +43,7 @@ export const BoardDeatails = () => {
 		}
 	}
 	// console.log(currBoard.style.backgroundImage);
-	if (!Object.keys(currBoard || {}).length) return <h1>Loading...</h1>
+	if (!Object.keys(currBoard || {}).length) return <div className="loader"></div>
 	return (
 		<section
 			className="board-details"

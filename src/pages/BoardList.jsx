@@ -96,7 +96,7 @@ export const BoardList = () => {
 	const starredBoards = () => {
 		return boards.filter((board) => board.isStared)
 	}
-	if (!Object.keys(currUser).length) return <h1>loading...</h1>
+	if (!Object.keys(currUser).length) return <div className="loader"></div>
 	return (
 		<section className="workspace">
 			<SecondaryHeader />
