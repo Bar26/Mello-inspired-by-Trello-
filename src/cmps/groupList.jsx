@@ -57,47 +57,48 @@ export function GroupList() {
         inputListRef.current.focus()
     }
 
-    const moveGroup = async (res) => {
-        let newBoard = { ...currBoard }
-        const gtm = newBoard.groups.splice(res.source.index, 1)
-        newBoard.groups.splice(res.destination.index, 0, gtm[0])
-        await boardService.update(newBoard)
-        console.log(currBoard);
-    }
-
-    const moveTaskInGroup = async (res) => {
-        let newBoard = { ...currBoard }
-        const groupDest = await newBoard.groups.find(_group => _group.id == res.destination.droppableId)
-        const groupSource = await newBoard.groups.find(_group => _group.id == res.source.droppableId)
-        const groupIdxDest = newBoard.groups.findIndex(_group => _group.id === res.destination.droppableId)
-        const groupIdxSour = newBoard.groups.findIndex(_group => _group.id === res.source.droppableId)
-        const taskToMove = groupSource.tasks.splice(res.source.index, 1)[0]
-        groupDest.tasks.splice(res.destination.index, 0, taskToMove)
-        newBoard.groups.splice(groupIdxDest, 1, groupDest)
-        if (res.destination.droppableId !== res.source.droppableId) newBoard.groups.splice(groupIdxSour, 1, groupSource)
-        boardService.update(newBoard)
-        await dispatch(onSaveBoard(newBoard))
-    }
-
-    const handleOnDragEnd = (res) => {
-        console.log(res);
-        if (!res.destination) return;
-        if (res.destination.droppableId === res.source.droppableId && res.destination.droppableId === board._id) {
-            console.log("in Group Move");
-            onSetIsGroupDraggable(false)
-            moveGroup(res)
-        }
-        if (res.destination.droppableId !== board._id) {
-            moveTaskInGroup(res)
-        }
-    }
-
+    
+    
     const onRemoveGroup = async (ev, groupId) => {
         const updatedBoard = await boardService.removeGroup(currBoard, groupId)
         await dispatch(onSaveBoard(updatedBoard))
         await dispatch(setCurrBoard(updatedBoard._id))
     }
- 
+
+    
+
+    const handleOnDragEnd = (res) => {
+        if (!res.destination) return;
+        if (res.destination.droppableId === res.source.droppableId && res.destination.droppableId === board._id) {
+            onSetIsGroupDraggable(false)
+            moveGroup(res)
+        }
+        if (res.destination.droppableId !== board._id) {
+            moveTask(res)
+        }
+    }
+
+    const moveGroup = async (res) => {
+        let newBoard = { ...currBoard }
+        const groupToMove = newBoard.groups.splice(res.source.index, 1)
+        newBoard.groups.splice(res.destination.index, 0, groupToMove[0])
+        await boardService.update(newBoard)
+    }
+
+    const moveTask = async (res) => {
+        let newBoard = { ...currBoard }
+        const groupDest = await newBoard.groups.find(_group => _group.id == res.destination.droppableId)
+        const groupSrc = await newBoard.groups.find(_group => _group.id == res.source.droppableId)
+        const groupIdxDest = newBoard.groups.findIndex(_group => _group.id === res.destination.droppableId)
+        const groupIdxSrc = newBoard.groups.findIndex(_group => _group.id === res.source.droppableId)
+        const taskToMove = groupSrc.tasks.splice(res.source.index, 1)[0]
+        groupDest.tasks.splice(res.destination.index, 0, taskToMove)
+        newBoard.groups.splice(groupIdxDest, 1, groupDest)
+        if (res.destination.droppableId !== res.source.droppableId) newBoard.groups.splice(groupIdxSrc, 1, groupSrc)
+        boardService.update(ASAnewBoard)
+        await dispatch(onSaveBoard(newBoard))
+    }
+    
     if (!Object.keys(currBoard).length) return <h1>loading...</h1>
     return <section className="groups-container">
         <DragDropContext onDragEnd={handleOnDragEnd} >
