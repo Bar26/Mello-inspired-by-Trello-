@@ -101,7 +101,7 @@ export const BoardList = () => {
 		<section className="workspace">
 			<SecondaryHeader />
 			<div className='workspace-board-list'>
-				<h2>All Boards</h2>
+				<h2>Your workpace</h2>
 				<section className="board-list">
 					{boards.map((board, idx) => {
 						return (
@@ -113,10 +113,10 @@ export const BoardList = () => {
 						)
 					})}
 				</section>
-				<h2>
+				{/* <h3>
 					<i className="fa-regular fa-star"></i>
 					Starred Boards
-				</h2>
+				</h3> */}
 				{!!starredBoards().length && (
 					<section className="board-list">
 						{starredBoards().map((board, idx) => {
@@ -130,7 +130,7 @@ export const BoardList = () => {
 						})}
 					</section>
 				)}
-				<h2>Most popular templates</h2>
+				<h3>Most popular templates</h3>
 				<section className="board-list">
 					<article className="create-preview" onClick={onSetCreateMode}>
 						<h1>Create New Board</h1>
