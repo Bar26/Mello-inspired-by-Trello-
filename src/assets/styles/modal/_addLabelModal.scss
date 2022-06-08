@@ -26,6 +26,8 @@
             padding: 12px;
             position: absolute;
             right: 0;
+            color:#6b778c;
+            font-size: 12px;
 
         }
     }
@@ -80,7 +82,14 @@
                     width:calc(100% - 36px) ;
                     border-radius: 3px;
                     position: relative;
-                    @include flex-center;
+                    color:white;
+                    font-weight: 700;
+                    font-size: 14px;
+                    // @include flex-center;
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                    padding-inline-start: 12px;
                     .label-indication{
                         background-color: transparent;
                         width: 32px;
@@ -88,7 +97,8 @@
                         position: absolute;
                         z-index: 40;
                         right: 0;
-                        top:0
+                        top:0;
+                        @include flex-center;
                     }
                 }
                 

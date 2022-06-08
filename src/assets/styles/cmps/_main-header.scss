@@ -280,6 +280,8 @@ hr {
     border-radius: 25em;
     height: 32px;
     width: 32px;
+    padding-right: 1px;
+    padding-bottom: 1px;
     @include flex-center;
     color: white;
     margin-inline-start: 4px;

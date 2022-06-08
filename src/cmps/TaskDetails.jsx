@@ -334,7 +334,7 @@ export function TaskDetails() {
                                             onClick={onToggleLabelModal}
                                             className="card-details-add-label"           /////////?????????????
                                         >
-                                            +
+                                            <span className="plus"><i className="fa-solid fa-plus"></i></span>
                                         </div>
 
                                     </section>
@@ -352,7 +352,8 @@ export function TaskDetails() {
                                     onClick={onToggleLabelModal}
                                     className="close-label-modal"
                                 >
-                                    X
+                                                    <i className="fa-solid fa-x"></i>
+
                                 </button>
                             </header>
                             <hr />
@@ -487,7 +488,7 @@ export function TaskDetails() {
                                             onClick={onToggleMemberModal}
                                             className="card-details-add-member"           /////////?????????????
                                         >
-                                            +
+                                            <span className="plus"><i className="fa-solid fa-plus"></i></span>
                                         </div>
 
                                     </section>
@@ -699,7 +700,7 @@ export function TaskDetails() {
                     <section className="add-to-card">
                         <span className="add-to-card-title">Add to card</span>
                         <div className="members-btn" onClick={onToggleMemberModal}>
-                            <span className="">
+                            <span className="i">
                                 <i className="fa-regular fa-user"></i>
                             </span>
                             <span>Members</span>
@@ -722,37 +723,37 @@ export function TaskDetails() {
 
                         </div>
                         <div className=" add-label-aside" onClick={onToggleLabelModal}>
-                            <span className="">
+                            <span className="i">
                                 <i className="fa-solid fa-tag"></i>
                             </span>
                             <span>Labels</span>
                         </div>
                         <div className="" onClick={() => onCheckList()}>
-                            <span className="">
+                            <span className="i">
                                 <i className="fa-regular fa-square-check"></i>
                             </span>
                             <span>Checklist</span>
                         </div>
                         <div className="" onClick={(event) => onAttachment(event)}>
-                            <span className="">
+                            <span className="i">
                                 <i className="fa-solid fa-paperclip"></i>
                             </span>
                             <span>Attachment</span>
                         </div>
                         <div className="">
-                            <span className="add-to-card-cover">
+                            <span className="i add-to-card-cover">
                                 <i className="fa-regular fa-window-maximize"></i>
                             </span>
                             <span>Cover</span>
                         </div>
                         <div className="">
-                            <span className="">
+                            <span className="i">
                                 <i className="fa-regular fa-clock"></i>
                             </span>
                             <span>Dates</span>
                         </div>
                         <div className="">
-                            <span className="">
+                            <span className="i">
                                 <i className="fa-solid fa-location-dot"></i>
                             </span>
                             <span>Location</span>
@@ -767,13 +768,13 @@ export function TaskDetails() {
                     <section className="card-details-actions">
                         <span className="actions-title">Actions</span>
                         <div className="">
-                            <span className="">
+                            <span className="i">
                                 <i className="fa-solid fa-arrow-right"></i>
                             </span>
                             <span>Move</span>
                         </div>
                         <div className="card-actions-copy" onClick={(ev) => dispatch(onCopyTask(ev, task, group, currBoard))}>
-                            <span className="">
+                            <span className="i">
                                 <i className="fa-regular fa-copy"></i>
                             </span>
                             <span>Copy</span>
@@ -796,13 +797,13 @@ export function TaskDetails() {
                         }
                         }
                         >
-                            <span className="">
+                            <span className="i">
                                 <i className="fa-solid fa-box-archive"></i>
                             </span>
                             <span>Archive</span>
                         </div>
                         <div className="">
-                            <span className="">
+                            <span className="i">
                                 <i className="fa-solid fa-share-nodes"></i>
                             </span>
                             <span>Share</span>
