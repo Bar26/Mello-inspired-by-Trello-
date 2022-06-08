@@ -91,7 +91,6 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
         <Droppable droppableId={group.id} direction='vertical'>
             {(provided) => {
 
-                {/* <DragDropContext onDragEnd={handleOnDragEnd}> */ }
                 return <div className="task-list" {...provided.droppableProps} ref={provided.innerRef}>
                     {group.tasks.map((task, index) => (
                         <Draggable key={task.id} draggableId={task.id} index={index}>
@@ -105,7 +104,6 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
                     )}
                     {provided.placeholder}
                 </div>
-                {/* </DragDropContext> */ }
             }}
         </Droppable>
 

@@ -1,6 +1,8 @@
 .groups-container {
     flex: 1;
     overflow-x: auto;
+    overflow-y: hidden;
+    max-height: auto;
 
     .dnd-board-main {
 

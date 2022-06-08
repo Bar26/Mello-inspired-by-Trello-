@@ -1,23 +1,30 @@
 .board-list {
-    padding: 10px;
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	width: fit-content;
-    gap: 16px;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, 190px);
+	width: 100%;
+	gap: 14px;
 	background-color: transparent;
-
-	
+	margin-block-end: 20px
 }
 
-.workspace-board-list{
-	margin:55px 70px;
+.workspace-board-list {
+	height: 100%;
+	width: 80%;
+	margin-top: 30px;
+	margin-inline-start: 100px;
 	display: flex;
+	text-align: left;
 	flex-direction: column;
-	h2{
+
+	.fa-star {
+		margin-inline-end: 5px;
+	}
+
+	h2 {
 		margin-bottom: 8px;
-		color:rgb(23, 43, 77);
+		color: rgb(23, 43, 77);
 		font-size: 20px;
 		font-weight: 600;
+		margin-block-end: 20px;
 	}
 }

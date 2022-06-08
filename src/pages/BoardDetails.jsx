@@ -54,8 +54,7 @@ export const BoardDeatails = () => {
 							backgroundRepeat: 'no-repeat',
 							backgroundSize: 'cover',
 							backgroundPosition: 'center',
-					  }
-					: { background: currBoard.style.backgroundColor }
+					  }: { background: currBoard.style.backgroundColor }
 			}
 		>
 			{/* {console.log((currBoard.style.backgroundImage) ? { background: currBoard.style.backgroundImage } : { background: currBoard.style.backgroundColor })} */}

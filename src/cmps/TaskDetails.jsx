@@ -213,6 +213,7 @@ export function TaskDetails() {
         console.log(ev.target[0].value);
         const newTodo = ev.target[0].value
         const newBoard = await boardService.addTodo(currBoard, group, task, newTodo)
+        ev.target[0].value=''
         await dispatch(onSaveBoard(newBoard))
     }
 
@@ -241,7 +242,8 @@ export function TaskDetails() {
     }
 
     const toggleChecklistModal = () => {
-        checklistModalRef.current.classList.toggle('hide')
+        console.log('hey');
+        checklistModalRef.current.classList.toggle('hide2')
         // checklistModalRef.current.value = ''
         // addListRef.current.classList.toggle('close')
     }
@@ -623,7 +625,7 @@ export function TaskDetails() {
                                 })}
                             </ul>
                             <button className='prev-btn-add-item' onClick={toggleChecklistModal}>Add an item</button>
-                            <div className='add-item-checklist hide' ref={checklistModalRef}>
+                            <div className='add-item-checklist hide2' ref={checklistModalRef}>
                                 {/* add className name hide */}
                                 <div className='add-item-checklist-modal'>
                                     <form id='add-item' onSubmit={(event) => onAddItem(event)}>
