@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
-import { AppHeader } from '../cmps/header'
+import { AppHeader } from '../cmps/AppHeader'
 import { userService } from '../services/user.service.js'
 import { onSignup } from '../store/actions/user.actions'
 export function Signup() {

@@ -14,13 +14,13 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
     const dispatch = useDispatch()
     const formRef = React.createRef()
     let onMount = useRef(true)
-    const [newCardTitle, setNewCardTitle] = useState('')
+    const [newTaskTitle, setNewTaskTitle] = useState('')
     const inputRef = useRef()
-    const addCardBtnRef = useRef()
+    const addTaskBtnRef = useRef()
     const { currBoard } = useSelector((state) => state.boardModule)
     const groupMenuRef = useRef()
 
-    const onAddCard = async (value) => {
+    const onAddTask = async (value) => {
         // if (!newCardTitle) return  ///////plaster???????????
         const groupIdx = currBoard.groups.findIndex(
             (_group) => _group.id === group.id
@@ -28,16 +28,15 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
         const updatedBoard = { ...currBoard }
         const taskReturnd = await boardService.createTask(value)
         updatedBoard.groups[groupIdx].tasks.push(taskReturnd)
-        console.log("BOARDDDDd", updatedBoard)
         await dispatch(onSaveBoard(updatedBoard))
-        await dispatch(setCurrBoard(updatedBoard._id))
+        // await dispatch(setCurrBoard(updatedBoard._id))
     }
 
 
     const onSubmit = (ev) => {
         ev.preventDefault()
         const { value } = ev.target[0]
-        onAddCard(value)
+        onAddTask(value)
         toggleForm()
         ev.target[0].value = ''
 
@@ -48,7 +47,7 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
         formRef.current.classList.toggle('close')
         inputRef.current.value = ''
         inputRef.current.focus()
-        addCardBtnRef.current.classList.toggle('close')
+        addTaskBtnRef.current.classList.toggle('close')
 
     }
 
@@ -107,11 +106,12 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
             }}
         </Droppable>
 
-        <div className="add-card-btn flex" onClick={toggleForm} ref={addCardBtnRef} ><span className="plus"><i className="fa-solid fa-plus"></i></span><button > Add a card </button></div>
-        <form className="add-card-form close" onSubmit={onSubmit} ref={formRef}>
-            <input ref={inputRef} className="card-title" type="text" placeholder="Enter a title for this card" />
-            <div className='add-card-btn'>
-                <button className="save-card">Add card</button>
+        <div className="add-task-btn flex" onClick={toggleForm} ref={addTaskBtnRef} ><span className="plus"><i className="fa-solid fa-plus"></i></span><button > Add a card 
+         </button></div>
+        <form className="add-task-form close" onSubmit={onSubmit} ref={formRef}>
+            <input ref={inputRef} className="task-title" type="text" placeholder="Enter a title for this task" />
+            <div className='add-task-btn'>
+                <button className="save-task">Add card</button>
                 <button type="button" className="close-form" onClick={toggleForm}><i className="fa-solid fa-xmark"></i></button>
             </div>
         </form>
@@ -126,7 +126,7 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
                 </header>
                 <hr />
                 <div className='menu-btn'>
-                    <button className='add-card-from-menu' >Add card...</button>
+                    <button className='add-task-from-menu' >Add card...</button>
                     <button className='copy-list-from-menu'>Copy list...</button>
                     <button className='archive-list-from-menu' onClick={(ev) => onRemoveGroup(ev, group.id)}>Archive list...</button>
                 </div>

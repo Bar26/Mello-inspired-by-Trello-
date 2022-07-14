@@ -1,4 +1,4 @@
-import { GroupPreview } from './groupPreview'
+import { GroupPreview } from './GroupPreview'
 import React, { useEffect, useState, useRef } from 'react'
 import { useEffectUpdate } from './useEffectUpdate'
 import { boardService } from '../services/board.service'
@@ -102,7 +102,7 @@ export function GroupList() {
     if (!Object.keys(currBoard).length) return <h1>loading...</h1>
     return <section className="groups-container">
         <DragDropContext onDragEnd={handleOnDragEnd} >
-            <Droppable isDropDisabled={isGruopDraggable} type='group' droppableId={currBoard._id} isCombineEnabled={true} direction="horizontal">
+            <Droppable isDropDisabled={isGruopDraggable} type="group" droppableId={currBoard._id} isCombineEnabled={true} direction="horizontal">
                 {(provided) => {
                     return <div className="dnd-board-main"  {...provided.droppableProps} ref={provided.innerRef}>
                         {currBoard.groups.map((group, index) => (
@@ -120,7 +120,7 @@ export function GroupList() {
                         <div className="add-list-btn flex" onClick={toggleListForm} ref={addListRef} ><span className="plus"><i className="fa-solid fa-plus"></i></span><button > Add another list </button></div>
                         <form className="add-list-form close" onSubmit={onListSubmit} ref={listFormRef}>
                             <input ref={inputListRef} className="list-title" type="text" placeholder="Enter list title..." />
-                            <div className='add-list-btn'>
+                            <div className="add-list-btn">
                                 <button className="save-list">Add list</button>
                                 <button type="button" className="close-list-form" onClick={toggleListForm}><i className="fa-solid fa-xmark"></i></button>
                             </div>

@@ -1,0 +1,67 @@
+.teaser {
+    display: flex;
+    justify-content: space-between;
+    // align-items: center;
+
+    .content {
+        // width: 665px;
+        // padding: 16px 16px 48px;
+        padding: 16px;
+        text-align: start;
+        .mini-title {
+            font-size: 1rem;
+            line-height: 1.25;
+            text-transform: uppercase;
+            font-family: "Charlie-display-semi-bold";
+            margin-bottom: 8px;
+        }
+
+        .title {
+            font-size: 2.25rem;
+            line-height: 1.33;
+            font-family: "Charlie-display-semi-bold";
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+
+        .text {
+            font-size: rem(20px);
+            font-family: "Charlie-text-semi-bold";
+            margin-bottom: 24px;
+            color: $clr4;
+            text-align: start;
+        }
+        .learn-more {
+            font-family: "Charlie-display-semi-bold";
+            font-size: rem(24px);
+            color: $clr1;
+            background-color: transparent;
+        }
+    }
+
+    .img {
+        object-fit: cover;
+        padding: 16px;
+        box-sizing: content-box;
+        &.boardTeaser {
+            width: 415px;
+            height: 312px;
+        }
+
+        &.cardTeaser {
+            width: 339px;
+            height: 275px;
+        }
+
+        &.autoTeaser {
+            width: 443px;
+            height: 335px;
+        }
+
+        &.powerUpsTeaser {
+            width: 376.5px;
+            height: 339px;
+
+        }
+    }
+}

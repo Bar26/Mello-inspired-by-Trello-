@@ -1,11 +1,16 @@
 .group-menu {
     position: absolute;
-    right: 0;
-    top: 0;
-    height: 40px;
-    width: 40px;
+    right: 4px;
+    top: 4px;
+    height: 32px;
+    width: 32px;
+    
     @include flex-center;
     color:$clr-small-text;
+
+    &:hover{
+        background-color: #091e4214;
+    }
 
 
 
@@ -84,7 +89,7 @@
                 }
             }
 
-            .add-card-from-menu {}
+            .add-task-from-menu {}
 
             .copy-list-from-menu {}
 

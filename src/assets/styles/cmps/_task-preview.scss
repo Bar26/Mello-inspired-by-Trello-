@@ -64,7 +64,7 @@
 
     }
 
-    .edit-card-modal {
+    .edit-task-modal {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -89,12 +89,16 @@
 
         }
 
+        .change-cover{
+            position: relative;
+        }
+
         .hide {
             display: none;
         }
     }
 
-    .task-details {
+    .task-details-content {
         display: flex;
         flex-direction: column;
         align-items: flex-start;

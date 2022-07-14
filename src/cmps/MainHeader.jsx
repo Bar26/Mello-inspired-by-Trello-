@@ -13,7 +13,7 @@ import { userService } from '../services/user.service.js'
 import infoImg from '../assets/img/info.png'
 import trelloIcon from '../assets/img/trello-icon.png'
 
-export const SecondaryHeader = () => {
+export const MainHeader = () => {
 	const [templates, setTemplates] = useState([])
 	const [user, setUser] = useState({})
 	const [board, setBoards] = useState({})
@@ -243,7 +243,7 @@ export const SecondaryHeader = () => {
 
 						<div className="button-top flex">
 							<button
-								className="secondary-header-button"
+								className="secondary-header-button create"
 								onClick={() => toggleModal(refCreate)}
 							>
 								Create

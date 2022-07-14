@@ -1,0 +1,64 @@
+.covers-container {
+    width: 310px;
+    background-color: white;
+    z-index: 100000;
+    position: absolute;
+    top: 0;
+    right: 100%;
+    padding: 0 12px 12px;
+    box-shadow: 0 0px 16px -4px rgb(9 30 66 / 25%), 0 0 0 1px rgb(9 30 66 / 8%);
+
+    &.hide {
+        display: none;
+    }
+    .cover-header {
+        @include flex-center;
+        height: 41px;
+        .title {
+            color: $clr-small-text;
+            font-weight: 400;
+        }
+
+        .close-cover-modal {
+            background-color: transparent;
+            width: 41px;
+            height: 41px;
+            padding: 12px;
+            position: absolute;
+            right: 0;
+            color: rgb(107, 119, 140);
+            font-size: 14px;
+            @include flex-center;
+        }
+    }
+
+    .covers {
+        margin-bottom: 16px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        .cover-container {
+            width: 50px;
+            height: 32px;
+            position: relative;
+            gap: 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            @include flex-center;
+            &:hover {
+                background-color: rgb(235, 236, 240);
+            }
+        }
+    }
+
+    hr {
+        margin-top: 0;
+        margin-bottom: 10px;
+        background-color: rgba(9, 30, 66, 0.1294117647);
+        border: 0;
+        height: 1px;
+        padding: 0;
+        width: 100%;
+    }
+}

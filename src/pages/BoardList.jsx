@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
 import { BoardPreview } from '../cmps/BoardPreview'
 import { userService } from '../services/user.service.js'
-import { CreateModal } from '../cmps/createModal'
+import { CreateModal } from '../cmps/CreateModal'
 import { TemplatePreview } from '../cmps/TempletePreview'
 import { boardService } from '../services/board.service.js'
-import { SecondaryHeader } from '../cmps/MainHeader.jsx'
+import { MainHeader } from '../cmps/MainHeader.jsx'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCurrUser } from '../store/actions/user.actions'
 import { setCurrBoard } from '../store/actions/board.actions'
+import trelloFullIcon from '../assets/img/trello-black-full.svg'
 
 export const BoardList = () => {
 	const [boards, setBoards] = useState([])
@@ -38,8 +39,8 @@ export const BoardList = () => {
 					const board = await boardService.getById(userBoardId)
 					return board
 				})
-				)
-				.then((userBoards) => {setBoards(userBoards || [])})
+		)
+			.then((userBoards) => { setBoards(userBoards || []) })
 	}
 
 	useEffect(() => {
@@ -98,28 +99,15 @@ export const BoardList = () => {
 	}
 	if (!Object.keys(currUser).length) return <div className="loader"></div>
 	return (
-		<section className="workspace">
-			<SecondaryHeader />
-			<div className='workspace-board-list'>
-				<h2>Your workpace</h2>
-				<section className="board-list">
-					{boards.map((board, idx) => {
-						return (
-							<BoardPreview
-								board={board}
-								key={board._id + idx}
-								getStarredBoards={getStarredBoards}
-							/>
-						)
-					})}
-				</section>
-				{/* <h3>
-					<i className="fa-regular fa-star"></i>
-					Starred Boards
-				</h3> */}
-				{!!starredBoards().length && (
+		<section className="board-list">
+			<MainHeader />
+			<section className="container">
+				<div className="workspace-board-list">
+					<h3 className="workspace">
+						Your workpace
+					</h3>
 					<section className="board-list">
-						{starredBoards().map((board, idx) => {
+						{boards.map((board, idx) => {
 							return (
 								<BoardPreview
 									board={board}
@@ -129,27 +117,47 @@ export const BoardList = () => {
 							)
 						})}
 					</section>
-				)}
-				<h3>Most popular templates</h3>
-				<section className="board-list">
-					<article className="create-preview" onClick={onSetCreateMode}>
-						<h1>Create New Board</h1>
-					</article>
-					{templates.map((template, idx) => {
-						return (
-							<TemplatePreview
-								template={template}
-								key={template._id + idx}
-								getStarredBoards={getStarredBoards}
-							/>
-						)
-					})}
-				</section>
+					<h3 className="stared">
+						<i className="fa-regular fa-star"></i>
+						Starred Boards
+					</h3>
+					{!!starredBoards().length && (
+						<section className="board-list">
+							{starredBoards().map((board, idx) => {
+								return (
+									<BoardPreview
+										board={board}
+										key={board._id + idx}
+										getStarredBoards={getStarredBoards}
+									/>
+								)
+							})}
+						</section>
+					)}
+					<h3 className="templates">
+						<img className="full-icon" src={trelloFullIcon} />
+						Most popular templates</h3>
 
-				{/* <h1>Recently Viewed Boards</h1> */}
+					<section className="board-list">
+						<article className="create-preview" onClick={onSetCreateMode}>
+							<h1>Create New Board</h1>
+						</article>
+						{templates.map((template, idx) => {
+							return (
+								<TemplatePreview
+									template={template}
+									key={template._id + idx}
+									getStarredBoards={getStarredBoards}
+								/>
+							)
+						})}
+					</section>
 
-				<CreateModal createMode={createMode} onSetCreateMode={onSetCreateMode} />
-			</div>
+					{/* <h1>Recently Viewed Boards</h1> */}
+
+					<CreateModal createMode={createMode} onSetCreateMode={onSetCreateMode} />
+				</div>
+			</section>
 		</section>
 	)
 }

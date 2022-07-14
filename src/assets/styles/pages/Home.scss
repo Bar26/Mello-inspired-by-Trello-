@@ -2,68 +2,229 @@
     background-image: linear-gradient(0deg, rgb(255, 255, 255), rgb(234, 230, 255) 100%);
     background-repeat: no-repeat;
     height: 100vh;
-}
-
-.main-container {
-    .main-article {
-        gap: 6.875rem;
-
-        .hero1 {
-            width: 445px;
-        }
-
-        .content {
-            width: 41rem;
-
-            .title {
-                font-family: Charlie-display-semi-bold;
-                font-size: 48px;
-                font-weight: 500;
-                line-height: 60px;
-                color: rgb(9, 30, 66);
-                display: flex;
-                align-items: center;
-                text-align: start;
-                margin-bottom: 8px;
-                color: $clr1;
+    display: flex;
+    flex-direction: column;
+    color: $clr1;
+    
+    .main-container {
+        width: 1140px;
+        padding-inline: 16px;
+        // @include flex-center;
+        // flex-direction: column;
+        align-self: center;
+       
+    
+        
+        .main-article {
+            gap: 6.875rem;
+            height: 450px;
+            margin-bottom: 64px;
+            @include flex-center;
+    
+            .hero1 {
+                // width: 445px;
+                height: 100%;
             }
-
-            .trello-prev {
+    
+            .content {
+                width: 41rem;
+    
+                .title {
+                    font-family: Charlie-display-semi-bold;
+                    font-size: 48px;
+                    font-weight: 500;
+                    line-height: em(60px,48px);
+                    display: flex;
+                    align-items: center;
+                    text-align: start;
+                    margin-bottom: 8px;
+                }
+    
+                .trello-prev {
+                    font-family: Charlie-text-reg;
+                    font-size: 20px;
+                    font-weight: 400;
+                    background-color: transparent;
+                    display: flex;
+                    align-items: center;
+                    text-align: start;
+                    margin-bottom: 24px;
+                }
+    
+                .link-to-start-as-guest {
+                    text-decoration: none;
+    
+                    .start-as-guest {
+                        line-height: 1em; 
+                        padding-bottom: 5px;
+                        padding-left: 8px;
+                        padding-right: 8px;
+                        padding-top: 4px;
+                        border-radius: rem(4.8px);
+                        font-size: rem(16px);
+                        height: 44px;
+                        width: 150px;
+                        color: white;
+                        background-color: $clr2;
+                        font-family: charlie-text-semi-bold;
+                        @include flex-center;
+                        text-decoration: none;
+    
+    
+                    }
+                }
+    
+            }
+    
+        }
+        
+        hr{
+            margin: 0;
+            width: 100%;
+            margin-bottom: 64px;
+        }
+       
+        .start-working-container{
+    
+            @include flex-center;
+            flex-direction: column;
+            padding: 0 16px;
+            width: 100%;
+    
+            .title{
+                margin-bottom:8px;
+                font-family: "Charlie-display-semi-bold";
+                font-size: rem(36px);
+                line-height: em(48px, 36px);
+                font-weight: 500;
+         
+    
+            }
+    
+            .content{
+                margin-bottom:24px;
+                font-family: Charlie-text-reg;
+                font-size: rem(20px);
+                line-height: em(30px,20px);
+    
+            }
+    
+            .sign-up{
+                line-height: em(24px, 16px); 
+                border-radius: rem(4.8px);
+                font-size:rem(16px);
+                height: 50px;
+                width: 160px;
+                color: white;
+                background-color: $clr2;
+                font-family: charlie-text-semi-bold;
+                font-weight: 400;
+                @include flex-center;
+                text-decoration: none;
+                padding: 0;
+                margin-bottom: 64px;
+    
+            }
+    
+            .mello-pic{
+                width: 951px;
+                margin-bottom: 48px;
+            }
+    
+            
+        }
+        .mello-teams{
+            @include flex-center;
+            flex-direction: column;
+            gap:32px;
+            margin-bottom: 48px;
+    
+            .title{
                 font-family: Charlie-text-reg;
                 font-size: 20px;
                 font-weight: 400;
-                background-color: transparent;
-                display: flex;
-                align-items: center;
-                text-align: start;
-                margin-bottom: 24px;
-                color: $clr1;
+                margin-bottom: 8px;
+    
             }
-
-            .link-to-start-as-guest {
-                text-decoration: none;
-
-                .start-as-guest {
-                    line-height: 1em; 
-                    padding-bottom: 5px;
-                    padding-left: 8px;
-                    padding-right: 8px;
-                    padding-top: 4px;
-                    border-radius: 3.2px;
-                    font-size: 1.09rem;
-                    height: 44px;
-                    width: 150px;
-                    color: white;
-                    background-color: $clr2;
-                    font-family: charlie-text-semi-bold;
-                    @include flex-center;
-                    text-decoration: none;
-
-
+    
+            .teams-icons{
+                @include flex-center;
+                gap:32px;
+                
+                >*{
+                    width: 162px;
                 }
             }
+        }
+    
+        .teasers-container{
+            display: flex;
+            flex-direction: column;
+            gap: 64px;
+            :nth-child(even){
+                flex-direction: row-reverse;
+            }
+            :first-child{
+                .content{
+                    width: 570px;
+                }
+            }
+            :not(:first-child){
+                .content{
+                    width: 665px;
+                }
+            }
+    
+        }
+        margin-bottom: 64px;
+    
+        
+        
+        
+    }
+
+    .responsive{
+        margin-bottom: 16px;
+        font-family:"Charlie-text-reg" ;
+        font-size: rem(20px);
+    }
+
+
+
+    .main-footer{
+        height: 300px;
+        background-color:$clr5 ;
+        @include flex-center;
+        flex-direction: column;
+        color: white;
+        box-sizing: content-box;
+        // padding: 200px;
+        padding: 40px;
+        gap:10px;
+
+
+        .logo {
+            width: 80px;
+            display: flex;
+            align-items: center;
+            font-size: 20px;
+            font-weight: 700;
+    
+            span {
+            }
+    
+            img {
+                width: 30px;
+                height: 30px;
+                object-fit: contain;
+    
+                @include flex-center
+            }
+    
+        }
+
+        p{
 
         }
     }
-
 }

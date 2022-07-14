@@ -10,6 +10,7 @@
 @import './basic/basic';
 
 @import './pages/Home.scss';
+@import './cmps/home-teaser';
 @import './cmps/app-header';
 @import './cmps/main-header';
 @import './cmps/loader';
@@ -30,6 +31,7 @@
 @import './cmps/task-preview';
 @import './cmps/task-details';
 @import './cmps/member-modal';
+@import './cmps/cover-task-modal';
 
 @import './cmps/create-preview';
 @import './cmps/create-modal';

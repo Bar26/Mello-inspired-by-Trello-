@@ -16,15 +16,15 @@ export const boardService = {
 	update,
 	createTask,
 	getEmptyBoard,
-	removeCard,
-	copyCard,
+	removeTask,
+	copyTask,
 	setTitle,
 	createList,
 	getTaskGroupById,
 	setStarredTemplate,
 	saveDesc,
 	removeGroup,
-	changeCardTitle,
+	changeTaskTitle,
 	changeGroupTitle,
 	toggleLabelToTask,
 	createLabel,
@@ -37,7 +37,8 @@ export const boardService = {
 	changeAttachmentTitle,
 	addAttachment,
 	makeAttachmentCoverTask,
-	toggleMemberToTask
+	toggleMemberToTask,
+	updateCover
 }
 
 async function query(filterBy = {}) {
@@ -148,18 +149,17 @@ async function createList(board, title) {
 	return updatedBoard
 }
 
-async function copyCard(task, group, board) {
+async function copyTask(task, group, board) {
 	const updatedBoard = { ...board }
 	const taskCopy = { ...task }
 	const newId = utilService.makeId()
-	console.log(newId)
 	taskCopy.id = newId
 	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
 	updatedBoard.groups[groupIdx].tasks.push(taskCopy)
 	return updatedBoard
 }
 
-async function removeCard(board, group, taskId) {
+async function removeTask(board, group, taskId) {
 	const updatedBoard = { ...board }
 	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
 	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex(_task => _task.id === taskId)
@@ -178,7 +178,7 @@ async function removeGroup(board, groupId) {
 	return updatedBoard
 }
 
-async function changeCardTitle(board, group, taskId, value) {
+async function changeTaskTitle(board, group, taskId, value) {
 	const updatedBoard = { ...board }
 	const groupIdx = updatedBoard.groups.findIndex(
 		(_group) => _group.id === group.id
@@ -288,10 +288,10 @@ async function addTodo(board, group, task, todoTitle) {
 	console.log(newBoard)
 	return newBoard
 }
-async function addAttachment(board, group, task,attachmentImg=null) {
+async function addAttachment(board, group, task, attachmentImg = null) {
 	// const id = utilService.makeId()
 	const newAttachment = { imgUrl: '', title: 'Uploded Img', createdAt: new Date() }
-	if(attachmentImg!==null) newAttachment.imgUrl=attachmentImg
+	if (attachmentImg !== null) newAttachment.imgUrl = attachmentImg
 	let newBoard = { ...board }
 	const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
 	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(
@@ -302,14 +302,14 @@ async function addAttachment(board, group, task,attachmentImg=null) {
 	return newBoard
 }
 
-async function makeAttachmentCoverTask(board,group,task,bool){
+async function makeAttachmentCoverTask(board, group, task, bool) {
 	let newBoard = { ...board }
 	const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
 	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(
 		(_task) => _task.id === task.id
 	)
-	if(!newBoard.groups[groupIdx].tasks[taskIdx].style) newBoard.groups[groupIdx].tasks[taskIdx].style={isCover:false}
-	else newBoard.groups[groupIdx].tasks[taskIdx].style.isCover=!newBoard.groups[groupIdx].tasks[taskIdx].style.isCover;
+	if (!newBoard.groups[groupIdx].tasks[taskIdx].style) newBoard.groups[groupIdx].tasks[taskIdx].style = { isCover: false }
+	else newBoard.groups[groupIdx].tasks[taskIdx].style.isCover = !newBoard.groups[groupIdx].tasks[taskIdx].style.isCover;
 	return newBoard
 }
 // async function updateAttachment(board, group, task, src) {
@@ -344,6 +344,17 @@ async function updateTodo(board, group, task, todo) {
 		newTodo
 	)
 	return newBoard
+}
+
+function updateCover(currBoard, group, taskId, color) {
+	const updatedBoard = { ...currBoard }
+	const groupIdx = updatedBoard.groups.findIndex((_group) => _group.id === group.id)
+	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex((_task) => _task.id === taskId)
+	let task = updatedBoard.groups[groupIdx].tasks[taskIdx]
+	task.style ? task.style.backgroundColor = color : task.style = { backgroundColor: color }
+	updatedBoard.groups[groupIdx].tasks[taskIdx] = task
+	return updatedBoard
+
 }
 
 function calculateProg(task) {

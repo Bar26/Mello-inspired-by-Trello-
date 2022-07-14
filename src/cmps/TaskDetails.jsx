@@ -22,7 +22,7 @@ export function TaskDetails() {
     const [task, setTask] = useState({})
     const [group, setGroup] = useState({})
     const navigate = useNavigate()
-    const cardDetailsRef = useRef()
+    const taskDetailsRef = useRef()
     const penRef = useRef()
     const editLabelModalRef = useRef()
 
@@ -113,7 +113,7 @@ export function TaskDetails() {
         await dispatch(onSaveBoard(updatedBoard))
     }
 
-    const onCloseCardDetails = () => {
+    const onCloseTaskDetails = () => {
         navigate(`/boards/${currBoard._id}`)
     }
 
@@ -147,10 +147,10 @@ export function TaskDetails() {
         descInputRef.current.value = task.description
     }
 
-    const onChangeCardTitle = (ev) => {
+    const onChangeTaskTitle = (ev) => {
         const { value } = ev.target
         boardService
-            .changeCardTitle(currBoard, group, taskId, value)
+            .changeTaskTitle(currBoard, group, taskId, value)
             .then(boardService.update)
             .then((board) => dispatch(setCurrBoard(board)))
     }
@@ -274,15 +274,15 @@ export function TaskDetails() {
 
     if (!Object.keys(task).length || !Object.keys(group).length) return 'loading'
     return (
-        <div className="card-details" ref={cardDetailsRef}>
+        <div className="task-details" ref={taskDetailsRef}>
             {task.style && task.style.backgroundColor && !task.style.isCover && (<header
-                className="card-details-header"
+                className="task-details-header"
                 style={{ backgroundColor: task.style.backgroundColor }}
             ></header>
 
             )}
             {task.attachment && task.style?.isCover && (<header
-                className="card-details-header"
+                className="task-details-header"
                 style={{
                     background: `url(${task.attachment.imgUrl})`, backgroundRepeat: 'no-repeat',
                     backgroundSize: 'contain', backgroundPosition: 'center', height: '160px', width: '100%', borderRadius: '3px'
@@ -292,27 +292,27 @@ export function TaskDetails() {
             )}
 
             <div className="main-aside-container">
-                <main className="card-details-conatiner">
+                <main className="task-details-conatiner">
                     {/* <div className="forListener" ref={forListenerUpRef}> */}
-                    <section className="card-details-title-container">
-                        <span className="card-icon"><i className="fa-solid fa-window-maximize fa-lg"></i></span>
+                    <section className="task-details-title-container">
+                        <span className="task-icon"><i className="fa-solid fa-window-maximize fa-lg"></i></span>
                         <section className="title-in-group">
                             <input
                                 className="details-group-title"
                                 defaultValue={task.title}
                                 type="text"
-                                onChange={onChangeCardTitle}
+                                onChange={onChangeTaskTitle}
                             />
                             <div className="in-group">
                                 in list <span className="list-name">{group.title}</span>
                             </div>
                         </section>
                     </section>
-                    <section className="card-details-labels">
+                    <section className="task-details-labels">
                         {task.labelIds && currBoard.labels && <>
                             <div className='title-and-labels'>
                                 <span className="labels-title">Labels</span>
-                                <div className="card-details-labels-container">
+                                <div className="task-details-labels-container">
                                     {task.labelIds.map((labelId) => {
                                         const label = getLabel(labelId)
                                         const backgroundColor = label.backgroundColor
@@ -320,7 +320,7 @@ export function TaskDetails() {
                                         return (
                                             <div
                                                 key={labelId}
-                                                className="card-details-label"
+                                                className="task-details-label"
                                                 style={{
                                                     backgroundColor: backgroundColor,
                                                     height: '32px',
@@ -334,7 +334,7 @@ export function TaskDetails() {
                                     <section className="add-label-container">
                                         <div
                                             onClick={onToggleLabelModal}
-                                            className="card-details-add-label"           /////////?????????????
+                                            className="task-details-add-label"           /////////?????????????
                                         >
                                             <span className="plus"><i className="fa-solid fa-plus"></i></span>
                                         </div>
@@ -461,17 +461,17 @@ export function TaskDetails() {
                             </button>
                         </div>
 
-                        <section className="card-details-members">
+                        <section className="task-details-members">
                             {task.memberIds && currBoard.members && <>
                                 <span className="members-title">Members</span>
-                                <div className="card-details-members-container">
+                                <div className="task-details-members-container">
                                     {task.memberIds.map((memberId) => {
                                         const member = getMember(memberId)
                                         const src = member.imgUrl
                                         return (
                                             <div
                                                 key={memberId}
-                                                className="card-details-member"
+                                                className="task-details-member"
                                                 style={{
                                                     background: `url(${src})`,
                                                     backgroundRepeat: 'no-repeat',
@@ -488,7 +488,7 @@ export function TaskDetails() {
                                     <section className="add-member-container">
                                         <div
                                             onClick={onToggleMemberModal}
-                                            className="card-details-add-member"           /////////?????????????
+                                            className="task-details-add-member"           /////////?????????????
                                         >
                                             <span className="plus"><i className="fa-solid fa-plus"></i></span>
                                         </div>
@@ -699,8 +699,8 @@ export function TaskDetails() {
                     <section></section>
                 </main>
                 <section className="details-aside">
-                    <section className="add-to-card">
-                        <span className="add-to-card-title">Add to card</span>
+                    <section className="add-to-task">
+                        <span className="add-to-task-title">Add to card</span>
                         <div className="members-btn" onClick={onToggleMemberModal}>
                             <span className="i">
                                 <i className="fa-regular fa-user"></i>
@@ -743,7 +743,7 @@ export function TaskDetails() {
                             <span>Attachment</span>
                         </div>
                         <div className="">
-                            <span className="i add-to-card-cover">
+                            <span className="i add-to-task-cover">
                                 <i className="fa-regular fa-window-maximize"></i>
                             </span>
                             <span>Cover</span>
@@ -767,7 +767,7 @@ export function TaskDetails() {
                             <span>Custom fields</span>
                         </div> */}
                     </section>
-                    <section className="card-details-actions">
+                    <section className="task-details-actions">
                         <span className="actions-title">Actions</span>
                         <div className="">
                             <span className="i">
@@ -775,7 +775,7 @@ export function TaskDetails() {
                             </span>
                             <span>Move</span>
                         </div>
-                        <div className="card-actions-copy" onClick={(ev) => dispatch(onCopyTask(ev, task, group, currBoard))}>
+                        <div className="task-actions-copy" onClick={(ev) => dispatch(onCopyTask(ev, task, group, currBoard))}>
                             <span className="i">
                                 <i className="fa-regular fa-copy"></i>
                             </span>
@@ -793,7 +793,7 @@ export function TaskDetails() {
                             </span>
                             <span>Watch</span>
                         </div> */}
-                        <div className="card-actions-remove" onClick={(ev) => {
+                        <div className="task-actions-remove" onClick={(ev) => {
                             dispatch(onRemoveTask(ev, task.id, group, currBoard))
                             navigate(`/boards/${currBoard._id}`)
                         }
@@ -813,7 +813,7 @@ export function TaskDetails() {
                     </section>
                 </section>
             </div>
-            <button ref={closeDetailsRef} className="close-details-btn" onClick={onCloseCardDetails}>
+            <button ref={closeDetailsRef} className="close-details-btn" onClick={onCloseTaskDetails}>
                 <i className="fa-solid fa-x"></i>
             </button>
         </div >
