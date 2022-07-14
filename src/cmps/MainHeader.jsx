@@ -12,6 +12,8 @@ import { utilService } from '../services/util.service.js'
 import { userService } from '../services/user.service.js'
 import infoImg from '../assets/img/info.png'
 import trelloIcon from '../assets/img/trello-icon.png'
+import { useSelector } from 'react-redux'
+
 
 export const SecondaryHeader = () => {
 	const [templates, setTemplates] = useState([])
@@ -25,6 +27,7 @@ export const SecondaryHeader = () => {
 	const refInfo = React.createRef()
 	const refCreate1 = React.createRef()
 	const dispatch = useDispatch()
+	const { currUser } = useSelector((state) => state.userModule)
 
 	useEffect(() => {
 		if (!board._id) return
@@ -458,9 +461,13 @@ export const SecondaryHeader = () => {
 						<i className="fa-regular fa-bell"></i>
 					</label>
 				</div>
-				<div style={{ height: 32 }} className="user-logo">
-					NB
-				</div>
+				<div
+					className="user-logo"
+					style={{
+						background: `url(${currUser.imgUrl}) center center / cover`,
+						height:'32px'
+					}}
+				></div>
 			</div>
 		</header>
 	)

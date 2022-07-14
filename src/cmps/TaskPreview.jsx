@@ -150,7 +150,6 @@ export function TaskPreview({ task, group}) {
 			)}
 			{task.style && task.style.isCover && (
 				<>
-					{/* {()=>onChangePad()} */}{console.log(task.attachment.imgUrl)}
 					<div className="task-attachment-cover" style={{background:`url(${task.attachment.imgUrl})`,backgroundRepeat:'no-repeat',
 					backgroundSize:'cover', backgroundPosition:'center',height:'160px',width:'100%', borderRadius:'3px' }}></div>
 				</>

@@ -12,12 +12,10 @@ export function AddMemberModal({ onToggleMemberModal,
 
     const { currBoard } = useSelector((state) => state.boardModule)
     const [filterMember, setFilterMember] = useState('')
-    console.log(filterMember)
 
 
     const onSearchMember = ({ target }) => {
         const value = target.value
-        console.log(value)
         setFilterMember(value)
     }
 
@@ -33,7 +31,7 @@ export function AddMemberModal({ onToggleMemberModal,
                     onClick={() => onToggleMemberModal()}
                     className="close-member-modal"
                 >
-                    <i class="fa-solid fa-xmark"></i>
+                    <i className="fa-solid fa-xmark"></i>
                 </button>
             </header>
             <hr />
@@ -47,7 +45,6 @@ export function AddMemberModal({ onToggleMemberModal,
                 <span className="members-title">Board members</span>
                 <div className="members-list">
                     {currBoard.members && currBoard.members.map(member => {
-                        console.log('there are members')
                         const src = member.imgUrl
                         const username = member.username
                         const fullname = member.fullname

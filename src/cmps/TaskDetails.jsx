@@ -6,11 +6,10 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { onCopyTask, onRemoveTask } from '../store/actions/board.actions'
 import { AddMemberModal } from './MembersModal.jsx'
 
-import {
-    setCurrBoard,
-    setIsTaskDetailsScreenOpen,
-    onSaveBoard
-} from '../store/actions/board.actions'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+import { setCurrBoard, setIsTaskDetailsScreenOpen, onSaveBoard } from '../store/actions/board.actions'
 import ProgressBar from './proggresBar/ProggresBar'
 import { utilService } from '../services/util.service'
 
@@ -25,11 +24,12 @@ export function TaskDetails() {
     const cardDetailsRef = useRef()
     const penRef = useRef()
     const editLabelModalRef = useRef()
+    const addChecklistItem = useRef()
 
-    // const [descBeforChange, set
     const descInputRef = useRef()
     const descInputContainerRef = useRef()
     const descPrevRef = useRef()
+
 
     const addLabelModalRef = useRef()
     const attachmentModalRef = useRef()
@@ -43,9 +43,16 @@ export function TaskDetails() {
     // const [filterMember, setFilterMember] = useState('a')
     const closeDetailsRef = useRef()
     // console.log(filterMember)
-
+    
     const addMemberModalRef = useRef()
+    const [startDate, setStartDate] = useState(new Date());
 
+
+    const dateModalRef = useRef()
+
+
+
+    
     const palette = [
         '#61bd4f',
         '#f2d600',
@@ -121,13 +128,15 @@ export function TaskDetails() {
         let newBoard = await boardService.createChecklist(currBoard, group, task)
         await boardService.update(newBoard)
         await dispatch(onSaveBoard(newBoard))
-        // return newBoard
     }
 
     const onAttachment = async () => {
+        // if(task.attachment) return
         let newBoard = await boardService.addAttachment(currBoard, group, task)
-        await boardService.update(newBoard)
-        await dispatch(onSaveBoard(newBoard))
+        if (newBoard) {
+            await boardService.update(newBoard)
+            await dispatch(onSaveBoard(newBoard))
+        }
         // return newBoard
     }
 
@@ -210,17 +219,15 @@ export function TaskDetails() {
         }
     }
     const onAddItem = async (ev) => {
-        console.log(ev.target[0].value);
+        // console.log(ev.target[0].value);
         const newTodo = ev.target[0].value
         const newBoard = await boardService.addTodo(currBoard, group, task, newTodo)
-        ev.target[0].value=''
+        ev.target[0].value = ''
         await dispatch(onSaveBoard(newBoard))
     }
 
     const onAddAttachment = async (ev) => {
-        console.log(ev.target[0].value);
         const attachmentImg = ev.target[0].value;
-        // (!ev.target[0].value) ? attachmentImg = '' : attachmentImg = ev.target[0].value
         const newBoard = await boardService.addAttachment(currBoard, group, task, attachmentImg)
         await dispatch(onSaveBoard(newBoard))
         // await dispatch(setCurrBoard(newBoard._id))
@@ -229,7 +236,6 @@ export function TaskDetails() {
     const onCheckBoxClick = async (ev, todo) => {
         const newBoard = await boardService.updateTodo(currBoard, group, task, todo)
         await dispatch(onSaveBoard(newBoard))
-
     }
 
 
@@ -242,15 +248,16 @@ export function TaskDetails() {
     }
 
     const toggleChecklistModal = () => {
-        console.log('hey');
         checklistModalRef.current.classList.toggle('hide2')
+    };
+    const toggleDateModal = () => {
+        dateModalRef.current.classList.toggle('hide2')
         // checklistModalRef.current.value = ''
         // addListRef.current.classList.toggle('close')
-    }
+    };
 
     const toggleattAchmentModal = () => {
-        console.log('HELP ME');
-        attachmentModalRef.current.classList.toggle('hide')
+        attachmentModalRef.current.classList.toggle('hide2')
         // checklistModalRef.current.value = ''
         // addListRef.current.classList.toggle('close')
     }
@@ -261,15 +268,23 @@ export function TaskDetails() {
         await dispatch(onSaveBoard(updatedBoard))
     }
 
-    const onDeleteChecklist = async () => {
-        const newBoard = await boardService.deleteChecklist(currBoard, group, task)
-        await dispatch(onSaveBoard(newBoard))
-
-    }
+    // const onDeleteChecklist = async () => {
+    //     const newBoard = await boardService.deleteChecklist(currBoard, group, task)
+    //     await dispatch(onSaveBoard(newBoard))
+    // }
 
     const onMakeAttachmentCoverTask = async () => {
         const newBoard = await boardService.makeAttachmentCoverTask(currBoard, group, task)
         await dispatch(onSaveBoard(newBoard))
+    }
+
+    const onDeleteElement = async (key) => {
+        const newBoard = await boardService.deleteElement(currBoard, group, task, key)
+        await dispatch(onSaveBoard(newBoard))
+    }
+
+    const onToggleRef = (inputRef) => {
+        inputRef.current.classList.toggle('hide2')
     }
 
     if (!Object.keys(task).length || !Object.keys(group).length) return 'loading'
@@ -354,7 +369,7 @@ export function TaskDetails() {
                                     onClick={onToggleLabelModal}
                                     className="close-label-modal"
                                 >
-                                                    <i className="fa-solid fa-x"></i>
+                                    <i className="fa-solid fa-x"></i>
 
                                 </button>
                             </header>
@@ -558,8 +573,8 @@ export function TaskDetails() {
                     </section>
 
                     {/* Add Tnai */}
-                    {task.attachment && task.attachment.title !== '' && <section className='attachment-container'>
-                        <header className='attachment-header'>
+                    {task.attachment && task.attachment.title !== '' && <section className='attachment-container' ref={attachmentModalRef}>
+                        <header className='attachment-header' >
                             <span className="attachment-icon"><i className="fa-solid fa-paperclip fa-lg"></i></span>
                             <div className='attachment-title-button flex'>
                                 <span className="attachment-title">Attachments</span>
@@ -567,7 +582,7 @@ export function TaskDetails() {
                             </div>
                         </header>
                         {task.attachment.imgUrl === '' && <div>
-                            <div className='add-item-attachment' ref={attachmentModalRef}>
+                            <div className='add-item-attachment' >
                                 {/* add className name hide */}
                                 <div className='add-item-attachment-modal'>
                                     <form id='add-item-attachment' onSubmit={(event) => onAddAttachment(event)}>
@@ -577,7 +592,9 @@ export function TaskDetails() {
                                 <div className='add-item-attachment-controller flex'>
                                     <div>
                                         <button className='attachment-add-btn' type='submit' form='add-item-attachment'>Add</button>
-                                        <button onClick={toggleattAchmentModal}>Cancel</button>
+                                        <button onClick={() => {
+                                            onDeleteElement('attachment'); toggleattAchmentModal();
+                                        }}>Cancel</button>
                                     </div>
                                 </div>
                             </div>
@@ -599,12 +616,12 @@ export function TaskDetails() {
 
 
                     {/* checklist title to input */}
-                    {task.checklist && task.checklist.todos && <section className='checklist-container '>
+                    {task.checklist && task.checklist.todos && <section className='checklist-container' ref={checklistModalRef}>
                         <header className='checklist-header'>
                             <span className="checklist-icon"><i className="fa-regular fa-square-check fa-lg"></i></span>
                             <div className='checklist-title-button flex'>
                                 <span className="checklist-title">Check List</span>
-                                <button className='checklist-title-delete' onClick={onDeleteChecklist}>Delete</button>
+                                <button className='checklist-title-delete' onClick={() => { onDeleteElement('checklist'); toggleChecklistModal(); }}>Delete</button>
                             </div>
                         </header>
                         <div className='proggres-bar flex'>
@@ -625,8 +642,8 @@ export function TaskDetails() {
                                     )
                                 })}
                             </ul>
-                            <button className='prev-btn-add-item' onClick={toggleChecklistModal}>Add an item</button>
-                            <div className='add-item-checklist hide2' ref={checklistModalRef}>
+                            <button className='prev-btn-add-item' onClick={() => onToggleRef(addChecklistItem)}>Add an item</button>
+                            <div className='add-item-checklist hide2' ref={addChecklistItem} >
                                 {/* add className name hide */}
                                 <div className='add-item-checklist-modal'>
                                     <form id='add-item' onSubmit={(event) => onAddItem(event)}>
@@ -636,10 +653,9 @@ export function TaskDetails() {
                                 <div className='add-item-checklist-controller flex'>
                                     <div>
                                         <button className='checklist-add-btn' type='submit' form='add-item'>Add</button>
-                                        <button onClick={toggleChecklistModal}>Cancel</button>
+                                        <button onClick={() => onToggleRef(addChecklistItem)}>Cancel</button>
                                     </div>
                                     <div className='checklist-controller-btn'>
-                                        {/* <button className='checklist-add-btn'>Add</button> */}
                                         <button>Assign</button>
                                         <button>Due date</button>
                                         <button>@</button>
@@ -670,6 +686,35 @@ export function TaskDetails() {
                 </li>
             </ul> */}
 
+
+                    </section>}
+                    {<section ref={dateModalRef} className='date-container hide2'>
+                        <h1>Dates</h1>
+                        <hr />
+                        <DatePicker
+                            // selected={startDate}
+                            onChange={(date)=>setStartDate(date)}
+                            // startDate={startDate}
+                            // endDate={endDate}
+                            // selectsRange
+                            inline />
+                        <div className='start-date'>
+                            <label>Start Date:
+                                <input type="checkbox"></input>
+                                <input type="text"></input>
+                            </label>
+                        </div>
+                        <div className='end-date'>
+                            <label>Due Date:
+                                <input type="checkbox"></input>
+                                <input type="text"></input>
+                            </label>
+                        </div>
+
+                        <div className='date-actions'>
+                            <button>Save</button>
+                            <button>Remove</button>
+                        </div>
 
                     </section>}
 
@@ -748,7 +793,7 @@ export function TaskDetails() {
                             </span>
                             <span>Cover</span>
                         </div>
-                        <div className="">
+                        <div className="" onClick={toggleDateModal}>
                             <span className="i">
                                 <i className="fa-regular fa-clock"></i>
                             </span>

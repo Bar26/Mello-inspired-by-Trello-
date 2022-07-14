@@ -96,7 +96,7 @@ export function GroupList() {
         groupDest.tasks.splice(res.destination.index, 0, taskToMove)
         newBoard.groups.splice(groupIdxDest, 1, groupDest)
         if (res.destination.droppableId !== res.source.droppableId) newBoard.groups.splice(groupIdxSrc, 1, groupSrc)
-        boardService.update(ASAnewBoard)
+        boardService.update(newBoard)
         await dispatch(onSaveBoard(newBoard))
     }
     

@@ -1,0 +1,75 @@
+.date-container {
+
+    h1 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 41px;
+    }
+
+    height: 685px;
+    width: 305px;
+    background-color: whitesmoke;
+    position: fixed;
+    top: 50px;
+    right: 0;
+    z-index: 10;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px -4px rgb(9 30 66 / 25%),
+    0 0 0 1px rgb(9 30 66 / 8%);
+
+    .react-datepicker {
+        width: 305px;
+        padding: 0;
+        font-size: 14px;
+        background-color: transparent;
+        border: 0;
+
+        .react-datepicker__header {
+            width: 100%;
+            background-color: transparent;
+            border: 0;
+
+            .react-datepicker__day-names {
+                width: 100%;
+
+                >* {
+                    margin: 0;
+                    margin-top: 6px;
+                    height: 28px;
+                    width: 40px;
+                    color: $clr-text-add-card;
+                }
+            }
+        }
+
+        .react-datepicker__month-container {
+            background-color: transparent;
+            width: 100%;
+            border: 0;
+
+            .react-datepicker__week {
+                >* {
+                    height: 32px;
+                    width: 35px;
+                    padding: 0;
+                }
+            }
+        }
+    }
+
+    .date-actions {
+        :first-child {
+            background-color: #026aa7;
+            color: $clr3;
+        }
+        button {
+            border-radius: 3px;
+            width: 95%;
+            // padding: 6px 12px;
+            margin:0 8px 8px 8px;
+            height: 32px;
+        }
+    }
+
+}
