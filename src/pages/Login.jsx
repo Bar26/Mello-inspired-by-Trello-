@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { AppHeader } from '../cmps/header.jsx'
+import { AppHeader } from '../cmps/AppHeader.jsx'
 import { onLogin } from '../store/actions/user.actions.js'
 import { setCurrUser } from '../store/actions/user.actions.js'
 

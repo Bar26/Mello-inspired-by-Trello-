@@ -15,7 +15,7 @@ import trelloIcon from '../assets/img/trello-icon.png'
 import { useSelector } from 'react-redux'
 
 
-export const SecondaryHeader = () => {
+export const MainHeader = () => {
 	const [templates, setTemplates] = useState([])
 	const [user, setUser] = useState({})
 	const [board, setBoards] = useState({})
@@ -246,7 +246,7 @@ export const SecondaryHeader = () => {
 
 						<div className="button-top flex">
 							<button
-								className="secondary-header-button"
+								className="secondary-header-button create"
 								onClick={() => toggleModal(refCreate)}
 							>
 								Create

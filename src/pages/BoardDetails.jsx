@@ -1,6 +1,6 @@
-import { SecondaryHeader } from '../cmps/MainHeader'
+import { MainHeader } from '../cmps/MainHeader'
 import { Outlet, useParams } from 'react-router-dom'
-import { GroupList } from '../cmps/groupList'
+import { GroupList } from '../cmps/GroupList'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCurrBoard } from '../store/actions/board.actions'
 import { BoardHeader } from '../cmps/BoardHeader.jsx'
@@ -58,7 +58,7 @@ export const BoardDeatails = () => {
 			}
 		>
 			{/* {console.log((currBoard.style.backgroundImage) ? { background: currBoard.style.backgroundImage } : { background: currBoard.style.backgroundColor })} */}
-			<SecondaryHeader />
+			<MainHeader />
 			<section className="board-content">
 				<BoardHeader
 					menuShow={menuShow}

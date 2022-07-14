@@ -78,7 +78,7 @@ export function onCopyTask(ev,task,group, currBoard) {
 	return async (dispatch) => {
 		try {
 			ev.stopPropagation()
-			const updatedBoard = await boardService.copyCard(task, group, currBoard)
+			const updatedBoard = await boardService.copyTask(task, group, currBoard)
 			await dispatch(onSaveBoard(updatedBoard))
 			await dispatch(setCurrBoard(updatedBoard._id))
 			const action = { type: 'copy_task', board: updatedBoard }
@@ -92,7 +92,7 @@ export function onRemoveTask(ev,taskId,group, currBoard) {
 	return async (dispatch) => {
 		try {
 			ev.stopPropagation()
-			const updatedBoard = await boardService.removeCard(currBoard,group,taskId )
+			const updatedBoard = await boardService.removeTask(currBoard,group,taskId )
 			await dispatch(onSaveBoard(updatedBoard))
 			await dispatch(setCurrBoard(updatedBoard._id))
 			const action = { type: 'remove_task', board: updatedBoard }

@@ -1,4 +1,4 @@
-.card-details {
+.task-details {
     width: 768px;
     min-height: fit-content;
     z-index: 10;
@@ -6,7 +6,7 @@
     position: absolute;
     flex-direction: column;
     top: 50px;
-    background-color: $clr-card-details-bg;
+    background-color: $clr-task-details-bg;
     gap: 8px;
     font-size: 14px;
     color: $clr-text-group;
@@ -42,7 +42,7 @@
         display: none;
     }
 
-    .card-details-header {
+    .task-details-header {
         background-color: rgba(9, 30, 66, 0.08);
         height: 100px;
         width: 100%;
@@ -54,13 +54,13 @@
         overflow-y: auto;
         overflow-x: hidden;
         
-        .card-details-conatiner {
+        .task-details-conatiner {
             padding-inline-start: 16px;
-            // background-color: $clr-card-details-bg;
+            // background-color: $clr-task-details-bg;
             width: 100%;
             flex: 1;
 
-            .card-details-title-container {
+            .task-details-title-container {
                 height: 61px;
                 width: 100%;
                 // padding: 12px 40px 8px 56px;
@@ -72,7 +72,7 @@
                 align-items: center;
 
 
-                .card-icon {
+                .task-icon {
                     width: 32px;
                     height: 32px;
                     color: $clr-icon;
@@ -92,7 +92,7 @@
                         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
                         font-weight: 600;
                         color: $clr-text-group;
-                        background-color: $clr-card-details-bg;
+                        background-color: $clr-task-details-bg;
 
                         &:focus {
                             outline: none;
@@ -118,7 +118,7 @@
 
 
 
-            .card-details-labels {
+            .task-details-labels {
                 display: flex;
                 flex-direction: row-reverse;
                 justify-content: flex-end;
@@ -141,7 +141,7 @@
                     }
 
 
-                    .card-details-labels-container {
+                    .task-details-labels-container {
                         display: flex;
                         gap: 4px;
                         align-items: center;
@@ -161,7 +161,7 @@
                             position: relative;
 
 
-                            .card-details-add-label {
+                            .task-details-add-label {
                                 color: $clr-text-group;
                                 background-color: $clr-btn-details;
                                 @include flex-center;
@@ -203,7 +203,7 @@
 
 
 
-                .card-details-members {
+                .task-details-members {
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
@@ -216,7 +216,7 @@
                         color: $clr-small-text;
                     }
 
-                    .card-details-members-container {
+                    .task-details-members-container {
                         display: flex;
                         gap: 4px;
                         align-items: center;
@@ -237,7 +237,7 @@
                             padding: 0;
                             position: relative;
 
-                            .card-details-add-member {
+                            .task-details-add-member {
                                 .plus {
 
                                     color: #42526e;
@@ -381,7 +381,7 @@
 
                             .cancel-change {
                                 padding: 6px 12px;
-                                background-color: $clr-card-details-bg ;
+                                background-color: $clr-task-details-bg ;
 
                                 &:hover {
                                     background-color: $clr-btn-hover;
@@ -488,7 +488,7 @@
             flex-direction: column;
             gap: 16px;
 
-            .add-to-card {
+            .add-to-task {
                 padding-top: 77px;
                 width: 192px;
                 // padding: 0 16px 8px 8px;
@@ -532,7 +532,7 @@
 
                 }
 
-                .add-to-card-title {
+                .add-to-task-title {
 
                     background-color: transparent;
                     font-size: rem(12px);
@@ -543,7 +543,7 @@
                 }
             }
 
-            .card-details-actions {
+            .task-details-actions {
 
                 width: 192px;
                 // padding: 0 16px 8px 8px;
