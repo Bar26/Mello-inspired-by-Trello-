@@ -80,9 +80,6 @@ export function onCopyTask(ev,task,group, currBoard) {
 			ev.stopPropagation()
 			const updatedBoard = await boardService.copyTask(task, group, currBoard)
 			await dispatch(onSaveBoard(updatedBoard))
-			await dispatch(setCurrBoard(updatedBoard._id))
-			const action = { type: 'copy_task', board: updatedBoard }
-			dispatch(action)
 		} catch (err) {
 			console.log('Cant copy task', err)
 		}
@@ -94,9 +91,6 @@ export function onRemoveTask(ev,taskId,group, currBoard) {
 			ev.stopPropagation()
 			const updatedBoard = await boardService.removeTask(currBoard,group,taskId )
 			await dispatch(onSaveBoard(updatedBoard))
-			await dispatch(setCurrBoard(updatedBoard._id))
-			const action = { type: 'remove_task', board: updatedBoard }
-			dispatch(action)
 		} catch (err) {
 			console.log('Cant remove task', err)
 		}
@@ -127,14 +121,16 @@ export function loadBoard(boardId) {
 	}
 }
 
-export function addTask(taskTitle, groupId, boardId) {
+export function addTask(taskTitle, groupId, currBoard) {
+	console.log(taskTitle, groupId, currBoard)
 	return async (dispatch) => {
 		try {
-			const board = await boardService.addTask(taskTitle, groupId, boardId)
+			const board = await boardService.createTask(taskTitle, groupId, currBoard)
 			dispatch({
 				type: 'SAVE_BOARD',
 				board: board,
 			})
+			// dispatch(onSaveBoard(board))
 		} catch (err) {
 			console.log('Cant add task', err)
 		}
@@ -239,12 +235,25 @@ export function updateTaskTest(board, taskToUpdate) {
 	}
 }
 
+export function onUpdateCover(currBoard, group, taskId, color){
+	return async (dispatch)=>{
+		try {
+			const boardToSave = await boardService.updateCover(currBoard, group, taskId, color)
+			await dispatch(onSaveBoard(boardToSave))
+			
+		
+		} catch (err) {
+			console.log('connot update cover of task', err)
+		}
+	}
+}
+
 // change to saveBoard
 export function onSaveBoard(board) {
 	return async (dispatch) => {
 		try {
 			const savedBoard = await boardService.update(board)
-			dispatch({ type: 'SAVE_BOARD', board: savedBoard })
+			 dispatch({ type: 'SAVE_BOARD', board: savedBoard })
 		} catch (err) {
 			console.log('BoardActions: err in onSaveBoard', err)
 		}

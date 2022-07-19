@@ -39,7 +39,8 @@ export const boardService = {
 	makeAttachmentCoverTask,
 	toggleMemberToTask,
 	deleteElement,
-	updateCover
+	updateCover,
+	copyGroup
 }
 
 async function query(filterBy = {}) {
@@ -137,9 +138,13 @@ async function update(board) {
 	return httpService.put(`board/${board._id}`, board)
 }
 
-async function createTask(title) {
+async function createTask(title, groupId, currBoard) {
 	const id = utilService.makeId()
-	return { id, title }
+	const task = { id, title }
+	const updatedBoard = { ...currBoard }
+	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === groupId)
+	updatedBoard.groups[groupIdx].tasks.push(task)
+	return updatedBoard
 }
 
 async function createList(board, title) {
@@ -157,6 +162,15 @@ async function copyTask(task, group, board) {
 	taskCopy.id = newId
 	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
 	updatedBoard.groups[groupIdx].tasks.push(taskCopy)
+	return updatedBoard
+}
+
+async function copyGroup(group, board) {
+	const updatedBoard = { ...board }
+	const groupCopy = { ...group }
+	const newId = utilService.makeId()
+	groupCopy.id = newId
+	updatedBoard.groups.push(groupCopy)
 	return updatedBoard
 }
 
@@ -300,8 +314,8 @@ async function makeAttachmentCoverTask(board, group, task, bool) {
 	let newBoard = { ...board }
 	const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
 	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex((_task) => _task.id === task.id)
-	if(!newBoard.groups[groupIdx].tasks[taskIdx].style) newBoard.groups[groupIdx].tasks[taskIdx].style={isCover:false}
-	else newBoard.groups[groupIdx].tasks[taskIdx].style.isCover=!newBoard.groups[groupIdx].tasks[taskIdx].style.isCover;
+	if (!newBoard.groups[groupIdx].tasks[taskIdx].style) newBoard.groups[groupIdx].tasks[taskIdx].style = { isCover: false }
+	else newBoard.groups[groupIdx].tasks[taskIdx].style.isCover = !newBoard.groups[groupIdx].tasks[taskIdx].style.isCover;
 	return newBoard
 }
 // async function updateAttachment(board, group, task, src) {
@@ -360,7 +374,7 @@ function calculateProg(task) {
 	return integer
 }
 
-function deleteElement(board, group , task, key){
+function deleteElement(board, group, task, key) {
 	let newBoard = { ...board }
 	const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
 	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex((_task) => _task.id === task.id)

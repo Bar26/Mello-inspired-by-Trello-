@@ -1,7 +1,11 @@
 import { useRef } from "react"
+import { useDispatch } from "react-redux"
+import {  onUpdateCover } from '../store/actions/board.actions'
 
-export function CoverTaskModal({ task, onToggleCoverModal,onUpdateCover }) {
 
+
+export function CoverTaskModal({ task, onToggleCoverModal,currBoard,group,taskId }) {
+    const dispatch=useDispatch()
     const palette = [
         '#61bd4f',
         '#f2d600',
@@ -37,7 +41,7 @@ export function CoverTaskModal({ task, onToggleCoverModal,onUpdateCover }) {
                     backgroundColor: color,
                     height: '32px',
                 }}
-                onClick={()=>onUpdateCover(color)}
+                onClick={()=>dispatch(onUpdateCover(currBoard,group,taskId,color))}
                 >
 
                     {task.style?.backgroundColor === color &&

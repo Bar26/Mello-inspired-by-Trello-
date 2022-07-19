@@ -3,7 +3,7 @@
     background-color: white;
     z-index: 100000;
     position: absolute;
-    top: 0;
+    top: 0%;
     right: 100%;
     padding: 0 12px 12px;
     box-shadow: 0 0px 16px -4px rgb(9 30 66 / 25%), 0 0 0 1px rgb(9 30 66 / 8%);
@@ -45,6 +45,7 @@
             gap: 10px;
             border-radius: 3px;
             cursor: pointer;
+            color:white;
             @include flex-center;
             &:hover {
                 background-color: rgb(235, 236, 240);

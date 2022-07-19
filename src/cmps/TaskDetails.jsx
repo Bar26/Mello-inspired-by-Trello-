@@ -5,9 +5,10 @@ import { boardService } from '../services/board.service'
 import { useNavigate, useParams } from 'react-router-dom'
 import { onCopyTask, onRemoveTask } from '../store/actions/board.actions'
 import { AddMemberModal } from './MembersModal.jsx'
+import { CoverTaskModal } from './CoverTaskModal'
 
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
 
 import { setCurrBoard, setIsTaskDetailsScreenOpen, onSaveBoard } from '../store/actions/board.actions'
 import ProgressBar from './proggresBar/ProggresBar'
@@ -21,10 +22,11 @@ export function TaskDetails() {
     const [task, setTask] = useState({})
     const [group, setGroup] = useState({})
     const navigate = useNavigate()
-    const taskDetailsRef = useRef()
+
     const penRef = useRef()
     const editLabelModalRef = useRef()
     const addChecklistItem = useRef()
+    const coverModalRef = useRef()
 
     const descInputRef = useRef()
     const descInputContainerRef = useRef()
@@ -40,10 +42,8 @@ export function TaskDetails() {
     const checklistModalRef = useRef()
 
     const [filterLabel, setFilterLabel] = useState('')
-    // const [filterMember, setFilterMember] = useState('a')
     const closeDetailsRef = useRef()
-    // console.log(filterMember)
-    
+
     const addMemberModalRef = useRef()
     const [startDate, setStartDate] = useState(new Date());
 
@@ -52,7 +52,7 @@ export function TaskDetails() {
 
 
 
-    
+
     const palette = [
         '#61bd4f',
         '#f2d600',
@@ -66,36 +66,32 @@ export function TaskDetails() {
         '#344563',
     ]
 
-    const toggleDescInput = () => {
-        descInputContainerRef.current.classList.toggle('close')
-        descPrevRef.current.classList.toggle('close')
-    }
-
-
+    
+    
     useEffect(() => {
         getGroupTask()
         if (!Object.keys(currBoard).length) {
             boardService.getById('board', params.boardId)
-                .then((board) => dispatch(setCurrBoard(board)))
+            .then((board) => dispatch(setCurrBoard(board)))
         }
-
+        
     }, [])
-
+    
     // useEffect(() => {==
-
+    
     // }, [newLabelColor])
-
+    
     // useEffectUpdate(() => {
-
-
-
-    const getGroupTask = async () => {
-        try {
-            const { task, group } = await boardService.getTaskGroupById(
-                currBoard,
+        
+        
+        
+        const getGroupTask = async () => {
+            try {
+                const { task, group } = await boardService.getTaskGroupById(
+                    currBoard,
                 taskId
             )
-
+            
             setTask(task)
             setGroup(group)
         } catch (err) {
@@ -103,22 +99,30 @@ export function TaskDetails() {
         }
     }
 
-    const onDescSubmit = (ev) => {
-        // console.log('in desc submit')
+    //DESCRIPTION FUNCTIONS
+    const toggleDescInput = () => {
+        descInputContainerRef.current.classList.toggle('close')
+        descPrevRef.current.classList.toggle('close')
+    }
 
+    const onDescSubmit = (ev) => {
         ev.preventDefault()
         const { value } = ev.target[0]
-        console.log(value)
         toggleDescInput()
         onSaveDesc(value)
-
-        // await dispatch(setCurrBoard(updatedBoard._id))
     }
 
     const onSaveDesc = async (value) => {
         const updatedBoard = await boardService.saveDesc(currBoard, group.id, task.id, value)
         await dispatch(onSaveBoard(updatedBoard))
     }
+
+    const onCancelDescChange = () => {
+        toggleDescInput()
+        descInputRef.current.value = task.description
+    }
+
+    ////
 
     const onCloseTaskDetails = () => {
         navigate(`/boards/${currBoard._id}`)
@@ -149,13 +153,7 @@ export function TaskDetails() {
         return currBoard.members.find(member => member._id === memberId)
     }
 
-    const onCancelDescChange = () => {
-        console.log('in cancel')
-        toggleDescInput()
-        console.log(task.description)
-        descInputRef.current.value = task.description
-    }
-
+ 
     const onChangeTaskTitle = (ev) => {
         const { value } = ev.target
         boardService
@@ -287,9 +285,14 @@ export function TaskDetails() {
         inputRef.current.classList.toggle('hide2')
     }
 
+    const onToggleCoverModal = async () => {
+        coverModalRef.current.classList.toggle('hide')
+    }
+
+
     if (!Object.keys(task).length || !Object.keys(group).length) return 'loading'
     return (
-        <div className="task-details" ref={taskDetailsRef}>
+        <div className="task-details" >
             {task.style && task.style.backgroundColor && !task.style.isCover && (<header
                 className="task-details-header"
                 style={{ backgroundColor: task.style.backgroundColor }}
@@ -427,54 +430,16 @@ export function TaskDetails() {
                                     className="add-label-btn"
                                 >
                                     Create a new label
+                                   
+
+
                                 </button>
+                                 
                             </div>
                         </div>
                         {/* </section> */}
 
-                        <div ref={createLabelRef} className="create-label-modal-container hide">
-                            <header className="create-label-modal-header">
-                                {/* <span className="go-back-to-label-modal">*</span> */}
-                                <span className="create-label-modal-title">
-                                    Create label
-                                </span>
-                                <button
-                                    onClick={onToggleCreateLabelModal}
-                                    className="close-label-modal"
-                                >
-                                    <i className="fa-solid fa-x"></i>
-                                </button>
-                            </header>
-                            <hr />
-                            <label className="create-label-label">
-                                Name
-                                <input
-                                    className="create-label-input"
-                                    type="text"
-                                    onChange={(ev) => setNewLabelTitle(ev.target.value)}
-                                    onBlur={(ev) => setNewLabelTitle(ev.target.value)}
-                                />
-                            </label>
-                            <div className="select-color-title">Select a color</div>
-                            <div className="colors-for-select">
-                                {palette.map((clr, idx) => {
-                                    // console.log(clr)
-                                    return (
-                                        <div
-                                            key={clr + idx}
-                                            onClick={() => setNewLabelColor(clr)}
-                                            className="label-color"
-                                            style={{ backgroundColor: clr }}
-                                        >
-                                            {newLabelColor === clr && <div>✔</div>}
-                                        </div>
-                                    )
-                                })}
-                            </div>
-                            <button onClick={onSaveNewLabel} className="save-label">
-                                Create
-                            </button>
-                        </div>
+
 
                         <section className="task-details-members">
                             {task.memberIds && currBoard.members && <>
@@ -539,15 +504,15 @@ export function TaskDetails() {
                                 className="input-container close"
                                 ref={descInputContainerRef}
                             >
-                                <form onSubmit={onDescSubmit}  >
+                                <form onSubmit={onDescSubmit}
+                                >
 
                                     <textarea
                                         ref={descInputRef}
                                         className="add-desc"
-                                        defaultValue={task.description || ''}
+                                        defaultValue={task.description || ' '}
                                         name="add-desc"
                                         type="text"
-                                        onBlur={onDescSubmit}
                                         placeholder={
                                             task.description || 'Add a more detailed description...'
                                         }
@@ -693,7 +658,7 @@ export function TaskDetails() {
                         <hr />
                         <DatePicker
                             // selected={startDate}
-                            onChange={(date)=>setStartDate(date)}
+                            onChange={(date) => setStartDate(date)}
                             // startDate={startDate}
                             // endDate={endDate}
                             // selectsRange
@@ -744,6 +709,9 @@ export function TaskDetails() {
                     <section></section>
                 </main>
                 <section className="details-aside">
+
+
+
                     <section className="add-to-task">
                         <span className="add-to-task-title">Add to card</span>
                         <div className="members-btn" onClick={onToggleMemberModal}>
@@ -774,6 +742,7 @@ export function TaskDetails() {
                                 <i className="fa-solid fa-tag"></i>
                             </span>
                             <span>Labels</span>
+                         
                         </div>
                         <div className="" onClick={() => onCheckList()}>
                             <span className="i">
@@ -787,12 +756,17 @@ export function TaskDetails() {
                             </span>
                             <span>Attachment</span>
                         </div>
-                        <div className="">
+                        <div onClick={onToggleCoverModal} className="change-cover">
                             <span className="i add-to-task-cover">
                                 <i className="fa-regular fa-window-maximize"></i>
                             </span>
                             <span>Cover</span>
+                            <div onClick={ev => ev.stopPropagation()} ref={coverModalRef} className="cover-modal-container hide">
+                                <CoverTaskModal task={task} onToggleCoverModal={onToggleCoverModal}
+                                    currBoard={currBoard} group={group} taskId={task.id} />
+                            </div>
                         </div>
+
                         <div className="" onClick={toggleDateModal}>
                             <span className="i">
                                 <i className="fa-regular fa-clock"></i>
@@ -814,12 +788,12 @@ export function TaskDetails() {
                     </section>
                     <section className="task-details-actions">
                         <span className="actions-title">Actions</span>
-                        <div className="">
+                        {/* <div className="">
                             <span className="i">
                                 <i className="fa-solid fa-arrow-right"></i>
                             </span>
                             <span>Move</span>
-                        </div>
+                        </div> */}
                         <div className="task-actions-copy" onClick={(ev) => dispatch(onCopyTask(ev, task, group, currBoard))}>
                             <span className="i">
                                 <i className="fa-regular fa-copy"></i>
@@ -858,6 +832,49 @@ export function TaskDetails() {
                     </section>
                 </section>
             </div>
+
+            <div ref={createLabelRef} className="create-label-modal-container hide">
+                                        <header className="create-label-modal-header">
+                                            {/* <span className="go-back-to-label-modal">*</span> */}
+                                            <span className="create-label-modal-title">
+                                                Create label
+                                            </span>
+                                            <button
+                                                onClick={onToggleCreateLabelModal}
+                                                className="close-label-modal"
+                                            >
+                                                <i className="fa-solid fa-x"></i>
+                                            </button>
+                                        </header>
+                                        <hr />
+                                        <label className="create-label-label">
+                                            Name
+                                            <input
+                                                className="create-label-input"
+                                                type="text"
+                                                onChange={(ev) => setNewLabelTitle(ev.target.value)}
+                                                onBlur={(ev) => setNewLabelTitle(ev.target.value)}
+                                            />
+                                        </label>
+                                        <div className="select-color-title">Select a color</div>
+                                        <div className="colors-for-select">
+                                            {palette.map((clr, idx) => {
+                                                return (
+                                                    <div
+                                                        key={clr + idx}
+                                                        onClick={() => setNewLabelColor(clr)}
+                                                        className="label-color"
+                                                        style={{ backgroundColor: clr }}
+                                                    >
+                                                        {newLabelColor === clr && <div>✔</div>}
+                                                    </div>
+                                                )
+                                            })}
+                                        </div>
+                                        <button onClick={onSaveNewLabel} className="save-label">
+                                            Create
+                                        </button>
+                                    </div>
             <button ref={closeDetailsRef} className="close-details-btn" onClick={onCloseTaskDetails}>
                 <i className="fa-solid fa-x"></i>
             </button>

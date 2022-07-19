@@ -66,10 +66,9 @@ export function TaskPreview({ task, group }) {
 	}
 
 	const onToggleMemberToTask = async (memberId) => {
-		console.log('in togglemember')
 		try {
 			const updatedBoard = await boardService.toggleMemberToTask(currBoard, group, task.id, memberId)
-			await dispatch(onSaveBoard(updatedBoard))
+			 dispatch(onSaveBoard(updatedBoard))
 		} catch (err) {
 			console.log('connot add member to task', err)
 		}
@@ -80,16 +79,16 @@ export function TaskPreview({ task, group }) {
 		coverModalRef.current.classList.toggle('hide')
 	}
 
-	const onUpdateCover = async(color) => {
-		try {
-			const updatedBoard = await boardService.updateCover(currBoard, group, task.id, color)
-			await dispatch(onSaveBoard(updatedBoard))
-			
-		
-		} catch (err) {
-			console.log('connot update cover of task', err)
-		}
-	}
+	// const onUpdateCover = async(color) => {
+	// 	try {
+	// 		const updatedBoard = await boardService.updateCover(currBoard, group, task.id, color)
+	// 		await dispatch(onSaveBoard(updatedBoard))
+
+
+	// 	} catch (err) {
+	// 		console.log('connot update cover of task', err)
+	// 	}
+	// }
 
 	return (
 		<section
@@ -99,21 +98,23 @@ export function TaskPreview({ task, group }) {
 			<div ref={penRef} className="pen-container" onClick={onToggleEditModal}>
 				<img className="pen-img" src={pen} />
 			</div>
-			<div ref={editModalRef} className="edit-task-modal hide" onClick={ev => ev.stopPropagation()}>
-				<div>
-					<span>+</span>
-					<span>Open Modal</span>
+			<div ref={editModalRef} className="edit-task-modal hide" onClick={ev => ev.stopPropagation()} >
+				<div onClick={() => navigate(`/boards/${currBoard._id}/${task.id}`)}>
+					<span className="icon task-icon"><i className="fa-solid fa-window-maximize fa-lg"></i></span>
+					<span>Open Card</span>
 				</div>
-				<div>
+				{/* <div>
 					<span>+</span>
 					<span>Edit labels</span>
-				</div>
+				</div> */}
 				<div onClick={(ev) => {
 					onToggleMemberModal()
 					// addMemberModalRef.current.style.right="100%"
 					// addMemberModalRef.current.style.bottom="100px"
 				}} >
-					<span>+</span>
+					<span className="icon members-icon">
+						<i className="fa-regular fa-user"></i>
+					</span>
 					<span>Change Members</span>
 					<div
 						ref={addMemberModalRef}
@@ -127,32 +128,43 @@ export function TaskPreview({ task, group }) {
 					</div>
 				</div>
 				<div onClick={onToggleCoverModal} className="change-cover">
-					<span>+</span>
+					<span className="icon cover-icon">
+						<i className="fa-regular fa-window-maximize"></i>
+					</span>
 					<span>Change cover</span>
-				</div>
-				<div ref={coverModalRef} className="cover-modal-container hide">
-					<CoverTaskModal task={task} onToggleCoverModal={onToggleCoverModal} onUpdateCover={onUpdateCover} />
+					<div ref={coverModalRef} className="cover-modal-container hide"
+						onClick={(ev) => ev.stopPropagation()}>
+						<CoverTaskModal task={task} onToggleCoverModal={onToggleCoverModal}
+							currBoard={currBoard} group={group} taskId={task.id}
+						/>
 
 
+					</div>
 				</div>
-				<div>
+				{/* <div>
 					<span>+</span>
 					<span>Move</span>
-				</div>
+				</div> */}
 				<div onClick={(ev) => {
 					dispatch(onCopyTask(ev, task, group, currBoard))
 				}}>
-					<span>+</span>
+					<span className="icon copy-icon">
+						<i className="fa-regular fa-copy"></i>
+					</span>
 					<span>Copy</span>
 				</div>
 				<div>
-					<span>+</span>
+					<span className="icon date-icon">
+						<i className="fa-regular fa-clock"></i>
+					</span>
 					<span>Edit Dates</span>
 				</div>
 				<div onClick={(ev) => {
 					dispatch(onRemoveTask(ev, task.id, group, currBoard))
 				}}>
-					<span>+</span>
+					<span className="icon trash-icon">
+						<i className="fa-solid fa-box-archive"></i>
+					</span>
 					<span>Archive</span>
 				</div>
 				<div onClick={onToggleEditModal}>
@@ -169,8 +181,10 @@ export function TaskPreview({ task, group }) {
 			)}
 			{task.style && task.style.isCover && (
 				<>
-					<div className="task-attachment-cover" style={{background:`url(${task.attachment.imgUrl})`,backgroundRepeat:'no-repeat',
-					backgroundSize:'cover', backgroundPosition:'center',height:'160px',width:'100%', borderRadius:'3px' }}></div>
+					<div className="task-attachment-cover" style={{
+						background: `url(${task.attachment.imgUrl})`, backgroundRepeat: 'no-repeat',
+						backgroundSize: 'cover', backgroundPosition: 'center', height: '160px', width: '100%', borderRadius: '3px'
+					}}></div>
 				</>
 			)}
 			<section className="task-details-content">
@@ -207,7 +221,7 @@ export function TaskPreview({ task, group }) {
 				)}
 
 				{task.memberIds && currBoard.members && (
-					<div className="members-container">
+					<div className="members-icon-container">
 						{task.memberIds.map((memberId, idx) => {
 							const member = getMember(memberId)
 							const src = member.imgUrl
