@@ -6,8 +6,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { onCopyTask, onRemoveTask } from '../store/actions/board.actions'
 import { AddMemberModal } from './MembersModal.jsx'
 
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import { DateModal } from './DateModal'
+
 
 import { setCurrBoard, setIsTaskDetailsScreenOpen, onSaveBoard } from '../store/actions/board.actions'
 import ProgressBar from './proggresBar/ProggresBar'
@@ -34,7 +34,6 @@ export function TaskDetails() {
     const addLabelModalRef = useRef()
     const attachmentModalRef = useRef()
     const createLabelRef = useRef()
-    const createCheckListRef = useRef()
     const [newLabelColor, setNewLabelColor] = useState('#61bd4f')
     const [newLabelTitle, setNewLabelTitle] = useState()
     const checklistModalRef = useRef()
@@ -43,16 +42,15 @@ export function TaskDetails() {
     // const [filterMember, setFilterMember] = useState('a')
     const closeDetailsRef = useRef()
     // console.log(filterMember)
-    
-    const addMemberModalRef = useRef()
-    const [startDate, setStartDate] = useState(new Date());
 
+    const addMemberModalRef = useRef()
 
     const dateModalRef = useRef()
+    const dateStyle = useRef(task.dates?.completed ? { backgroundColor: "green", color: 'white' } : { backgroundColor: "" })
 
 
 
-    
+
     const palette = [
         '#61bd4f',
         '#f2d600',
@@ -287,6 +285,12 @@ export function TaskDetails() {
         inputRef.current.classList.toggle('hide2')
     }
 
+
+    const onCheckBoxDueDate = async (ev) => {
+        const newBoard = await boardService.checkBoxDueDate(currBoard, group, task, ev.target.checked)
+        await dispatch(onSaveBoard(newBoard))
+    }
+
     if (!Object.keys(task).length || !Object.keys(group).length) return 'loading'
     return (
         <div className="task-details" ref={taskDetailsRef}>
@@ -324,6 +328,17 @@ export function TaskDetails() {
                         </section>
                     </section>
                     <section className="task-details-labels">
+
+                        {task.dates?.dueDate && <section className='task-details-date' >
+                            <span className="date-title">Due Date</span>
+                            <div style={dateStyle.current}>
+                                <input type='checkbox' checked={task.dates.completed} onChange={(ev) => onCheckBoxDueDate(ev)} />
+                                {/* {style = task.dates.completed ? { backgroundColor: 'green' } : { backgroundColor: 'transperent' }} */}
+                                <span >{task.dates.dueDate}   </span>
+                                {task.dates.completed && <span>complete</span>}
+                            </div>
+                        </section>}
+
                         {task.labelIds && currBoard.labels && <>
                             <div className='title-and-labels'>
                                 <span className="labels-title">Labels</span>
@@ -514,9 +529,6 @@ export function TaskDetails() {
                         </section>
 
 
-
-
-
                     </section>
                     {/* </div> */}
                     <section className="description">
@@ -688,35 +700,6 @@ export function TaskDetails() {
 
 
                     </section>}
-                    {<section ref={dateModalRef} className='date-container hide2'>
-                        <h1>Dates</h1>
-                        <hr />
-                        <DatePicker
-                            // selected={startDate}
-                            onChange={(date)=>setStartDate(date)}
-                            // startDate={startDate}
-                            // endDate={endDate}
-                            // selectsRange
-                            inline />
-                        <div className='start-date'>
-                            <label>Start Date:
-                                <input type="checkbox"></input>
-                                <input type="text"></input>
-                            </label>
-                        </div>
-                        <div className='end-date'>
-                            <label>Due Date:
-                                <input type="checkbox"></input>
-                                <input type="text"></input>
-                            </label>
-                        </div>
-
-                        <div className='date-actions'>
-                            <button>Save</button>
-                            <button>Remove</button>
-                        </div>
-
-                    </section>}
 
                     {/* <section className="custom-fields">
             </section> */}
@@ -798,6 +781,9 @@ export function TaskDetails() {
                                 <i className="fa-regular fa-clock"></i>
                             </span>
                             <span>Dates</span>
+                            <div className='date-container hide2' ref={dateModalRef}>
+                                <DateModal toggleDateModal={toggleDateModal} board={currBoard} group={group} task={task} />
+                            </div>
                         </div>
                         <div className="">
                             <span className="i">

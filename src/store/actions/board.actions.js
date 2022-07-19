@@ -80,9 +80,9 @@ export function onCopyTask(ev,task,group, currBoard) {
 			ev.stopPropagation()
 			const updatedBoard = await boardService.copyTask(task, group, currBoard)
 			await dispatch(onSaveBoard(updatedBoard))
-			await dispatch(setCurrBoard(updatedBoard._id))
-			const action = { type: 'copy_task', board: updatedBoard }
-			dispatch(action)
+			// await dispatch(setCurrBoard(updatedBoard._id))
+			// const action = { type: 'copy_task', board: updatedBoard }
+			// dispatch(action)
 		} catch (err) {
 			console.log('Cant copy task', err)
 		}
