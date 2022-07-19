@@ -3,7 +3,8 @@ export const utilService = {
     makeLorem,
     getRandomIntInclusive,
     delay,
-    getMonthName
+    getMonthName,
+    monthName
 }
 
 //? makeId length =10
@@ -53,3 +54,8 @@ function getMonthName(date) {
   
     return date.toLocaleString('default', { month: 'short' })
 }
+
+function monthName(mon) {
+    let intMon = Number(mon)
+    return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][intMon - 1];
+ }

@@ -8,6 +8,7 @@ import { boardService } from '../services/board.service'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AddMemberModal } from './MembersModal.jsx'
 import { CoverTaskModal } from './CoverTaskModal'
+import { DateModal } from './DateModal'
 
 export function TaskPreview({ task, group }) {
 	const coverModalRef = useRef()
@@ -22,6 +23,10 @@ export function TaskPreview({ task, group }) {
 	const [isLabel, setIsLabel] = useState(false)
 	const editModalRef = useRef()
 	const addMemberModalRef = useRef()
+	const dateModalRef = useRef()
+	const dateStyle = useRef(task.dates?.completed ? { backgroundColor: "green", color: 'white' } : { backgroundColor: "" })
+
+	let dateHoverInd = 'none'
 
 	useEffect(() => {
 		if (!Object.keys(currBoard).length) {
@@ -31,15 +36,15 @@ export function TaskPreview({ task, group }) {
 		}
 	})
 
-	useEffect(() => {
-		if (!Object.keys(currBoard).length) {
-			boardService
-				.getById('board', params.boardId)
-				.then((board) => dispatch(setCurrBoard(board)))
+	// useEffect(() => {
+	// 	if (!Object.keys(currBoard).length) {
+	// 		boardService
+	// 			.getById('board', params.boardId)
+	// 			.then((board) => dispatch(setCurrBoard(board)))
 
-			if (!task.labelIds) penRef.current.classList.add('noLabel')
-		}
-	}, [])
+	// 		if (!task.labelIds) penRef.current.classList.add('noLabel')
+	// 	}
+	// }, [])
 
 	const onToggleMemberModal = () => {
 		addMemberModalRef.current.classList.toggle('hide')
@@ -89,6 +94,19 @@ export function TaskPreview({ task, group }) {
 	// 		console.log('connot update cover of task', err)
 	// 	}
 	// }
+
+	const toggleElement = async (inputRef) => {
+		inputRef.current.classList.toggle('hide')
+	}
+
+
+	const onCheckBoxDueDate = async (ev) => {
+		const newBoard = await boardService.checkBoxDueDate(currBoard, group, task, ev.target.checked)
+		dateStyle.current = task.dates.completed ? { backgroundColor: 'green', color: 'white' } : { backgroundColor: '' }
+		await dispatch(onSaveBoard(newBoard))
+	}
+
+
 
 	return (
 		<section
@@ -153,11 +171,12 @@ export function TaskPreview({ task, group }) {
 					</span>
 					<span>Copy</span>
 				</div>
-				<div>
-					<span className="icon date-icon">
-						<i className="fa-regular fa-clock"></i>
-					</span>
+				<div onClick={() => toggleElement(dateModalRef)}>
+					<span>+</span>
 					<span>Edit Dates</span>
+					<div ref={dateModalRef} className='date-container hide'>
+						<DateModal toggleDateModal={toggleElement} board={currBoard} group={group} task={task} />
+					</div>
 				</div>
 				<div onClick={(ev) => {
 					dispatch(onRemoveTask(ev, task.id, group, currBoard))
@@ -277,12 +296,15 @@ export function TaskPreview({ task, group }) {
 					</div>
 					}
 
-					{task.dueDate && (
-						<section className="due-date">
-							<span>{utilService.getMonthName(date)} </span>
-							<span>{date?.getDate().toString()}</span>
+					{task.dates?.dueDate &&
+						<section className="due-date" style={dateStyle.current}>
+							<input type='checkbox' style={{ accentColor: 'green'}} checked={task.dates?.completed} onClick={(ev) => { ev.stopPropagation(); onCheckBoxDueDate(ev) }} />
+							<span>{utilService.monthName(task.dates.dueDate.slice(3, -5))} </span>
+							<span>{Number(task.dates.dueDate.slice(0, -8))} </span>
+							{task.dates.completed && <span>complete</span>}
 						</section>
-					)}
+					}
+					{/* } */}
 				</div>
 			</section>
 		</section>

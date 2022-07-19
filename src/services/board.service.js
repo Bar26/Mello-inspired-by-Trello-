@@ -40,7 +40,10 @@ export const boardService = {
 	toggleMemberToTask,
 	deleteElement,
 	updateCover,
-	copyGroup
+	copyGroup,
+	deleteDateElement,
+	addDateToTask,
+	checkBoxDueDate,
 }
 
 async function query(filterBy = {}) {
@@ -381,7 +384,35 @@ function deleteElement(board, group, task, key) {
 	delete newBoard.groups[groupIdx].tasks[taskIdx][key]
 	return newBoard
 }
+function deleteDateElement(board, group, task, key) {
+	let newBoard = { ...board }
+	const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
+	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex((_task) => _task.id === task.id)
+	delete newBoard.groups[groupIdx].tasks[taskIdx].dates
+	return newBoard
+}
 
+function addDateToTask(board, group, task, date) {
+	let newBoard = { ...board }
+	const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
+	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex((_task) => _task.id === task.id)
+	if (newBoard.groups[groupIdx].tasks[taskIdx].dates) {
+		newBoard.groups[groupIdx].tasks[taskIdx].dates.dueDate = date
+	}
+	else {
+		newBoard.groups[groupIdx].tasks[taskIdx].dates = { dueDate: date }
+	}
+	return newBoard
+}
+
+
+function checkBoxDueDate(board, group, task, isChecked) {
+	let newBoard = { ...board }
+	const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
+	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex((_task) => _task.id === task.id)
+	newBoard.groups[groupIdx].tasks[taskIdx].dates.completed = isChecked
+	return newBoard
+}
 // addGuestBoardExp()
 function addGuestBoardExp() {
 	const board = {

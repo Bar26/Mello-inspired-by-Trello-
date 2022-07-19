@@ -80,15 +80,6 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
     //     boardService.update(newBoard)
     // }
 
-
-    const handleOnDragEnd = (res) => {
-        console.log(res)
-        if (!res.destination) return;
-        console.log("HRY");
-        dragFunc(res)
-
-    }
-
     const onChangeGroupTitle = async (ev) => {
         const { value } = ev.target
         const updatedBoard = await boardService.changeGroupTitle(currBoard, group, value)

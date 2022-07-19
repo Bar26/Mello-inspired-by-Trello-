@@ -33,11 +33,7 @@ export function GroupList() {
             console.error('cannot add list', err)
         }
     }
-
-    useEffect(() => {
-        boardService.getById(boardId).then(setBoard)
-    }, [])
-
+    
     const onListSubmit = (ev) => {
         ev.preventDefault()
         const { value } = ev.target[0]
