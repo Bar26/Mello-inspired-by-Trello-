@@ -1,6 +1,5 @@
 import { GroupPreview } from './GroupPreview'
 import React, { useEffect, useState, useRef } from 'react'
-import { useEffectUpdate } from './useEffectUpdate'
 import { boardService } from '../services/board.service'
 import { Droppable } from 'react-beautiful-dnd'
 import { DragDropContext } from 'react-beautiful-dnd'
@@ -13,30 +12,28 @@ export function GroupList() {
     const dispatch = useDispatch()
     const { currBoard } = useSelector((state) => state.boardModule)
     const { boardId } = useParams()
-    const [board, setBoard] = useState({...currBoard})
+    // const [board, setBoard] = useState({...currBoard})
     const listFormRef = React.createRef()
     const inputListRef = useRef()
     const addListRef = useRef()
     const [isGruopDraggable, setIsGruopDraggable] = useState(false)
 
-    useEffect(() => {
-        boardService.getById(currBoard._id).then(setBoard)
-    }, [])
+    // useEffect(() => {
+    //     // boardService.getById(currBoard._id).then(setBoard)
+    // }, [])
 
     const onAddList = async (value) => {
         try {
             const updatedBoard = await boardService.createList(currBoard, value)
             await dispatch(onSaveBoard(updatedBoard))
             // await dispatch(setCurrBoard(updatedBoard._id))
-            setBoard(updatedBoard)
+            // setBoard(updatedBoard)
         } catch (err) {
             console.error('cannot add list', err)
         }
     }
 
-    useEffect(() => {
-        boardService.getById(boardId).then(setBoard)
-    }, [])
+
 
     const onListSubmit = (ev) => {
         ev.preventDefault()
@@ -63,18 +60,18 @@ export function GroupList() {
     const onRemoveGroup = async (ev, groupId) => {
         const updatedBoard = await boardService.removeGroup(currBoard, groupId)
         await dispatch(onSaveBoard(updatedBoard))
-        await dispatch(setCurrBoard(updatedBoard._id))
+        // await dispatch(setCurrBoard(updatedBoard._id))
     }
 
     
 
     const handleOnDragEnd = (res) => {
         if (!res.destination) return;
-        if (res.destination.droppableId === res.source.droppableId && res.destination.droppableId === board._id) {
+        if (res.destination.droppableId === res.source.droppableId && res.destination.droppableId === currBoard._id) {
             onSetIsGroupDraggable(false)
             moveGroup(res)
         }
-        if (res.destination.droppableId !== board._id) {
+        if (res.destination.droppableId !== currBoard._id) {
             moveTask(res)
         }
     }

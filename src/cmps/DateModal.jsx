@@ -5,16 +5,25 @@ import { onSaveBoard, setCurrBoard } from '../store/actions/board.actions'
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from 'date-fns'
 import { boardService } from '../services/board.service';
+import { useRef } from 'react';
 
 export const DateModal = ({ toggleDateModal, board, group, task }) => {
 
     // const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState(task.dates?.dueDate ? task.dates.dueDate : new Date().toLocaleDateString());
+    const [endDate, setEndDate] = useState(task.dates?.dueDate ? task.dates.dueDate : new Date());
     const dispatch = useDispatch()
     // let isSetStart = false
+    // let endDateRef= useRef(useState(task.dates?.dueDate ? task.dates.dueDate : new Date().toLocaleDateString()))
+    let endDateCopy = task.dates?.dueDate ? task.dates.dueDate : new Date()
+    // task.dates?.dueDate ? new Date(Date.UTC(Number(endDate.slice(6)), Number(endDate.slice(3, 5)), Number(endDate.slice(0, 2)))) : new Date()
+    // console.log((endDate));
+
 
 
     const onSave = async () => {
+        // console.log( endDate)s
+        // console.log(endDate.slice(6), endDate.slice(3,5),endDate.slice(0,2));
+
         let newBoard = await boardService.addDateToTask(board, group, task, endDate)
         ////// Another Arg to addDateToTask
         // if (startDate) newBoard = await boardService.addDateToTask(board, group, task, startDate)
@@ -26,10 +35,6 @@ export const DateModal = ({ toggleDateModal, board, group, task }) => {
         await dispatch(onSaveBoard(newBoard))
     }
 
-    const onCheckBoxSelect = async (id) => {
-        // if (id === 'startBox')
-        // isSetStart = !isSetStart
-    }
 
     return (
         < section className='date-modal' >
@@ -43,8 +48,10 @@ export const DateModal = ({ toggleDateModal, board, group, task }) => {
             }}>
                 <DatePicker
                     onChange={date => {
-                        const dateToSave = format(date, 'dd.MM.yyyy')
-                        setEndDate(dateToSave)
+                        const dateToSave = format(date, 'dd-MM-yyyy')
+                        setEndDate(date)
+                        endDateCopy = date
+                        console.log((endDate));
                         // if (!isSetStart) {
                         // }
 
@@ -58,7 +65,9 @@ export const DateModal = ({ toggleDateModal, board, group, task }) => {
                         //     isSetStart = false
                         // }
                     }}
-                    selected = {Date.UTC(endDate.slice(6,-1),Number(endDate.slice(3,5))-1,endDate.slice(0,2))}
+                    // selected = {mashu}
+                    // selected={endDateCopy}
+                    // selected = {new Date(Date.UTC(2022 ,6,19))}
                     // selectsRange={isSetStart}
                     inline />
                 {/* <div className='start-date' id='startBox'>
@@ -68,7 +77,7 @@ export const DateModal = ({ toggleDateModal, board, group, task }) => {
                     </label>
                 </div> */}
                 <div className='end-date'>
-                    <label>Due Date:   {endDate}
+                    <label>Due Date:  
                         {/* <input type="checkbox" ></input> */}
                         {/* <input type="text" value={endDate} onChange={(ev) => setEndDate(ev.target.value)}></input> */}
                     </label>

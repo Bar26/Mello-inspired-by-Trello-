@@ -6,7 +6,7 @@ import { setCurrBoard } from '../store/actions/board.actions'
 import { BoardHeader } from '../cmps/BoardHeader.jsx'
 import { BoardMenu } from '../cmps/BoardMenu.jsx'
 import { useEffect, useState } from 'react'
-import { TaskDetails } from '../cmps/TaskDetails'
+// import { TaskDetails } from '../cmps/TaskDetails'
 import { Screen } from '../cmps/Screen.jsx'
 import { BoardCoverModal } from '../cmps/BoardCoverModal'
 
@@ -19,14 +19,15 @@ export const BoardDeatails = () => {
 	// console.log('currBoard form details', currBoard)
 
 	useEffect(() => {
-		if (!Object.keys(currBoard).length) {
-			getCurrBoard()
-		}
+		// if (!Object.keys(currBoard).length) {
+		// 	getCurrBoard()
+		// }
+		dispatch(setCurrBoard(boardId))
 	}, [])
 
-	const getCurrBoard = async () => {
-		await dispatch(setCurrBoard(boardId))
-	}
+	// const getCurrBoard = async () => {
+	// 	await dispatch(setCurrBoard(boardId))
+	// }
 
 	const toggleBoardMenu = () => {
 		if (!menuShow.length) {

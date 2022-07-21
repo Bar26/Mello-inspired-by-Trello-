@@ -292,7 +292,7 @@ export function TaskPreview({ task, group }) {
 							<span>{utilService.monthName(task.dates.dueDate.slice(3, -5))} </span>
 							<span>{Number(task.dates.dueDate.slice(0, -8))} </span>
 							{task.dates.completed && <span>complete</span>}
-						</section>
+						</section>         
 					}
 					{/* } */}
 				</div>
