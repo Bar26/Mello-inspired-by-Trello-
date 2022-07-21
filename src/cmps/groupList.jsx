@@ -33,7 +33,7 @@ export function GroupList() {
             console.error('cannot add list', err)
         }
     }
-    
+
     const onListSubmit = (ev) => {
         ev.preventDefault()
         const { value } = ev.target[0]

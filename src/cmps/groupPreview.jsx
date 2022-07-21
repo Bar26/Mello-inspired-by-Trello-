@@ -28,16 +28,16 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
         // const updatedBoard = { ...currBoard }
         // const taskReturnd = await boardService.createTask(value)
         // updatedBoard.groups[groupIdx].tasks.push(taskReturnd)
-        const taskTitle=value
-        await dispatch(addTask(taskTitle, group.id, currBoard)) 
+        const taskTitle = value
+        await dispatch(addTask(taskTitle, group.id, currBoard))
         // dispatch(onSaveBoard(updatedBoard))
         // await dispatch(setCurrBoard(updatedBoard._id))
     }
 
-    const onCopyGroup = async ()=>{
+    const onCopyGroup = async () => {
         try {
             // ev.stopPropagation()
-            const updatedBoard = await boardService.copyGroup( group, currBoard)
+            const updatedBoard = await boardService.copyGroup(group, currBoard)
             await dispatch(onSaveBoard(updatedBoard))
         } catch (err) {
             console.log('Cant copy group', err)
@@ -98,7 +98,7 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
                         <Draggable key={task.id} draggableId={task.id} index={index}>
                             {(provided) => {
                                 return <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                    <TaskPreview key={task.id} index={index} group={group} task={task} />
+                                    <TaskPreview key={task.id + 1000} index={index} group={group} task={task} />
                                 </div>
                             }}
                         </Draggable>
