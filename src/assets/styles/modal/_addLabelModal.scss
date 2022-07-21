@@ -136,6 +136,7 @@
             margin-bottom: 8px;
             font-size: rem(14px);
             color:$clr-text-group;
+            position: relative;
             &:hover{
                 background-color: $clr-btn-details;
             }

@@ -24,7 +24,7 @@ export function AddMemberModal({ onToggleMemberModal,
         //     ref={addMemberModalRef}
         //     className="add-member-modal hide"
         // >
-        <>
+        <section className="member-modal-container">
             <header className="add-member-modal-header">
                 <span className="add-member-modal-title">Members</span>
                 <button
@@ -82,7 +82,7 @@ export function AddMemberModal({ onToggleMemberModal,
                 </div>
             </div>
             {/* // </div> */}
-        </>
+        </section>
     )
 }
 

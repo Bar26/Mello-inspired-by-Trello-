@@ -7,18 +7,16 @@
             height: 41px;
         }
     }
-
-    height: 685px;
+    // padding: 12px;
     width: 305px;
     background-color: whitesmoke;
     position: absolute;
-    top: 15px;
-    right: -15px;
-    z-index: 10;
+    top: 24px;
+    right: -100px;
     border-radius: 15px;
     box-shadow: 0 8px 16px -4px rgb(9 30 66 / 25%),
     0 0 0 1px rgb(9 30 66 / 8%);
-
+    // z-index: 40000;
     .react-datepicker {
         width: 305px;
         padding: 0;

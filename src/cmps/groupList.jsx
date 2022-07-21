@@ -33,8 +33,6 @@ export function GroupList() {
         }
     }
 
-
-
     const onListSubmit = (ev) => {
         ev.preventDefault()
         const { value } = ev.target[0]

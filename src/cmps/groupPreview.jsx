@@ -2,7 +2,7 @@ import { TaskPreview } from './TaskPreview'
 import React from 'react'
 import { boardService } from '../services/board.service'
 import { useCallback, useEffect, useState, useRef, useMemo } from 'react'
-import { setCurrBoard, onSaveBoard, onRemoveTask } from '../store/actions/board.actions'
+import { setCurrBoard, onSaveBoard, onRemoveTask, addTask } from '../store/actions/board.actions'
 import { useDispatch } from 'react-redux'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { utilService } from '../services/util.service'
@@ -22,14 +22,26 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
 
     const onAddTask = async (value) => {
         // if (!newCardTitle) return  ///////plaster???????????
-        const groupIdx = currBoard.groups.findIndex(
-            (_group) => _group.id === group.id
-        )
-        const updatedBoard = { ...currBoard }
-        const taskReturnd = await boardService.createTask(value)
-        updatedBoard.groups[groupIdx].tasks.push(taskReturnd)
-        await dispatch(onSaveBoard(updatedBoard))
+        // const groupIdx = currBoard.groups.findIndex(
+        //     (_group) => _group.id === group.id
+        // )
+        // const updatedBoard = { ...currBoard }
+        // const taskReturnd = await boardService.createTask(value)
+        // updatedBoard.groups[groupIdx].tasks.push(taskReturnd)
+        const taskTitle = value
+        await dispatch(addTask(taskTitle, group.id, currBoard))
+        // dispatch(onSaveBoard(updatedBoard))
         // await dispatch(setCurrBoard(updatedBoard._id))
+    }
+
+    const onCopyGroup = async () => {
+        try {
+            // ev.stopPropagation()
+            const updatedBoard = await boardService.copyGroup(group, currBoard)
+            await dispatch(onSaveBoard(updatedBoard))
+        } catch (err) {
+            console.log('Cant copy group', err)
+        }
     }
 
 
@@ -86,7 +98,7 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
                         <Draggable key={task.id} draggableId={task.id} index={index}>
                             {(provided) => {
                                 return <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                    <TaskPreview key={task.id} index={index} group={group} task={task} />
+                                    <TaskPreview key={task.id + 1000} index={index} group={group} task={task} />
                                 </div>
                             }}
                         </Draggable>
@@ -97,8 +109,8 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
             }}
         </Droppable>
 
-        <div className="add-task-btn flex" onClick={toggleForm} ref={addTaskBtnRef} ><span className="plus"><i className="fa-solid fa-plus"></i></span><button > Add a card 
-         </button></div>
+        <div className="add-task-btn flex" onClick={toggleForm} ref={addTaskBtnRef} ><span className="plus"><i className="fa-solid fa-plus"></i></span><button > Add a card
+        </button></div>
         <form className="add-task-form close" onSubmit={onSubmit} ref={formRef}>
             <input ref={inputRef} className="task-title" type="text" placeholder="Enter a title for this task" />
             <div className='add-task-btn'>
@@ -109,7 +121,7 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
 
 
         <div className='group-menu' onClick={onOpenGroupMenu} >
-            <i   className="fa-solid fa-ellipsis"></i>
+            <i className="fa-solid fa-ellipsis"></i>
             <div ref={groupMenuRef} className='menu-modal hide'>
                 <header className="menu-modal-header">
                     <span className="menu-modal-title">List actions</span>
@@ -117,8 +129,8 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
                 </header>
                 <hr />
                 <div className='menu-btn'>
-                    <button className='add-task-from-menu' >Add card...</button>
-                    <button className='copy-list-from-menu'>Copy list...</button>
+                    {/* <button className='add-task-from-menu' >Add card...</button> */}
+                    <button className='copy-list-from-menu' onClick={onCopyGroup}>Copy list...</button>
                     <button className='archive-list-from-menu' onClick={(ev) => onRemoveGroup(ev, group.id)}>Archive list...</button>
                 </div>
             </div>
