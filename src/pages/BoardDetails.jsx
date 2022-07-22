@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 import { TaskDetails } from '../cmps/TaskDetails'
 import { Screen } from '../cmps/Screen.jsx'
 import { BoardCoverModal } from '../cmps/BoardCoverModal'
+import { boardService } from '../services/board.service'
 
 export const BoardDeatails = () => {
 	const [menuShow, setMenuShow] = useState('')
@@ -16,17 +17,12 @@ export const BoardDeatails = () => {
 	const { boardId } = useParams()
 	const dispatch = useDispatch()
 	const { currBoard } = useSelector((state) => state.boardModule)
-	// console.log('currBoard form details', currBoard)
 
 	useEffect(() => {
-		if (!Object.keys(currBoard).length) {
-			getCurrBoard()
-		}
-	}, [])
+	
+		dispatch(setCurrBoard(boardId))
 
-	const getCurrBoard = async () => {
-		await dispatch(setCurrBoard(boardId))
-	}
+	}, [])
 
 	const toggleBoardMenu = () => {
 		if (!menuShow.length) {
@@ -42,7 +38,6 @@ export const BoardDeatails = () => {
 			setCoverMode('')
 		}
 	}
-	// console.log(currBoard.style.backgroundImage);
 	if (!Object.keys(currBoard || {}).length) return <div className="loader"></div>
 	return (
 		<section

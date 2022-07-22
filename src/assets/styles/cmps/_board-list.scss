@@ -1,4 +1,5 @@
 .board-list {
+	height: 100%;
 	display: flex;
 	flex-direction: column;
 	background-color: #0067a3;
@@ -46,7 +47,7 @@
 				align-items: center;
 			}
 		}
-		.board-list {
+		.board-grid {
 			display: grid;
 			grid-template-columns: repeat(auto-fit, 190px);
 			width: 802px;

@@ -299,8 +299,8 @@ export function TaskPreview({ task, group }) {
 					{task.dates?.dueDate &&
 						<section className="due-date" style={dateStyle.current}>
 							<input type='checkbox' style={{ accentColor: 'green'}} checked={task.dates?.completed} onClick={(ev) => { ev.stopPropagation(); onCheckBoxDueDate(ev) }} />
-							<span>{utilService.monthName(task.dates.dueDate.slice(3, -5))} </span>
-							<span>{Number(task.dates.dueDate.slice(0, -8))} </span>
+							{/* <span>{utilService.monthName(task.dates.dueDate.slice(3, -5))} </span> */}
+							{/* <span>{Number(task.dates.dueDate.slice(0, -8))} </span> */}
 							{task.dates.completed && <span>complete</span>}
 						</section>
 					}

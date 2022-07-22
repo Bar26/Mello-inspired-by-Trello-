@@ -19,16 +19,12 @@ export function GroupList() {
     const addListRef = useRef()
     const [isGruopDraggable, setIsGruopDraggable] = useState(false)
 
-    useEffect(() => {
-        boardService.getById(currBoard._id).then(setBoard)
-    }, [])
-
     const onAddList = async (value) => {
         try {
             const updatedBoard = await boardService.createList(currBoard, value)
             await dispatch(onSaveBoard(updatedBoard))
             // await dispatch(setCurrBoard(updatedBoard._id))
-            setBoard(updatedBoard)
+            // setBoard(updatedBoard)
         } catch (err) {
             console.error('cannot add list', err)
         }
@@ -66,11 +62,11 @@ export function GroupList() {
 
     const handleOnDragEnd = (res) => {
         if (!res.destination) return;
-        if (res.destination.droppableId === res.source.droppableId && res.destination.droppableId === board._id) {
+        if (res.destination.droppableId === res.source.droppableId && res.destination.droppableId === currBoard._id) {
             onSetIsGroupDraggable(false)
             moveGroup(res)
         }
-        if (res.destination.droppableId !== board._id) {
+        if (res.destination.droppableId !== currBoard._id) {
             moveTask(res)
         }
     }

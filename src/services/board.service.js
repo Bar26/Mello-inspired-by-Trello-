@@ -46,6 +46,9 @@ export const boardService = {
 	checkBoxDueDate,
 }
 
+
+
+
 async function query(filterBy = {}) {
 	return httpService.get(`board`, filterBy)
 }
@@ -54,8 +57,10 @@ async function queryTemplates(filterBy = {}) {
 }
 
 function setStarred(board) {
-	board.isStared = !board.isStared
-	return storageService.put(STORAGE_KEY, board)
+	const updatedBoard={...board}
+	updatedBoard.isStared = !updatedBoard.isStared
+	return updatedBoard
+	// return storageService.put(STORAGE_KEY, board)
 }
 function setStarredTemplate(template) {
 	if (!template.isStared) {
@@ -63,7 +68,7 @@ function setStarredTemplate(template) {
 	} else {
 		template.isStared = false
 	}
-	storageService.put(STORAGE_KEY2, template).then(console.log)
+	storageService.put(STORAGE_KEY2, template)
 }
 
 async function setTitle(newBoard) {
@@ -393,6 +398,7 @@ function deleteDateElement(board, group, task, key) {
 }
 
 function addDateToTask(board, group, task, date) {
+	console.log((date));
 	let newBoard = { ...board }
 	const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
 	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex((_task) => _task.id === task.id)

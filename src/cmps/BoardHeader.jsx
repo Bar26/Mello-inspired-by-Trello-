@@ -14,19 +14,20 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu , onSetCoverMode }) => {
 	const params = useParams()
 	const dispatch = useDispatch()
 
-	useEffect(() => {
-		if (!Object.keys(currBoard).length) {
-			boardService
-				.getById(params.boardId)
-				.then((board) => dispatch(setCurrBoard(board)))
-		}
-	}, [])
+	// useEffect(() => {
+	// 	if (!Object.keys(currBoard).length) {
+	// 		boardService
+	// 			.getById(params.boardId)
+	// 			.then((board) => dispatch(setCurrBoard(board)))
+	// 	}
+	// }, [])
 
 	useEffectUpdate(() => {
 		setBoardTitle()
 	}, [board])
 
 	useEffect(() => {
+		console.log(currBoard);
 		if (currBoard.isStared) {
 			setStar('starred fa-solid')
 		} else {

@@ -48,17 +48,41 @@ export function setIsTaskDetailsScreenOpen(isTaskDetailScreenOpen) {
 		})
 }
 
-export function loadBoards() {
+// export function loadBoards() {
+// 	return async (dispatch) => {
+// 		try {
+// 			const boards = await boardService.query()
+// 			const action = { type: 'SET_BOARDS', boards }
+// 			dispatch(action)
+// 		} catch (err) {
+// 			console.log('Cant load boards', err)
+// 		}
+// 	}
+// }
+
+export function setCurrBoards(currUser) {
 	return async (dispatch) => {
 		try {
-			const boards = await boardService.query()
-			const action = { type: 'SET_BOARDS', boards }
-			dispatch(action)
+			Promise.all(currUser.boards?.map(async (boardId) => {
+				// try {
+				console.log('boardId', boardId)
+				const board = await boardService.getById(boardId)
+				console.log(board);
+				return board
+				// } catch (err) {
+				// 	console.log('cannot get boards', err);
+				// }
+			})).then((currBoards) => {
+				dispatch({ type: 'SET_BOARDS', boards: currBoards })
+			})
+
 		} catch (err) {
-			console.log('Cant load boards', err)
+			console.log(err);
+
 		}
 	}
 }
+
 
 export function addBoard(boardToAdd) {
 	return async (dispatch) => {
@@ -74,7 +98,7 @@ export function addBoard(boardToAdd) {
 		}
 	}
 }
-export function onCopyTask(ev,task,group, currBoard) {
+export function onCopyTask(ev, task, group, currBoard) {
 	return async (dispatch) => {
 		try {
 			ev.stopPropagation()
@@ -85,11 +109,11 @@ export function onCopyTask(ev,task,group, currBoard) {
 		}
 	}
 }
-export function onRemoveTask(ev,taskId,group, currBoard) {
+export function onRemoveTask(ev, taskId, group, currBoard) {
 	return async (dispatch) => {
 		try {
 			ev.stopPropagation()
-			const updatedBoard = await boardService.removeTask(currBoard,group,taskId )
+			const updatedBoard = await boardService.removeTask(currBoard, group, taskId)
 			await dispatch(onSaveBoard(updatedBoard))
 		} catch (err) {
 			console.log('Cant remove task', err)
@@ -117,6 +141,18 @@ export function loadBoard(boardId) {
 			return board
 		} catch (err) {
 			console.log('BoardActions: err in loadBoard', err)
+		}
+	}
+}
+
+export function setStaredBoard(board) {
+	return async (dispatch) => {
+		try {
+			const updatedBoard = await boardService.setStarred(board)
+
+			dispatch(onSaveBoard(updatedBoard))
+		} catch (err) {
+			console.log('cannot set star', err)
 		}
 	}
 }
@@ -235,13 +271,13 @@ export function updateTaskTest(board, taskToUpdate) {
 	}
 }
 
-export function onUpdateCover(currBoard, group, taskId, color){
-	return async (dispatch)=>{
+export function onUpdateCover(currBoard, group, taskId, color) {
+	return async (dispatch) => {
 		try {
 			const boardToSave = await boardService.updateCover(currBoard, group, taskId, color)
 			await dispatch(onSaveBoard(boardToSave))
-			
-		
+
+
 		} catch (err) {
 			console.log('connot update cover of task', err)
 		}
@@ -253,7 +289,7 @@ export function onSaveBoard(board) {
 	return async (dispatch) => {
 		try {
 			const savedBoard = await boardService.update(board)
-			 dispatch({ type: 'SAVE_BOARD', board: savedBoard })
+			dispatch({ type: 'SAVE_BOARD', board: savedBoard })
 		} catch (err) {
 			console.log('BoardActions: err in onSaveBoard', err)
 		}

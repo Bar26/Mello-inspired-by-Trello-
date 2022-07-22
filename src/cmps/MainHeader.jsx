@@ -45,9 +45,15 @@ export const MainHeader = () => {
 		setUser(user)
 	}
 
-	const toggleModal = (refType) => {
-		refType.current.classList.toggle('hide')
-		boardService.queryTemplates().then((templates) => setTemplates(templates))
+	const toggleModal = async (refType) => {
+		try {
+			refType.current.classList.toggle('hide')
+			const templates = await boardService.queryTemplates()
+			setTemplates(templates)
+		} catch (err) {
+			console.log('cannot get templates', err);
+		}
+
 	}
 
 	const onSetStar = (ev, template) => {
@@ -71,7 +77,7 @@ export const MainHeader = () => {
 		navigate(`/boards/${newBoard._id}`)
 	}
 
-	const onSearchTyping = () => {}
+	const onSearchTyping = () => { }
 
 	const handleSearch = (ev) => {
 		console.log(ev.target)
@@ -465,7 +471,7 @@ export const MainHeader = () => {
 					className="user-logo"
 					style={{
 						background: `url(${currUser.imgUrl}) center center / cover`,
-						height:'32px'
+						height: '32px'
 					}}
 				></div>
 			</div>
