@@ -9,7 +9,6 @@ export function setCurrBoard(boardId) {
 				currBoard = await boardService.getById(boardId)
 			}
 			console.log('board from backend:', currBoard)
-			// console.log('boardID FOR BAR from backend:', boardId)
 		} catch (err) {
 			console.error('Cannot set board', err)
 		} finally {
@@ -133,17 +132,17 @@ export function addActivity(boardId, task, txt) {
 	}
 }
 
-export function loadBoard(boardId) {
-	return async (dispatch) => {
-		try {
-			const board = await boardService.getById(boardId)
-			dispatch({ type: 'SET_BOARD', board })
-			return board
-		} catch (err) {
-			console.log('BoardActions: err in loadBoard', err)
-		}
-	}
-}
+// export function loadBoard(boardId) {
+// 	return async (dispatch) => {
+// 		try {
+// 			const board = await boardService.getById(boardId)
+// 			dispatch({ type: 'SET_BOARD', board })
+// 			return board
+// 		} catch (err) {
+// 			console.log('BoardActions: err in loadBoard', err)
+// 		}
+// 	}
+// }
 
 export function setStaredBoard(board) {
 	return async (dispatch) => {
@@ -173,33 +172,33 @@ export function addTask(taskTitle, groupId, currBoard) {
 	}
 }
 
-export function addGroup(groupTitle, boardId) {
-	return async (dispatch) => {
-		try {
-			const board = await boardService.addGroup(groupTitle, boardId)
-			dispatch({
-				type: 'SAVE_BOARD',
-				board: board,
-			})
-		} catch (err) {
-			console.log('Cant add group', err)
-		}
-	}
-}
+// export function addGroup(groupTitle, boardId) {
+// 	return async (dispatch) => {
+// 		try {
+// 			const board = await boardService.addGroup(groupTitle, boardId)
+// 			dispatch({
+// 				type: 'SAVE_BOARD',
+// 				board: board,
+// 			})
+// 		} catch (err) {
+// 			console.log('Cant add group', err)
+// 		}
+// 	}
+// }
 
-export function removeGroup(groupId, boardId) {
-	return async (dispatch) => {
-		try {
-			const board = await boardService.removeGroup(groupId, boardId)
-			dispatch({
-				type: 'SAVE_BOARD',
-				board,
-			})
-		} catch (err) {
-			console.log('Cant remove group', err)
-		}
-	}
-}
+// export function removeGroup(groupId, boardId) {
+// 	return async (dispatch) => {
+// 		try {
+// 			const board = await boardService.removeGroup(groupId, boardId)
+// 			dispatch({
+// 				type: 'SAVE_BOARD',
+// 				board,
+// 			})
+// 		} catch (err) {
+// 			console.log('Cant remove group', err)
+// 		}
+// 	}
+// }
 
 export function addChecklist(
 	checklistTitle,
@@ -227,49 +226,49 @@ export function addChecklist(
 	}
 }
 
-export function updateTask(
-	boardId,
-	groupId,
-	taskId,
-	taskToUpdate,
-	activityTxt = null,
-	isComment = false
-) {
-	return async (dispatch) => {
-		try {
-			const board = await boardService.updateTask(
-				boardId,
-				groupId,
-				taskId,
-				taskToUpdate,
-				activityTxt,
-				isComment
-			)
-			dispatch({
-				type: 'SAVE_BOARD',
-				board: board,
-			})
-		} catch (err) {
-			console.log('Cant update task', err)
-		}
-	}
-}
-export function updateTaskTest(board, taskToUpdate) {
-	return async (dispatch) => {
-		try {
-			const boardToSave = await boardService.updateTaskTest(
-				board._id,
-				taskToUpdate
-			)
-			dispatch({
-				type: 'SAVE_BOARD',
-				board: boardToSave,
-			})
-		} catch (err) {
-			console.log('Cant update task', err)
-		}
-	}
-}
+// export function updateTask(
+// 	boardId,
+// 	groupId,
+// 	taskId,
+// 	taskToUpdate,
+// 	activityTxt = null,
+// 	isComment = false
+// ) {
+// 	return async (dispatch) => {
+// 		try {
+// 			const board = await boardService.updateTask(
+// 				boardId,
+// 				groupId,
+// 				taskId,
+// 				taskToUpdate,
+// 				activityTxt,
+// 				isComment
+// 			)
+// 			dispatch({
+// 				type: 'SAVE_BOARD',
+// 				board: board,
+// 			})
+// 		} catch (err) {
+// 			console.log('Cant update task', err)
+// 		}
+// 	}
+// }
+// export function updateTaskTest(board, taskToUpdate) {
+// 	return async (dispatch) => {
+// 		try {
+// 			const boardToSave = await boardService.updateTaskTest(
+// 				board._id,
+// 				taskToUpdate
+// 			)
+// 			dispatch({
+// 				type: 'SAVE_BOARD',
+// 				board: boardToSave,
+// 			})
+// 		} catch (err) {
+// 			console.log('Cant update task', err)
+// 		}
+// 	}
+// }
 
 export function onUpdateCover(currBoard, group, taskId, color) {
 	return async (dispatch) => {

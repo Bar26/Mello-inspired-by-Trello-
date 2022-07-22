@@ -24,12 +24,12 @@ export const DateModal = ({ toggleDateModal, board, group, task }) => {
         let newBoard = await boardService.addDateToTask(board, group, task, _date)
         await dispatch(onSaveBoard(newBoard))
     }
-
+    
     const onRemove = async () => {
         const newBoard = await boardService.deleteDateElement(board, group, task)
         await dispatch(onSaveBoard(newBoard))
     }
-
+    
     return (
         < section className='date-modal' >
             <header>
