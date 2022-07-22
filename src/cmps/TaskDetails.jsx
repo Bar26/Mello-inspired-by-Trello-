@@ -340,7 +340,7 @@ export function TaskDetails() {
                             <div style={dateStyle.current}>
                                 <input type='checkbox' checked={task.dates.completed} onChange={(ev) => onCheckBoxDueDate(ev)} />
                                 {/* {style = task.dates.completed ? { backgroundColor: 'green' } : { backgroundColor: 'transperent' }} */}
-                                <span >{task.dates.dueDate}   </span>
+                                {/* <span >{task.dates.dueDate}   </span> */}
                                 {task.dates.completed && <span>complete</span>}
                             </div>
                         </section>}

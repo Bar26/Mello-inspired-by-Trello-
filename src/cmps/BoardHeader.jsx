@@ -73,6 +73,15 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu , onSetCoverMode }) => {
 		}
 	}
 
+
+
+
+
+
+
+
+
+
 	return (
 		<header className={`board-header ${menuShow}`}>
 			<div className="board-info">
@@ -106,6 +115,7 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu , onSetCoverMode }) => {
 						width="1em"
 						xmlns="http://www.w3.org/2000/svg"
 					>
+						
 						<circle cx="256" cy="256" r="48"></circle>
 						<circle cx="416" cy="256" r="48"></circle>
 						<circle cx="96" cy="256" r="48"></circle>
