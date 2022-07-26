@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react'
 import { Screen } from '../cmps/Screen.jsx'
 import { BoardCoverModal } from '../cmps/BoardCoverModal'
 import { boardService } from '../services/board.service'
+import { socketService,SOCKET_EMIT_UPDATE_BOARD } from '../services/socket.service'
 
 export const BoardDeatails = () => {
 	const [menuShow, setMenuShow] = useState('')
@@ -23,6 +24,13 @@ export const BoardDeatails = () => {
 		// if (!Object.keys(currBoard).length) {
 		// 	getCurrBoard()
 		// }
+
+		socketService.on(SOCKET_EMIT_UPDATE_BOARD,(board)=>{
+			console.log(board, 'board from back socket')
+			// dispatch({ type: 'SAVE_BOARD', board })
+		dispatch(setCurrBoard(boardId))
+
+		})
 		dispatch(setCurrBoard(boardId))
 	}, [])
 
