@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { onSaveBoard, setCurrBoard } from '../../store/actions/board.actions'
 
 
-export const ChangeBgcColorsModal = ({ menuShow, onToggleBoardMenu, setSelectedType, setTitle }) => {
+export const ChangeBgcColorsModal = ({ setLastType, setLastTitle, menuShow, onToggleBoardMenu, setSelectedType, setTitle }) => {
     const { currBoard } = useSelector((state) => state.boardModule)
     const dispatch = useDispatch()
 
@@ -20,14 +20,24 @@ export const ChangeBgcColorsModal = ({ menuShow, onToggleBoardMenu, setSelectedT
         '#519839'
     ]
 
+    useEffect(() => {
+        setUpFunc( )
+    }, [])
+
+
+    const setUpFunc = () => {
+        setLastType('change-bgc')
+        setLastTitle('Change background')
+    }
+
     const onChangeColorStyle = async (newStyle) => {
         console.log(newStyle)
         try {
-            const newBoard = {...currBoard, style: { backgroundColor: newStyle }}
+            const newBoard = { ...currBoard, style: { backgroundColor: newStyle } }
             await dispatch(onSaveBoard(newBoard))
+            await dispatch(setCurrBoard(newBoard._id))
             setSelectedType('main-board')
             setTitle('Menu')
-            // await dispatch(setCurrBoard(newBoard))
         } catch {
             console.err();
         }
@@ -40,7 +50,6 @@ export const ChangeBgcColorsModal = ({ menuShow, onToggleBoardMenu, setSelectedT
     return (
         <section className="colors-modal">
             {palette.map(color =>
-
                 <div className="color-container" style={{ backgroundColor: color }} onClick={() => onChangeColorStyle(color)}></div>
             )}
 

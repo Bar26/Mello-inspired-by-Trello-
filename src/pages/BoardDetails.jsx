@@ -2,13 +2,14 @@ import { MainHeader } from '../cmps/MainHeader'
 import { Outlet, useParams } from 'react-router-dom'
 import { GroupList } from '../cmps/GroupList'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCurrBoard } from '../store/actions/board.actions'
+import { onSaveBoard, setCurrBoard } from '../store/actions/board.actions'
 import { BoardHeader } from '../cmps/BoardHeader.jsx'
 import { BoardMenu } from '../cmps/BoardMenu.jsx'
 import { useEffect, useState } from 'react'
 // import { TaskDetails } from '../cmps/TaskDetails'
 import { Screen } from '../cmps/Screen.jsx'
 import { BoardCoverModal } from '../cmps/BoardCoverModal'
+import { boardService } from '../services/board.service'
 
 export const BoardDeatails = () => {
 	const [menuShow, setMenuShow] = useState('')
@@ -43,6 +44,38 @@ export const BoardDeatails = () => {
 			setCoverMode('')
 		}
 	}
+
+	const onChangeColorStyle = async (newStyle) => {
+		try {
+			const newBoard = { ...currBoard, style: { backgroundColor: newStyle } }
+			await dispatch(onSaveBoard(newBoard))
+			await dispatch(setCurrBoard(newBoard._id))
+			return newBoard
+			// await dispatch(setCurrBoard(newBoard))
+		} catch {
+			console.err();
+		}
+	}
+
+	const onChangeBGImgStyle = async (newStyle) => {
+		try {
+			const newBoard = { ...currBoard,  style:{ backgroundImage: `(${newStyle})`}}
+			await dispatch(onSaveBoard(newBoard))
+			await dispatch(setCurrBoard(newBoard._id))
+			return newBoard
+			// await dispatch(setCurrBoard(newBoard))
+		} catch {
+			console.err();
+		}
+	}
+
+	const onUploadImg = async (imgArr) =>{
+		let newBoard = await boardService.uploadImgToBoard(currBoard, imgArr)
+        await dispatch(onSaveBoard(newBoard))
+        await dispatch(setCurrBoard(newBoard._id))
+	}
+
+
 	// console.log(currBoard.style.backgroundImage);
 	if (!Object.keys(currBoard || {}).length) return <div className="loader"></div>
 	return (
@@ -66,7 +99,7 @@ export const BoardDeatails = () => {
 					toggleBoardMenu={toggleBoardMenu}
 					onSetCoverMode={onSetCoverMode}
 				/>
-				<BoardMenu menuShow={menuShow} toggleBoardMenu={toggleBoardMenu} />
+				<BoardMenu onChangeBGImgStyle={onChangeBGImgStyle} onUploadImg={onUploadImg} onSetCoverMode={onSetCoverMode} onChangeColorStyle={onChangeColorStyle} menuShow={menuShow} toggleBoardMenu={toggleBoardMenu} />
 				<BoardCoverModal
 					onSetCoverMode={onSetCoverMode}
 					coverMode={coverMode}

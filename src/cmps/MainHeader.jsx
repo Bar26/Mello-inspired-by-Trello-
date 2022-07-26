@@ -13,6 +13,8 @@ import { userService } from '../services/user.service.js'
 import infoImg from '../assets/img/info.png'
 import trelloIcon from '../assets/img/trello-icon.png'
 import { useSelector } from 'react-redux'
+import { MainCreate } from './createModalHeader/MainCreate.jsx'
+import { CreateBoardHeader } from './createModalHeader/CreateBoardHeader.jsx'
 
 
 export const MainHeader = () => {
@@ -25,10 +27,15 @@ export const MainHeader = () => {
 	const refStarred = React.createRef()
 	const refCreate = React.createRef()
 	const refInfo = React.createRef()
+
+
+	const [createButtonState, setCreateState] = useState('main-create')
+	const [createModalTitle, setCreateModalTitle] = useState('Create')
 	const refCreate1 = React.createRef()
+
+	const refCreateFirstModal = React.createRef()
 	const dispatch = useDispatch()
 	const { currUser } = useSelector((state) => state.userModule)
-
 	useEffect(() => {
 		if (!board._id) return
 		// loadTemplates()
@@ -71,7 +78,7 @@ export const MainHeader = () => {
 		navigate(`/boards/${newBoard._id}`)
 	}
 
-	const onSearchTyping = () => {}
+	const onSearchTyping = () => { }
 
 	const handleSearch = (ev) => {
 		console.log(ev.target)
@@ -85,6 +92,23 @@ export const MainHeader = () => {
 		// })
 		// })
 		// return returnedTasks
+	}
+
+	const DynamicCmp = () => {
+		switch (createButtonState) {
+			case 'main-create':
+				return <MainCreate setCreateModalTitle={setCreateModalTitle} setCreateState={setCreateState}></MainCreate>
+				break;
+			case 'create-board':
+				return <CreateBoardHeader setCreateModalTitle={setCreateModalTitle} setCreateState={setCreateState}></CreateBoardHeader>
+				break;
+			// return <NoteTxt onTextClick={props.onTextClick} onDeleteNote={props.onDeleteNote} note={props.note} />
+			// return <MainCreate  onToggleBoardMenu={onToggleBoardMenu} setSelectedType={setSelectedType} setTitle={setTitle}></MainBoardMenu>
+			// case 'change-bgc': {
+			// 	// return <NoteImg  onDeleteNote={props.onDeleteNote} note={props.note} />
+			// 	// return <ChangeBgcModal menuShow={menuShow} onToggleBoardMenu={onToggleBoardMenu} setSelectedType={setSelectedType} setTitle={setTitle}></ChangeBgcModal>
+			// }
+		}
 	}
 
 	return (
@@ -245,12 +269,18 @@ export const MainHeader = () => {
 						</div>
 
 						<div className="button-top flex">
-							<button
-								className="secondary-header-button create"
-								onClick={() => toggleModal(refCreate)}
-							>
-								Create
-							</button>
+							<button className="secondary-header-button create"
+								onClick={() => toggleModal(refCreateFirstModal)}>Create</button>
+							<section ref={refCreateFirstModal} className='header-modal create-first hide'>
+								<div className='modal-title'>
+									<h1 style={{ fontSize: '16px' }}>{createModalTitle}</h1>
+									<button className="close-modal-btn" onClick={() => toggleModal(refCreateFirstModal)}>
+										<i className="fa-solid fa-xmark"></i>
+									</button>
+								</div>
+								<hr />
+								<DynamicCmp></DynamicCmp>
+							</section>
 							<section ref={refCreate} className="header-modal recent hide">
 								<div className="modal-title">
 									<h1>Create</h1>
@@ -465,7 +495,7 @@ export const MainHeader = () => {
 					className="user-logo"
 					style={{
 						background: `url(${currUser.imgUrl}) center center / cover`,
-						height:'32px'
+						height: '32px'
 					}}
 				></div>
 			</div>

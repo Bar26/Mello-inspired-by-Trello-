@@ -14,7 +14,6 @@ export const DateModal = ({ toggleDateModal, board, group, task }) => {
     dateCheck= Date(dateCheck)
     
     const [_date,setDate] = useState(dateCheck)
-    console.log(_date)
     // console.log(Date(_date));
     // let endDateNotState = endDate
     

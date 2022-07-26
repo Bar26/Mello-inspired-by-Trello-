@@ -2,8 +2,10 @@
     display: flex;
     padding: 12px 6px 8px 12px;
     gap: 4px;
+
     .implented-img-colors {
         color: $clr-text-group;
+
         img {
             width: 152.5px;
             height: 96px;
@@ -13,24 +15,41 @@
     }
 }
 
-.custom{
+.custom {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     padding: 12px 6px 8px 12px;
     gap: 4px;
-    h2{
+    
+    h2 {
         font-size: 20px;
         line-height: 24px;
     }
-    img {
-        width: 152.5px;
-        height: 96px;
-        padding-bottom: 8px;
-        border-radius: 3px;
-        // filter:grayscale(0.1)
-        filter:blackscale(0.4)
+
+    .select-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+        gap:6px;
         
+        >*{
+            cursor: pointer;
+        }
+        .form-div {
+            width: 152.5px;
+            height: 96px;
+        }
+        
+        
+        img {
+            border-radius: 6px;
+            width: 152.5px;
+            height: 96px;
+            // filter:grayscale(0.1)
+            filter: blackscale(0.4)
+        }
     }
-    
+
+
 }
