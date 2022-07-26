@@ -10,6 +10,7 @@ import { AddMemberModal } from './MembersModal.jsx'
 import { CoverTaskModal } from './CoverTaskModal'
 import { DateModal } from './DateModal'
 
+
 export function TaskPreview({ task, group }) {
 	const coverModalRef = useRef()
 	const navigate = useNavigate()
@@ -25,6 +26,7 @@ export function TaskPreview({ task, group }) {
 	const addMemberModalRef = useRef()
 	const dateModalRef = useRef()
 	const dateStyle = useRef(task.dates?.completed ? { backgroundColor: "green", color: 'white' } : { backgroundColor: "" })
+	const { currUser } = useSelector((state) => state.userModule)
 
 	let dateHoverInd = 'none'
 
@@ -35,6 +37,7 @@ export function TaskPreview({ task, group }) {
 				.then((board) => dispatch(setCurrBoard(board)))
 		}
 	})
+
 
 	// useEffect(() => {
 	// 	if (!Object.keys(currBoard).length) {

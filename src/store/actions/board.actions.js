@@ -1,8 +1,13 @@
+import  {SOCKET_EMIT_BOARD_UPDATE}  from '../../services/socket.service'
+import { socketService } from '../../services/socket.service'
+
 import { boardService } from '../../services/board.service.js'
+import {SOCKET_EMIT_ACTIVITY_ADDED} from '../../services/socket.service'
 
 export function setCurrBoard(boardId) {
 	return async (dispatch) => {
 		let currBoard
+		console.log('in set currboard');
 		try {
 			currBoard = await boardService.getById(boardId, true)
 			if (!currBoard) {
@@ -97,17 +102,7 @@ export function addBoard(boardToAdd) {
 		}
 	}
 }
-export function onCopyTask(ev, task, group, currBoard) {
-	return async (dispatch) => {
-		try {
-			ev.stopPropagation()
-			const updatedBoard = await boardService.copyTask(task, group, currBoard)
-			await dispatch(onSaveBoard(updatedBoard))
-		} catch (err) {
-			console.log('Cant copy task', err)
-		}
-	}
-}
+
 export function onRemoveTask(ev, taskId, group, currBoard) {
 	return async (dispatch) => {
 		try {
@@ -120,17 +115,17 @@ export function onRemoveTask(ev, taskId, group, currBoard) {
 	}
 }
 
-export function addActivity(boardId, task, txt) {
-	return async (dispatch) => {
-		try {
-			const board = await boardService.addActivity(boardId, task, txt)
-			dispatch({ type: 'SAVE_BOARD', board })
-			return board
-		} catch (err) {
-			console.log('BoardActions: err in loadBoard', err)
-		}
-	}
-}
+// export function addActivity(boardId, task, txt) {
+// 	return async (dispatch) => {
+// 		try {
+// 			const board = await boardService.addActivity(boardId, task, txt)
+// 			dispatch({ type: 'SAVE_BOARD', board })
+// 			return board
+// 		} catch (err) {
+// 			console.log('BoardActions: err in loadBoard', err)
+// 		}
+// 	}
+// }
 
 // export function loadBoard(boardId) {
 // 	return async (dispatch) => {
@@ -156,18 +151,33 @@ export function setStaredBoard(board) {
 	}
 }
 
-export function addTask(taskTitle, groupId, currBoard) {
-	console.log(taskTitle, groupId, currBoard)
-	return async (dispatch) => {
+export function addTask(taskTitle, group, currBoard) {
+	return async (dispatch, getState) => {
 		try {
-			const board = await boardService.createTask(taskTitle, groupId, currBoard)
-			dispatch({
-				type: 'SAVE_BOARD',
-				board: board,
-			})
-			// dispatch(onSaveBoard(board))
+			let state=getState()
+			let {currUser}=state.userModule
+			console.log(currUser);
+			console.log(`${currUser.fullname} added ${taskTitle} to ${group.title}`)
+			const board = await boardService.createTask(taskTitle, group, currBoard, currUser)
+
+
+			dispatch(onSaveBoard(board))
+			
 		} catch (err) {
 			console.log('Cant add task', err)
+		}
+	}
+}
+export function onCopyTask(ev, task, group, currBoard) {
+	return async (dispatch, getState) => {
+		try {
+			ev.stopPropagation()
+			let state=getState()
+			let {currUser}=state.userModule
+			const updatedBoard = await boardService.copyTask(task, group, currBoard, currUser)
+			await dispatch(onSaveBoard(updatedBoard))
+		} catch (err) {
+			console.log('Cant copy task', err)
 		}
 	}
 }
@@ -200,31 +210,31 @@ export function addTask(taskTitle, groupId, currBoard) {
 // 	}
 // }
 
-export function addChecklist(
-	checklistTitle,
-	groupId,
-	board,
-	taskId,
-	activityTxt = null
-) {
-	return async (dispatch) => {
-		try {
-			const updatedBoard = await boardService.addChecklist(
-				checklistTitle,
-				groupId,
-				board._id,
-				taskId,
-				activityTxt
-			)
-			dispatch({
-				type: 'SAVE_BOARD',
-				board: updatedBoard,
-			})
-		} catch (err) {
-			console.log('Cant add checklist', err)
-		}
-	}
-}
+// export function addChecklist(
+// 	checklistTitle,
+// 	groupId,
+// 	board,
+// 	taskId,
+// 	activityTxt = null
+// ) {
+// 	return async (dispatch) => {
+// 		try {
+// 			const updatedBoard = await boardService.addChecklist(
+// 				checklistTitle,
+// 				groupId,
+// 				board._id,
+// 				taskId,
+// 				activityTxt
+// 			)
+// 			dispatch({
+// 				type: 'SAVE_BOARD',
+// 				board: updatedBoard,
+// 			})
+// 		} catch (err) {
+// 			console.log('Cant add checklist', err)
+// 		}
+// 	}
+// }
 
 // export function updateTask(
 // 	boardId,
@@ -283,12 +293,38 @@ export function onUpdateCover(currBoard, group, taskId, color) {
 	}
 }
 
+
+
+export function onChangeColorStyle (currBoard,newStyle) {
+	return async (dispatch)=>{
+		try {
+			
+		console.log('in onChange in actions', newStyle);
+		const newBoard = await boardService.changeBoardStyle(currBoard, newStyle)
+		console.log('in onChange after service call', newBoard);
+		await dispatch(onSaveBoard(newBoard))
+		dispatch(setCurrBoard(newBoard._id))
+
+  
+		// setSelectedType('main-board')
+		// setTitle('Menu')
+	} catch {
+		console.err();
+	}
+	}
+	
+}
+
 // change to saveBoard
 export function onSaveBoard(board) {
+	console.log('in onsaveboard');
+	socketService.emit(SOCKET_EMIT_BOARD_UPDATE, board)
+	
 	return async (dispatch) => {
 		try {
 			const savedBoard = await boardService.update(board)
 			dispatch({ type: 'SAVE_BOARD', board: savedBoard })
+			console.log(board,'from action save');
 		} catch (err) {
 			console.log('BoardActions: err in onSaveBoard', err)
 		}

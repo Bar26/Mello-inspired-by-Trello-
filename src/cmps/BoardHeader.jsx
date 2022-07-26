@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { setCurrBoard, onSaveBoard } from '../store/actions/board.actions'
 import { useEffectUpdate } from './useEffectUpdate.js'
+import { socketService } from '../services/socket.service.js'
 
 export const BoardHeader = ({ menuShow, toggleBoardMenu , onSetCoverMode }) => {
 	const { currBoard } = useSelector((state) => state.boardModule)
@@ -15,11 +16,7 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu , onSetCoverMode }) => {
 	const dispatch = useDispatch()
 
 	// useEffect(() => {
-	// 	if (!Object.keys(currBoard).length) {
-	// 		boardService
-	// 			.getById(params.boardId)
-	// 			.then((board) => dispatch(setCurrBoard(board)))
-	// 	}
+	// 	socketService.setup()
 	// }, [])
 
 	useEffectUpdate(() => {

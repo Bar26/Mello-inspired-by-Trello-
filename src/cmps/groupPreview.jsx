@@ -20,6 +20,8 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
     const { currBoard } = useSelector((state) => state.boardModule)
     const groupMenuRef = useRef()
 
+
+
     const onAddTask = async (value) => {
         // if (!newCardTitle) return  ///////plaster???????????
         // const groupIdx = currBoard.groups.findIndex(
@@ -29,7 +31,7 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
         // const taskReturnd = await boardService.createTask(value)
         // updatedBoard.groups[groupIdx].tasks.push(taskReturnd)
         const taskTitle = value
-        await dispatch(addTask(taskTitle, group.id, currBoard))
+        await dispatch(addTask(taskTitle, group, currBoard))
         // dispatch(onSaveBoard(updatedBoard))
         // await dispatch(setCurrBoard(updatedBoard._id))
     }
@@ -39,6 +41,7 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
             // ev.stopPropagation()
             const updatedBoard = await boardService.copyGroup(group, currBoard)
             await dispatch(onSaveBoard(updatedBoard))
+            console.log(currBoard);
         } catch (err) {
             console.log('Cant copy group', err)
         }

@@ -2,7 +2,7 @@ import { MainHeader } from '../cmps/MainHeader'
 import { Outlet, useParams } from 'react-router-dom'
 import { GroupList } from '../cmps/GroupList'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCurrBoard } from '../store/actions/board.actions'
+import { onSaveBoard, setCurrBoard } from '../store/actions/board.actions'
 import { BoardHeader } from '../cmps/BoardHeader.jsx'
 import { BoardMenu } from '../cmps/BoardMenu.jsx'
 import { useEffect, useState } from 'react'
@@ -10,6 +10,8 @@ import { useEffect, useState } from 'react'
 import { Screen } from '../cmps/Screen.jsx'
 import { BoardCoverModal } from '../cmps/BoardCoverModal'
 import { boardService } from '../services/board.service'
+import { socketService } from '../services/socket.service'
+import  {SOCKET_ON_CHANGE_BOARD}  from '../services/socket.service'
 
 export const BoardDeatails = () => {
 	const [menuShow, setMenuShow] = useState('')
@@ -21,8 +23,15 @@ export const BoardDeatails = () => {
 	useEffect(() => {
 	
 		dispatch(setCurrBoard(boardId))
+		socketService.on(SOCKET_ON_CHANGE_BOARD, board=>{
+			console.log(board)
+			// dispatch(setCurrBoard(board._id))
+			dispatch({type:"SAVE_BOARD",board})
+
+		})
 
 	}, [])
+
 
 	const toggleBoardMenu = () => {
 		if (!menuShow.length) {
@@ -38,6 +47,8 @@ export const BoardDeatails = () => {
 			setCoverMode('')
 		}
 	}
+
+
 	if (!Object.keys(currBoard || {}).length) return <div className="loader"></div>
 	return (
 		<section
@@ -49,7 +60,7 @@ export const BoardDeatails = () => {
 							backgroundRepeat: 'no-repeat',
 							backgroundSize: 'cover',
 							backgroundPosition: 'center',
-					  }: { background: currBoard.style.backgroundColor }
+					  }: { backgroundColor: currBoard.style.backgroundColor }
 			}
 		>
 			{/* {console.log((currBoard.style.backgroundImage) ? { background: currBoard.style.backgroundImage } : { background: currBoard.style.backgroundColor })} */}
@@ -60,12 +71,12 @@ export const BoardDeatails = () => {
 					toggleBoardMenu={toggleBoardMenu}
 					onSetCoverMode={onSetCoverMode}
 				/>
-				<BoardMenu menuShow={menuShow} toggleBoardMenu={toggleBoardMenu} />
+				<BoardMenu menuShow={menuShow} toggleBoardMenu={toggleBoardMenu}   />
 				<BoardCoverModal
 					onSetCoverMode={onSetCoverMode}
 					coverMode={coverMode}
 				/>
-				<GroupList boardId={boardId} />
+				<GroupList boardId={boardId}  />
 				<Outlet />
 				<Screen />
 			</section>

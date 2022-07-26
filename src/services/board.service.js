@@ -2,6 +2,7 @@ import { storageService } from './async-storage.service.js'
 import { userService } from './user.service.js'
 import { httpService } from './http.service.js'
 import { utilService } from './util.service.js'
+
 // const board = require('../data/board.json')
 const templates = require('../data/templete.json')
 
@@ -44,6 +45,7 @@ export const boardService = {
 	deleteDateElement,
 	addDateToTask,
 	checkBoxDueDate,
+	changeBoardStyle
 }
 
 
@@ -146,12 +148,13 @@ async function update(board) {
 	return httpService.put(`board/${board._id}`, board)
 }
 
-async function createTask(title, groupId, currBoard) {
+async function createTask(title, group, currBoard, currUser) {
 	const id = utilService.makeId()
 	const task = { id, title }
 	const updatedBoard = { ...currBoard }
-	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === groupId)
+	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
 	updatedBoard.groups[groupIdx].tasks.push(task)
+	updatedBoard.activities.push({type:'add-task', user:currUser, task})
 	return updatedBoard
 }
 
@@ -163,13 +166,14 @@ async function createList(board, title) {
 	return updatedBoard
 }
 
-async function copyTask(task, group, board) {
+async function copyTask(task, group, board, currUser) {
 	const updatedBoard = { ...board }
 	const taskCopy = { ...task }
 	const newId = utilService.makeId()
 	taskCopy.id = newId
 	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
 	updatedBoard.groups[groupIdx].tasks.push(taskCopy)
+	updatedBoard.activities.push({type:'copy-task', usr: currUser, task, group })
 	return updatedBoard
 }
 
@@ -410,6 +414,11 @@ function addDateToTask(board, group, task, date) {
 		newBoard.groups[groupIdx].tasks[taskIdx].dates = { dueDate: date }
 	}
 	return newBoard
+}
+
+function changeBoardStyle(board,newStyle){
+	const updatedBoard ={...board, style: { backgroundColor: newStyle }}
+	return updatedBoard
 }
 
 

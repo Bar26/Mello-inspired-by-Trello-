@@ -13,6 +13,9 @@ import { userService } from '../services/user.service.js'
 import infoImg from '../assets/img/info.png'
 import trelloIcon from '../assets/img/trello-icon.png'
 import { useSelector } from 'react-redux'
+import { socketService } from '../services/socket.service.js'
+
+
 
 
 export const MainHeader = () => {
@@ -28,6 +31,10 @@ export const MainHeader = () => {
 	const refCreate1 = React.createRef()
 	const dispatch = useDispatch()
 	const { currUser } = useSelector((state) => state.userModule)
+
+	useEffect(() => {
+		// socketService.setup()
+	}, [])
 
 	useEffect(() => {
 		if (!board._id) return

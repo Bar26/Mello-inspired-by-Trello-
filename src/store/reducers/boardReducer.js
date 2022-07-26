@@ -3,6 +3,7 @@ const initialState = {
 	boards: [],
 	filterBy: { labels: [], members: [], txt: '' },
 	isTaskDetailScreenOpen: false,
+	activity:[]
 }
 
 export function boardReducer(state = initialState, action) {
