@@ -45,17 +45,17 @@ export const BoardDeatails = () => {
 		}
 	}
 
-	const onChangeColorStyle = async (newStyle) => {
-		try {
-			const newBoard = { ...currBoard, style: { backgroundColor: newStyle } }
-			await dispatch(onSaveBoard(newBoard))
-			await dispatch(setCurrBoard(newBoard._id))
-			return newBoard
-			// await dispatch(setCurrBoard(newBoard))
-		} catch {
-			console.err();
-		}
-	}
+	// const onChangeColorStyle = async (newStyle) => {
+	// 	try {
+	// 		const newBoard = { ...currBoard, style: { backgroundColor: newStyle } }
+	// 		await dispatch(onSaveBoard(newBoard))
+	// 		await dispatch(setCurrBoard(newBoard._id))
+	// 		return newBoard
+	// 		// await dispatch(setCurrBoard(newBoard))
+	// 	} catch {
+	// 		console.err();
+	// 	}
+	// }
 
 	const onChangeBGImgStyle = async (newStyle) => {
 		try {
@@ -99,7 +99,7 @@ export const BoardDeatails = () => {
 					toggleBoardMenu={toggleBoardMenu}
 					onSetCoverMode={onSetCoverMode}
 				/>
-				<BoardMenu onChangeBGImgStyle={onChangeBGImgStyle} onUploadImg={onUploadImg} onSetCoverMode={onSetCoverMode} onChangeColorStyle={onChangeColorStyle} menuShow={menuShow} toggleBoardMenu={toggleBoardMenu} />
+				<BoardMenu onChangeBGImgStyle={onChangeBGImgStyle} onUploadImg={onUploadImg} onSetCoverMode={onSetCoverMode} menuShow={menuShow} toggleBoardMenu={toggleBoardMenu} />
 				<BoardCoverModal
 					onSetCoverMode={onSetCoverMode}
 					coverMode={coverMode}
