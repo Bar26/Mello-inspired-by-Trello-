@@ -48,7 +48,38 @@ export const BoardDeatails = () => {
 		}
 	}
 
+	const onChangeColorStyle = async (newStyle) => {
+		try {
+			const newBoard = { ...currBoard, style: { backgroundColor: newStyle } }
+			await dispatch(onSaveBoard(newBoard))
+			await dispatch(setCurrBoard(newBoard._id))
+			return newBoard
+			// await dispatch(setCurrBoard(newBoard))
+		} catch {
+			console.err();
+		}
+	}
 
+	const onChangeBGImgStyle = async (newStyle) => {
+		try {
+			const newBoard = { ...currBoard,  style:{ backgroundImage: `(${newStyle})`}}
+			await dispatch(onSaveBoard(newBoard))
+			await dispatch(setCurrBoard(newBoard._id))
+			return newBoard
+			// await dispatch(setCurrBoard(newBoard))
+		} catch {
+			console.err();
+		}
+	}
+
+	const onUploadImg = async (imgArr) =>{
+		let newBoard = await boardService.uploadImgToBoard(currBoard, imgArr)
+        await dispatch(onSaveBoard(newBoard))
+        await dispatch(setCurrBoard(newBoard._id))
+	}
+
+
+	// console.log(currBoard.style.backgroundImage);
 	if (!Object.keys(currBoard || {}).length) return <div className="loader"></div>
 	return (
 		<section
@@ -71,7 +102,7 @@ export const BoardDeatails = () => {
 					toggleBoardMenu={toggleBoardMenu}
 					onSetCoverMode={onSetCoverMode}
 				/>
-				<BoardMenu menuShow={menuShow} toggleBoardMenu={toggleBoardMenu}   />
+				<BoardMenu onChangeBGImgStyle={onChangeBGImgStyle} onUploadImg={onUploadImg} onSetCoverMode={onSetCoverMode} onChangeColorStyle={onChangeColorStyle} menuShow={menuShow} toggleBoardMenu={toggleBoardMenu} />
 				<BoardCoverModal
 					onSetCoverMode={onSetCoverMode}
 					coverMode={coverMode}

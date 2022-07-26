@@ -13,7 +13,8 @@
 	width: 338px;
 	margin: auto;
 	background: #fcfcfde7;
-	position: fixed; /* Stay in place */
+	position: fixed;
+	/* Stay in place */
 	top: -25px;
 	height: 100%;
 	margin-top: 68px;
@@ -42,21 +43,29 @@
 		top: 6px;
 		right: 25px;
 	}
+	
+	.go-back {
+		position: absolute;
+		top: 15px;
+		left: 25px;
 
-	.board-menu-actions{
+	}
+
+	.board-menu-actions {
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
 		padding: 12px 6px 8px 18px;
 		gap: 8px;
-		.board-menu-actions-btn{
+
+		.board-menu-actions-btn {
 			display: flex;
 			align-items: center;
 			padding: 6px 6px 6px 12px;
 			font-size: 14px;
 			font-weight: 600;
 
-			.board-menu-actions-btn-bgc-prev{
+			.board-menu-actions-btn-bgc-prev {
 				display: inline-block;
 				height: 22px;
 				width: 22px;

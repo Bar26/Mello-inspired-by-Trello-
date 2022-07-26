@@ -45,7 +45,8 @@ export const boardService = {
 	deleteDateElement,
 	addDateToTask,
 	checkBoxDueDate,
-	changeBoardStyle
+	// changeBoardStyle,
+	uploadImgToBoard,
 }
 
 
@@ -408,7 +409,7 @@ function addDateToTask(board, group, task, date) {
 	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex((_task) => _task.id === task.id)
 	console.log(date);
 	if (newBoard.groups[groupIdx].tasks[taskIdx].dates) {
-		newBoard.groups[groupIdx].tasks[taskIdx].dates.dueDate = {...newBoard.groups[groupIdx].tasks[taskIdx].dates.dueDate, date}
+		newBoard.groups[groupIdx].tasks[taskIdx].dates.dueDate = { ...newBoard.groups[groupIdx].tasks[taskIdx].dates.dueDate, date }
 	}
 	else {
 		newBoard.groups[groupIdx].tasks[taskIdx].dates = { dueDate: date }
@@ -416,10 +417,10 @@ function addDateToTask(board, group, task, date) {
 	return newBoard
 }
 
-function changeBoardStyle(board,newStyle){
-	const updatedBoard ={...board, style: { backgroundColor: newStyle }}
-	return updatedBoard
-}
+// function changeBoardStyle(board,newStyle){
+// 	const updatedBoard ={...board, style: { backgroundColor: newStyle }}
+// 	return updatedBoard
+// }
 
 
 function checkBoxDueDate(board, group, task, isChecked) {
@@ -428,6 +429,14 @@ function checkBoxDueDate(board, group, task, isChecked) {
 	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex((_task) => _task.id === task.id)
 	newBoard.groups[groupIdx].tasks[taskIdx].dates.completed = isChecked
 	return newBoard
+}
+
+function uploadImgToBoard(board,imgArr) {
+	let newBoard = { ...board }
+	newBoard.uploadImgs = imgArr
+	console.log(newBoard.uploadImgs);
+	return newBoard
+
 }
 // addGuestBoardExp()
 function addGuestBoardExp() {

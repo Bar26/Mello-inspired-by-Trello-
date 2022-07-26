@@ -9,11 +9,12 @@ export const DateModal = ({ toggleDateModal, board, group, task }) => {
 
     const [endDate, setEndDate] = useState(task.dates?.dueDate ? task.dates.dueDate : new Date().toLocaleDateString());
     const dispatch = useDispatch()
-    let endDateNotState = endDate
-    // console.log(endDate)
-    // console.log(new Date(endDate.slice(6),endDate.slice(3,5)-1,Number(endDate.slice(0,2))));
-    const dateCheck=task.dates?.dueDate ? task.dates.dueDate : new Date()
-    const[_date,setDate]= useState(dateCheck)
+    let dateCheck = task.dates?.dueDate ? task.dates.dueDate : new Date()
+    dateCheck= Date(dateCheck)
+    
+    const [_date,setDate] = useState(dateCheck)
+    // console.log(Date(_date));
+    // let endDateNotState = endDate
     
 
     

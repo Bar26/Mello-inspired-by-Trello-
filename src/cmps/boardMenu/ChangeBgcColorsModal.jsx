@@ -5,7 +5,7 @@ import { onSaveBoard, setCurrBoard, onChangeColorStyle } from '../../store/actio
 import { useHistory, useNavigate } from "react-router-dom";
 
 
-export const ChangeBgcColorsModal = ({ menuShow, onToggleBoardMenu, setSelectedType, setTitle }) => {
+export const ChangeBgcColorsModal = ({ setLastType, setLastTitle, menuShow, onToggleBoardMenu, setSelectedType, setTitle }) => {
     const { currBoard } = useSelector((state) => state.boardModule)
     const dispatch = useDispatch()
     const navigate=useNavigate()
@@ -22,16 +22,28 @@ export const ChangeBgcColorsModal = ({ menuShow, onToggleBoardMenu, setSelectedT
         '#519839'
     ]
 
+    useEffect(() => {
+        setUpFunc( )
+    }, [])
 
 
+    const setUpFunc = () => {
+        setLastType('change-bgc')
+        setLastTitle('Change background')
+    }
 
-    // const onSelect = (newStyle) => {
-    //     console.log(newStyle);
-    //     onChangeColorStyle(newStyle)
-    //     setSelectedType('main-board')
-    //     setTitle('Menu')
-
-    // }
+    const onChangeColorStyle = async (newStyle) => {
+        console.log(newStyle)
+        try {
+            const newBoard = { ...currBoard, style: { backgroundColor: newStyle } }
+            await dispatch(onSaveBoard(newBoard))
+            await dispatch(setCurrBoard(newBoard._id))
+            setSelectedType('main-board')
+            setTitle('Menu')
+        } catch {
+            console.err();
+        }
+    }
 
     useEffect(() => {
         console.log('currBoard in store:', currBoard)
@@ -40,8 +52,7 @@ export const ChangeBgcColorsModal = ({ menuShow, onToggleBoardMenu, setSelectedT
     return (
         <section className="colors-modal">
             {palette.map(color =>
-
-                <div className="color-container" style={{ backgroundColor: color }} onClick={() => dispatch(onChangeColorStyle(currBoard,color))}></div>
+                <div className="color-container" style={{ backgroundColor: color }} onClick={() => onChangeColorStyle(color)}></div>
             )}
 
 
