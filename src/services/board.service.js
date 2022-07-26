@@ -74,7 +74,7 @@ async function setTitle(newBoard) {
 		console.log('Service ERROR')
 	}
 }
-async function getEmptyBoard(template = null, toSave = true) {
+async function getEmptyBoard(template, toSave = true) {
 	let newStyle
 	if (template.img) {
 		newStyle = { backgroundImage: template.img }

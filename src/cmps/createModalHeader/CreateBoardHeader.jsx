@@ -24,8 +24,12 @@ export const CreateBoardHeader = ({ setCreateModalTitle, setCreateState }) => {
     ]
 
 
-    const createNewBoard = (ev) => {
-        console.log(ev.target.value);
+    const createNewBoard = async (ev) => {
+        ev.preventDefault()
+        // console.log(ev.target['create-title'].value);
+
+        const newBoard = imageOrColor === 'img' ? { title: ev.target['create-title'].value, img: stateBackground } : { title: ev.target['create-title'].value, color: stateBackground }
+
     }
 
 
@@ -63,11 +67,11 @@ export const CreateBoardHeader = ({ setCreateModalTitle, setCreateState }) => {
                 </div>
                 <div className="board-title-select">
                     <h3>Board title<span>*</span></h3>
-                    <form onSubmit={(ev) => createNewBoard(ev)}>
-                        <input type='text' />
+                    <form onSubmit={ev => createNewBoard(ev)}>
+                        <input name='create-title' type='text' />
+                        <button className="button-create-board" >Create</button>
                     </form>
                     <span>👋 Board title is requird</span>
-                    <button className="button-create-board" >Create</button>
                 </div>
                 <span>
                     By using images from us, you agree to our <span className="end-modal-span">license</span> and <span className="end-modal-span">Terms of Service</span>
