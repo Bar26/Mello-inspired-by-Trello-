@@ -63,7 +63,6 @@ export const BoardMenu = ({ menuShow, toggleBoardMenu }) => {
 					></path>
 				</svg>
 			</button>
-			<h1 onClick={()=>{onChangeColorStyle('#001d4f')}}>gggg</h1>
 			<h1>{title}</h1>
 			<hr />
 			<DynamicCmp menuShow={menuShow} selectedType={selectedType} setSelectedType={setSelectedType} onToggleBoardMenu={onToggleBoardMenu} setTitle={setTitle}></DynamicCmp>
