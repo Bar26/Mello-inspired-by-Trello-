@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 export function Activity() {
 
     const { currBoard } = useSelector((state) => state.boardModule)
+    console.log(currBoard);
 
 
     return <section>
@@ -15,9 +16,13 @@ export function Activity() {
                     return <div>
                         <span>{act.user.fullname}</span>
                         added
-                        <Link className="link-to-task" to={`/boards/${currBoard._id}/${act.task.id}`}>
+                        {act.task&&<Link className="link-to-task" to={`/boards/${currBoard._id}/${act.task.id}`}>
                             {act.task.title}
-                        </Link>
+                        </Link>}
+                        {act.taskTitle&&
+                        <span>{act.taskTitle}</span>
+                        
+                        }
                         to {act.group.title}
                     </div>
                 }

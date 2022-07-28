@@ -186,7 +186,7 @@ async function removeTask(board, group, task, user) {
 	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
 	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex(_task => _task.id === task.id)
 	updatedBoard.groups[groupIdx].tasks.splice(taskIdx, 1)
-	updatedBoard.activities.push({type:"remove-task", task, user})
+	updatedBoard.activities.push({type:"remove-task", taskTitle:task.title, user})
 
 	return updatedBoard
 }
