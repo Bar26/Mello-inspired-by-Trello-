@@ -41,7 +41,7 @@ export const CreateModal = ({ createMode, onSetCreateMode }) => {
 					currBoard._id,
 					currUser
 				)
-				await dispatch(setCurrUser(updateUser))
+				// await dispatch(setCurrUser(updateUser))
 				dispatch(setGuestCurrBoard(currBoard))
 				navigate(`/boards/${currBoard._id}`)
 				return
@@ -56,7 +56,7 @@ export const CreateModal = ({ createMode, onSetCreateMode }) => {
 					currUser
 				)
 				userService.update(updateUser)
-				await dispatch(setCurrUser(updateUser))
+				// await dispatch(setCurrUser(updateUser))
 				dispatch(setCurrBoard(currBoard._id))
 				navigate(`/boards/${currBoard._id}`)
 			} catch (err) {

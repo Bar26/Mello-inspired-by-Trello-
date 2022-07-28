@@ -21,15 +21,9 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
     const groupMenuRef = useRef()
 
     const onAddTask = async (value) => {
-        // if (!newCardTitle) return  ///////plaster???????????
-        // const groupIdx = currBoard.groups.findIndex(
-        //     (_group) => _group.id === group.id
-        // )
-        // const updatedBoard = { ...currBoard }
-        // const taskReturnd = await boardService.createTask(value)
-        // updatedBoard.groups[groupIdx].tasks.push(taskReturnd)
+
         const taskTitle = value
-        await dispatch(addTask(taskTitle, group.id, currBoard))
+        await dispatch(addTask(taskTitle, group, currBoard))
         // dispatch(onSaveBoard(updatedBoard))
         // await dispatch(setCurrBoard(updatedBoard._id))
     }
@@ -131,7 +125,7 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
                 <div className='menu-btn'>
                     {/* <button className='add-task-from-menu' >Add card...</button> */}
                     <button className='copy-list-from-menu' onClick={onCopyGroup}>Copy list...</button>
-                    <button className='archive-list-from-menu' onClick={(ev) => onRemoveGroup(ev, group.id)}>Archive list...</button>
+                    <button className='archive-list-from-menu' onClick={(ev) => onRemoveGroup(ev, group)}>Archive list...</button>
                 </div>
             </div>
 

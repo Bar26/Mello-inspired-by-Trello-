@@ -11,6 +11,7 @@ import { useParams } from 'react-router-dom'
 export function GroupList() {
     const dispatch = useDispatch()
     const { currBoard } = useSelector((state) => state.boardModule)
+    const { currUser } = useSelector((state) => state.userModule)
     const { boardId } = useParams()
     // const [board, setBoard] = useState({...currBoard})
     const listFormRef = React.createRef()
@@ -24,7 +25,7 @@ export function GroupList() {
 
     const onAddList = async (value) => {
         try {
-            const updatedBoard = await boardService.createList(currBoard, value)
+            const updatedBoard = await boardService.createList(currBoard, value, currUser)
             await dispatch(onSaveBoard(updatedBoard))
             // await dispatch(setCurrBoard(updatedBoard._id))
             // setBoard(updatedBoard)
@@ -55,8 +56,8 @@ export function GroupList() {
 
     
     
-    const onRemoveGroup = async (ev, groupId) => {
-        const updatedBoard = await boardService.removeGroup(currBoard, groupId)
+    const onRemoveGroup = async (ev, group) => {
+        const updatedBoard = await boardService.removeGroup(currBoard, group,currUser)
         await dispatch(onSaveBoard(updatedBoard))
         // await dispatch(setCurrBoard(updatedBoard._id))
     }

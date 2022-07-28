@@ -5,6 +5,7 @@ import { ChangeBgcColorsModal } from "./boardMenu/ChangeBgcColorsModal"
 import { ChangeBgcModal } from "./boardMenu/ChangeBgcModal"
 import { MainBoardMenu } from "./boardMenu/MainBoardMenu"
 
+
 export const BoardMenu = ({ onChangeBGImgStyle, onUploadImg, onSetCoverMode, menuShow, toggleBoardMenu, onChangeColorStyle }) => {
 	const [selectedType, setSelectedType] = useState('main-board')
 	const [title, setTitle] = useState('Menu')
@@ -118,6 +119,14 @@ export const BoardMenu = ({ onChangeBGImgStyle, onUploadImg, onSetCoverMode, men
 			<h1>{title}</h1>
 			<hr />
 			<DynamicCmp menuShow={menuShow} ></DynamicCmp>
+			<section className="activity">
+				<header>
+					<span></span>
+					<span></span>
+				</header>
+				
+
+			</section>
 
 		</section>
 	)
