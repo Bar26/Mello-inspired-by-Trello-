@@ -1,4 +1,5 @@
 import { boardService } from '../../services/board.service.js'
+import { socketService, SOCKET_EMIT_UPDATED_BOARD } from '../../services/socket.service.js'
 
 export function setCurrBoard(boardId) {
 	return async (dispatch) => {
@@ -257,6 +258,7 @@ export function onUpdateCover(currBoard, group, taskId, color){
 export function onSaveBoard(board) {
 	return async (dispatch) => {
 		try {
+			socketService.emit(SOCKET_EMIT_UPDATED_BOARD,board)
 			const savedBoard = await boardService.update(board)
 			 dispatch({ type: 'SAVE_BOARD', board: savedBoard })
 		} catch (err) {

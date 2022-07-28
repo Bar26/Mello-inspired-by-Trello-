@@ -11,6 +11,7 @@ import { Screen } from '../cmps/Screen.jsx'
 import { BoardCoverModal } from '../cmps/BoardCoverModal'
 import { boardService } from '../services/board.service'
 import { setCurrUser } from '../store/actions/user.actions'
+import { socketService,SOCKET_EMIT_UPDATE_BOARD } from '../services/socket.service'
 
 export const BoardDeatails = () => {
 	const [menuShow, setMenuShow] = useState('')
@@ -21,7 +22,16 @@ export const BoardDeatails = () => {
 	const { currUser } = useSelector((state) => state.userModule)
 
 	useEffect(() => {
-	
+		// if (!Object.keys(currBoard).length) {
+		// 	getCurrBoard()
+		// }
+
+		socketService.on(SOCKET_EMIT_UPDATE_BOARD,(board)=>{
+			console.log(board, 'board from back socket')
+			// dispatch({ type: 'SAVE_BOARD', board })
+		dispatch(setCurrBoard(boardId))
+
+		})
 		dispatch(setCurrBoard(boardId))
 	
 	}, [])
@@ -49,17 +59,17 @@ export const BoardDeatails = () => {
 		}
 	}
 
-	const onChangeColorStyle = async (newStyle) => {
-		try {
-			const newBoard = { ...currBoard, style: { backgroundColor: newStyle } }
-			await dispatch(onSaveBoard(newBoard))
-			await dispatch(setCurrBoard(newBoard._id))
-			return newBoard
-			// await dispatch(setCurrBoard(newBoard))
-		} catch {
-			console.err();
-		}
-	}
+	// const onChangeColorStyle = async (newStyle) => {
+	// 	try {
+	// 		const newBoard = { ...currBoard, style: { backgroundColor: newStyle } }
+	// 		await dispatch(onSaveBoard(newBoard))
+	// 		await dispatch(setCurrBoard(newBoard._id))
+	// 		return newBoard
+	// 		// await dispatch(setCurrBoard(newBoard))
+	// 	} catch {
+	// 		console.err();
+	// 	}
+	// }
 
 	const onChangeBGImgStyle = async (newStyle) => {
 		try {
@@ -103,7 +113,7 @@ export const BoardDeatails = () => {
 					toggleBoardMenu={toggleBoardMenu}
 					onSetCoverMode={onSetCoverMode}
 				/>
-				<BoardMenu onChangeBGImgStyle={onChangeBGImgStyle} onUploadImg={onUploadImg} onSetCoverMode={onSetCoverMode} onChangeColorStyle={onChangeColorStyle} menuShow={menuShow} toggleBoardMenu={toggleBoardMenu} />
+				<BoardMenu onChangeBGImgStyle={onChangeBGImgStyle} onUploadImg={onUploadImg} onSetCoverMode={onSetCoverMode} menuShow={menuShow} toggleBoardMenu={toggleBoardMenu} />
 				<BoardCoverModal
 					onSetCoverMode={onSetCoverMode}
 					coverMode={coverMode}
