@@ -30,6 +30,7 @@ async function uploadImg(ev) {
     })
     // const elImg = document.createElement('img');
     const { url } = await res.json()
+    console.log(url);
     return url
     // elImg.src = url;
     // document.body.append(elImg);
