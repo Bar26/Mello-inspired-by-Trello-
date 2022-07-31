@@ -77,21 +77,26 @@ export function setIsTaskDetailsScreenOpen(isTaskDetailScreenOpen) {
 
 
 export function onCopyTask(ev,task,group, currBoard) {
-	return async (dispatch) => {
+	return async (dispatch, getState) => {
 		try {
 			ev.stopPropagation()
-			const updatedBoard = await boardService.copyTask(task, group, currBoard)
+			const state=getState()
+			const {currUser}=state.userModule
+			console.log((currUser));
+			const updatedBoard = await boardService.copyTask(task, group, currBoard, currUser)
 			await dispatch(onSaveBoard(updatedBoard))
 		} catch (err) {
 			console.log('Cant copy task', err)
 		}
 	}
 }
-export function onRemoveTask(ev,taskId,group, currBoard) {
-	return async (dispatch) => {
+export function onRemoveTask(ev,task,group, currBoard) {
+	return async (dispatch,getState) => {
 		try {
 			ev.stopPropagation()
-			const updatedBoard = await boardService.removeTask(currBoard,group,taskId )
+			const state=getState()
+			const {currUser}=state.userModule
+			const updatedBoard = await boardService.removeTask(currBoard,group,task, currUser )
 			await dispatch(onSaveBoard(updatedBoard))
 		} catch (err) {
 			console.log('Cant remove task', err)
@@ -102,6 +107,7 @@ export function onRemoveTask(ev,taskId,group, currBoard) {
 export function addActivity(boardId, task, txt) {
 	return async (dispatch) => {
 		try {
+			
 			const board = await boardService.addActivity(boardId, task, txt)
 			dispatch({ type: 'SAVE_BOARD', board })
 			return board
@@ -123,16 +129,14 @@ export function addActivity(boardId, task, txt) {
 // 	}
 // }
 
-export function addTask(taskTitle, groupId, currBoard) {
-	console.log(taskTitle, groupId, currBoard)
-	return async (dispatch) => {
+export function addTask(taskTitle, group, currBoard) {
+	return async (dispatch, getState) => {
 		try {
-			const board = await boardService.createTask(taskTitle, groupId, currBoard)
-			dispatch({
-				type: 'SAVE_BOARD',
-				board: board,
-			})
-			// dispatch(onSaveBoard(board))
+			const state=getState()
+			const {currUser}=state.userModule
+			const board = await boardService.createTask(taskTitle, group, currBoard, currUser)
+			dispatch(onSaveBoard(board))
+	
 		} catch (err) {
 			console.log('Cant add task', err)
 		}

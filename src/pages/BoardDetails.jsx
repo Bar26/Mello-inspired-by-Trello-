@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react'
 import { Screen } from '../cmps/Screen.jsx'
 import { BoardCoverModal } from '../cmps/BoardCoverModal'
 import { boardService } from '../services/board.service'
+import { setCurrUser } from '../store/actions/user.actions'
 import { socketService,SOCKET_EMIT_UPDATE_BOARD } from '../services/socket.service'
 
 export const BoardDeatails = () => {
@@ -18,7 +19,7 @@ export const BoardDeatails = () => {
 	const { boardId } = useParams()
 	const dispatch = useDispatch()
 	const { currBoard } = useSelector((state) => state.boardModule)
-	// console.log('currBoard form details', currBoard)
+	const { currUser } = useSelector((state) => state.userModule)
 
 	useEffect(() => {
 		// if (!Object.keys(currBoard).length) {
@@ -32,11 +33,16 @@ export const BoardDeatails = () => {
 
 		})
 		dispatch(setCurrBoard(boardId))
+	
 	}, [])
 
-	// const getCurrBoard = async () => {
-	// 	await dispatch(setCurrBoard(boardId))
-	// }
+	useEffect(() => {
+	
+		if (!currUser) {
+			console.log('OnEffect', currUser)
+			dispatch(setCurrUser(currUser))
+		}
+	}, [currUser])
 
 	const toggleBoardMenu = () => {
 		if (!menuShow.length) {
@@ -67,8 +73,8 @@ export const BoardDeatails = () => {
 
 	const onUploadImg = async (imgArr) =>{
 		let newBoard = await boardService.uploadImgToBoard(currBoard, imgArr)
-        await dispatch(onSaveBoard(newBoard))
-        await dispatch(setCurrBoard(newBoard._id))
+		await dispatch(onSaveBoard(newBoard))
+		await dispatch(setCurrBoard(newBoard._id))
 	}
 	const onChangeBGImgStyle = async (newStyle) => {
         try {
@@ -90,11 +96,11 @@ export const BoardDeatails = () => {
 			style={
 				currBoard.style.backgroundImage
 					? {
-							backgroundImage: `URL${currBoard?.style?.backgroundImage || '()'}` ,
-							backgroundRepeat: 'no-repeat',
-							backgroundSize: 'cover',
-							backgroundPosition: 'center',
-					  }: { background: currBoard.style.backgroundColor }
+						backgroundImage: `URL${currBoard?.style?.backgroundImage || '()'}`,
+						backgroundRepeat: 'no-repeat',
+						backgroundSize: 'cover',
+						backgroundPosition: 'center',
+					} : { background: currBoard.style.backgroundColor }
 			}
 		>
 			{/* {console.log((currBoard.style.backgroundImage) ? { background: currBoard.style.backgroundImage } : { background: currBoard.style.backgroundColor })} */}

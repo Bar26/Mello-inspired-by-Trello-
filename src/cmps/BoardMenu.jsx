@@ -119,6 +119,14 @@ export const BoardMenu = ({ onChangeBGImgStyle, onUploadImg, onSetCoverMode, men
 			<h1>{title}</h1>
 			<hr />
 			<DynamicCmp menuShow={menuShow} ></DynamicCmp>
+			<section className="activity">
+				<header>
+					<span></span>
+					<span></span>
+				</header>
+				
+
+			</section>
 
 		</section>
 	)

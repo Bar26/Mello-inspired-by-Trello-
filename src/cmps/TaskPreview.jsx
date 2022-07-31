@@ -179,7 +179,7 @@ export function TaskPreview({ task, group }) {
 					</div>
 				</div>
 				<div onClick={(ev) => {
-					dispatch(onRemoveTask(ev, task.id, group, currBoard))
+					dispatch(onRemoveTask(ev, task, group, currBoard))
 				}}>
 					<span className="icon trash-icon">
 						<i className="fa-solid fa-box-archive"></i>

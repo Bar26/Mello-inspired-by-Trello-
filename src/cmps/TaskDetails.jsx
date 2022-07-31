@@ -802,7 +802,7 @@ export function TaskDetails() {
                             <span>Watch</span>
                         </div> */}
                         <div className="task-actions-remove" onClick={(ev) => {
-                            dispatch(onRemoveTask(ev, task.id, group, currBoard))
+                            dispatch(onRemoveTask(ev, task, group, currBoard))
                             navigate(`/boards/${currBoard._id}`)
                         }
                         }

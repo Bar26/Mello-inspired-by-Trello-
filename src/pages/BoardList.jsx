@@ -20,9 +20,9 @@ export const BoardList = () => {
 	const dispatch = useDispatch()
 
 	useEffect(() => {
-		if (!Object.keys(currUser).length) {
-			setUserBoards()
-		}
+		// if (!Object.keys(currUser).length) {
+		// 	setUserBoards()
+		// }
 	}, [])
 	useEffect(() => {
 		console.log('currUser:', currUser)
