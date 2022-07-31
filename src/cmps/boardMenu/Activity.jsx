@@ -10,7 +10,7 @@ export function Activity() {
 
 
     return <section>
-        {currBoard.activities.map(act => {
+        {/* {currBoard.activities.map(act => {
             switch (act.type) {
                 case 'add-task': {
                     return <div>
@@ -59,9 +59,8 @@ export function Activity() {
             // 	<span>{act.user.fullname}</span>
             // 	 archived {act.task.title}
             // </div>
-        }
+        } */}
 
-        )}
 
     </section>
 }
