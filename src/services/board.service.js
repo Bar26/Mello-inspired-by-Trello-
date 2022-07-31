@@ -45,6 +45,7 @@ export const boardService = {
 	addDateToTask,
 	checkBoxDueDate,
 	uploadImgToBoard,
+	changeBoardBGStyle,
 }
 
 async function query(filterBy = {}) {
@@ -96,6 +97,7 @@ async function getEmptyBoard(template, toSave = true) {
 	if (toSave) {
 		try {
 			const savedBoard = await httpService.post('board', newBoard)
+			console.log(savedBoard);
 			return savedBoard
 		} catch (err) {
 			console.log('Cannot save board', err)
@@ -416,13 +418,21 @@ function checkBoxDueDate(board, group, task, isChecked) {
 	return newBoard
 }
 
-function uploadImgToBoard(board,imgArr) {
+function uploadImgToBoard(board, imgArr) {
 	let newBoard = { ...board }
 	newBoard.uploadImgs = imgArr
 	console.log(newBoard.uploadImgs);
 	return newBoard
 
 }
+
+function changeBoardBGStyle(style,currBoard,user) {
+	const newBoard = { ...currBoard, style }
+	newBoard.activities.push({type:'change-BG',user})
+	return newBoard
+}
+
+
 // addGuestBoardExp()
 function addGuestBoardExp() {
 	const board = {

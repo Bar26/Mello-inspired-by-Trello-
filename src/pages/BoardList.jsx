@@ -66,7 +66,6 @@ export const BoardList = () => {
 	const loadTemplates = async () => {
 		try {
 			const templatesT = await boardService.queryTemplates()
-			console.log("LIOISSSO", templatesT);
 			setTemplates(templatesT)
 		} catch (err) {
 			console.error('error query templetes', err)
@@ -108,6 +107,7 @@ export const BoardList = () => {
 					</h3>
 					<section className="board-list">
 						{boards.map((board, idx) => {
+							console.log(board);
 							return (
 								<BoardPreview
 									board={board}
@@ -121,7 +121,7 @@ export const BoardList = () => {
 						<i className="fa-regular fa-star"></i>
 						Starred Boards
 					</h3>
-					{!!starredBoards().length && (
+					{/* {!!starredBoards().length && (
 						<section className="board-list">
 							{starredBoards().map((board, idx) => {
 								return (
@@ -133,7 +133,7 @@ export const BoardList = () => {
 								)
 							})}
 						</section>
-					)}
+					)} */}
 					<h3 className="templates">
 						<img className="full-icon" src={trelloFullIcon} />
 						Most popular templates</h3>

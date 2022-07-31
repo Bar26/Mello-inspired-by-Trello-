@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { onSaveBoard, setCurrBoard } from "../store/actions/board.actions"
 import { ChangeBgcColorsModal } from "./boardMenu/ChangeBgcColorsModal"
 import { ChangeBgcModal } from "./boardMenu/ChangeBgcModal"
+import { ChangeBgcPic } from "./boardMenu/ChangeBgcPic"
 import { MainBoardMenu } from "./boardMenu/MainBoardMenu"
 
 export const BoardMenu = ({ onChangeBGImgStyle, onUploadImg, onSetCoverMode, menuShow, toggleBoardMenu }) => {
@@ -44,9 +45,9 @@ export const BoardMenu = ({ onChangeBGImgStyle, onUploadImg, onSetCoverMode, men
 				// return <NoteToDo loadNotes={props.loadNotes} onDeleteNote={props.onDeleteNote} note={props.note} />
 				return <ChangeBgcColorsModal setLastType={setLastType} setLastTitle={setLastTitle} onGoBack={onGoBack} menuShow={menuShow} onToggleBoardMenu={onToggleBoardMenu} setSelectedType={setSelectedType} setTitle={setTitle}></ChangeBgcColorsModal>
 			}
-			// case 'note-video': {
-			// 	// return <NoteVideo onDeleteNote={props.onDeleteNote} note={props.note} />
-			// }
+			case 'pics-modal': {
+				return <ChangeBgcPic onChangeBGImgStyle={onChangeBGImgStyle} setLastType={setLastType} setLastTitle={setLastTitle} onGoBack={onGoBack} setSelectedType={setSelectedType} setTitle={setTitle}></ChangeBgcPic>
+			}
 		}
 	}
 

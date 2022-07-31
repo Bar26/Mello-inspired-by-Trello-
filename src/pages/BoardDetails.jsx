@@ -65,23 +65,21 @@ export const BoardDeatails = () => {
 	// 	}
 	// }
 
-	const onChangeBGImgStyle = async (newStyle) => {
-		try {
-			const newBoard = { ...currBoard,  style:{ backgroundImage: `(${newStyle})`}}
-			await dispatch(onSaveBoard(newBoard))
-			await dispatch(setCurrBoard(newBoard._id))
-			return newBoard
-			// await dispatch(setCurrBoard(newBoard))
-		} catch {
-			console.err();
-		}
-	}
-
 	const onUploadImg = async (imgArr) =>{
 		let newBoard = await boardService.uploadImgToBoard(currBoard, imgArr)
         await dispatch(onSaveBoard(newBoard))
         await dispatch(setCurrBoard(newBoard._id))
 	}
+	const onChangeBGImgStyle = async (newStyle) => {
+        try {
+            const newBoard = { ...currBoard, style: { backgroundImage: `(${newStyle})` } }
+            await dispatch(onSaveBoard(newBoard))
+            await dispatch(setCurrBoard(newBoard._id))
+            // await dispatch(setCurrBoard(newBoard))
+        } catch {
+            console.err();
+        }
+    }
 
 
 	// console.log(currBoard.style.backgroundImage);

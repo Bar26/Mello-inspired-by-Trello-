@@ -41,7 +41,7 @@ export const ChangeBgcModal = ({ setLastType, setLastTitle, onChangeBGImgStyle, 
     return (
         <section className="change-bgc-modal-container">
             <section className="implented">
-                <div className="implented-img-colors"><img src={collabSrc} /><p>Photos</p></div>
+                <div className="implented-img-colors" onClick={() => { setSelectedType('pics-modal'); setTitle('Photos by NoamBar') }}><img src={collabSrc} /><p>Photos</p></div>
                 <div className="implented-img-colors" onClick={() => { setSelectedType('colors-modal'); setTitle('Colors') }}><img src={colorsSrc} /><p>Colors</p></div>
             </section>
             <hr />

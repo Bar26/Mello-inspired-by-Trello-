@@ -10,11 +10,12 @@ import {
 } from '../store/actions/board.actions.js'
 import { utilService } from '../services/util.service.js'
 import { userService } from '../services/user.service.js'
-import infoImg from '../assets/img/info.png'
 import trelloIcon from '../assets/img/trello-icon.png'
 import { useSelector } from 'react-redux'
 import { MainCreate } from './createModalHeader/MainCreate.jsx'
 import { CreateBoardHeader } from './createModalHeader/CreateBoardHeader.jsx'
+import { CreateTemplateHeader } from './createModalHeader/CreateTemplateHeader.jsx'
+import { InfoBoardHeader } from './InfoBoardHeader.jsx'
 
 
 export const MainHeader = () => {
@@ -67,14 +68,22 @@ export const MainHeader = () => {
 		// console.log(template.viewedAt)
 		return true
 	}
+
+
+	const onGoBack= ()=>{
+        setCreateModalTitle('Create')
+        setCreateState('main-create')
+    }
+
+
 	// console.log('template', templates);
 	const onSelectTemplate = async (templateId) => {
 		const template = await boardService.getTemplateById(templateId)
 		const newBoard = await boardService.getEmptyBoard(template)
-		console.log('on Select', newBoard)
+		// console.log('on Select', newBoard)
 		// setBoards(newBoard)
-		await dispatch(onSaveBoard(newBoard))
-		await dispatch(setCurrBoard(newBoard._id))
+		dispatch(setCurrBoard(newBoard._id))
+		// dispatch(onSaveBoard(newBoard))
 		navigate(`/boards/${newBoard._id}`)
 	}
 
@@ -101,6 +110,9 @@ export const MainHeader = () => {
 				break;
 			case 'create-board':
 				return <CreateBoardHeader setCreateModalTitle={setCreateModalTitle} setCreateState={setCreateState}></CreateBoardHeader>
+				break;
+			case 'create-template':
+				return <CreateTemplateHeader onSelectTemplate={onSelectTemplate} setCreateModalTitle={setCreateModalTitle} setCreateState={setCreateState}></CreateTemplateHeader>
 				break;
 			// return <NoteTxt onTextClick={props.onTextClick} onDeleteNote={props.onDeleteNote} note={props.note} />
 			// return <MainCreate  onToggleBoardMenu={onToggleBoardMenu} setSelectedType={setSelectedType} setTitle={setTitle}></MainBoardMenu>
@@ -273,6 +285,7 @@ export const MainHeader = () => {
 								onClick={() => toggleModal(refCreateFirstModal)}>Create</button>
 							<section ref={refCreateFirstModal} className='header-modal create-first hide'>
 								<div className='modal-title'>
+									<button className='on-go-back-button' onClick={onGoBack}>goBack</button>
 									<h1 style={{ fontSize: '16px' }}>{createModalTitle}</h1>
 									<button className="close-modal-btn" onClick={() => toggleModal(refCreateFirstModal)}>
 										<i className="fa-solid fa-xmark"></i>
@@ -391,21 +404,8 @@ export const MainHeader = () => {
 							</button>
 						</div>
 						<hr />
-						<section className="info-img-div">
-							<img src={infoImg} />
-							<div className="for-h3">
-								<h3>New to Trello? Check out the guide</h3>
-							</div>
-							<button>Get a new tip</button>
-							<hr />
-							<div className="info-button-buttom">
-								<button>Pricing</button>
-								<button>Apps</button>
-								<button>Blog</button>
-								<button>Privacy</button>
-								<button>More...</button>
-							</div>
-						</section>
+						<InfoBoardHeader></InfoBoardHeader>
+						
 					</section>
 				</div>
 
