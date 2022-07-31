@@ -1,8 +1,8 @@
 import  {SOCKET_EMIT_BOARD_UPDATE}  from '../../services/socket.service'
-import { socketService } from '../../services/socket.service'
 
 import { boardService } from '../../services/board.service.js'
 import {SOCKET_EMIT_ACTIVITY_ADDED} from '../../services/socket.service'
+import { socketService, SOCKET_EMIT_UPDATED_BOARD } from '../../services/socket.service.js'
 
 export function setCurrBoard(boardId) {
 	return async (dispatch) => {
@@ -79,14 +79,27 @@ export function setCurrBoards(currUser) {
 			})).then((currBoards) => {
 				dispatch({ type: 'SET_BOARDS', boards: currBoards })
 			})
-
-		} catch (err) {
+		}catch(err){
 			console.log(err);
-
 		}
 	}
 }
 
+
+
+export function onCopyTask(ev, task, group, currBoard) {
+	return async (dispatch, getState) => {
+		try {
+			ev.stopPropagation()
+			let state=getState()
+			let {currUser}=state.userModule
+			const updatedBoard = await boardService.copyTask(task, group, currBoard, currUser)
+			await dispatch(onSaveBoard(updatedBoard))
+		} catch (err) {
+			console.log('Cant copy task', err)
+		}
+	}
+}
 
 export function addBoard(boardToAdd) {
 	return async (dispatch) => {
@@ -103,11 +116,13 @@ export function addBoard(boardToAdd) {
 	}
 }
 
-export function onRemoveTask(ev, taskId, group, currBoard) {
-	return async (dispatch) => {
+export function onRemoveTask(ev,task,group, currBoard) {
+	return async (dispatch,getState) => {
 		try {
 			ev.stopPropagation()
-			const updatedBoard = await boardService.removeTask(currBoard, group, taskId)
+			const state=getState()
+			const {currUser}=state.userModule
+			const updatedBoard = await boardService.removeTask(currBoard,group,task, currUser )
 			await dispatch(onSaveBoard(updatedBoard))
 		} catch (err) {
 			console.log('Cant remove task', err)
@@ -139,48 +154,20 @@ export function onRemoveTask(ev, taskId, group, currBoard) {
 // 	}
 // }
 
-export function setStaredBoard(board) {
-	return async (dispatch) => {
-		try {
-			const updatedBoard = await boardService.setStarred(board)
-
-			dispatch(onSaveBoard(updatedBoard))
-		} catch (err) {
-			console.log('cannot set star', err)
-		}
-	}
-}
-
 export function addTask(taskTitle, group, currBoard) {
 	return async (dispatch, getState) => {
 		try {
-			let state=getState()
-			let {currUser}=state.userModule
-			console.log(currUser);
-			console.log(`${currUser.fullname} added ${taskTitle} to ${group.title}`)
+			const state=getState()
+			const {currUser}=state.userModule
 			const board = await boardService.createTask(taskTitle, group, currBoard, currUser)
-
-
 			dispatch(onSaveBoard(board))
-			
+	
 		} catch (err) {
 			console.log('Cant add task', err)
 		}
 	}
 }
-export function onCopyTask(ev, task, group, currBoard) {
-	return async (dispatch, getState) => {
-		try {
-			ev.stopPropagation()
-			let state=getState()
-			let {currUser}=state.userModule
-			const updatedBoard = await boardService.copyTask(task, group, currBoard, currUser)
-			await dispatch(onSaveBoard(updatedBoard))
-		} catch (err) {
-			console.log('Cant copy task', err)
-		}
-	}
-}
+
 
 // export function addGroup(groupTitle, boardId) {
 // 	return async (dispatch) => {
@@ -322,6 +309,7 @@ export function onSaveBoard(board) {
 	
 	return async (dispatch) => {
 		try {
+			socketService.emit(SOCKET_EMIT_UPDATED_BOARD,board)
 			const savedBoard = await boardService.update(board)
 			dispatch({ type: 'SAVE_BOARD', board: savedBoard })
 			console.log(board,'from action save');

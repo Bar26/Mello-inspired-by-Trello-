@@ -24,7 +24,7 @@ export function Home() {
 	}, [])
 
 	const SetStore = async () => {
-		await dispatch(setCurrUser({}))
+		// await dispatch(setCurrUser({}))
 		// await dispatch(setCurrBoard({}))
 	}
 

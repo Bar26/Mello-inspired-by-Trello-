@@ -13,6 +13,9 @@ export const SOCKET_EMIT_BOARD_UPDATE='board-updated'
 export const SOCKET_ON_CHANGE_BOARD='update-board'
 export const SOCKET_EMIT_ACTIVITY_ADDED='activity-added'
 
+export const SOCKET_EMIT_UPDATED_BOARD='updated-board'
+export const SOCKET_EMIT_UPDATE_BOARD='update-board'
+
 const SOCKET_EMIT_LOGIN = 'set-user-socket'
 const SOCKET_EMIT_LOGOUT = 'unset-user-socket'
 

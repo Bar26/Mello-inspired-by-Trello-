@@ -10,8 +10,8 @@ import { useEffect, useState } from 'react'
 import { Screen } from '../cmps/Screen.jsx'
 import { BoardCoverModal } from '../cmps/BoardCoverModal'
 import { boardService } from '../services/board.service'
-import { socketService } from '../services/socket.service'
-import  {SOCKET_ON_CHANGE_BOARD}  from '../services/socket.service'
+import { setCurrUser } from '../store/actions/user.actions'
+import { socketService,SOCKET_EMIT_UPDATE_BOARD } from '../services/socket.service'
 
 export const BoardDeatails = () => {
 	const [menuShow, setMenuShow] = useState('')
@@ -19,19 +19,30 @@ export const BoardDeatails = () => {
 	const { boardId } = useParams()
 	const dispatch = useDispatch()
 	const { currBoard } = useSelector((state) => state.boardModule)
+	const { currUser } = useSelector((state) => state.userModule)
+
+	useEffect(() => {
+		// if (!Object.keys(currBoard).length) {
+		// 	getCurrBoard()
+		// }
+
+		socketService.on(SOCKET_EMIT_UPDATE_BOARD,(board)=>{
+			console.log(board, 'board from back socket')
+			// dispatch({ type: 'SAVE_BOARD', board })
+		dispatch(setCurrBoard(boardId))
+
+		})
+		dispatch(setCurrBoard(boardId))
+	
+	}, [])
 
 	useEffect(() => {
 	
-		dispatch(setCurrBoard(boardId))
-		socketService.on(SOCKET_ON_CHANGE_BOARD, board=>{
-			console.log(board)
-			// dispatch(setCurrBoard(board._id))
-			dispatch({type:"SAVE_BOARD",board})
-
-		})
-
-	}, [])
-
+		if (!currUser) {
+			console.log('OnEffect', currUser)
+			dispatch(setCurrUser(currUser))
+		}
+	}, [currUser])
 
 	const toggleBoardMenu = () => {
 		if (!menuShow.length) {
@@ -48,21 +59,21 @@ export const BoardDeatails = () => {
 		}
 	}
 
-	const onChangeColorStyle = async (newStyle) => {
-		try {
-			const newBoard = { ...currBoard, style: { backgroundColor: newStyle } }
-			await dispatch(onSaveBoard(newBoard))
-			await dispatch(setCurrBoard(newBoard._id))
-			return newBoard
-			// await dispatch(setCurrBoard(newBoard))
-		} catch {
-			console.err();
-		}
-	}
+	// const onChangeColorStyle = async (newStyle) => {
+	// 	try {
+	// 		const newBoard = { ...currBoard, style: { backgroundColor: newStyle } }
+	// 		await dispatch(onSaveBoard(newBoard))
+	// 		await dispatch(setCurrBoard(newBoard._id))
+	// 		return newBoard
+	// 		// await dispatch(setCurrBoard(newBoard))
+	// 	} catch {
+	// 		console.err();
+	// 	}
+	// }
 
 	const onChangeBGImgStyle = async (newStyle) => {
 		try {
-			const newBoard = { ...currBoard,  style:{ backgroundImage: `(${newStyle})`}}
+			const newBoard = { ...currBoard, style: { backgroundImage: `(${newStyle})` } }
 			await dispatch(onSaveBoard(newBoard))
 			await dispatch(setCurrBoard(newBoard._id))
 			return newBoard
@@ -72,10 +83,10 @@ export const BoardDeatails = () => {
 		}
 	}
 
-	const onUploadImg = async (imgArr) =>{
+	const onUploadImg = async (imgArr) => {
 		let newBoard = await boardService.uploadImgToBoard(currBoard, imgArr)
-        await dispatch(onSaveBoard(newBoard))
-        await dispatch(setCurrBoard(newBoard._id))
+		await dispatch(onSaveBoard(newBoard))
+		await dispatch(setCurrBoard(newBoard._id))
 	}
 
 
@@ -102,7 +113,7 @@ export const BoardDeatails = () => {
 					toggleBoardMenu={toggleBoardMenu}
 					onSetCoverMode={onSetCoverMode}
 				/>
-				<BoardMenu onChangeBGImgStyle={onChangeBGImgStyle} onUploadImg={onUploadImg} onSetCoverMode={onSetCoverMode} onChangeColorStyle={onChangeColorStyle} menuShow={menuShow} toggleBoardMenu={toggleBoardMenu} />
+				<BoardMenu onChangeBGImgStyle={onChangeBGImgStyle} onUploadImg={onUploadImg} onSetCoverMode={onSetCoverMode} menuShow={menuShow} toggleBoardMenu={toggleBoardMenu} />
 				<BoardCoverModal
 					onSetCoverMode={onSetCoverMode}
 					coverMode={coverMode}

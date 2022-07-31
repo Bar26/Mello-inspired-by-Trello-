@@ -155,15 +155,16 @@ async function createTask(title, group, currBoard, currUser) {
 	const updatedBoard = { ...currBoard }
 	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
 	updatedBoard.groups[groupIdx].tasks.push(task)
-	updatedBoard.activities.push({type:'add-task', user:currUser, task})
+	updatedBoard.activities.push({type:'add-task',task,group,user:currUser})
 	return updatedBoard
 }
 
-async function createList(board, title) {
+async function createList(board, title, user) {
 	const updatedBoard = { ...board }
 	const id = utilService.makeId()
-	const list = { id, title, tasks: [] }
-	updatedBoard.groups.push(list)
+	const group = { id, title, tasks: [] }
+	updatedBoard.groups.push(group)
+	updatedBoard.activities.push({type:'add-group', group, user})
 	return updatedBoard
 }
 
@@ -174,7 +175,7 @@ async function copyTask(task, group, board, currUser) {
 	taskCopy.id = newId
 	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
 	updatedBoard.groups[groupIdx].tasks.push(taskCopy)
-	updatedBoard.activities.push({type:'copy-task', usr: currUser, task, group })
+	updatedBoard.activities.push({type:"copy-task", task, group, user:currUser})
 	return updatedBoard
 }
 
@@ -187,21 +188,23 @@ async function copyGroup(group, board) {
 	return updatedBoard
 }
 
-async function removeTask(board, group, taskId) {
+async function removeTask(board, group, task, user) {
 	const updatedBoard = { ...board }
 	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
-	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex(_task => _task.id === taskId)
+	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex(_task => _task.id === task.id)
 	updatedBoard.groups[groupIdx].tasks.splice(taskIdx, 1)
+	updatedBoard.activities.push({type:"remove-task", taskTitle:task.title, user})
+
 	return updatedBoard
 }
-async function removeGroup(board, groupId) {
-	console.log(' in remove')
+async function removeGroup(board, group, user) {
 	let updatedBoard = { ...board }
 	const groupIdx = updatedBoard.groups.findIndex(
-		(group) => group.id === groupId
+		(_group) => _group.id === group.id
 	)
 	updatedBoard.groups.splice([groupIdx], 1)
 	console.log(updatedBoard)
+	updatedBoard.activities.push({type:'remove-group', group, user})
 
 	return updatedBoard
 }
