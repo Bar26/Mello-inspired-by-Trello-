@@ -15,7 +15,6 @@ export const BoardMenu = ({ onChangeBGImgStyle, onUploadImg, onSetCoverMode, men
 
 
 	const { currBoard } = useSelector((state) => state.boardModule)
-	const dispatch = useDispatch()
 
 	const palette = [
 		'#61bd4f',
@@ -34,15 +33,12 @@ export const BoardMenu = ({ onChangeBGImgStyle, onUploadImg, onSetCoverMode, men
 		// console.log(props.selectedType)
 		switch (selectedType) {
 			case 'main-board': {
-				// return <NoteTxt onTextClick={props.onTextClick} onDeleteNote={props.onDeleteNote} note={props.note} />
 				return <MainBoardMenu menuShow={menuShow} onToggleBoardMenu={onToggleBoardMenu} setSelectedType={setSelectedType} setTitle={setTitle}></MainBoardMenu>
 			}
 			case 'change-bgc': {
-				// return <NoteImg  onDeleteNote={props.onDeleteNote} note={props.note} />
 				return <ChangeBgcModal setLastType={setLastType} setLastTitle={setLastTitle} onChangeBGImgStyle={onChangeBGImgStyle} onUploadImg={onUploadImg} menuShow={menuShow} onToggleBoardMenu={onToggleBoardMenu} setSelectedType={setSelectedType} setTitle={setTitle}></ChangeBgcModal>
 			}
 			case 'colors-modal': {
-				// return <NoteToDo loadNotes={props.loadNotes} onDeleteNote={props.onDeleteNote} note={props.note} />
 				return <ChangeBgcColorsModal setLastType={setLastType} setLastTitle={setLastTitle} onGoBack={onGoBack} menuShow={menuShow} onToggleBoardMenu={onToggleBoardMenu} setSelectedType={setSelectedType} setTitle={setTitle}></ChangeBgcColorsModal>
 			}
 			case 'pics-modal': {
@@ -84,8 +80,6 @@ export const BoardMenu = ({ onChangeBGImgStyle, onUploadImg, onSetCoverMode, men
 	const onGoBack = () => {
 		const type = selectedType
 		const titleToRem = title
-		console.log(titleToRem, ' titlee');
-		console.log(type, ' Selected');
 		setSelectedType(lastSelectedType)
 		setTitle(lastTitle)
 		setLastType('main-board')
@@ -94,8 +88,9 @@ export const BoardMenu = ({ onChangeBGImgStyle, onUploadImg, onSetCoverMode, men
 
 	return (
 		<section className={`board-menu-details ${menuShow}`}>
+			<header className="menu-header">
 			<button className="closebtn" onClick={onToggleBoardMenu}>
-				<svg
+				{/* <svg
 					stroke="currentColor"
 					fill="currentColor"
 					strokeWidth="0"
@@ -111,22 +106,17 @@ export const BoardMenu = ({ onChangeBGImgStyle, onUploadImg, onSetCoverMode, men
 						strokeWidth="2"
 						d="M3,3 L21,21 M3,21 L21,3"
 					></path>
-				</svg>
+				</svg> */}
+				   <i className="fa-solid fa-xmark"></i>
 			</button>
 			{selectedType !== 'main-board' &&
 				<button className="go-back" onClick={onGoBack}> goBack </button>
 			}
-			<h1>{title}</h1>
-			<hr />
+			<h3 className="menu-title">{title}</h3>
+			</header>
+			<hr className="menu-hr" />
 			<DynamicCmp menuShow={menuShow} ></DynamicCmp>
-			<section className="activity">
-				<header>
-					<span></span>
-					<span></span>
-				</header>
-				
-
-			</section>
+	
 
 		</section>
 	)

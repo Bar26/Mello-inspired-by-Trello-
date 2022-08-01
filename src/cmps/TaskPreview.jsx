@@ -10,6 +10,7 @@ import { AddMemberModal } from './MembersModal.jsx'
 import { CoverTaskModal } from './CoverTaskModal'
 import { DateModal } from './DateModal'
 
+
 export function TaskPreview({ task, group }) {
 	const coverModalRef = useRef()
 	const navigate = useNavigate()
@@ -25,6 +26,7 @@ export function TaskPreview({ task, group }) {
 	const addMemberModalRef = useRef()
 	const dateModalRef = useRef()
 	const dateStyle = useRef(task.dates?.completed ? { backgroundColor: "green", color: 'white' } : { backgroundColor: "" })
+	const { currUser } = useSelector((state) => state.userModule)
 
 	let dateHoverInd = 'none'
 
@@ -35,6 +37,7 @@ export function TaskPreview({ task, group }) {
 				.then((board) => dispatch(setCurrBoard(board)))
 		}
 	})
+
 
 	// useEffect(() => {
 	// 	if (!Object.keys(currBoard).length) {
@@ -299,8 +302,8 @@ export function TaskPreview({ task, group }) {
 					{task.dates?.dueDate &&
 						<section className="due-date" style={dateStyle.current}>
 							<input type='checkbox' style={{ accentColor: 'green'}} checked={task.dates?.completed} onClick={(ev) => { ev.stopPropagation(); onCheckBoxDueDate(ev) }} />
-							{/* <span>{utilService.monthName(task.dates.dueDate.slice(3, 5))} </span> */}
-							{/* <span>{Number(task.dates.dueDate.slice(0, 2))} </span> */}
+							{/* <span>{utilService.monthName(task.dates.dueDate.slice(3, -5))} </span> */}
+							{/* <span>{Number(task.dates.dueDate.slice(0, -8))} </span> */}
 							{task.dates.completed && <span>complete</span>}
 						</section>         
 					}

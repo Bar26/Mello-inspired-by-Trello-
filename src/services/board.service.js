@@ -2,6 +2,7 @@ import { storageService } from './async-storage.service.js'
 import { userService } from './user.service.js'
 import { httpService } from './http.service.js'
 import { utilService } from './util.service.js'
+
 // const board = require('../data/board.json')
 const templates = require('../data/templete.json')
 
@@ -44,9 +45,13 @@ export const boardService = {
 	deleteDateElement,
 	addDateToTask,
 	checkBoxDueDate,
+	// changeBoardStyle,
 	uploadImgToBoard,
 	changeBoardBGStyle,
 }
+
+
+
 
 async function query(filterBy = {}) {
 	return httpService.get(`board`, filterBy)
@@ -56,8 +61,10 @@ async function queryTemplates(filterBy = {}) {
 }
 
 function setStarred(board) {
-	board.isStared = !board.isStared
-	return storageService.put(STORAGE_KEY, board)
+	const updatedBoard = { ...board }
+	updatedBoard.isStared = !updatedBoard.isStared
+	return updatedBoard
+	// return storageService.put(STORAGE_KEY, board)
 }
 function setStarredTemplate(template) {
 	if (!template.isStared) {
@@ -65,7 +72,7 @@ function setStarredTemplate(template) {
 	} else {
 		template.isStared = false
 	}
-	storageService.put(STORAGE_KEY2, template).then(console.log)
+	storageService.put(STORAGE_KEY2, template)
 }
 
 async function setTitle(newBoard) {
@@ -146,20 +153,26 @@ async function update(board) {
 
 async function createTask(title, group, currBoard, currUser) {
 	const id = utilService.makeId()
+	let createdAt = new Date()
+	createdAt = _getFormatedDate(createdAt)
 	const task = { id, title }
 	const updatedBoard = { ...currBoard }
 	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
 	updatedBoard.groups[groupIdx].tasks.push(task)
-	updatedBoard.activities.push({type:'add-task',task,group,user:currUser})
+	updatedBoard.activities.push({ type: 'add-task', task, taskTitle: task.title, groupTitle: group.title, userName: currUser.fullname, userImg:currUser.imgUrl, createdAt })
 	return updatedBoard
 }
+
 
 async function createList(board, title, user) {
 	const updatedBoard = { ...board }
 	const id = utilService.makeId()
 	const group = { id, title, tasks: [] }
 	updatedBoard.groups.push(group)
-	updatedBoard.activities.push({type:'add-group', group, user})
+	let createdAt = new Date()
+	createdAt = _getFormatedDate(createdAt)
+
+	updatedBoard.activities.push({ type: 'add-group', groupTitle: group.title,userImg:user.imgUrl, userName: user.fullname, createdAt })
 	return updatedBoard
 }
 
@@ -170,16 +183,21 @@ async function copyTask(task, group, board, currUser) {
 	taskCopy.id = newId
 	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
 	updatedBoard.groups[groupIdx].tasks.push(taskCopy)
-	updatedBoard.activities.push({type:"copy-task", task, group, user:currUser})
+	let createdAt = new Date()
+	createdAt = _getFormatedDate(createdAt)
+
+	updatedBoard.activities.push({ type: "copy-task", task, taskCopy, taskTitle: task.title, groupTitle: group.title,userImg:currUser.imgUrl, userName: currUser.fullname, createdAt })
 	return updatedBoard
 }
 
-async function copyGroup(group, board) {
+async function copyGroup(group, board, user) {
 	const updatedBoard = { ...board }
 	const groupCopy = { ...group }
 	const newId = utilService.makeId()
 	groupCopy.id = newId
 	updatedBoard.groups.push(groupCopy)
+	updatedBoard.activities.push({ type: 'copy-group', groupTitle: group.title,userImg:user.imgUrl, userName: user.fullname })
+
 	return updatedBoard
 }
 
@@ -188,7 +206,10 @@ async function removeTask(board, group, task, user) {
 	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
 	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex(_task => _task.id === task.id)
 	updatedBoard.groups[groupIdx].tasks.splice(taskIdx, 1)
-	updatedBoard.activities.push({type:"remove-task", taskTitle:task.title, user})
+	let createdAt = new Date()
+	createdAt = _getFormatedDate(createdAt)
+
+	updatedBoard.activities.push({ type: "remove-task", taskTitle: task.title,userImg:user.imgUrl, userName: user.fullname, createdAt })
 
 	return updatedBoard
 }
@@ -198,8 +219,10 @@ async function removeGroup(board, group, user) {
 		(_group) => _group.id === group.id
 	)
 	updatedBoard.groups.splice([groupIdx], 1)
-	console.log(updatedBoard)
-	updatedBoard.activities.push({type:'remove-group', group, user})
+	let createdAt = new Date()
+	createdAt = _getFormatedDate(createdAt)
+
+	updatedBoard.activities.push({ type: 'remove-group', groupTitle: group.title,userImg:user.imgUrl, userName: user.fullname, createdAt })
 
 	return updatedBoard
 }
@@ -228,7 +251,6 @@ async function changeAttachmentTitle(board, group, task, value) {
 	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex(
 		(_task) => _task.id === task.id
 	)
-	console.log('in change attachment title servie', task)
 	updatedBoard.groups[groupIdx].tasks[taskIdx].attachment.title = value
 	return updatedBoard
 }
@@ -268,12 +290,10 @@ async function createLabel(board, group, task, backgroundColor, title) {
 	const groupIdx = updatedBoard.groups.findIndex(
 		(_group) => _group.id === group.id
 	)
-	console.log(groupIdx)
 	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex(
 		(_task) => _task.id === task.id
 	)
 	updatedBoard.groups[groupIdx].tasks[taskIdx].labelIds.push(id)
-	console.log(updatedBoard)
 	return updatedBoard
 }
 async function createChecklist(board, group, task) {
@@ -305,7 +325,6 @@ async function addTodo(board, group, task, todoTitle) {
 		(_task) => _task.id === task.id
 	)
 	newBoard.groups[groupIdx].tasks[taskIdx].checklist.todos.push(newTodo)
-	console.log(newBoard)
 	return newBoard
 }
 async function addAttachment(board, group, task, attachmentImg = null) {
@@ -344,7 +363,6 @@ async function makeAttachmentCoverTask(board, group, task, bool) {
 
 
 async function updateTodo(board, group, task, todo) {
-	console.log('ON BOARD SERVICE LOGGER', todo)
 	const newTodo = { ...todo, isDone: !todo.isDone }
 	let newBoard = { ...board }
 	const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
@@ -354,7 +372,6 @@ async function updateTodo(board, group, task, todo) {
 	const todoIdx = newBoard.groups[groupIdx].tasks[
 		taskIdx
 	].checklist.todos.findIndex((_todo) => _todo.id === todo.id)
-	console.log('ON BOARD SERVICE LOGGER', newTodo)
 	newBoard.groups[groupIdx].tasks[taskIdx].checklist.todos.splice(
 		todoIdx,
 		1,
@@ -375,7 +392,6 @@ function updateCover(currBoard, group, taskId, color) {
 }
 
 function calculateProg(task) {
-	console.log(task);
 	if (!task.checklist) return
 	let todoLength = task.checklist.todos.length;
 	if (todoLength === 0) todoLength = 1
@@ -400,11 +416,11 @@ function deleteDateElement(board, group, task, key) {
 	return newBoard
 }
 
+
 function addDateToTask(board, group, task, date) {
 	let newBoard = { ...board }
 	const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
 	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex((_task) => _task.id === task.id)
-	console.log(date);
 	if (newBoard.groups[groupIdx].tasks[taskIdx].dates) {
 		newBoard.groups[groupIdx].tasks[taskIdx].dates.dueDate = { ...newBoard.groups[groupIdx].tasks[taskIdx].dates.dueDate, date }
 	}
@@ -413,6 +429,11 @@ function addDateToTask(board, group, task, date) {
 	}
 	return newBoard
 }
+
+// function changeBoardStyle(board,newStyle){
+// 	const updatedBoard ={...board, style: { backgroundColor: newStyle }}
+// 	return updatedBoard
+// }
 
 
 function checkBoxDueDate(board, group, task, isChecked) {
@@ -426,14 +447,16 @@ function checkBoxDueDate(board, group, task, isChecked) {
 function uploadImgToBoard(board, imgArr) {
 	let newBoard = { ...board }
 	newBoard.uploadImgs = imgArr
-	console.log(newBoard.uploadImgs);
 	return newBoard
 
 }
 
-function changeBoardBGStyle(style,currBoard,user) {
+function changeBoardBGStyle(style, currBoard, user) {
 	const newBoard = { ...currBoard, style }
-	newBoard.activities.push({type:'change-BG',user})
+	let createdAt = new Date()
+	createdAt = _getFormatedDate(createdAt)
+	newBoard.activities.push({ type: 'change-BG', userName: user.fullname,userImg:user.imgUrl, createdAt })
+
 	return newBoard
 }
 
@@ -630,3 +653,11 @@ function addGuestBoardExp() {
 }
 
 
+
+function _getFormatedDate(date) {
+	const options = { month: 'short', day: 'numeric' };
+	const MM = date.toLocaleString('en-us', options)
+	const time = date.toLocaleTimeString()
+	const createdAt = `${MM} ${time}`
+	return createdAt
+}

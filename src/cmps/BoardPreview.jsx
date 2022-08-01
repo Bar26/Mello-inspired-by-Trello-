@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { setCurrBoard } from '../store/actions/board.actions'
+import { onSaveBoard, setCurrBoard, setStaredBoard } from '../store/actions/board.actions'
 import { boardService } from '../services/board.service.js'
 
-export const BoardPreview = ({ board, getStarredBoards }) => {
+export const BoardPreview = ({ board, saveStarredBoard }) => {
 	const [star, setStar] = useState('')
 	const background = board.style.backgroundImage ? `url${board.style.backgroundImage}` : board.style.backgroundColor
 	const backgroundIndactor = board.style.backgroundImage ? 'img' : 'color'
@@ -22,15 +22,21 @@ export const BoardPreview = ({ board, getStarredBoards }) => {
 	}, [board])
 
 	const onSetStar = async (e) => {
-		e.stopPropagation()
-		if (!star.length) {
+		try{
+				e.stopPropagation()
+		if (!star) {
 			setStar('starred fa-solid')
 		} else {
 			setStar('')
 		}
-		const updatedBoard = await boardService.setStarred(board)
-		setStar(updatedBoard.isStared ? 'starred fa-solid' : '')
-		getStarredBoards(updatedBoard)
+		// const updatedBoard = await boardService.setStarred(board)
+		// // setStar(updatedBoard.isStared ? 'starred fa-solid' : '')
+		// saveStarredBoard(updatedBoard)
+		// dispatch(setStaredBoard(board))
+		}catch(err){
+
+		}
+	
 	}
 
 	const onGetBoard = async () => {

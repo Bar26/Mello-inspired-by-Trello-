@@ -1,16 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import DatePicker from "react-datepicker";
 import { useDispatch } from 'react-redux'
-import { onSaveBoard } from '../store/actions/board.actions'
+import { onSaveBoard, setCurrBoard } from '../store/actions/board.actions'
 import "react-datepicker/dist/react-datepicker.css";
 import { boardService } from '../services/board.service';
-import { useRef } from 'react';
 
 import {formt} from 'date-fns'
 
 export const DateModal = ({ toggleDateModal, board, group, task }) => {
 
-    const [endDate, setEndDate] = useState(task.dates?.dueDate ? task.dates.dueDate : new Date().toLocaleDateString('en-GB'));
+    const [endDate, setEndDate] = useState(task.dates?.dueDate ? task.dates.dueDate : new Date().toLocaleDateString());
     const dispatch = useDispatch()
     let dateCheck = task.dates?.dueDate ? task.dates.dueDate : new Date()
     dateCheck= Date(dateCheck)
@@ -19,11 +18,12 @@ export const DateModal = ({ toggleDateModal, board, group, task }) => {
     // console.log(Date(_date));
     // let endDateNotState = endDate
     
+
     
+
+ 
+
     const onSave = async () => {
-        console.log('State OmSave', _date)
-        // console.log(endDate.slice(6), endDate.slice(3,5),endDate.slice(0,2));
-        
         let newBoard = await boardService.addDateToTask(board, group, task, _date)
         await dispatch(onSaveBoard(newBoard))
     }
@@ -45,18 +45,15 @@ export const DateModal = ({ toggleDateModal, board, group, task }) => {
             }}>
                 <DatePicker
                     onChange={date => {
-                        // console.log('func Date',date);
-                        setDate(date)
-                        // console.log(date, 'State Date');
-                        // const dateToSave = date.toLocaleDateString('en-GB')
+                        const dateToSave = date.toLocaleDateString('he-IL')
+                        // console.log(dateToSave);
                         // setEndDate(dateToSave)
-                        // endDateNotState = date
-                        // console.log(endDateNotState);
-                        // console.log(_date);
+                        // endDateNotState = new Date(dateToSave)
+                        setDate(date)
                     }}
-                    // selected = {_date}
-
-                    // selected = {new Date(endDate)}
+                    // selected= {_date}
+                    // selected = {new Date(Date.UTC(endDateNotState.slice(6),Number(endDateNotState.slice(0,2))-1,endDateNotState.slice(3,5)))}
+                    // selected = {date}
                     inline />
                 <div className='end-date'>
                     {/* <label>Due Date:   {endDate} */}

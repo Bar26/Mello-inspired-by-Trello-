@@ -8,7 +8,7 @@ import { setCurrBoard, onSaveBoard } from '../store/actions/board.actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
-export function GroupList() {
+export function GroupList({onChangeColorStyle}) {
     const dispatch = useDispatch()
     const { currBoard } = useSelector((state) => state.boardModule)
     const { currUser } = useSelector((state) => state.userModule)
@@ -23,6 +23,7 @@ export function GroupList() {
     //     // boardService.getById(currBoard._id).then(setBoard)
     // }, [])
 
+
     const onAddList = async (value) => {
         try {
             const updatedBoard = await boardService.createList(currBoard, value, currUser)
@@ -33,6 +34,7 @@ export function GroupList() {
             console.error('cannot add list', err)
         }
     }
+
 
     const onListSubmit = (ev) => {
         ev.preventDefault()
@@ -126,6 +128,7 @@ export function GroupList() {
                 }}
             </Droppable>
         </DragDropContext >
+
 
 
     </section >

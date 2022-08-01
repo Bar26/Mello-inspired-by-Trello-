@@ -5,22 +5,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { setCurrBoard, onSaveBoard } from '../store/actions/board.actions'
 import { useEffectUpdate } from './useEffectUpdate.js'
+import { socketService } from '../services/socket.service.js'
 
 export const BoardHeader = ({ menuShow, toggleBoardMenu , onSetCoverMode }) => {
 	const { currBoard } = useSelector((state) => state.boardModule)
 	const [board, setBoard] = useState(currBoard)
 	const [star, setStar] = useState('')
 	const { currUser } = useSelector((state) => state.userModule)
-	const params = useParams()
 	const dispatch = useDispatch()
+	console.log(currUser);
 
-	useEffect(() => {
-		if (!Object.keys(currBoard).length) {
-			boardService
-				.getById(params.boardId)
-				.then((board) => dispatch(setCurrBoard(board)))
-		}
-	}, [])
+	// useEffect(() => {
+	// 	socketService.setup()
+	// }, [])
 
 	useEffectUpdate(() => {
 		setBoardTitle()
@@ -104,7 +101,7 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu , onSetCoverMode }) => {
 				></div>
 			</div>
 			<div className="board-menu">
-				<button className="board-menu-btn" onClick={onToggleCoverMode}>Cover</button>
+				{/* <button className="board-menu-btn" onClick={onToggleCoverMode}>Cover</button> */}
 				<button className="board-menu-btn" onClick={onToggleBoardMenu}>
 					<svg
 						stroke="currentColor"

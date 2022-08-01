@@ -1,8 +1,7 @@
 export const uploadService = {
   uploadImg
 }
-function uploadImg(ev) {
-  console.log(ev);
+async function uploadImg(ev) {
   // console.log(ev.target.files);///undefiend
   const CLOUD_NAME = "noambar"
   const UPLOAD_PRESET = "iqikctdx"
@@ -13,13 +12,29 @@ function uploadImg(ev) {
   formData.append('upload_preset', UPLOAD_PRESET);
   formData.append('file', ev.target.files[0])
 
-  return fetch(UPLOAD_URL, {
-    method: 'POST',
-    body: formData
-  })
-    .then(res => res.json())
-    .then(res => {
-      return res
+  // return fetch(UPLOAD_URL, {
+  //   method: 'POST',
+  //   body: formData
+  // })
+  //   .then(res => res.json())
+  //   .then(res => {
+  //     return res
+  //   })
+  //   .catch(err => console.error(err))
+
+  try {
+    const res = await fetch(UPLOAD_URL, {
+        method: 'POST',
+        body: formData
     })
-    .catch(err => console.error(err))
+    // const elImg = document.createElement('img');
+    const { url } = await res.json()
+    return url
+    // elImg.src = url;
+    // document.body.append(elImg);
+} catch (err) {
+    console.error('ERROR!', err)
 }
+
+}
+

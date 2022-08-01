@@ -47,7 +47,7 @@ export function TaskDetails() {
 
     const addMemberModalRef = useRef()
     const [startDate, setStartDate] = useState(new Date());
-    
+
     const dateModalRef = useRef()
     const dateStyle = useRef(task.dates?.completed ? { backgroundColor: "green", color: 'white' } : { backgroundColor: "" })
 
@@ -67,32 +67,28 @@ export function TaskDetails() {
         '#344563',
     ]
 
-    
-    
+
+
     useEffect(() => {
         getGroupTask()
-        if (!Object.keys(currBoard).length) {
-            boardService.getById('board', params.boardId)
-            .then((board) => dispatch(setCurrBoard(board)))
-        }
-        
+
     }, [])
-    
+
     // useEffect(() => {==
-    
+
     // }, [newLabelColor])
-    
+
     // useEffectUpdate(() => {
-        
-        
-        
-        const getGroupTask = async () => {
-            try {
-                const { task, group } = await boardService.getTaskGroupById(
-                    currBoard,
+
+
+
+    const getGroupTask = async () => {
+        try {
+            const { task, group } = await boardService.getTaskGroupById(
+                currBoard,
                 taskId
             )
-            
+
             setTask(task)
             setGroup(group)
         } catch (err) {
@@ -154,13 +150,16 @@ export function TaskDetails() {
         return currBoard.members.find(member => member._id === memberId)
     }
 
- 
-    const onChangeTaskTitle = (ev) => {
-        const { value } = ev.target
-        boardService
-            .changeTaskTitle(currBoard, group, taskId, value)
-            .then(boardService.update)
-            .then((board) => dispatch(setCurrBoard(board)))
+
+    const onChangeTaskTitle = async (ev) => {
+        try {
+            const { value } = ev.target
+            const updatedBoard = await boardService.changeTaskTitle(currBoard, group, taskId, value)
+            await dispatch(onSaveBoard(updatedBoard))
+        } catch (err) {
+            console.log('cannot change task title', err);
+        }
+
     }
 
     const onToggleLabelModal = () => {
@@ -186,7 +185,6 @@ export function TaskDetails() {
 
     }
     const onToggleMemberToTask = async (memberId) => {
-        console.log('in togglemember')
         try {
             const updatedBoard = await boardService.toggleMemberToTask(currBoard, group, taskId, memberId)
             await dispatch(onSaveBoard(updatedBoard))
@@ -448,11 +446,11 @@ export function TaskDetails() {
                                     className="add-label-btn"
                                 >
                                     Create a new label
-                                   
+
 
 
                                 </button>
-                                 
+
                             </div>
                         </div>
                         {/* </section> */}
@@ -728,7 +726,7 @@ export function TaskDetails() {
                                 <i className="fa-solid fa-tag"></i>
                             </span>
                             <span>Labels</span>
-                         
+
                         </div>
                         <div className="" onClick={() => onCheckList()}>
                             <span className="i">
@@ -823,47 +821,47 @@ export function TaskDetails() {
             </div>
 
             <div ref={createLabelRef} className="create-label-modal-container hide">
-                                        <header className="create-label-modal-header">
-                                            {/* <span className="go-back-to-label-modal">*</span> */}
-                                            <span className="create-label-modal-title">
-                                                Create label
-                                            </span>
-                                            <button
-                                                onClick={onToggleCreateLabelModal}
-                                                className="close-label-modal"
-                                            >
-                                                <i className="fa-solid fa-x"></i>
-                                            </button>
-                                        </header>
-                                        <hr />
-                                        <label className="create-label-label">
-                                            Name
-                                            <input
-                                                className="create-label-input"
-                                                type="text"
-                                                onChange={(ev) => setNewLabelTitle(ev.target.value)}
-                                                onBlur={(ev) => setNewLabelTitle(ev.target.value)}
-                                            />
-                                        </label>
-                                        <div className="select-color-title">Select a color</div>
-                                        <div className="colors-for-select">
-                                            {palette.map((clr, idx) => {
-                                                return (
-                                                    <div
-                                                        key={clr + idx}
-                                                        onClick={() => setNewLabelColor(clr)}
-                                                        className="label-color"
-                                                        style={{ backgroundColor: clr }}
-                                                    >
-                                                        {newLabelColor === clr && <div>✔</div>}
-                                                    </div>
-                                                )
-                                            })}
-                                        </div>
-                                        <button onClick={onSaveNewLabel} className="save-label">
-                                            Create
-                                        </button>
-                                    </div>
+                <header className="create-label-modal-header">
+                    {/* <span className="go-back-to-label-modal">*</span> */}
+                    <span className="create-label-modal-title">
+                        Create label
+                    </span>
+                    <button
+                        onClick={onToggleCreateLabelModal}
+                        className="close-label-modal"
+                    >
+                        <i className="fa-solid fa-x"></i>
+                    </button>
+                </header>
+                <hr />
+                <label className="create-label-label">
+                    Name
+                    <input
+                        className="create-label-input"
+                        type="text"
+                        onChange={(ev) => setNewLabelTitle(ev.target.value)}
+                        onBlur={(ev) => setNewLabelTitle(ev.target.value)}
+                    />
+                </label>
+                <div className="select-color-title">Select a color</div>
+                <div className="colors-for-select">
+                    {palette.map((clr, idx) => {
+                        return (
+                            <div
+                                key={clr + idx}
+                                onClick={() => setNewLabelColor(clr)}
+                                className="label-color"
+                                style={{ backgroundColor: clr }}
+                            >
+                                {newLabelColor === clr && <div>✔</div>}
+                            </div>
+                        )
+                    })}
+                </div>
+                <button onClick={onSaveNewLabel} className="save-label">
+                    Create
+                </button>
+            </div>
             <button ref={closeDetailsRef} className="close-details-btn" onClick={onCloseTaskDetails}>
                 <i className="fa-solid fa-x"></i>
             </button>

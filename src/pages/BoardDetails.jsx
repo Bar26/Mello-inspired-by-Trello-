@@ -27,8 +27,7 @@ export const BoardDeatails = () => {
 		// 	getCurrBoard()
 		// }
 
-		socketService.on(SOCKET_EMIT_UPDATE_BOARD, (board) => {
-			console.log(board, 'board from back socket')
+		socketService.on(SOCKET_EMIT_UPDATE_BOARD,(board)=>{
 			// dispatch({ type: 'SAVE_BOARD', board })
 			dispatch(setCurrBoard(boardId))
 
@@ -40,7 +39,6 @@ export const BoardDeatails = () => {
 	useEffect(() => {
 
 		if (!currUser) {
-			console.log('OnEffect', currUser)
 			dispatch(setCurrUser(currUser))
 		}
 	}, [currUser])
@@ -109,11 +107,11 @@ export const BoardDeatails = () => {
 			style={
 				currBoard.style.backgroundImage
 					? {
-						backgroundImage: `URL${currBoard?.style?.backgroundImage || '()'}`,
-						backgroundRepeat: 'no-repeat',
-						backgroundSize: 'cover',
-						backgroundPosition: 'center',
-					} : { background: currBoard.style.backgroundColor }
+							backgroundImage: `URL${currBoard?.style?.backgroundImage || '()'}` ,
+							backgroundRepeat: 'no-repeat',
+							backgroundSize: 'cover',
+							backgroundPosition: 'center',
+					  }: { backgroundColor: currBoard.style.backgroundColor }
 			}
 		>
 			{/* {console.log((currBoard.style.backgroundImage) ? { background: currBoard.style.backgroundImage } : { background: currBoard.style.backgroundColor })} */}
@@ -129,7 +127,7 @@ export const BoardDeatails = () => {
 					onSetCoverMode={onSetCoverMode}
 					coverMode={coverMode}
 				/>
-				<GroupList boardId={boardId} />
+				<GroupList boardId={boardId}  />
 				<Outlet />
 				<Screen />
 			</section>

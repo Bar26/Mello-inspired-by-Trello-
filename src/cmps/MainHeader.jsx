@@ -12,6 +12,9 @@ import { utilService } from '../services/util.service.js'
 import { userService } from '../services/user.service.js'
 import trelloIcon from '../assets/img/trello-icon.png'
 import { useSelector } from 'react-redux'
+import { socketService } from '../services/socket.service.js'
+
+
 import { MainCreate } from './createModalHeader/MainCreate.jsx'
 import { CreateBoardHeader } from './createModalHeader/CreateBoardHeader.jsx'
 import { CreateTemplateHeader } from './createModalHeader/CreateTemplateHeader.jsx'
@@ -38,6 +41,10 @@ export const MainHeader = () => {
 	const dispatch = useDispatch()
 	const { currUser } = useSelector((state) => state.userModule)
 	useEffect(() => {
+		// socketService.setup()
+	}, [])
+
+	useEffect(() => {
 		if (!board._id) return
 		// loadTemplates()
 		// await dispatch(onSaveBoard(board))
@@ -53,9 +60,15 @@ export const MainHeader = () => {
 		setUser(user)
 	}
 
-	const toggleModal = (refType) => {
-		refType.current.classList.toggle('hide')
-		boardService.queryTemplates().then((templates) => setTemplates(templates))
+	const toggleModal = async (refType) => {
+		try {
+			refType.current.classList.toggle('hide')
+			const templates = await boardService.queryTemplates()
+			setTemplates(templates)
+		} catch (err) {
+			console.log('cannot get templates', err);
+		}
+
 	}
 
 	const onSetStar = (ev, template) => {
@@ -80,7 +93,6 @@ export const MainHeader = () => {
 	const onSelectTemplate = async (templateId) => {
 		const template = await boardService.getTemplateById(templateId)
 		const newBoard = await boardService.getEmptyBoard(template)
-		// console.log('on Select', newBoard)
 		// setBoards(newBoard)
 		dispatch(setCurrBoard(newBoard._id))
 		// dispatch(onSaveBoard(newBoard))
@@ -120,6 +132,8 @@ export const MainHeader = () => {
 			// 	// return <NoteImg  onDeleteNote={props.onDeleteNote} note={props.note} />
 			// 	// return <ChangeBgcModal menuShow={menuShow} onToggleBoardMenu={onToggleBoardMenu} setSelectedType={setSelectedType} setTitle={setTitle}></ChangeBgcModal>
 			// }
+			default:
+				return
 		}
 	}
 
@@ -497,7 +511,9 @@ export const MainHeader = () => {
 						background: `url(${currUser.imgUrl}) center center / cover`,
 						height: '32px'
 					}}
-				></div>
+					
+				>{currUser.fullname.slice(0,1)}
+				</div>
 			</div>
 		</header>
 	)
