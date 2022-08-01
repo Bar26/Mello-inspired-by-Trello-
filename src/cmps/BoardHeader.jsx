@@ -13,6 +13,7 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu , onSetCoverMode }) => {
 	const [star, setStar] = useState('')
 	const { currUser } = useSelector((state) => state.userModule)
 	const dispatch = useDispatch()
+	console.log(currUser);
 
 	// useEffect(() => {
 	// 	socketService.setup()

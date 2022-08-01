@@ -5,24 +5,54 @@
     font-size: rem(14px);
     display: flex;
     flex-direction: column;
-    gap:8px;
-    padding:0 8px 18px 24px   ;
-
+    gap: 8px;
+    padding: 0 8px 18px 12px;
+    align-items: flex-start;
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 12px;
+        .title {
+            font-weight: 700;
+            line-height: em(20px, 14px);
+        }
+        .activity-icon-container {
+            width: 32px;
+            height: 32px;
+            @include flex-center;
+        }
+    }
 
     .activity {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        gap:5px;
-        justify-content: center;
+        gap: 5px;
+        // justify-content: flex-start;
+        padding-inline-start: 44px; //////////CHANGE AFTER ADDING USER ICON
+        width: 100%;
+        position: relative;
+
+         .user-img {
+                width: 32px;
+                height: 32px;
+                border-radius: 50vh;
+                position: absolute;
+                top:0;
+                left:0
+
+            }
+
         .content {
+            text-align: start;
+           
 
             .user-name {
                 font-weight: 700;
-
             }
             .link-to-task {
-                color:$clr5;
+                color: $clr5;
             }
         }
         .created-at {

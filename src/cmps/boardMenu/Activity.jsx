@@ -9,21 +9,33 @@ export function Activity() {
 
 
     return <section className="activity-container">
+        <div className="header">
+            <span className="activity-icon-container"><i className="fa-solid fa-list-ul"></i></span>
+            <span className="title">Activity</span>
+
+        </div>
         {currBoard.activities.map(act => {
             switch (act.type) {
                 case 'add-task': {
 
                     return <div className="activity">
+                        <div
+                            className="user-img"
+                            style={{
+                                background: `url(${act.userImg}) center center / cover`,
+                                height: '32px'
+                            }}
+                        ></div>
                         <div className="content">
                             <span className="user-name">{act.userName} </span>
-                            added
+                            <span>added </span>
                             {act.task && <Link className="link-to-task" to={`/boards/${currBoard._id}/${act.task.id}`}>
                                 {act.task.title}
                             </Link>}
                             {!act.task &&
                                 <span>{act.taskTitle}</span>
                             }
-                            to {act.groupTitle}</div>
+                            <span> to </span> {act.groupTitle}</div>
                         <span className="created-at">
                             {act.createdAt}
                         </span>
@@ -31,9 +43,16 @@ export function Activity() {
                 }
                 case 'remove-task': {
                     return <div className="activity">
+                        <div
+                            className="user-img"
+                            style={{
+                                background: `url(${act.userImg}) center center / cover`,
+                                height: '32px'
+                            }}
+                        ></div>
                         <div className="content">
                             <span className="user-name">{act.userName}</span>
-                            archived {act.taskTitle}</div>
+                            <span> archived</span> {act.taskTitle}</div>
                         <span className="created-at">
                             {act.createdAt}
                         </span>
@@ -41,9 +60,16 @@ export function Activity() {
                 }
                 case 'add-group': {
                     return <div className="activity">
+                        <div
+                            className="user-img"
+                            style={{
+                                background: `url(${act.userImg}) center center / cover`,
+                                height: '32px'
+                            }}
+                        ></div>
                         <div className="content">
                             <span className="user-name">{act.userName}</span>
-                            added {act.groupTitle} to this board.</div>
+                            <span> added {act.groupTitle} to this board</span></div>
                         <span className="created-at">
                             {act.createdAt}
                         </span>
@@ -51,9 +77,16 @@ export function Activity() {
                 }
                 case 'remove-group': {
                     return <div className="activity">
+                        <div
+                            className="user-img"
+                            style={{
+                                background: `url(${act.userImg}) center center / cover`,
+                                height: '32px'
+                            }}
+                        ></div>
                         <div className="content">
                             <span className="user-name">{act.userName}</span>
-                            archived {act.groupTitle}</div>
+                            <span> archived </span> {act.groupTitle}</div>
                         <span className="created-at">
                             {act.createdAt}
                         </span>
@@ -61,15 +94,22 @@ export function Activity() {
                 }
                 case 'copy-task': {
                     return <div className="activity">
+                        <div
+                            className="user-img"
+                            style={{
+                                background: `url(${act.userImg}) center center / cover`,
+                                height: '32px'
+                            }}
+                        ></div>
                         <div className="content">
-                            <span className="user-name">{act.userName}</span>
-                            copied
+                            <span className="user-name">{act.userName} </span>
+                            <span>copied </span>
                             {act.task && <Link className="link-to-task" to={`/boards/${currBoard._id}/${act.task.id}`}>
                                 {act.task.title}
                             </Link>}
                             {!act.task && <span>{act.taskTitle}</span>}
 
-                            from
+                            <span> from </span>
 
                             {act.taskCopy && <Link className="link-to-task" to={`/boards/${currBoard._id}/${act.taskCopy.id}`}>
                                 {act.taskCopy.title}
@@ -83,17 +123,39 @@ export function Activity() {
                 }
                 case 'copy-group': {
                     return <div className="activity">
+                        <div
+                            className="user-img"
+                            style={{
+                                background: `url(${act.userImg}) center center / cover`,
+                                height: '32px'
+                            }}
+                        ></div>
                         <div className="content">
                             <span className="user-name">{act.userName}</span>
-                            copied {act.groupTitle}</div>
+                            <span>copied</span> {act.groupTitle}</div>
                         <span className="created-at">
                             {act.createdAt}
                         </span>
                     </div>
                 }
-
-
-
+                case 'change-BG': {
+                    return <div className="activity">
+                        <div
+                            className="user-img"
+                            style={{
+                                background: `url(${act.userImg}) center center / cover`,
+                                height: '32px'
+                            }}
+                        ></div>
+                        <div className="content">
+                            <span className="user-name">{act.userName}</span>
+                            <span> changed the background of this board</span>
+                        </div>
+                        <span className="created-at">
+                            {act.createdAt}
+                        </span>
+                    </div>
+                }
 
                 default:
             }

@@ -154,12 +154,12 @@ async function update(board) {
 async function createTask(title, group, currBoard, currUser) {
 	const id = utilService.makeId()
 	let createdAt = new Date()
-	createdAt=_getFormatedDate(createdAt)
+	createdAt = _getFormatedDate(createdAt)
 	const task = { id, title }
 	const updatedBoard = { ...currBoard }
 	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
 	updatedBoard.groups[groupIdx].tasks.push(task)
-	updatedBoard.activities.push({ type: 'add-task', task, taskTitle: task.title, groupTitle: group.title, userName: currUser.fullname, createdAt })
+	updatedBoard.activities.push({ type: 'add-task', task, taskTitle: task.title, groupTitle: group.title, userName: currUser.fullname, userImg:currUser.imgUrl, createdAt })
 	return updatedBoard
 }
 
@@ -169,9 +169,10 @@ async function createList(board, title, user) {
 	const id = utilService.makeId()
 	const group = { id, title, tasks: [] }
 	updatedBoard.groups.push(group)
-	const createdAt = new Date()
-	
-	updatedBoard.activities.push({ type: 'add-group', groupTitle: group.title, userName: user.fullname, createdAt })
+	let createdAt = new Date()
+	createdAt = _getFormatedDate(createdAt)
+
+	updatedBoard.activities.push({ type: 'add-group', groupTitle: group.title,userImg:user.imgUrl, userName: user.fullname, createdAt })
 	return updatedBoard
 }
 
@@ -182,9 +183,10 @@ async function copyTask(task, group, board, currUser) {
 	taskCopy.id = newId
 	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
 	updatedBoard.groups[groupIdx].tasks.push(taskCopy)
-	const createdAt = new Date()
-	
-	updatedBoard.activities.push({ type: "copy-task", task, taskCopy, taskTitle: task.title, groupTitle: group.title, userName: currUser.fullname, createdAt })
+	let createdAt = new Date()
+	createdAt = _getFormatedDate(createdAt)
+
+	updatedBoard.activities.push({ type: "copy-task", task, taskCopy, taskTitle: task.title, groupTitle: group.title,userImg:currUser.imgUrl, userName: currUser.fullname, createdAt })
 	return updatedBoard
 }
 
@@ -194,8 +196,8 @@ async function copyGroup(group, board, user) {
 	const newId = utilService.makeId()
 	groupCopy.id = newId
 	updatedBoard.groups.push(groupCopy)
-	updatedBoard.activities.push({ type: 'copy-group', groupTitle: group.title, userName: user.fullname })
-	
+	updatedBoard.activities.push({ type: 'copy-group', groupTitle: group.title,userImg:user.imgUrl, userName: user.fullname })
+
 	return updatedBoard
 }
 
@@ -204,22 +206,24 @@ async function removeTask(board, group, task, user) {
 	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
 	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex(_task => _task.id === task.id)
 	updatedBoard.groups[groupIdx].tasks.splice(taskIdx, 1)
-	const createdAt = new Date()
-	
-	updatedBoard.activities.push({ type: "remove-task", taskTitle: task.title, userName: user.fullname, createdAt })
-	
+	let createdAt = new Date()
+	createdAt = _getFormatedDate(createdAt)
+
+	updatedBoard.activities.push({ type: "remove-task", taskTitle: task.title,userImg:user.imgUrl, userName: user.fullname, createdAt })
+
 	return updatedBoard
 }
 async function removeGroup(board, group, user) {
 	let updatedBoard = { ...board }
 	const groupIdx = updatedBoard.groups.findIndex(
 		(_group) => _group.id === group.id
-		)
+	)
 	updatedBoard.groups.splice([groupIdx], 1)
-	const createdAt = new Date()
-	
-	updatedBoard.activities.push({ type: 'remove-group', groupTitle: group.title, userName: user.fullname, createdAt })
-	
+	let createdAt = new Date()
+	createdAt = _getFormatedDate(createdAt)
+
+	updatedBoard.activities.push({ type: 'remove-group', groupTitle: group.title,userImg:user.imgUrl, userName: user.fullname, createdAt })
+
 	return updatedBoard
 }
 
@@ -227,12 +231,12 @@ async function changeTaskTitle(board, group, taskId, value) {
 	const updatedBoard = { ...board }
 	const groupIdx = updatedBoard.groups.findIndex(
 		(_group) => _group.id === group.id
-		)
-		updatedBoard.groups[groupIdx].tasks.find((task) => task.id === taskId).title =
+	)
+	updatedBoard.groups[groupIdx].tasks.find((task) => task.id === taskId).title =
 		value
-		return updatedBoard
-	}
-	
+	return updatedBoard
+}
+
 async function changeGroupTitle(board, group, value) {
 	// console.log('in change group title servie')
 	const updatedBoard = { ...board }
@@ -243,7 +247,7 @@ async function changeAttachmentTitle(board, group, task, value) {
 	const updatedBoard = { ...board }
 	const groupIdx = updatedBoard.groups.findIndex(
 		(_group) => _group.id === group.id
-		)
+	)
 	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex(
 		(_task) => _task.id === task.id
 	)
@@ -288,11 +292,11 @@ async function createLabel(board, group, task, backgroundColor, title) {
 	)
 	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex(
 		(_task) => _task.id === task.id
-		)
-		updatedBoard.groups[groupIdx].tasks[taskIdx].labelIds.push(id)
-		return updatedBoard
-	}
-	async function createChecklist(board, group, task) {
+	)
+	updatedBoard.groups[groupIdx].tasks[taskIdx].labelIds.push(id)
+	return updatedBoard
+}
+async function createChecklist(board, group, task) {
 	const updatedBoard = { ...board }
 	const groupIdx = updatedBoard.groups.findIndex((_group) => _group.id === group.id)
 	const taskIdx = updatedBoard.groups[groupIdx].tasks.findIndex((_task) => _task.id === task.id)
@@ -305,35 +309,35 @@ async function deleteChecklist(board, group, task) {
 	let newBoard = { ...board }
 	const groupIdx = newBoard.groups.findIndex(
 		(_group) => _group.id === group.id
-		)
-		const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(
+	)
+	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(
 		(_task) => _task.id === task.id
-		)
-		newBoard.groups[groupIdx].tasks[taskIdx].checklist = {}
-		return newBoard
-	}
-	async function addTodo(board, group, task, todoTitle) {
-		const id = utilService.makeId()
-		const newTodo = { title: todoTitle, id: id, isDone: false }
-		let newBoard = { ...board }
-		const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
-		const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(
-			(_task) => _task.id === task.id
-			)
-			newBoard.groups[groupIdx].tasks[taskIdx].checklist.todos.push(newTodo)
-			return newBoard
-		}
-		async function addAttachment(board, group, task, attachmentImg = null) {
-			// const id = utilService.makeId()
-			const newAttachment = { imgUrl: '', title: 'Uploded Img', createdAt: new Date() }
-			if (attachmentImg !== null) newAttachment.imgUrl = attachmentImg
-			let newBoard = { ...board }
-			const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
-			const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(
+	)
+	newBoard.groups[groupIdx].tasks[taskIdx].checklist = {}
+	return newBoard
+}
+async function addTodo(board, group, task, todoTitle) {
+	const id = utilService.makeId()
+	const newTodo = { title: todoTitle, id: id, isDone: false }
+	let newBoard = { ...board }
+	const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
+	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(
 		(_task) => _task.id === task.id
-		)
-		newBoard.groups[groupIdx].tasks[taskIdx].attachment = newAttachment
-		return newBoard
+	)
+	newBoard.groups[groupIdx].tasks[taskIdx].checklist.todos.push(newTodo)
+	return newBoard
+}
+async function addAttachment(board, group, task, attachmentImg = null) {
+	// const id = utilService.makeId()
+	const newAttachment = { imgUrl: '', title: 'Uploded Img', createdAt: new Date() }
+	if (attachmentImg !== null) newAttachment.imgUrl = attachmentImg
+	let newBoard = { ...board }
+	const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
+	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(
+		(_task) => _task.id === task.id
+	)
+	newBoard.groups[groupIdx].tasks[taskIdx].attachment = newAttachment
+	return newBoard
 }
 
 async function makeAttachmentCoverTask(board, group, task, bool) {
@@ -345,35 +349,35 @@ async function makeAttachmentCoverTask(board, group, task, bool) {
 	return newBoard
 }
 // async function updateAttachment(board, group, task, src) {
-	// 	// const id = utilService.makeId()
-	// 	const newAttachment = { ...task.attachment, imgUrl: src }
-	// 	let newBoard = { ...board }
-	// 	const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
+// 	// const id = utilService.makeId()
+// 	const newAttachment = { ...task.attachment, imgUrl: src }
+// 	let newBoard = { ...board }
+// 	const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
 // 	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(
-	// 		(_task) => _task.id === task.id
-	// 	)
-	// 	newBoard.groups[groupIdx].tasks[taskIdx].attachment = newAttachment
-	// 	console.log(newBoard)
-	// 	return newBoard
-	// }
-	
-	
-	async function updateTodo(board, group, task, todo) {
-		const newTodo = { ...todo, isDone: !todo.isDone }
-		let newBoard = { ...board }
-		const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
+// 		(_task) => _task.id === task.id
+// 	)
+// 	newBoard.groups[groupIdx].tasks[taskIdx].attachment = newAttachment
+// 	console.log(newBoard)
+// 	return newBoard
+// }
+
+
+async function updateTodo(board, group, task, todo) {
+	const newTodo = { ...todo, isDone: !todo.isDone }
+	let newBoard = { ...board }
+	const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
 	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(
 		(_task) => _task.id === task.id
-		)
-		const todoIdx = newBoard.groups[groupIdx].tasks[
-			taskIdx
-		].checklist.todos.findIndex((_todo) => _todo.id === todo.id)
-		newBoard.groups[groupIdx].tasks[taskIdx].checklist.todos.splice(
-			todoIdx,
-			1,
-			newTodo
-			)
-			return newBoard
+	)
+	const todoIdx = newBoard.groups[groupIdx].tasks[
+		taskIdx
+	].checklist.todos.findIndex((_todo) => _todo.id === todo.id)
+	newBoard.groups[groupIdx].tasks[taskIdx].checklist.todos.splice(
+		todoIdx,
+		1,
+		newTodo
+	)
+	return newBoard
 }
 
 function updateCover(currBoard, group, taskId, color) {
@@ -384,7 +388,7 @@ function updateCover(currBoard, group, taskId, color) {
 	task.style ? task.style.backgroundColor = color : task.style = { backgroundColor: color }
 	updatedBoard.groups[groupIdx].tasks[taskIdx] = task
 	return updatedBoard
-	
+
 }
 
 function calculateProg(task) {
@@ -427,16 +431,16 @@ function addDateToTask(board, group, task, date) {
 }
 
 // function changeBoardStyle(board,newStyle){
-	// 	const updatedBoard ={...board, style: { backgroundColor: newStyle }}
-	// 	return updatedBoard
-	// }
-	
-	
-	function checkBoxDueDate(board, group, task, isChecked) {
-		let newBoard = { ...board }
-		const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
-		const taskIdx = newBoard.groups[groupIdx].tasks.findIndex((_task) => _task.id === task.id)
-		newBoard.groups[groupIdx].tasks[taskIdx].dates.completed = isChecked
+// 	const updatedBoard ={...board, style: { backgroundColor: newStyle }}
+// 	return updatedBoard
+// }
+
+
+function checkBoxDueDate(board, group, task, isChecked) {
+	let newBoard = { ...board }
+	const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
+	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex((_task) => _task.id === task.id)
+	newBoard.groups[groupIdx].tasks[taskIdx].dates.completed = isChecked
 	return newBoard
 }
 
@@ -447,9 +451,12 @@ function uploadImgToBoard(board, imgArr) {
 
 }
 
-function changeBoardBGStyle(style,currBoard,user) {
+function changeBoardBGStyle(style, currBoard, user) {
 	const newBoard = { ...currBoard, style }
-	newBoard.activities.push({type:'change-BG',user})
+	let createdAt = new Date()
+	createdAt = _getFormatedDate(createdAt)
+	newBoard.activities.push({ type: 'change-BG', userName: user.fullname,userImg:user.imgUrl, createdAt })
+
 	return newBoard
 }
 
@@ -457,7 +464,7 @@ function changeBoardBGStyle(style,currBoard,user) {
 // addGuestBoardExp()
 function addGuestBoardExp() {
 	const board = {
-		
+
 		title: 'Scrum Workflow',
 		archivedAt: 1589983468418,
 		createdAt: 1589983468418,
@@ -494,7 +501,7 @@ function addGuestBoardExp() {
 				_id: 'u101',
 				fullname: 'Noam Bar',
 				imgUrl:
-				'https://live-production.wcms.abc-cdn.net.au/ff1221fbfdb2fe163fdda15df5f77676?impolicy=wcms_crop_resize&cropH=394&cropW=700&xPos=0&yPos=37&width=862&height=485',
+					'https://live-production.wcms.abc-cdn.net.au/ff1221fbfdb2fe163fdda15df5f77676?impolicy=wcms_crop_resize&cropH=394&cropW=700&xPos=0&yPos=37&width=862&height=485',
 			},
 		],
 		groups: [
@@ -537,13 +544,13 @@ function addGuestBoardExp() {
 							backgroundColor: '#00c2e0',
 						},
 					},
-					
+
 					{
 						id: 'c106',
 						title: 'Data Structure',
 					},
 				],
-				
+
 				memberIds: ['u101'],
 				labelIds: ['l101', 'l102'],
 				createdAt: 1590999730348,
@@ -553,13 +560,13 @@ function addGuestBoardExp() {
 					username: 'Itamar',
 					fullname: 'Itamar Sahar',
 					imgUrl:
-					'http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg',
+						'http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg',
 				},
 				style: {
 					backgroundColor: '#26de81',
 				},
 			},
-			
+
 			{
 				id: 'g103',
 				title: 'Code Review',
@@ -614,7 +621,7 @@ function addGuestBoardExp() {
 							backgroundColor: '#344563',
 						},
 					},
-					
+
 					{
 						id: 'c113',
 						title: 'Create Logo ',
@@ -647,10 +654,10 @@ function addGuestBoardExp() {
 
 
 
-function _getFormatedDate(date){
+function _getFormatedDate(date) {
 	const options = { month: 'short', day: 'numeric' };
 	const MM = date.toLocaleString('en-us', options)
 	const time = date.toLocaleTimeString()
-	const createdAt=`${MM} ${time}`
+	const createdAt = `${MM} ${time}`
 	return createdAt
 }

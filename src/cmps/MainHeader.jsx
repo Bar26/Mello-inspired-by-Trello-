@@ -511,7 +511,9 @@ export const MainHeader = () => {
 						background: `url(${currUser.imgUrl}) center center / cover`,
 						height: '32px'
 					}}
-				></div>
+					
+				>{currUser.fullname.slice(0,1)}
+				</div>
 			</div>
 		</header>
 	)

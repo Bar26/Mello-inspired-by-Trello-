@@ -114,7 +114,7 @@ export const BoardMenu = ({ onChangeBGImgStyle, onUploadImg, onSetCoverMode, men
 			}
 			<h3 className="menu-title">{title}</h3>
 			</header>
-			<hr />
+			<hr className="menu-hr" />
 			<DynamicCmp menuShow={menuShow} ></DynamicCmp>
 	
 
