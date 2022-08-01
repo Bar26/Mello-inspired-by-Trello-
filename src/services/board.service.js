@@ -48,6 +48,7 @@ export const boardService = {
 	// changeBoardStyle,
 	uploadImgToBoard,
 	changeBoardBGStyle,
+	getInitials
 }
 
 
@@ -159,7 +160,7 @@ async function createTask(title, group, currBoard, currUser) {
 	const updatedBoard = { ...currBoard }
 	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
 	updatedBoard.groups[groupIdx].tasks.push(task)
-	updatedBoard.activities.push({ type: 'add-task', task, taskTitle: task.title, groupTitle: group.title, userName: currUser.fullname, userImg:currUser.imgUrl, createdAt })
+	updatedBoard.activities.push({ type: 'add-task', task, taskTitle: task.title, groupTitle: group.title, userName: currUser.fullname, userImg: currUser.imgUrl, createdAt })
 	return updatedBoard
 }
 
@@ -172,7 +173,7 @@ async function createList(board, title, user) {
 	let createdAt = new Date()
 	createdAt = _getFormatedDate(createdAt)
 
-	updatedBoard.activities.push({ type: 'add-group', groupTitle: group.title,userImg:user.imgUrl, userName: user.fullname, createdAt })
+	updatedBoard.activities.push({ type: 'add-group', groupTitle: group.title, userImg: user.imgUrl, userName: user.fullname, createdAt })
 	return updatedBoard
 }
 
@@ -186,7 +187,7 @@ async function copyTask(task, group, board, currUser) {
 	let createdAt = new Date()
 	createdAt = _getFormatedDate(createdAt)
 
-	updatedBoard.activities.push({ type: "copy-task", task, taskCopy, taskTitle: task.title, groupTitle: group.title,userImg:currUser.imgUrl, userName: currUser.fullname, createdAt })
+	updatedBoard.activities.push({ type: "copy-task", task, taskCopy, taskTitle: task.title, groupTitle: group.title, userImg: currUser.imgUrl, userName: currUser.fullname, createdAt })
 	return updatedBoard
 }
 
@@ -196,7 +197,7 @@ async function copyGroup(group, board, user) {
 	const newId = utilService.makeId()
 	groupCopy.id = newId
 	updatedBoard.groups.push(groupCopy)
-	updatedBoard.activities.push({ type: 'copy-group', groupTitle: group.title,userImg:user.imgUrl, userName: user.fullname })
+	updatedBoard.activities.push({ type: 'copy-group', groupTitle: group.title, userImg: user.imgUrl, userName: user.fullname })
 
 	return updatedBoard
 }
@@ -209,7 +210,7 @@ async function removeTask(board, group, task, user) {
 	let createdAt = new Date()
 	createdAt = _getFormatedDate(createdAt)
 
-	updatedBoard.activities.push({ type: "remove-task", taskTitle: task.title,userImg:user.imgUrl, userName: user.fullname, createdAt })
+	updatedBoard.activities.push({ type: "remove-task", taskTitle: task.title, userImg: user.imgUrl, userName: user.fullname, createdAt })
 
 	return updatedBoard
 }
@@ -222,7 +223,7 @@ async function removeGroup(board, group, user) {
 	let createdAt = new Date()
 	createdAt = _getFormatedDate(createdAt)
 
-	updatedBoard.activities.push({ type: 'remove-group', groupTitle: group.title,userImg:user.imgUrl, userName: user.fullname, createdAt })
+	updatedBoard.activities.push({ type: 'remove-group', groupTitle: group.title, userImg: user.imgUrl, userName: user.fullname, createdAt })
 
 	return updatedBoard
 }
@@ -455,7 +456,7 @@ function changeBoardBGStyle(style, currBoard, user) {
 	const newBoard = { ...currBoard, style }
 	let createdAt = new Date()
 	createdAt = _getFormatedDate(createdAt)
-	newBoard.activities.push({ type: 'change-BG', userName: user.fullname,userImg:user.imgUrl, createdAt })
+	newBoard.activities.push({ type: 'change-BG', userName: user.fullname, userImg: user.imgUrl, createdAt })
 
 	return newBoard
 }
@@ -660,4 +661,11 @@ function _getFormatedDate(date) {
 	const time = date.toLocaleTimeString()
 	const createdAt = `${MM} ${time}`
 	return createdAt
+}
+
+function getInitials(name) {
+	let nameArr = name.split(' ')
+	let nameInitials = nameArr[0].slice(0, 1)
+	if (nameArr[1]) nameInitials = nameInitials + nameArr[1].slice(0, 1)
+	return nameInitials
 }

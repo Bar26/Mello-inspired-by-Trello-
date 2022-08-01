@@ -10,7 +10,6 @@ export function AddMemberModal({ onToggleMemberModal, onToggleMemberToTask, task
 
     const { currBoard } = useSelector((state) => state.boardModule)
     const { users } = useSelector((state) => state.userModule)
-    console.log(users);
     const [filterMember, setFilterMember] = useState('')
 
 
@@ -23,6 +22,7 @@ export function AddMemberModal({ onToggleMemberModal, onToggleMemberToTask, task
         console.log('Task: ',task);
         console.log('member: ',memberId);
         if(task) onToggleMemberToTask(memberId)
+        else console.log(users);
     }
 
 

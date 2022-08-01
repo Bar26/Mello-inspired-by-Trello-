@@ -24,14 +24,6 @@ export function Signup() {
 	// 	loadUsers()
 	// }, [])
 
-	// const loadUsers = async () => {
-	// 	try {
-	// 		const users = await userService.getUsers()
-	// 		setUsers(users)
-	// 	} catch {
-	// 		console.error('Cannot load Users !')
-	// 	}
-	// }
 
 	const onUploadImg = async (imgArr) => {
 		// await dispatch(onSaveBoard(newBoard))
@@ -75,7 +67,6 @@ export function Signup() {
 			return
 		userService.saveLocalUser(credentials)
 		dispatch(onSignup(credentials))
-		dispatch({ type: 'ADD_USERS', user })
 
 		setCredentials({
 			username: '',

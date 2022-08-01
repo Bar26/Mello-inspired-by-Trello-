@@ -31,6 +31,7 @@ export const MainHeader = () => {
 	const refStarred = React.createRef()
 	const refCreate = React.createRef()
 	const refInfo = React.createRef()
+	
 
 
 	const [createButtonState, setCreateState] = useState('main-create')
@@ -40,7 +41,7 @@ export const MainHeader = () => {
 	const refCreateFirstModal = React.createRef()
 	const dispatch = useDispatch()
 	const { currUser } = useSelector((state) => state.userModule)
-	const bg = currUser.imgUrl ? `url(${currUser.imgUrl}) center center / cover` : 'red'
+	const bg = currUser.imgUrl ? `url(${currUser.imgUrl}) center center / cover` : '#de350b'
 
 	useEffect(() => {
 		// socketService.setup()
@@ -514,7 +515,7 @@ export const MainHeader = () => {
 						height: '32px'
 					}}
 
-				>{currUser.fullname.slice(0, 1)}
+				>{!currUser.imgUrl&&<span>{boardService.getInitials(currUser.fullname)}</span>}
 				</div>
 			</div>
 		</header>

@@ -6,6 +6,7 @@ const INITIAL_STATE = {
 }
 export function userReducer(state = INITIAL_STATE, action) {
 	var newState = state
+	var users = state.users
 	switch (action.type) {
 		case 'SET_USER':
 			newState = { ...state, currUser: action.user }
@@ -18,7 +19,11 @@ export function userReducer(state = INITIAL_STATE, action) {
 			}
 			break
 		case 'SET_USERS':
+			console.log('in set users', action.users);
 			newState = { ...state, users: action.users }
+			break
+		case 'ADD_USER':
+			newState = { ...state, users: [...users, action.user] }
 			break
 
 		default:

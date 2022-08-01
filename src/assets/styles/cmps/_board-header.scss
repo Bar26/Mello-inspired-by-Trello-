@@ -38,6 +38,7 @@
 		.member-img {
 			border-radius: 25em;
 			cursor: pointer;
+			@include flex-center;
 			height: 30px;
 			width: 30px;
 			&:hover {
