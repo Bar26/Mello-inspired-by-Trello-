@@ -22,6 +22,8 @@ export const BoardList = () => {
 	const dispatch = useDispatch()
 
 	const refCreate = createRef()
+	const { users } = useSelector((state) => state.userModule)
+
 
 
 
@@ -30,6 +32,7 @@ export const BoardList = () => {
 
 	useEffect(() => {
 		dispatch(getUser()) 
+		console.log(users);
 	}, [])
 
 

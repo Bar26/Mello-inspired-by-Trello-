@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import hero1 from '../assets/img/hero1.png'
 import { AppHeader } from '../cmps/AppHeader'
 import { userService } from '../services/user.service'
-import { setCurrUser } from '../store/actions/user.actions.js'
+import { loadUsers, setCurrUser } from '../store/actions/user.actions.js'
 import melloPic from '../assets/img/mello pic.png'
 import coinbasePic from '../assets/img/coinbase-pic.svg'
 import googlePic from '../assets/img/google-pic.svg'
@@ -16,17 +16,21 @@ import boardTeaser from '../assets/img/boradTeaser.svg'
 import { teasersInfo } from '../services/home-data.service'
 import { HomeTeaser } from '../cmps/HomeTeaser'
 import trelloIcon from '../assets/img/trello-icon.png'
+import { useSelector } from 'react-redux'
 export function Home() {
 	const dispatch = useDispatch()
+	const { users } = useSelector((state) => state.userModule)
 
-	useEffect(() => {
-		SetStore()
-	}, [])
+	
 
-	const SetStore = async () => {
-		// await dispatch(setCurrUser({}))
-		// await dispatch(setCurrBoard({}))
-	}
+	// useEffect(() => {
+	// 	SetStore()
+	// 	console.log(users);
+	// }, [])
+
+	// const SetStore = async () => {
+	// 	await dispatch(setCurrUser({}))
+	// }
 
 	const onSetGuestMode = async () => {
 		const guestUser = {

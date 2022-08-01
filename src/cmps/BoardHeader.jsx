@@ -6,18 +6,22 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { setCurrBoard, onSaveBoard } from '../store/actions/board.actions'
 import { useEffectUpdate } from './useEffectUpdate.js'
 import { socketService } from '../services/socket.service.js'
+import { loadUsers } from '../store/actions/user.actions.js'
 
 export const BoardHeader = ({ menuShow, toggleBoardMenu , onSetCoverMode }) => {
 	const { currBoard } = useSelector((state) => state.boardModule)
 	const [board, setBoard] = useState(currBoard)
 	const [star, setStar] = useState('')
 	const { currUser } = useSelector((state) => state.userModule)
-	const dispatch = useDispatch()
-	console.log(currUser);
+	const bg = currUser.imgUrl ? `url(${currUser.imgUrl}) center center / cover` : '#de350b'
+	const { users } = useSelector((state) => state.userModule)
 
-	// useEffect(() => {
-	// 	socketService.setup()
-	// }, [])
+	const dispatch = useDispatch()
+
+	useEffect(() => {
+		dispatch(loadUsers())
+	}, [])
+
 
 	useEffectUpdate(() => {
 		setBoardTitle()
@@ -96,9 +100,9 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu , onSetCoverMode }) => {
 				<div
 					className="member-img"
 					style={{
-						background: `url(${currUser.imgUrl}) center center / cover`,
+						background: bg,
 					}}
-				></div>
+				>{!currUser.imgUrl&&<span>{boardService.getInitials(currUser.fullname)}</span>}</div>
 			</div>
 			<div className="board-menu">
 				{/* <button className="board-menu-btn" onClick={onToggleCoverMode}>Cover</button> */}
