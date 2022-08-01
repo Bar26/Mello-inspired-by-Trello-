@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 
 import { AppHeader } from '../cmps/AppHeader'
 import { userService } from '../services/user.service.js'
-import { onSignup } from '../store/actions/user.actions'
+import { loadUsers, onSignup } from '../store/actions/user.actions'
 import { uploadService } from '../services/upload.service'
 export function Signup() {
 
@@ -75,6 +75,7 @@ export function Signup() {
 			return
 		userService.saveLocalUser(credentials)
 		dispatch(onSignup(credentials))
+		dispatch({ type: 'ADD_USERS', user })
 
 		setCredentials({
 			username: '',
