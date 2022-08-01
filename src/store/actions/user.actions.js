@@ -89,8 +89,23 @@ export function setCurrUser(user) {
 	}
 }
 
-export function getUser(user) {
-	setCurrUser(user)
+// export function getUser(user) {
+// 	setCurrUser(user)
+// }
+
+export function getUser() {
+	return async (dispatch) => {
+		try {
+			let user = await userService.getLoggedinUser()
+			dispatch({
+				type: 'SET_USER',
+				user,
+			})
+		}
+		catch (err) {
+			console.log('Cannot SET USER', err)
+		}
+	}
 }
 
 // export function loadAndWatchUser(userId) {

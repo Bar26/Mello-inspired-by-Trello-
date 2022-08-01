@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react'
 import { Screen } from '../cmps/Screen.jsx'
 import { BoardCoverModal } from '../cmps/BoardCoverModal'
 import { boardService } from '../services/board.service'
-import { setCurrUser } from '../store/actions/user.actions'
+import { getUser, setCurrUser } from '../store/actions/user.actions'
 import { socketService, SOCKET_EMIT_UPDATE_BOARD } from '../services/socket.service'
 import { userService } from '../services/user.service'
 
@@ -47,15 +47,15 @@ export const BoardDeatails = () => {
 
 
 	useEffect(() => {
-		getUser()
+		dispatch(getUser())
 	}, [])
 
-	const getUser = async () => {
-		let user = await userService.getLoggedinUser()
-		console.log('OnEffect', user)
-		dispatch(setCurrUser(user))
+	// const getUser = async () => {
+	// 	let user = await userService.getLoggedinUser()
+	// 	console.log('OnEffect', user)
+	// 	dispatch(setCurrUser(user))
 
-	}
+	// }
 
 	const toggleBoardMenu = () => {
 		if (!menuShow.length) {
