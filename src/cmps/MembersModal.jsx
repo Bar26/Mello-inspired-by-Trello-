@@ -6,11 +6,11 @@ import React, { useEffect, useRef, useState } from 'react'
 
 
 
-export function AddMemberModal({ onToggleMemberModal,
-    onToggleMemberToTask,
-    task }) {
+export function AddMemberModal({ onToggleMemberModal, onToggleMemberToTask, task = null }) {
 
     const { currBoard } = useSelector((state) => state.boardModule)
+    const { users } = useSelector((state) => state.userModule)
+    console.log(users);
     const [filterMember, setFilterMember] = useState('')
 
 
@@ -18,6 +18,13 @@ export function AddMemberModal({ onToggleMemberModal,
         const value = target.value
         setFilterMember(value)
     }
+
+    const setToggleChoice = (memberId) => {
+        console.log('Task: ',task);
+        console.log('member: ',memberId);
+        if(task) onToggleMemberToTask(memberId)
+    }
+
 
     return (
         // <div
@@ -48,11 +55,11 @@ export function AddMemberModal({ onToggleMemberModal,
                         const src = member.imgUrl
                         const username = member.username
                         const fullname = member.fullname
-                      
+
                         if (member.username.toLowerCase().includes(filterMember)) {
 
                             return (
-                                <section className="member-in-modal-container"     onClick={() => onToggleMemberToTask(member._id)}>
+                                <section className="member-in-modal-container" onClick={() => setToggleChoice(member._id)}>
                                     <div
                                         key={member._id}
                                         className="member-in-modal"
@@ -65,14 +72,14 @@ export function AddMemberModal({ onToggleMemberModal,
                                             width: '32px'
                                         }}
                                     ></div>
-                                        <div className='user-name'>
-                                            <span className='fullname'>{fullname+' ('}</span>
-                                            <span className='username'>{username+')'}</span>
-                                        </div>
-                                        {task.memberIds && task.memberIds.includes(member._id) && (
-                                            <div className="member-indication">✔</div>
-                                        )}
-                                    
+                                    <div className='user-name'>
+                                        <span className='fullname'>{fullname + ' ('}</span>
+                                        <span className='username'>{username + ')'}</span>
+                                    </div>
+                                    {task.memberIds && task.memberIds.includes(member._id) && (
+                                        <div className="member-indication">✔</div>
+                                    )}
+
 
                                 </section>
                             )

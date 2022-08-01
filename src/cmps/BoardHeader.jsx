@@ -99,6 +99,12 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu , onSetCoverMode }) => {
 						background: `url(${currUser.imgUrl}) center center / cover`,
 					}}
 				></div>
+				<div className='add-member'>
+					<button>
+						<img/>
+						Members
+					</button>
+				</div>
 			</div>
 			<div className="board-menu">
 				{/* <button className="board-menu-btn" onClick={onToggleCoverMode}>Cover</button> */}
