@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
-import { useLocation, useParams } from "react-router-dom"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { boardService } from "../../services/board.service"
 import { userService } from "../../services/user.service"
 import { onSaveBoard, setCurrBoard } from "../../store/actions/board.actions"
@@ -19,13 +19,16 @@ export const CreateBoardHeader = (calledFrom) => {
     const [stateBackground, setBackgroud] = useState(background)
     const [imageOrColor, setImageOrColor] = useState(boardBgc)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+
 
     const palette = [
         '#0079BF',
-        '#D29034',
-        '#519839',
-        '#B04632',
-        '#89609E'
+        '#377D71',
+        '#D288A2',
+        '#8879B0',
+        '#4CACBC',
+        '#DF7861',
     ]
 
     const imgArr = [
@@ -48,6 +51,7 @@ export const CreateBoardHeader = (calledFrom) => {
         // dispatch(onSaveBoard(boardToSave))
         const updateUser = await userService.addBoardUser(boardToSave._id, currUser)
         await userService.update(updateUser)
+        navigate(`/boards/${boardToSave._id}`)
         dispatch(setCurrBoard(boardToSave._id))
     }
 
@@ -82,7 +86,11 @@ export const CreateBoardHeader = (calledFrom) => {
                     {palette.map(color =>
                         <div className="color-container" onClick={() => { changeBgcPrev(color); setImageOrColor('color') }} key={color} style={{ height: '32px', width: '40px', backgroundColor: color }} ></div>
                     )}
-                    <div>+</div>
+                    {/* <div>...
+                        <div className="more-bgcs">
+
+                        </div>
+                    </div> */}
                 </div>
                 <div className="board-title-select">
                     <h3>Board title<span>*</span></h3>

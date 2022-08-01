@@ -5,11 +5,16 @@ import { useDispatch } from 'react-redux'
 import { AppHeader } from '../cmps/AppHeader'
 import { userService } from '../services/user.service.js'
 import { onSignup } from '../store/actions/user.actions'
+import { uploadService } from '../services/upload.service'
 export function Signup() {
+
+
+	const [imgUrl, setImgUrl] = useState('')
 	const [credentials, setCredentials] = useState({
 		username: '',
 		password: '',
 		fullname: '',
+		imgUrl: imgUrl
 	})
 	// const [users, setUsers] = useState([])
 	const navigate = useNavigate()
@@ -28,9 +33,36 @@ export function Signup() {
 	// 	}
 	// }
 
-	const handleChange = (ev) => {
-		const field = ev.target.name
-		const value = ev.target.value
+	const onUploadImg = async (imgArr) => {
+		// await dispatch(onSaveBoard(newBoard))
+		// await dispatch(setCurrBoard(newBoard._id))
+	}
+
+
+	const onSelect = async (ev) => {
+		let newImg = await uploadService.uploadImg(ev)
+		console.log(newImg);
+		// const boardUploaded = imgState
+		// const imgArr = [...boardUploaded, newImg.url]
+		// await onUploadImg(imgArr)
+		// console.log(currBoard);
+		// setImgState(imgArr)
+	}
+
+
+	const handleChange = async (ev) => {
+		let value
+		let field
+		if (ev.target.type === 'file') {
+			field = 'imgUrl'
+			let tempVal = await uploadService.uploadImg(ev)
+			// value = await uploadService.uploadImg(ev)
+			value = tempVal.url
+		}
+		else {
+			field = ev.target.name
+			value = ev.target.value
+		}
 		setCredentials({ ...credentials, [field]: value })
 	}
 
@@ -80,6 +112,14 @@ export function Signup() {
 					placeholder="Password"
 					onChange={handleChange}
 					required
+				/>
+				<input
+					type="file"
+					name="imgUrl"
+					value={credentials.img}
+					// placeholder=""
+					onChange={handleChange}
+				// required
 				/>
 
 				<button className="sign-up-btn" onClick={onSignupNewUser}>

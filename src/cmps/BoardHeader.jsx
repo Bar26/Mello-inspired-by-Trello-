@@ -101,7 +101,7 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu , onSetCoverMode }) => {
 				></div>
 			</div>
 			<div className="board-menu">
-				<button className="board-menu-btn" onClick={onToggleCoverMode}>Cover</button>
+				{/* <button className="board-menu-btn" onClick={onToggleCoverMode}>Cover</button> */}
 				<button className="board-menu-btn" onClick={onToggleBoardMenu}>
 					<svg
 						stroke="currentColor"

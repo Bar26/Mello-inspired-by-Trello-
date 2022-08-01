@@ -6,7 +6,7 @@ import { TemplatePreview } from '../cmps/TempletePreview'
 import { boardService } from '../services/board.service.js'
 import { MainHeader } from '../cmps/MainHeader.jsx'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCurrUser } from '../store/actions/user.actions'
+import { getUser, setCurrUser } from '../store/actions/user.actions'
 import { setCurrBoard } from '../store/actions/board.actions'
 import trelloFullIcon from '../assets/img/trello-black-full.svg'
 import { useLocation, useRoutes } from 'react-router-dom'
@@ -29,7 +29,7 @@ export const BoardList = () => {
 
 
 	useEffect(() => {
-		getUser()
+		dispatch(getUser()) 
 	}, [])
 
 
@@ -40,12 +40,12 @@ export const BoardList = () => {
 	}, [currUser])
 
 
-	const getUser = async () => {
-		let user = await userService.getLoggedinUser()
-		console.log('OnEffect', user)
-		dispatch(setCurrUser(user))
+	// const getUser = async () => {
+	// 	let user = await userService.getLoggedinUser()
+	// 	console.log('OnEffect', user)
+	// 	dispatch(setCurrUser(user))
 
-	}
+	// }
 
 	const loadGuestBoards = async () => {
 		Promise.all(
@@ -158,9 +158,8 @@ export const BoardList = () => {
 					<section className="board-list">
 						<article className="create-preview" onClick={() => toggleModal(refCreate)}>
 							<h1>Create New Board</h1>
-						</article>
-							<section ref={refCreate} className='create-container'>
-								<button className="closebtn">
+							<section onClick={(ev)=>{ev.stopPropagation()}} ref={refCreate} className='create-container hide'>
+								<button className="closebtn" onClick={() => toggleModal(refCreate)}>
 									<svg
 										stroke="currentColor"
 										fill="currentColor"
@@ -179,12 +178,13 @@ export const BoardList = () => {
 										></path>
 									</svg>
 								</button>
-							
+
 								<h1>Create New Board</h1>
 								<hr />
 								<CreateBoardHeader></CreateBoardHeader>
 
 							</section>
+						</article>
 						{templates.map((template, idx) => {
 							return (
 								<TemplatePreview

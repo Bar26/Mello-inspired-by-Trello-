@@ -41,6 +41,8 @@ export const MainHeader = () => {
 	const refCreateFirstModal = React.createRef()
 	const dispatch = useDispatch()
 	const { currUser } = useSelector((state) => state.userModule)
+	const bg = currUser.imgUrl ? `url(${currUser.imgUrl}) center center / cover` : 'red'
+
 	useEffect(() => {
 		// socketService.setup()
 	}, [])
@@ -84,10 +86,10 @@ export const MainHeader = () => {
 	}
 
 
-	const onGoBack= ()=>{
-        setCreateModalTitle('Create')
-        setCreateState('main-create')
-    }
+	const onGoBack = () => {
+		setCreateModalTitle('Create')
+		setCreateState('main-create')
+	}
 
 
 	// console.log('template', templates);
@@ -420,7 +422,7 @@ export const MainHeader = () => {
 						</div>
 						<hr />
 						<InfoBoardHeader></InfoBoardHeader>
-						
+
 					</section>
 				</div>
 
@@ -509,11 +511,11 @@ export const MainHeader = () => {
 				<div
 					className="user-logo"
 					style={{
-						background: `url(${currUser.imgUrl}) center center / cover`,
+						background: bg,
 						height: '32px'
 					}}
-					
-				>{currUser.fullname.slice(0,1)}
+
+				>{currUser.fullname.slice(0, 1)}
 				</div>
 			</div>
 		</header>
