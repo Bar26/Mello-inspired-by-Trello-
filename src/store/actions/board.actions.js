@@ -7,13 +7,11 @@ import { socketService, SOCKET_EMIT_UPDATED_BOARD } from '../../services/socket.
 export function setCurrBoard(boardId) {
 	return async (dispatch) => {
 		let currBoard
-		console.log('in set currboard');
 		try {
 			currBoard = await boardService.getById(boardId, true)
 			if (!currBoard) {
 				currBoard = await boardService.getById(boardId)
 			}
-			console.log('board from backend:', currBoard)
 		} catch (err) {
 			console.error('Cannot set board', err)
 		} finally {
@@ -24,7 +22,6 @@ export function setCurrBoard(boardId) {
 export function setGuestCurrBoard(guestBoard) {
 	return async (dispatch) => {
 		try {
-			console.log('board from guest:', guestBoard)
 			dispatch({ type: 'SET_GUEST_BOARD', guestBoard })
 		} catch (err) {
 			console.log('Cannot set board', err)
@@ -44,7 +41,6 @@ export function setFilter(filterBy) {
 }
 export function setIsTaskDetailsScreenOpen(isTaskDetailScreenOpen) {
 	// console.log("HEY FROM DISPATCH")
-	console.log(isTaskDetailScreenOpen)
 	return (dispatch) =>
 		dispatch({
 			type: 'SET_IS_TASK_DETAILS_SCREEN_OPEN',
@@ -69,9 +65,7 @@ export function setCurrBoards(currUser) {
 		try {
 			Promise.all(currUser.boards?.map(async (boardId) => {
 				// try {
-				console.log('boardId', boardId)
 				const board = await boardService.getById(boardId)
-				console.log(board);
 				return board
 				// } catch (err) {
 				// 	console.log('cannot get boards', err);
@@ -286,9 +280,7 @@ export function onChangeColorStyle (currBoard,newStyle) {
 	return async (dispatch)=>{
 		try {
 			
-		console.log('in onChange in actions', newStyle);
 		const newBoard = await boardService.changeBoardStyle(currBoard, newStyle)
-		console.log('in onChange after service call', newBoard);
 		await dispatch(onSaveBoard(newBoard))
 		dispatch(setCurrBoard(newBoard._id))
 
@@ -312,7 +304,6 @@ export function onSaveBoard(board) {
 			socketService.emit(SOCKET_EMIT_UPDATED_BOARD,board)
 			const savedBoard = await boardService.update(board)
 			dispatch({ type: 'SAVE_BOARD', board: savedBoard })
-			console.log(board,'from action save');
 		} catch (err) {
 			console.log('BoardActions: err in onSaveBoard', err)
 		}

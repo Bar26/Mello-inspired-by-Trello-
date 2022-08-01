@@ -27,9 +27,7 @@ export const socketService = createSocketService()
 
 // for debugging from console
 // window.socketService = socketService
-console.log('in socket service front')
 socketService.setup()
-console.log(socketService)
 
 
 function createSocketService() {

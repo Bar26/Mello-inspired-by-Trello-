@@ -12,7 +12,6 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu , onSetCoverMode }) => {
 	const [board, setBoard] = useState(currBoard)
 	const [star, setStar] = useState('')
 	const { currUser } = useSelector((state) => state.userModule)
-	const params = useParams()
 	const dispatch = useDispatch()
 
 	// useEffect(() => {
@@ -24,7 +23,6 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu , onSetCoverMode }) => {
 	}, [board])
 
 	useEffect(() => {
-		console.log(currBoard);
 		if (currBoard.isStared) {
 			setStar('starred fa-solid')
 		} else {

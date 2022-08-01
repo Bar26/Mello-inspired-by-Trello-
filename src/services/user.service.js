@@ -70,7 +70,6 @@ async function login(userCred) {
 	// const users = await storageService.query('user')
 	// const user = users.find((user) => user.username === userCred.username)
 	const user = await httpService.post('auth/login', userCred)
-	console.log(user)
 	if (user) {
 		// socketService.login(user._id)
 		return saveLocalUser(user)
@@ -83,7 +82,6 @@ async function signup(userCred) {
 	// const newUser = getEmptyUser(userCred)
 	// const user = await storageService.post('user', newUser)
 	const user = await httpService.post('auth/signup', userCred)
-	console.log(user)
 
 	// socketService.login(user._id)
 
@@ -106,7 +104,6 @@ async function logout() {
 // }
 
 function saveLocalUser(user) {
-	console.log('user', user)
 	sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
 	return user
 }

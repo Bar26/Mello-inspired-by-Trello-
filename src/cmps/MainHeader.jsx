@@ -84,7 +84,6 @@ export const MainHeader = () => {
 	const onSelectTemplate = async (templateId) => {
 		const template = await boardService.getTemplateById(templateId)
 		const newBoard = await boardService.getEmptyBoard(template)
-		console.log('on Select', newBoard)
 		// setBoards(newBoard)
 		await dispatch(onSaveBoard(newBoard))
 		await dispatch(setCurrBoard(newBoard._id))

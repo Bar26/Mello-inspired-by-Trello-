@@ -10,7 +10,6 @@ export const BoardPreview = ({ board, saveStarredBoard }) => {
 	const dispatch = useDispatch()
 
 	useEffect(() => {
-		console.log((board.isStared))
 		if (board.isStared) {
 			setStar('starred fa-solid')
 		} else {
@@ -29,7 +28,7 @@ export const BoardPreview = ({ board, saveStarredBoard }) => {
 		// const updatedBoard = await boardService.setStarred(board)
 		// // setStar(updatedBoard.isStared ? 'starred fa-solid' : '')
 		// saveStarredBoard(updatedBoard)
-		dispatch(setStaredBoard(board))
+		// dispatch(setStaredBoard(board))
 		}catch(err){
 
 		}

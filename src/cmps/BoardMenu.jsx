@@ -78,8 +78,6 @@ export const BoardMenu = ({ onChangeBGImgStyle, onUploadImg, onSetCoverMode, men
 	const onGoBack = () => {
 		const type = selectedType
 		const titleToRem = title
-		console.log(titleToRem, ' titlee');
-		console.log(type, ' Selected');
 		setSelectedType(lastSelectedType)
 		setTitle(lastTitle)
 		setLastType('main-board')
@@ -88,8 +86,9 @@ export const BoardMenu = ({ onChangeBGImgStyle, onUploadImg, onSetCoverMode, men
 
 	return (
 		<section className={`board-menu-details ${menuShow}`}>
+			<header className="menu-header">
 			<button className="closebtn" onClick={onToggleBoardMenu}>
-				<svg
+				{/* <svg
 					stroke="currentColor"
 					fill="currentColor"
 					strokeWidth="0"
@@ -105,22 +104,17 @@ export const BoardMenu = ({ onChangeBGImgStyle, onUploadImg, onSetCoverMode, men
 						strokeWidth="2"
 						d="M3,3 L21,21 M3,21 L21,3"
 					></path>
-				</svg>
+				</svg> */}
+				   <i className="fa-solid fa-xmark"></i>
 			</button>
 			{selectedType !== 'main-board' &&
 				<button className="go-back" onClick={onGoBack}> goBack </button>
 			}
-			<h1>{title}</h1>
+			<h3 className="menu-title">{title}</h3>
+			</header>
 			<hr />
 			<DynamicCmp menuShow={menuShow} ></DynamicCmp>
-			<section className="activity">
-				<header>
-					<span></span>
-					<span></span>
-				</header>
-				
-
-			</section>
+	
 
 		</section>
 	)

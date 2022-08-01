@@ -27,7 +27,6 @@ export const ChangeBgcModal = ({ setLastType, setLastTitle, onChangeBGImgStyle, 
 
     const onSelect = async (ev) => {
         let newImg = await uploadService.uploadImg(ev)
-        console.log(newImg);
         const boardUploaded = imgState
         const imgArr = [...boardUploaded, newImg.url]
         await onUploadImg(imgArr)

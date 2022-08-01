@@ -2,7 +2,6 @@ export const uploadService = {
   uploadImg
 }
 async function uploadImg(ev) {
-  console.log(ev);
   // console.log(ev.target.files);///undefiend
   const CLOUD_NAME = "noambar"
   const UPLOAD_PRESET = "iqikctdx"
@@ -30,7 +29,6 @@ async function uploadImg(ev) {
     })
     // const elImg = document.createElement('img');
     const { url } = await res.json()
-    console.log(url);
     return url
     // elImg.src = url;
     // document.body.append(elImg);

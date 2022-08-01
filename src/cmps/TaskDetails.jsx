@@ -185,7 +185,6 @@ export function TaskDetails() {
 
     }
     const onToggleMemberToTask = async (memberId) => {
-        console.log('in togglemember')
         try {
             const updatedBoard = await boardService.toggleMemberToTask(currBoard, group, taskId, memberId)
             await dispatch(onSaveBoard(updatedBoard))

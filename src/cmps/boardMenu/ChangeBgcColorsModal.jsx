@@ -45,10 +45,6 @@ export const ChangeBgcColorsModal = ({ setLastType, setLastTitle, menuShow, onTo
         }
     }
 
-    useEffect(() => {
-        console.log('currBoard in store:', currBoard)
-    }, [currBoard])
-
     return (
         <section className="colors-modal">
             {palette.map(color =>

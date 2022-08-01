@@ -27,7 +27,6 @@ export const BoardDeatails = () => {
 		// }
 
 		socketService.on(SOCKET_EMIT_UPDATE_BOARD,(board)=>{
-			console.log(board, 'board from back socket')
 			// dispatch({ type: 'SAVE_BOARD', board })
 		dispatch(setCurrBoard(boardId))
 
@@ -39,7 +38,6 @@ export const BoardDeatails = () => {
 	useEffect(() => {
 	
 		if (!currUser) {
-			console.log('OnEffect', currUser)
 			dispatch(setCurrUser(currUser))
 		}
 	}, [currUser])

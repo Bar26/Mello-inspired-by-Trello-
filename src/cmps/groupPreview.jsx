@@ -19,6 +19,8 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
     const addTaskBtnRef = useRef()
     const { currBoard } = useSelector((state) => state.boardModule)
     const groupMenuRef = useRef()
+	const { currUser } = useSelector((state) => state.userModule)
+
 
 
 
@@ -33,9 +35,8 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
     const onCopyGroup = async () => {
         try {
             // ev.stopPropagation()
-            const updatedBoard = await boardService.copyGroup(group, currBoard)
+            const updatedBoard = await boardService.copyGroup(group, currBoard, currUser)
             await dispatch(onSaveBoard(updatedBoard))
-            console.log(currBoard);
         } catch (err) {
             console.log('Cant copy group', err)
         }

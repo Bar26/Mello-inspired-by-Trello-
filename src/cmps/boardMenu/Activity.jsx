@@ -6,59 +6,99 @@ import { Link } from 'react-router-dom'
 export function Activity() {
 
     const { currBoard } = useSelector((state) => state.boardModule)
-    console.log(currBoard);
 
 
-    return <section>
+    return <section className="activity-container">
         {currBoard.activities.map(act => {
             switch (act.type) {
                 case 'add-task': {
-                    return <div>
-                        <span>{act.user.fullname}</span>
+
+                    return <div className="activity">
+                        <div className="content">
+                        <span className="user-name">{act.userName} </span>
                         added
-                        {act.task&&<Link className="link-to-task" to={`/boards/${currBoard._id}/${act.task.id}`}>
+                        {act.task && <Link className="link-to-task" to={`/boards/${currBoard._id}/${act.task.id}`}>
                             {act.task.title}
                         </Link>}
-                        {act.taskTitle&&
-                        <span>{act.taskTitle}</span>
-                        
+                        {!act.task &&
+                            <span>{act.taskTitle}</span>
                         }
-                        to {act.group.title}
+                        to {act.groupTitle}</div>
+                        <span className="created-at">
+                            {act.createdAt}
+                        </span>
                     </div>
                 }
                 case 'remove-task': {
-                    return <div>
-                        <span>{act.user.fullname}</span>
-                        archived {act.task.title}
+                    return <div className="activity">
+                          <div className="content">
+                        <span className="user-name">{act.userName}</span>
+                        archived {act.taskTitle}</div>
+                        <span className="created-at">
+                            {act.createdAt}
+                        </span>
                     </div>
                 }
                 case 'add-group': {
-                    return <div>
-                        <span>{act.user.fullname}</span>
-                        added {act.group.title} to this board.
+                    return <div className="activity">
+                          <div className="content">
+                        <span className="user-name">{act.userName}</span>
+                        added {act.groupTitle} to this board.</div>
+                        <span className="created-at">
+                            {act.createdAt}
+                        </span>
                     </div>
                 }
                 case 'remove-group': {
-                    return <div>
-                        <span>{act.user.fullname}</span>
-                        archived {act.group.title}
+                    return <div className="activity">
+                          <div className="content">
+                        <span className="user-name">{act.userName}</span>
+                        archived {act.groupTitle}</div>
+                        <span className="created-at">
+                            {act.createdAt}
+                        </span>
                     </div>
                 }
+                case 'copy-task': {
+                    return <div className="activity">
+                          <div className="content">
+                        <span className="user-name">{act.userName}</span>
+                        copied
+                        {act.task && <Link className="link-to-task" to={`/boards/${currBoard._id}/${act.task.id}`}>
+                            {act.task.title}
+                        </Link>}
+                        {!act.task && <span>{act.taskTitle}</span>}
+
+                        from
+
+                        {act.taskCopy && <Link className="link-to-task" to={`/boards/${currBoard._id}/${act.taskCopy.id}`}>
+                            {act.taskCopy.title}
+                        </Link>}
+                        {!act.taskCopy && <span>{act.taskTitle}</span>}
+                        in list {act.groupTitle}</div>
+                        <span className="created-at">
+                            {act.createdAt}
+                        </span>
+                    </div>
+                }
+                case 'copy-group': {
+                    return <div className="activity">
+                          <div className="content">
+                        <span className="user-name">{act.userName}</span>
+                        copied {act.groupTitle}</div>
+                        <span className="created-at">
+                            {act.createdAt}
+                        </span>
+                    </div>
+                }
+
+
+
+
                 default:
 
             }
-            // 	if (act.type === 'add-task') return <div>
-            // 		<span>{act.user.fullname}</span>
-            // 		 added
-            // 		<Link className="link-to-task" to={`/boards/${currBoard._id}/${act.task.id}`}>
-            // 			{act.task.title}
-            // 		</Link> 
-            // 		to {act.group.title}
-            // 	</div>
-            // 	else if(act.type === 'remove-task') return <div>
-            // 	<span>{act.user.fullname}</span>
-            // 	 archived {act.task.title}
-            // </div>
+
         }
 
         )}

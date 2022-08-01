@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setCurrUser } from '../store/actions/user.actions'
 import { setCurrBoard } from '../store/actions/board.actions'
 import trelloFullIcon from '../assets/img/trello-black-full.svg'
+import { useLocation, useRoutes } from 'react-router-dom'
 
 export const BoardList = () => {
 	const [boards, setBoards] = useState([])
@@ -19,13 +20,17 @@ export const BoardList = () => {
 	const { currBoard } = useSelector((state) => state.boardModule)
 	const dispatch = useDispatch()
 
+
+
+
+	
+
 	useEffect(() => {
 		if (!Object.keys(currUser).length) {
 			setUserBoards()
 		}
 	}, [])
 	useEffect(() => {
-		console.log('currUser:', currUser)
 		loadTemplates()
 		if (currUser.name !== 'Guest') loadUserBoards()
 		else loadGuestBoards()
@@ -35,7 +40,6 @@ export const BoardList = () => {
 		Promise.all(
 			currUser.boards
 				?.map(async (userBoardId) => {
-					console.log('userBoardId', userBoardId)
 					const board = await boardService.getById(userBoardId)
 					return board
 				})
@@ -43,16 +47,13 @@ export const BoardList = () => {
 			.then((userBoards) => { setBoards(userBoards || []) })
 	}
 
-	useEffect(() => {
-		console.log('currBoard in store:', currBoard)
-	}, [currBoard])
+	
 
 	const loadUserBoards = async () => {
 		if (!Object.keys(currUser).length || !currUser.boards) return
 		try {
 			Promise.all(
 				currUser.boards?.map(async (userBoardId) => {
-					console.log('userBoardId', userBoardId)
 					const board = await boardService.getById(userBoardId)
 					return board
 				})
@@ -89,7 +90,6 @@ export const BoardList = () => {
 
 	const setUserBoards = async () => {
 		const user = await userService.getLoggedinUser()
-		console.log('logged in user boardList 81:', user)
 		await dispatch(setCurrUser(user))
 		loadUserBoards()
 	}
@@ -107,7 +107,6 @@ export const BoardList = () => {
 					</h3>
 					<section className="board-list">
 						{boards.map((board, idx) => {
-							console.log(board);
 							return (
 								<BoardPreview
 									board={board}

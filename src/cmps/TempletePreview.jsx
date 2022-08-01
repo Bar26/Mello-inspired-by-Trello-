@@ -10,7 +10,6 @@ export const TemplatePreview = ({ template, getStarredBoards }) => {
 	const onCreateBoard = async () => {
 		try {
 			const newBoard = await boardService.getEmptyBoard(template)
-			console.log(newBoard);
 			dispatch(setCurrBoard(newBoard._id))
 			navigate(`/boards/${newBoard._id}`)
 		} catch {
