@@ -31,6 +31,7 @@ export const MainHeader = () => {
 	const refStarred = React.createRef()
 	const refCreate = React.createRef()
 	const refInfo = React.createRef()
+	
 
 
 	const [createButtonState, setCreateState] = useState('main-create')
