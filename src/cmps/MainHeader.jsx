@@ -109,7 +109,7 @@ export const MainHeader = () => {
 				return <MainCreate setCreateModalTitle={setCreateModalTitle} setCreateState={setCreateState}></MainCreate>
 				break;
 			case 'create-board':
-				return <CreateBoardHeader setCreateModalTitle={setCreateModalTitle} setCreateState={setCreateState}></CreateBoardHeader>
+				return <CreateBoardHeader></CreateBoardHeader>
 				break;
 			case 'create-template':
 				return <CreateTemplateHeader onSelectTemplate={onSelectTemplate} setCreateModalTitle={setCreateModalTitle} setCreateState={setCreateState}></CreateTemplateHeader>

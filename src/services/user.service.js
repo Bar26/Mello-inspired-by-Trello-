@@ -2,11 +2,11 @@ import { storageService } from './async-storage.service'
 import { utilService } from './util.service.js'
 import { httpService } from './http.service'
 import { store } from '../store/store'
-// import {
-// 	socketService,
-// 	SOCKET_EVENT_USER_UPDATED,
-// 	SOCKET_EMIT_USER_WATCH,
-// } from './socket.service'
+import {
+	socketService,
+	SOCKET_EVENT_USER_UPDATED,
+	SOCKET_EMIT_USER_WATCH,
+} from './socket.service'
 // import { showSuccessMsg } from '../services/event-bus.service'
 
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
@@ -85,7 +85,7 @@ async function signup(userCred) {
 	const user = await httpService.post('auth/signup', userCred)
 	console.log(user)
 
-	// socketService.login(user._id)
+	socketService.login(user._id)
 
 	return saveLocalUser(user)
 }

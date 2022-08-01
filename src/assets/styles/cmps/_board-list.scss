@@ -2,13 +2,15 @@
 	display: flex;
 	flex-direction: column;
 	background-color: #0067a3;
+
 	.container {
-		
-		flex:1;
+
+		flex: 1;
 		padding-top: 30px;
 		background-color: white;
 		display: flex;
 		justify-content: center;
+
 		.workspace-board-list {
 			align-self: center;
 			height: 100%;
@@ -46,6 +48,7 @@
 				align-items: center;
 			}
 		}
+
 		.board-list {
 			display: grid;
 			grid-template-columns: repeat(auto-fit, 190px);
@@ -54,6 +57,69 @@
 			margin-block-end: 20px;
 			justify-content: start;
 			background-color: white;
+		}
+
+		.create-preview {
+
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			// position: relative;
+			border: 1px solid rgba(147, 147, 147, 0.313);
+			height: 96px;
+			border-radius: 3px;
+
+			cursor: pointer;
+
+
+			h1 {
+				text-shadow: 0px 1px 5px rgb(42 41 41);
+				color: white;
+			}
+
+		}
+
+		.create-container {
+			width: 302px;
+			position: fixed;
+			left: 420px;
+			box-shadow: 0 8px 16px -4px rgb(9 30 66 / 25%), 0 0 0 1px rgb(9 30 66 / 8%);
+			border-radius: 3px;
+			outline: 0;
+			overflow-y: hidden;
+			background-color: #ffff;
+			z-index: 5;
+			display: flex;
+			// align-items: center;
+			text-align: center;
+			justify-content: center;
+			flex-direction: column;
+
+			.closebtn {
+				background-color: inherit;
+				border: none;
+				font-size: 12px;
+				padding: 10px 0 10px;
+				position: absolute;
+				top: 6px;
+				right: 25px;
+			}
+
+			h1 {
+				font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans,
+					Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
+				font-weight: 400;
+				font-size: 14px;
+				height: 6px;
+				margin: 14px 32px;
+				color: $clr4;
+				line-height: 1;
+
+			}
+
+			.hide2 {
+				visibility: 0;
+			}
 		}
 	}
 }

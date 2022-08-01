@@ -6,6 +6,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { boardService } from '../services/board.service';
 import { useRef } from 'react';
 
+import {formt} from 'date-fns'
+
 export const DateModal = ({ toggleDateModal, board, group, task }) => {
 
     const [endDate, setEndDate] = useState(task.dates?.dueDate ? task.dates.dueDate : new Date().toLocaleDateString('en-GB'));

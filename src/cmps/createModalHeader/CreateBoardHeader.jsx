@@ -1,20 +1,25 @@
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
+import { useLocation, useParams } from "react-router-dom"
 import { boardService } from "../../services/board.service"
 import { userService } from "../../services/user.service"
 import { onSaveBoard, setCurrBoard } from "../../store/actions/board.actions"
 
 
-export const CreateBoardHeader = ({ setCreateModalTitle, setCreateState }) => {
+export const CreateBoardHeader = (calledFrom) => {
+
     const { currBoard } = useSelector((state) => state.boardModule)
     const { currUser } = useSelector((state) => state.userModule)
-    let background = currBoard.style.backgroundColor ? currBoard.style.backgroundColor : `url${currBoard.style.backgroundImage}`
-    let boardBgc = currBoard.style.backgroundColor ? 'color' : 'img'
+
+    const location = useLocation()
+
+    let background = !location.pathname === '/boards' ? (currBoard.style.backgroundColor ? currBoard.style.backgroundColor : `url${currBoard.style.backgroundImage}`) : '#0079BF'
+    let boardBgc = !location.pathname === '/boards' ? (currBoard.style.backgroundColor ? 'color' : 'img') : 'color'
     const [stateBackground, setBackgroud] = useState(background)
     const [imageOrColor, setImageOrColor] = useState(boardBgc)
     const dispatch = useDispatch()
-        
+
     const palette = [
         '#0079BF',
         '#D29034',
@@ -41,7 +46,7 @@ export const CreateBoardHeader = ({ setCreateModalTitle, setCreateState }) => {
         const boardToSave = await boardService.getEmptyBoard(newBoard, true)
         // console.log(boardToSave);
         // dispatch(onSaveBoard(boardToSave))
-        const updateUser = await userService.addBoardUser(boardToSave._id,currUser)
+        const updateUser = await userService.addBoardUser(boardToSave._id, currUser)
         await userService.update(updateUser)
         dispatch(setCurrBoard(boardToSave._id))
     }
