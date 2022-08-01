@@ -11,7 +11,8 @@ import { Screen } from '../cmps/Screen.jsx'
 import { BoardCoverModal } from '../cmps/BoardCoverModal'
 import { boardService } from '../services/board.service'
 import { setCurrUser } from '../store/actions/user.actions'
-import { socketService,SOCKET_EMIT_UPDATE_BOARD } from '../services/socket.service'
+import { socketService, SOCKET_EMIT_UPDATE_BOARD } from '../services/socket.service'
+import { userService } from '../services/user.service'
 
 export const BoardDeatails = () => {
 	const [menuShow, setMenuShow] = useState('')
@@ -28,19 +29,31 @@ export const BoardDeatails = () => {
 
 		socketService.on(SOCKET_EMIT_UPDATE_BOARD,(board)=>{
 			// dispatch({ type: 'SAVE_BOARD', board })
-		dispatch(setCurrBoard(boardId))
+			dispatch(setCurrBoard(boardId))
 
 		})
 		dispatch(setCurrBoard(boardId))
-	
+
 	}, [])
 
 	useEffect(() => {
-	
+
 		if (!currUser) {
 			dispatch(setCurrUser(currUser))
 		}
 	}, [currUser])
+
+
+	useEffect(() => {
+		getUser()
+	}, [])
+
+	const getUser = async () => {
+		let user = await userService.getLoggedinUser()
+		console.log('OnEffect', user)
+		dispatch(setCurrUser(user))
+
+	}
 
 	const toggleBoardMenu = () => {
 		if (!menuShow.length) {
@@ -69,22 +82,20 @@ export const BoardDeatails = () => {
 	// 	}
 	// }
 
+	const onUploadImg = async (imgArr) => {
+		let newBoard = await boardService.uploadImgToBoard(currBoard, imgArr)
+		await dispatch(onSaveBoard(newBoard))
+		await dispatch(setCurrBoard(newBoard._id))
+	}
 	const onChangeBGImgStyle = async (newStyle) => {
 		try {
 			const newBoard = { ...currBoard, style: { backgroundImage: `(${newStyle})` } }
 			await dispatch(onSaveBoard(newBoard))
 			await dispatch(setCurrBoard(newBoard._id))
-			return newBoard
 			// await dispatch(setCurrBoard(newBoard))
 		} catch {
 			console.err();
 		}
-	}
-
-	const onUploadImg = async (imgArr) => {
-		let newBoard = await boardService.uploadImgToBoard(currBoard, imgArr)
-		await dispatch(onSaveBoard(newBoard))
-		await dispatch(setCurrBoard(newBoard._id))
 	}
 
 

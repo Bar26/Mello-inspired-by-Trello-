@@ -15,15 +15,15 @@ export function Activity() {
 
                     return <div className="activity">
                         <div className="content">
-                        <span className="user-name">{act.userName} </span>
-                        added
-                        {act.task && <Link className="link-to-task" to={`/boards/${currBoard._id}/${act.task.id}`}>
-                            {act.task.title}
-                        </Link>}
-                        {!act.task &&
-                            <span>{act.taskTitle}</span>
-                        }
-                        to {act.groupTitle}</div>
+                            <span className="user-name">{act.userName} </span>
+                            added
+                            {act.task && <Link className="link-to-task" to={`/boards/${currBoard._id}/${act.task.id}`}>
+                                {act.task.title}
+                            </Link>}
+                            {!act.task &&
+                                <span>{act.taskTitle}</span>
+                            }
+                            to {act.groupTitle}</div>
                         <span className="created-at">
                             {act.createdAt}
                         </span>
@@ -31,9 +31,9 @@ export function Activity() {
                 }
                 case 'remove-task': {
                     return <div className="activity">
-                          <div className="content">
-                        <span className="user-name">{act.userName}</span>
-                        archived {act.taskTitle}</div>
+                        <div className="content">
+                            <span className="user-name">{act.userName}</span>
+                            archived {act.taskTitle}</div>
                         <span className="created-at">
                             {act.createdAt}
                         </span>
@@ -41,9 +41,9 @@ export function Activity() {
                 }
                 case 'add-group': {
                     return <div className="activity">
-                          <div className="content">
-                        <span className="user-name">{act.userName}</span>
-                        added {act.groupTitle} to this board.</div>
+                        <div className="content">
+                            <span className="user-name">{act.userName}</span>
+                            added {act.groupTitle} to this board.</div>
                         <span className="created-at">
                             {act.createdAt}
                         </span>
@@ -51,9 +51,9 @@ export function Activity() {
                 }
                 case 'remove-group': {
                     return <div className="activity">
-                          <div className="content">
-                        <span className="user-name">{act.userName}</span>
-                        archived {act.groupTitle}</div>
+                        <div className="content">
+                            <span className="user-name">{act.userName}</span>
+                            archived {act.groupTitle}</div>
                         <span className="created-at">
                             {act.createdAt}
                         </span>
@@ -61,21 +61,21 @@ export function Activity() {
                 }
                 case 'copy-task': {
                     return <div className="activity">
-                          <div className="content">
-                        <span className="user-name">{act.userName}</span>
-                        copied
-                        {act.task && <Link className="link-to-task" to={`/boards/${currBoard._id}/${act.task.id}`}>
-                            {act.task.title}
-                        </Link>}
-                        {!act.task && <span>{act.taskTitle}</span>}
+                        <div className="content">
+                            <span className="user-name">{act.userName}</span>
+                            copied
+                            {act.task && <Link className="link-to-task" to={`/boards/${currBoard._id}/${act.task.id}`}>
+                                {act.task.title}
+                            </Link>}
+                            {!act.task && <span>{act.taskTitle}</span>}
 
-                        from
+                            from
 
-                        {act.taskCopy && <Link className="link-to-task" to={`/boards/${currBoard._id}/${act.taskCopy.id}`}>
-                            {act.taskCopy.title}
-                        </Link>}
-                        {!act.taskCopy && <span>{act.taskTitle}</span>}
-                        in list {act.groupTitle}</div>
+                            {act.taskCopy && <Link className="link-to-task" to={`/boards/${currBoard._id}/${act.taskCopy.id}`}>
+                                {act.taskCopy.title}
+                            </Link>}
+                            {!act.taskCopy && <span>{act.taskTitle}</span>}
+                            in list {act.groupTitle}</div>
                         <span className="created-at">
                             {act.createdAt}
                         </span>
@@ -83,9 +83,9 @@ export function Activity() {
                 }
                 case 'copy-group': {
                     return <div className="activity">
-                          <div className="content">
-                        <span className="user-name">{act.userName}</span>
-                        copied {act.groupTitle}</div>
+                        <div className="content">
+                            <span className="user-name">{act.userName}</span>
+                            copied {act.groupTitle}</div>
                         <span className="created-at">
                             {act.createdAt}
                         </span>
@@ -96,12 +96,13 @@ export function Activity() {
 
 
                 default:
-
             }
+
+        })
+
 
         }
 
-        )}
 
     </section>
 }

@@ -322,6 +322,7 @@ hr {
         padding: 0;
         white-space: nowrap;
         color: #ffffff;
+        position: relative;
 
         &:hover {
             background-color: rgba(255, 255, 255, 0.3);
@@ -417,13 +418,13 @@ hr {
     }
 
     .info-modal {
-        position: fixed;
+        position: absolute;
         width: 380px;
         height: 384px;
-        will-change: top, left;
         top: 48px;
-        left: 82%;
-        max-width: 100%;
+        left: -352px;
+        // right: 352px;
+        overflow-y: hidden;
 
         .info-img-div {
             display: flex;
@@ -508,25 +509,27 @@ hr {
 
 .create-first {
     padding: 0;
+
     .create-first-actions {
         display: flex;
         width: 100%;
         flex-direction: column;
         display: inline-block;
-        padding-bottom:12px ;
+        padding-bottom: 12px;
 
         button {
             width: 100%;
             padding: 0;
             margin: 0;
             padding: 6px 12px;
-            color:$clr-text-group;
+            color: $clr-text-group;
             background-color: transparent;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 
-            &:hover{
+            &:hover {
                 background-color: rgba(9, 30, 66, 0.04);
             }
+
             .action-title {
                 display: inline-block;
                 width: 100%;
@@ -542,4 +545,10 @@ hr {
         }
 
     }
+}
+
+.on-go-back-button {
+    position: absolute;
+    left: 0;
+
 }

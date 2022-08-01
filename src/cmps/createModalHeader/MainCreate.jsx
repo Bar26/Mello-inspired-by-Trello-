@@ -13,7 +13,7 @@ export const MainCreate = ({onGoBack, setCreateModalTitle, setCreateState }) => 
                 <p className='action-desc'>A board is made up of cards orderd on lists.
                     Use it to mange projects, track information,or organize anything.</p>
             </button>
-            <button>
+            <button onClick={()=>{setCreateState('create-template'); setCreateModalTitle('Create from template');}}>
                 <div className='flex' style={{ gap: '2px' }}>
                     <img src={trelloCopyTemplateIcon} style={{ color: '$clr-text-group', height: '20px', width: '20px' }} />
                     <span className='action-title'>Start with a template</span>

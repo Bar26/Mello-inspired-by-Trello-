@@ -1,0 +1,19 @@
+.select-pic-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .pics-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+        gap: 8px;
+        width: fit-content;
+        
+        .pic-select {
+            height: fit-content;
+            width: fit-content;
+            cursor: pointer;
+        }
+    }
+}

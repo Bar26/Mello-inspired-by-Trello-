@@ -1,0 +1,32 @@
+
+
+.create-template{
+    color: $clr-text-group;
+
+    >*{
+        padding:0 12px 9px 12px;
+    }
+    
+    .show-more-templates{
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        font-weight: 500;
+        color: $clr-small-text;
+    }
+    
+    ul{
+        padding:0 12px 9px 12px;
+    }
+    .modal-bottom{
+        display: flex;
+        align-items: flex-start;
+        align-items: center;
+        // justify-content: center;
+        text-align: start;
+        color: $clr-small-text;
+        padding:12px;
+        gap: 9px;
+    }
+
+}

@@ -7,6 +7,7 @@ import { useHistory, useNavigate } from "react-router-dom";
 
 export const ChangeBgcColorsModal = ({ setLastType, setLastTitle, menuShow, onToggleBoardMenu, setSelectedType, setTitle }) => {
     const { currBoard } = useSelector((state) => state.boardModule)
+    const { currUser } = useSelector((state) => state.userModule)
     const dispatch = useDispatch()
     const navigate=useNavigate()
     const palette = [
@@ -35,7 +36,9 @@ export const ChangeBgcColorsModal = ({ setLastType, setLastTitle, menuShow, onTo
     const onChangeColorStyle = async (newStyle) => {
         console.log(newStyle)
         try {
-            const newBoard = { ...currBoard, style: { backgroundColor: newStyle } }
+            // const newBoard = { ...currBoard, style: { backgroundColor: newStyle } }
+            const styleToSend ={ backgroundColor: newStyle }
+            const newBoard = boardService.changeBoardBGStyle(styleToSend,currBoard,currUser)
             await dispatch(onSaveBoard(newBoard))
             await dispatch(setCurrBoard(newBoard._id))
             setSelectedType('main-board')

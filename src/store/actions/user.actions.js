@@ -87,6 +87,10 @@ export function setCurrUser(user) {
 	}
 }
 
+export function getUser(user) {
+	setCurrUser(user)
+}
+
 // export function loadAndWatchUser(userId) {
 // 	return async (dispatch) => {
 // 		try {

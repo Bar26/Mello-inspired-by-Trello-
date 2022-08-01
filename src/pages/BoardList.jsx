@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { createRef, useEffect, useState } from 'react'
 import { BoardPreview } from '../cmps/BoardPreview'
 import { userService } from '../services/user.service.js'
 import { CreateModal } from '../cmps/CreateModal'
@@ -10,6 +10,7 @@ import { setCurrUser } from '../store/actions/user.actions'
 import { setCurrBoard } from '../store/actions/board.actions'
 import trelloFullIcon from '../assets/img/trello-black-full.svg'
 import { useLocation, useRoutes } from 'react-router-dom'
+import { CreateBoardHeader } from '../cmps/createModalHeader/CreateBoardHeader'
 
 export const BoardList = () => {
 	const [boards, setBoards] = useState([])
@@ -20,21 +21,31 @@ export const BoardList = () => {
 	const { currBoard } = useSelector((state) => state.boardModule)
 	const dispatch = useDispatch()
 
+	const refCreate = createRef()
 
 
 
-	
+	const calledFrom = null
+
 
 	useEffect(() => {
-		if (!Object.keys(currUser).length) {
-			setUserBoards()
-		}
+		getUser()
 	}, [])
+
+
 	useEffect(() => {
 		loadTemplates()
 		if (currUser.name !== 'Guest') loadUserBoards()
 		else loadGuestBoards()
 	}, [currUser])
+
+
+	const getUser = async () => {
+		let user = await userService.getLoggedinUser()
+		console.log('OnEffect', user)
+		dispatch(setCurrUser(user))
+
+	}
 
 	const loadGuestBoards = async () => {
 		Promise.all(
@@ -96,6 +107,13 @@ export const BoardList = () => {
 	const starredBoards = () => {
 		return boards.filter((board) => board.isStared)
 	}
+
+	const toggleModal = (refType) => {
+		refType.current.classList.toggle('hide')
+		boardService.queryTemplates().then((templates) => setTemplates(templates))
+	}
+
+
 	if (!Object.keys(currUser).length) return <div className="loader"></div>
 	return (
 		<section className="board-list">
@@ -138,9 +156,35 @@ export const BoardList = () => {
 						Most popular templates</h3>
 
 					<section className="board-list">
-						<article className="create-preview" onClick={onSetCreateMode}>
+						<article className="create-preview" onClick={() => toggleModal(refCreate)}>
 							<h1>Create New Board</h1>
 						</article>
+							<section ref={refCreate} className='create-container'>
+								<button className="closebtn">
+									<svg
+										stroke="currentColor"
+										fill="currentColor"
+										strokeWidth="0"
+										viewBox="0 0 24 24"
+										className="btn-content"
+										height="1em"
+										width="1em"
+										xmlns="http://www.w3.org/2000/svg"
+									>
+										<path
+											fill="none"
+											stroke="#000"
+											strokeWidth="2"
+											d="M3,3 L21,21 M3,21 L21,3"
+										></path>
+									</svg>
+								</button>
+							
+								<h1>Create New Board</h1>
+								<hr />
+								<CreateBoardHeader></CreateBoardHeader>
+
+							</section>
 						{templates.map((template, idx) => {
 							return (
 								<TemplatePreview
@@ -154,7 +198,6 @@ export const BoardList = () => {
 
 					{/* <h1>Recently Viewed Boards</h1> */}
 
-					<CreateModal createMode={createMode} onSetCreateMode={onSetCreateMode} />
 				</div>
 			</section>
 		</section>
