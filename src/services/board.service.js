@@ -39,6 +39,7 @@ export const boardService = {
 	addAttachment,
 	makeAttachmentCoverTask,
 	toggleMemberToTask,
+	toggleMemberToBoard,
 	deleteElement,
 	updateCover,
 	copyGroup,
@@ -281,6 +282,13 @@ async function toggleMemberToTask(board, group, taskId, memberId) {
 	} else task.memberIds = [memberId]
 	updatedBoard.groups[groupIdx].tasks[taskIdx] = task
 	return updatedBoard
+}
+
+async function toggleMemberToBoard(board, memberId) {
+	const updatedBoard = { ...board }
+	const memberIdx = updatedBoard.members.findIndex((member) => member._id === memberId)
+	if (memberIdx !== -1) updatedBoard.members.splice(memberIdx, 1)
+	else updatedBoard.members.push(memberId)
 }
 
 async function createLabel(board, group, task, backgroundColor, title) {

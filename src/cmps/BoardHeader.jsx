@@ -7,6 +7,9 @@ import { setCurrBoard, onSaveBoard } from '../store/actions/board.actions'
 import { useEffectUpdate } from './useEffectUpdate.js'
 import { socketService } from '../services/socket.service.js'
 import { loadUsers } from '../store/actions/user.actions.js'
+import { AddMemberModal } from './MembersModal.jsx'
+import { useRef } from 'react'
+import { utilService } from '../services/util.service.js'
 
 export const BoardHeader = ({ menuShow, toggleBoardMenu, onSetCoverMode }) => {
 	const { currBoard } = useSelector((state) => state.boardModule)
@@ -15,6 +18,8 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu, onSetCoverMode }) => {
 	const { currUser } = useSelector((state) => state.userModule)
 	const bg = currUser.imgUrl ? `url(${currUser.imgUrl}) center center / cover` : '#de350b'
 	const { users } = useSelector((state) => state.userModule)
+
+	const addMemberRef = useRef()
 
 	const dispatch = useDispatch()
 
@@ -76,7 +81,14 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu, onSetCoverMode }) => {
 
 
 
-
+	// const onToggleMemberToBoard = async (memberId) =>{
+    //     try {
+    //         const updatedBoard = await boardService.toggleMemberToBoard(currBoard, memberId)
+    //         await dispatch(onSaveBoard(updatedBoard))
+    //     } catch (err) {
+    //         console.log('connot add member to task', err)
+    //     }
+    // }
 
 
 
@@ -97,17 +109,23 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu, onSetCoverMode }) => {
 				<label className="star" onClick={(event) => onSetStar(event)}>
 					<i className={`fa-regular fa-star ${star}`}></i>
 				</label>
-				<div
-					className="member-img"
-					style={{
-						background: bg,
-					}}
-				>{!currUser.imgUrl && <span>{boardService.getInitials(currUser.fullname)}</span>}</div>
-				<div className='add-member'>
+				<div className="member-img"style={{background: bg,}}>{!currUser.imgUrl && <span>{boardService.getInitials(currUser.fullname)}</span>}</div>
+				
+				
+				
+				
+				<div className='add-member hide' ref={addMemberRef} onClick={()=>{utilService.toggleModal}}>
 					<button>
 						<img />
+						<AddMemberModal />
 						Members
 					</button>
+				
+				
+				
+				
+				
+				
 				</div>
 			</div>
 			<div className="board-menu">

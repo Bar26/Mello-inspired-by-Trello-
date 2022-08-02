@@ -1,17 +1,25 @@
 import { setCurrBoard, onSaveBoard } from '../store/actions/board.actions'
 import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect, useRef, useState } from 'react'
+import { boardService } from '../services/board.service'
 
 
 
 
 
-export function AddMemberModal({ onToggleMemberModal, onToggleMemberToTask, task = null }) {
+export function AddMemberModal({ onToggleMemberModal = null, onToggleMemberToTask = null, task = null }) {
 
     const { currBoard } = useSelector((state) => state.boardModule)
     const { users } = useSelector((state) => state.userModule)
     const [filterMember, setFilterMember] = useState('')
+    const [membersToShow, setMemberToShow] = useState([])
 
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        let val = task ? currBoard.members : users
+        setMemberToShow(val)
+    }, [])
 
     const onSearchMember = ({ target }) => {
         const value = target.value
@@ -19,11 +27,22 @@ export function AddMemberModal({ onToggleMemberModal, onToggleMemberToTask, task
     }
 
     const setToggleChoice = (memberId) => {
-        console.log('Task: ',task);
-        console.log('member: ',memberId);
-        if(task) onToggleMemberToTask(memberId)
-        else console.log(users);
+        console.log('Task: ', task);
+        console.log('member: ', memberId);
+        if (task) onToggleMemberToTask(memberId)
+        else onToggleMemberToBoard(memberId);
     }
+
+    const onToggleMemberToBoard = async (memberId) => {
+        try {
+            const updatedBoard = await boardService.toggleMemberToBoard(currBoard, memberId)
+            await dispatch(onSaveBoard(updatedBoard))
+        } catch (err) {
+            console.log('connot add member to task', err)
+        }
+    }
+
+
 
 
     return (
@@ -51,7 +70,7 @@ export function AddMemberModal({ onToggleMemberModal, onToggleMemberToTask, task
             <div className="members-container">
                 <span className="members-title">Board members</span>
                 <div className="members-list">
-                    {currBoard.members && currBoard.members.map(member => {
+                    {membersToShow.map(member => {
                         const src = member.imgUrl
                         const username = member.username
                         const fullname = member.fullname
@@ -76,9 +95,14 @@ export function AddMemberModal({ onToggleMemberModal, onToggleMemberToTask, task
                                         <span className='fullname'>{fullname + ' ('}</span>
                                         <span className='username'>{username + ')'}</span>
                                     </div>
-                                    {task.memberIds && task.memberIds.includes(member._id) && (
+                                    {task && task.memberIds && task.memberIds.includes(member._id) && (
                                         <div className="member-indication">✔</div>
                                     )}
+
+                                    
+                                    {!task && membersToShow.map(m => {
+                                        if (m._id === member._id) return <div className="member-indication">✔</div>
+                                    })}
 
 
                                 </section>
