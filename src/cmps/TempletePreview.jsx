@@ -27,7 +27,7 @@ export const TemplatePreview = ({ template, getStarredBoards }) => {
 		<article
 			className="board-preview"
 			style={{
-				background: `URL(${template.img}) center center / cover`,
+				background: `URL${template.img} center center / cover`,
 			}}
 		>
 			<div className="link" onClick={onCreateBoard}>

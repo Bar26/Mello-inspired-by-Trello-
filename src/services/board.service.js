@@ -429,10 +429,11 @@ function deleteDateElement(board, group, task, key) {
 
 function addDateToTask(board, group, task, date) {
 	let newBoard = { ...board }
+	console.log(date);
 	const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
 	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex((_task) => _task.id === task.id)
 	if (newBoard.groups[groupIdx].tasks[taskIdx].dates) {
-		newBoard.groups[groupIdx].tasks[taskIdx].dates.dueDate = { ...newBoard.groups[groupIdx].tasks[taskIdx].dates.dueDate, date }
+		newBoard.groups[groupIdx].tasks[taskIdx].dates.dueDate = date
 	}
 	else {
 		newBoard.groups[groupIdx].tasks[taskIdx].dates = { dueDate: date }
