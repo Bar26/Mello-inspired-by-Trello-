@@ -291,6 +291,8 @@ export function TaskDetails() {
 
 
     const onCheckBoxDueDate = async (ev) => {
+        
+        console.log(ev.target.checked);
         const newBoard = await boardService.checkBoxDueDate(currBoard, group, task, ev.target.checked)
         await dispatch(onSaveBoard(newBoard))
     }
@@ -338,8 +340,8 @@ export function TaskDetails() {
                             <div style={dateStyle.current}>
                                 <input type='checkbox' checked={task.dates.completed} onChange={(ev) => onCheckBoxDueDate(ev)} />
                                 {/* {style = task.dates.completed ? { backgroundColor: 'green' } : { backgroundColor: 'transperent' }} */}
-                                {/* <span >{task.dates.dueDate}   </span> */}
-                                {task.dates.completed && <span>complete</span>}
+                                <span >{task.dates.dueDate}   </span>
+                                {task.dates.completed && <span>Completed</span>}
                             </div>
                         </section>}
 

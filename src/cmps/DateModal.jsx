@@ -5,7 +5,7 @@ import { onSaveBoard, setCurrBoard } from '../store/actions/board.actions'
 import "react-datepicker/dist/react-datepicker.css";
 import { boardService } from '../services/board.service';
 
-import {formt} from 'date-fns'
+import {format} from 'date-fns'
 
 export const DateModal = ({ toggleDateModal, board, group, task }) => {
 
@@ -24,7 +24,8 @@ export const DateModal = ({ toggleDateModal, board, group, task }) => {
  
 
     const onSave = async () => {
-        let newBoard = await boardService.addDateToTask(board, group, task, _date)
+        let dateToSave = format(_date,('dd/MM/yyyy'));
+        let newBoard = await boardService.addDateToTask(board, group, task, dateToSave)
         await dispatch(onSaveBoard(newBoard))
     }
     
@@ -45,7 +46,7 @@ export const DateModal = ({ toggleDateModal, board, group, task }) => {
             }}>
                 <DatePicker
                     onChange={date => {
-                        const dateToSave = date.toLocaleDateString('he-IL')
+                        // const dateToSave = date.toLocaleDateString('he-IL')
                         // console.log(dateToSave);
                         // setEndDate(dateToSave)
                         // endDateNotState = new Date(dateToSave)

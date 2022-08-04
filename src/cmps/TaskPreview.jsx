@@ -76,7 +76,7 @@ export function TaskPreview({ task, group }) {
 	const onToggleMemberToTask = async (memberId) => {
 		try {
 			const updatedBoard = await boardService.toggleMemberToTask(currBoard, group, task.id, memberId)
-			 dispatch(onSaveBoard(updatedBoard))
+			dispatch(onSaveBoard(updatedBoard))
 		} catch (err) {
 			console.log('connot add member to task', err)
 		}
@@ -106,7 +106,7 @@ export function TaskPreview({ task, group }) {
 	const onCheckBoxDueDate = async (ev) => {
 		const newBoard = await boardService.checkBoxDueDate(currBoard, group, task, ev.target.checked)
 		dateStyle.current = task.dates.completed ? { backgroundColor: 'green', color: 'white' } : { backgroundColor: '' }
-		await dispatch(onSaveBoard(newBoard))
+		dispatch(onSaveBoard(newBoard))
 	}
 
 
@@ -298,14 +298,15 @@ export function TaskPreview({ task, group }) {
 						</div>
 					</div>
 					}
+					{console.log(task.dates?.dueDate)}
 
 					{task.dates?.dueDate &&
 						<section className="due-date" style={dateStyle.current}>
-							<input type='checkbox' style={{ accentColor: 'green'}} checked={task.dates?.completed} onClick={(ev) => { ev.stopPropagation(); onCheckBoxDueDate(ev) }} />
-							{/* <span>{utilService.monthName(task.dates.dueDate.slice(3, -5))} </span> */}
-							{/* <span>{Number(task.dates.dueDate.slice(0, -8))} </span> */}
-							{task.dates.completed && <span>complete</span>}
-						</section>         
+							<input type='checkbox' style={{ accentColor: 'green' }} checked={task.dates?.completed} onClick={(ev) => { ev.stopPropagation(); onCheckBoxDueDate(ev) }} />
+							<span>{utilService.monthName(task.dates.dueDate.slice(3, 5))} </span>
+							<span>{Number(task.dates.dueDate.slice(0, 2))} </span>
+							{task.dates.completed && <span>Completed</span>}
+						</section>
 					}
 					{/* } */}
 				</div>

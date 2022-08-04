@@ -114,7 +114,7 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu, onSetCoverMode }) => {
 				
 				
 				
-				<div className='add-member hide' ref={addMemberRef} onClick={()=>{utilService.toggleModal}}>
+				<div className='add-member hide' ref={addMemberRef}>
 					<button>
 						<img />
 						<AddMemberModal />
