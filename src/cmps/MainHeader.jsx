@@ -302,7 +302,7 @@ export const MainHeader = () => {
 								onClick={() => toggleModal(refCreateFirstModal)}>Create</button>
 							<section ref={refCreateFirstModal} className='header-modal create-first hide'>
 								<div className='modal-title'>
-									<button className='on-go-back-button' onClick={onGoBack}>goBack</button>
+									{createButtonState!=='main-create'&&<button className='on-go-back-button' onClick={onGoBack}><i className="fa fa-angle-left" ></i></button>}
 									<h1 style={{ fontSize: '16px' }}>{createModalTitle}</h1>
 									<button className="close-modal-btn" onClick={() => toggleModal(refCreateFirstModal)}>
 										<i className="fa-solid fa-xmark"></i>

@@ -110,7 +110,7 @@ export const BoardMenu = ({ onChangeBGImgStyle, onUploadImg, onSetCoverMode, men
 				   <i className="fa-solid fa-xmark"></i>
 			</button>
 			{selectedType !== 'main-board' &&
-				<button className="go-back" onClick={onGoBack}> goBack </button>
+				<button className="go-back" onClick={onGoBack}> <i className="fa fa-angle-left" ></i> </button>
 			}
 			<h3 className="menu-title">{title}</h3>
 			</header>

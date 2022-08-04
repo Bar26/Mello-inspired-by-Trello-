@@ -54,15 +54,24 @@
 			position: absolute;
 			right: 0;
 			font-size: 16px;
-			color: #172b4d;
+			color:$clr4;
 
 			@include flex-center;
 		}
 
 		.go-back {
 			position: absolute;
-			top: 15px;
-			left: 25px;
+			// top: 12px;
+			left: 0px;
+			width: 42px;
+			height: 42px;
+			@include flex-center;
+			background-color: transparent;
+
+			.fa-angle-left{
+				font-size: 16px;
+				color:$clr4;
+			}
 		}
 	}
 }
