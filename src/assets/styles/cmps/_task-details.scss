@@ -415,10 +415,9 @@
 
             }
 
-            .activity-container {
+            .activity-container-details {
                 display: flex;
                 flex-direction: column;
-                width: 512px;
                 height: 48px;
                 gap: 4px;
 
@@ -483,7 +482,7 @@
                     }
 
                     .comment {
-                        width: 508px;
+                        width: 100%;
                         height: 36px;
                         padding: 8px 12px;
                         border: none;

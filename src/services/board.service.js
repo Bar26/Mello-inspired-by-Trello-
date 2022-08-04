@@ -284,11 +284,12 @@ async function toggleMemberToTask(board, group, taskId, memberId) {
 	return updatedBoard
 }
 
-async function toggleMemberToBoard(board, memberId) {
+async function toggleMemberToBoard(board, member) {
 	const updatedBoard = { ...board }
-	const memberIdx = updatedBoard.members.findIndex((member) => member._id === memberId)
-	if (memberIdx !== -1) updatedBoard.members.splice(memberIdx, 1)
-	else updatedBoard.members.push(memberId)
+	const memberIdx = updatedBoard.members.findIndex((m) => m._id === member._id)
+	if (memberIdx !== -1&& updatedBoard.createdBy._id!==member._id) updatedBoard.members.splice(memberIdx, 1)
+	else updatedBoard.members.push(member)
+	return updatedBoard
 }
 
 async function createLabel(board, group, task, backgroundColor, title) {

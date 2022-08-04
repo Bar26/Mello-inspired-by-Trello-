@@ -1,11 +1,18 @@
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { boardService } from '../../services/board.service'
 
 
 
 export function Activity() {
 
     const { currBoard } = useSelector((state) => state.boardModule)
+
+    const getBg=(img)=>{
+        const bg = img ? `url(${img}) center center / cover` : '#de350b'
+        return bg
+    }
+
 
 
     return <section className="activity-container">
@@ -22,10 +29,12 @@ export function Activity() {
                         <div
                             className="user-img"
                             style={{
-                                background: `url(${act.userImg}) center center / cover`,
+                                background: getBg(act.userImg),
                                 height: '32px'
                             }}
-                        ></div>
+                        >
+                            {!act.userImg && <span>{boardService.getInitials(act.userName)}</span>}
+                        </div>
                         <div className="content">
                             <span className="user-name">{act.userName} </span>
                             <span>added </span>
@@ -46,10 +55,13 @@ export function Activity() {
                         <div
                             className="user-img"
                             style={{
-                                background: `url(${act.userImg}) center center / cover`,
+                                background: getBg(act.userImg),
+
                                 height: '32px'
                             }}
-                        ></div>
+                        >
+                            {!act.userImg && <span>{boardService.getInitials(act.userName)}</span>}
+                        </div>
                         <div className="content">
                             <span className="user-name">{act.userName}</span>
                             <span> archived</span> {act.taskTitle}</div>
@@ -63,10 +75,13 @@ export function Activity() {
                         <div
                             className="user-img"
                             style={{
-                                background: `url(${act.userImg}) center center / cover`,
+                                background: getBg(act.userImg),
+
                                 height: '32px'
                             }}
-                        ></div>
+                        >
+                            {!act.userImg && <span>{boardService.getInitials(act.userName)}</span>}
+                        </div>
                         <div className="content">
                             <span className="user-name">{act.userName}</span>
                             <span> added {act.groupTitle} to this board</span></div>
@@ -80,10 +95,13 @@ export function Activity() {
                         <div
                             className="user-img"
                             style={{
-                                background: `url(${act.userImg}) center center / cover`,
+                                background: getBg(act.userImg),
+
                                 height: '32px'
                             }}
-                        ></div>
+                        >
+                            {!act.userImg && <span>{boardService.getInitials(act.userName)}</span>}
+                        </div>
                         <div className="content">
                             <span className="user-name">{act.userName}</span>
                             <span> archived </span> {act.groupTitle}</div>
@@ -97,10 +115,13 @@ export function Activity() {
                         <div
                             className="user-img"
                             style={{
-                                background: `url(${act.userImg}) center center / cover`,
+                                background: getBg(act.userImg),
+
                                 height: '32px'
                             }}
-                        ></div>
+                        >
+                            {!act.userImg && <span>{boardService.getInitials(act.userName)}</span>}
+                        </div>
                         <div className="content">
                             <span className="user-name">{act.userName} </span>
                             <span>copied </span>
@@ -126,10 +147,13 @@ export function Activity() {
                         <div
                             className="user-img"
                             style={{
-                                background: `url(${act.userImg}) center center / cover`,
+                                background: getBg(act.userImg),
+
                                 height: '32px'
                             }}
-                        ></div>
+                        >
+                            {!act.userImg && <span>{boardService.getInitials(act.userName)}</span>}
+                        </div>
                         <div className="content">
                             <span className="user-name">{act.userName}</span>
                             <span>copied</span> {act.groupTitle}</div>
@@ -140,13 +164,17 @@ export function Activity() {
                 }
                 case 'change-BG': {
                     return <div className="activity">
+
                         <div
                             className="user-img"
                             style={{
-                                background: `url(${act.userImg}) center center / cover`,
+                                background: getBg(act.userImg),
+
                                 height: '32px'
                             }}
-                        ></div>
+                        >
+                            {!act.userImg && <span>{boardService.getInitials(act.userName)}</span>}
+                        </div>
                         <div className="content">
                             <span className="user-name">{act.userName}</span>
                             <span> changed the background of this board</span>

@@ -19,7 +19,7 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu, onSetCoverMode }) => {
 	const bg = currUser.imgUrl ? `url(${currUser.imgUrl}) center center / cover` : '#de350b'
 	const { users } = useSelector((state) => state.userModule)
 
-	const addMemberRef = useRef()
+	const addMemberModalRef = useRef()
 
 	const dispatch = useDispatch()
 
@@ -61,6 +61,10 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu, onSetCoverMode }) => {
 		onSetCoverMode()
 	}
 
+	const onToggleMemberModal = () => {
+        addMemberModalRef.current.classList.toggle('hide')
+    }
+
 	const handleChange = (ev) => {
 		try {
 			const value = ev.target.value
@@ -82,13 +86,13 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu, onSetCoverMode }) => {
 
 
 	// const onToggleMemberToBoard = async (memberId) =>{
-    //     try {
-    //         const updatedBoard = await boardService.toggleMemberToBoard(currBoard, memberId)
-    //         await dispatch(onSaveBoard(updatedBoard))
-    //     } catch (err) {
-    //         console.log('connot add member to task', err)
-    //     }
-    // }
+	//     try {
+	//         const updatedBoard = await boardService.toggleMemberToBoard(currBoard, memberId)
+	//         await dispatch(onSaveBoard(updatedBoard))
+	//     } catch (err) {
+	//         console.log('connot add member to task', err)
+	//     }
+	// }
 
 
 
@@ -109,24 +113,29 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu, onSetCoverMode }) => {
 				<label className="star" onClick={(event) => onSetStar(event)}>
 					<i className={`fa-regular fa-star ${star}`}></i>
 				</label>
-				<div className="member-img"style={{background: bg,}}>{!currUser.imgUrl && <span>{boardService.getInitials(currUser.fullname)}</span>}</div>
-				
-				
-				
-				
-				<div className='add-member hide' ref={addMemberRef} onClick={()=>{utilService.toggleModal}}>
-					<button>
-						<img />
-						<AddMemberModal />
-						Members
-					</button>
-				
-				
-				
-				
-				
-				
-				</div>
+				<div className="member-img" style={{ background: bg, }}>{!currUser.imgUrl && <span>{boardService.getInitials(currUser.fullname)}</span>}</div>
+
+
+
+
+				<button className="members-btn-header" onClick={onToggleMemberModal}>
+					<div
+						ref={addMemberModalRef}
+						className="member-modal-in-header hide "
+						onClick={(ev) => ev.stopPropagation()}
+					>
+						<AddMemberModal onToggleMemberModal={onToggleMemberModal}
+							currBoard={currBoard}
+						
+						/>
+					</div>
+					<span className="icon members-icon">
+						<i className="fa-regular fa-user"></i>
+					</span>
+					<span>members</span>
+				</button>
+
+			
 			</div>
 			<div className="board-menu">
 				{/* <button className="board-menu-btn" onClick={onToggleCoverMode}>Cover</button> */}

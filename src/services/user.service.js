@@ -23,6 +23,7 @@ export const userService = {
 	remove,
 	update,
 	addBoardUser,
+	toggleBoardToMember
 }
 
 window.userService = userService
@@ -65,6 +66,16 @@ async function update(user) {
 	}
 	return user
 }
+
+async function toggleBoardToMember(board, member) {
+	const updatedUser = { ...member }
+	const boardIdx = updatedUser.boards.findIndex((boardId) => boardId === board._id)
+	if (boardIdx !== -1&& board.createdBy._id!==member._id) updatedUser.boards.splice(boardIdx, 1)
+	else updatedUser.boards.push(board._id)
+	return updatedUser
+}
+
+
 
 async function login(userCred) {
 	// const users = await storageService.query('user')

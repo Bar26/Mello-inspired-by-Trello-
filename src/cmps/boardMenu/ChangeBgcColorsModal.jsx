@@ -9,22 +9,34 @@ export const ChangeBgcColorsModal = ({ setLastType, setLastTitle, menuShow, onTo
     const { currBoard } = useSelector((state) => state.boardModule)
     const { currUser } = useSelector((state) => state.userModule)
     const dispatch = useDispatch()
-    const navigate=useNavigate()
+    const navigate = useNavigate()
     const palette = [
+        // '#61bd4f',
+        // '#ff9f1a',
+        // '#eb5a46',
+        // '#c377e0',
+        // '#0079bf',
+        // '#00c2e0',
+        // '#51e898',
+        // '#ff78cb',
+        // '#344563',
+        // '#519839',
+
+        '#0079BF',
+        '#377D71',
+        '#D288A2',
+        '#8879B0',
+        '#4CACBC',
+        '#DF7861',
+        '#ff78cb',
         '#61bd4f',
         '#ff9f1a',
-        '#eb5a46',
-        '#c377e0',
-        '#0079bf',
-        '#00c2e0',
-        '#51e898',
-        '#ff78cb',
         '#344563',
-        '#519839'
+
     ]
 
     useEffect(() => {
-        setUpFunc( )
+        setUpFunc()
     }, [])
 
 
@@ -37,8 +49,8 @@ export const ChangeBgcColorsModal = ({ setLastType, setLastTitle, menuShow, onTo
         console.log(newStyle)
         try {
             // const newBoard = { ...currBoard, style: { backgroundColor: newStyle } }
-            const styleToSend ={ backgroundColor: newStyle }
-            const newBoard = boardService.changeBoardBGStyle(styleToSend,currBoard,currUser)
+            const styleToSend = { backgroundColor: newStyle }
+            const newBoard = boardService.changeBoardBGStyle(styleToSend, currBoard, currUser)
             await dispatch(onSaveBoard(newBoard))
             await dispatch(setCurrBoard(newBoard._id))
             setSelectedType('main-board')

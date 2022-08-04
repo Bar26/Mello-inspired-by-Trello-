@@ -71,14 +71,9 @@ export function TaskDetails() {
 
     useEffect(() => {
         getGroupTask()
+    }, [currBoard])
 
-    }, [])
 
-    // useEffect(() => {==
-
-    // }, [newLabelColor])
-
-    // useEffectUpdate(() => {
 
 
 
@@ -184,26 +179,22 @@ export function TaskDetails() {
         }
 
     }
-    const onToggleMemberToTask = async (memberId) => {
-        try {
-            const updatedBoard = await boardService.toggleMemberToTask(currBoard, group, taskId, memberId)
-            await dispatch(onSaveBoard(updatedBoard))
-        } catch (err) {
-            console.log('connot add member to task', err)
-        }
+    // const onToggleMemberToTask = async (memberId) => {
+    //     try {
+    //         const updatedBoard = await boardService.toggleMemberToTask(currBoard, group, taskId, memberId)
+    //         await dispatch(onSaveBoard(updatedBoard))
+    //     } catch (err) {
+    //         console.log('connot add member to task', err)
+    //     }
 
-    }
+    // }
 
 
     const onSearchLabel = ({ target }) => {
         const value = target.value
         setFilterLabel(value)
     }
-    // const onSearchMember = ({ target }) => {
-    //     const value = target.value
-    //     console.log(value)
-    //     setFilterMember(value)
-    // }
+
 
     const onSaveNewLabel = async () => {
         try {
@@ -670,7 +661,7 @@ export function TaskDetails() {
                     {/* <section className="custom-fields">
             </section> */}
 
-                    <section className="activity-container">
+                    <section className="activity-container-details">
                         <header className="activity-header">
                             <div className="title-icon-container">
                                 <span className="activity-icon"><i className="fa-solid fa-list-ul"></i></span>
@@ -711,10 +702,10 @@ export function TaskDetails() {
                                 onClick={(ev) => ev.stopPropagation()}
                             >
                                 <AddMemberModal onToggleMemberModal={onToggleMemberModal}
-                                    // onSearchMember={onSearchMember}
-                                    // filterMember={filterMember}
+
                                     currBoard={currBoard}
-                                    onToggleMemberToTask={onToggleMemberToTask}
+                                    group={group}
+                                    // onToggleMemberToTask={onToggleMemberToTask}
                                     task={task} />
                             </div>
 

@@ -145,7 +145,10 @@ export function TaskPreview({ task, group }) {
 						<AddMemberModal onToggleMemberModal={onToggleMemberModal}
 							currBoard={currBoard}
 							onToggleMemberToTask={onToggleMemberToTask}
-							task={task} />
+							task={task}
+							group={group}
+							
+							/>
 					</div>
 				</div>
 				<div onClick={onToggleCoverModal} className="change-cover">

@@ -8,7 +8,7 @@ export function setCurrBoard(boardId) {
 	return async (dispatch) => {
 		let currBoard
 		try {
-			currBoard = await boardService.getById(boardId, true)
+			currBoard = await boardService.getById(boardId, true) ////////CHECK!!!!!!!!!!!!!!!
 			if (!currBoard) {
 				currBoard = await boardService.getById(boardId)
 			}

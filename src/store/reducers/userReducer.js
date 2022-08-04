@@ -10,6 +10,7 @@ export function userReducer(state = INITIAL_STATE, action) {
 	switch (action.type) {
 		case 'SET_USER':
 			newState = { ...state, currUser: action.user }
+
 			break
 
 		case 'REMOVE_USER':
@@ -19,9 +20,15 @@ export function userReducer(state = INITIAL_STATE, action) {
 			}
 			break
 		case 'SET_USERS':
-			console.log('in set users', action.users);
-			newState = { ...state, users: action.users }
+			console.log('in set users');
+			return (newState = { ...state, users: action.users })
+
 			break
+			case 'SAVE_USER':
+				users = state.users.map((user) =>
+					user._id === action.user._id ? action.user : user
+				)
+				return (newState = { ...state, users})
 		case 'ADD_USER':
 			newState = { ...state, users: [...users, action.user] }
 			break
