@@ -121,14 +121,14 @@ export const BoardList = () => {
 
 	if (!Object.keys(currUser).length) return <div className="loader"></div>
 	return (
-		<section className="board-list">
+		<section className="board-list-container">
 			<MainHeader />
 			<section className="container">
 				<div className="workspace-board-list">
+					<section className="board-list">
 					<h3 className="workspace">
 						Your workpace
 					</h3>
-					<section className="board-list">
 						{boards.map((board, idx) => {
 							return (
 								<BoardPreview
@@ -139,12 +139,13 @@ export const BoardList = () => {
 							)
 						})}
 					</section>
-					<h3 className="stared">
+					
+					{!!starredBoards().length && (
+						<section className="board-list">
+							<h3 className="stared">
 						<i className="fa-regular fa-star"></i>
 						Starred Boards
 					</h3>
-					{!!starredBoards().length && (
-						<section className="board-list">
 							{starredBoards().map((board, idx) => {
 								return (
 									<BoardPreview
@@ -165,11 +166,12 @@ export const BoardList = () => {
 							})}
 						</section>
 					)}
+				
+
+					<section className="board-list">
 					<h3 className="templates">
 						<img className="full-icon" src={trelloFullIcon} />
 						Most popular templates</h3>
-
-					<section className="board-list">
 						<article className="create-preview" onClick={() => toggleModal(refCreate)}>
 							<h1>Create New Board</h1>
 							<section onClick={(ev)=>{ev.stopPropagation()}} ref={refCreate} className='create-container hide'>
