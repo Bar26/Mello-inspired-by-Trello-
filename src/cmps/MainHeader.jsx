@@ -31,7 +31,7 @@ export const MainHeader = () => {
 	const refStarred = React.createRef()
 	const refCreate = React.createRef()
 	const refInfo = React.createRef()
-	
+
 
 
 	const [createButtonState, setCreateState] = useState('main-create')
@@ -149,7 +149,7 @@ export const MainHeader = () => {
 				</h1>
 				<section className="nav-header flex">
 					<div className="header-btn" style={{ width: '100%' }}>
-						<div className="button-top flex">
+						{/* <div className="button-top flex">
 							<button
 								className="secondary-header-button"
 								onClick={() => toggleModal(refRecent)}
@@ -170,7 +170,6 @@ export const MainHeader = () => {
 								<hr />
 								<ul>
 									{templates.map((template) => {
-										// if (recentMap(template)) return <li key={utilService.makeId()} id={template.id} onClick={() => { onSelectTemplate(template._id) }}>
 										return (
 											<li
 												key={utilService.makeId()}
@@ -180,7 +179,7 @@ export const MainHeader = () => {
 												}}
 											>
 												<div className="header-star-template">
-													<img className="template-img" src={template.img} />
+													<div style={{ borderRadius: '3px', background: `url${template.img} center center/cover`, height: '32px', width: '40px' }}></div>
 													<span>{template.title}</span>
 												</div>
 												<span className="template-indactor">Template</span>
@@ -207,7 +206,7 @@ export const MainHeader = () => {
 									})}
 								</ul>
 							</section>
-						</div>
+						</div> */}
 
 						<div className="button-top flex">
 							<button
@@ -241,10 +240,12 @@ export const MainHeader = () => {
 													}}
 												>
 													<div className="header-star-template">
-														<img className="template-img" src={template.img} />
+														<div style={{ borderRadius: '3px', background: `url${template.img} center center/cover`, height: '32px', width: '40px' }}></div>
+
+														{/* <img className="template-img" src={template.img} /> */}
 														<span>{template.title}</span>
 													</div>
-													./ <span className="template-indactor">Template</span>
+													<span className="template-indactor">Template</span>
 												</li>
 											)
 									})}
@@ -275,9 +276,9 @@ export const MainHeader = () => {
 								</div>
 								<hr />
 								<ul>
-									{templates.map((template) => {
+									{templates.map((template, index) => {
 										// if (recentMap(template)) return <li key={utilService.makeId()} id={template.id} onClick={() => { onSelectTemplate(template._id) }}>
-										return (
+										if (index < 7) return (
 											<li
 												key={utilService.makeId()}
 												id={template.id}
@@ -286,7 +287,8 @@ export const MainHeader = () => {
 												}}
 											>
 												<div className="header-star-template">
-													<img className="template-img" src={template.img} />
+													<div style={{ borderRadius: '3px', background: `url${template.img} center center/cover`, height: '32px', width: '40px' }}></div>
+													{/* <img className="template-img" src={template.img} /> */}
 													<span>{template.title}</span>
 												</div>
 												<span className="template-indactor">Template</span>
@@ -302,7 +304,7 @@ export const MainHeader = () => {
 								onClick={() => toggleModal(refCreateFirstModal)}>Create</button>
 							<section ref={refCreateFirstModal} className='header-modal create-first hide'>
 								<div className='modal-title'>
-									{createButtonState!=='main-create'&&<button className='on-go-back-button' onClick={onGoBack}><i className="fa fa-angle-left" ></i></button>}
+									{createButtonState !== 'main-create' && <button className='on-go-back-button' onClick={onGoBack}><i className="fa fa-angle-left" ></i></button>}
 									<h1 style={{ fontSize: '16px' }}>{createModalTitle}</h1>
 									<button className="close-modal-btn" onClick={() => toggleModal(refCreateFirstModal)}>
 										<i className="fa-solid fa-xmark"></i>
@@ -334,7 +336,7 @@ export const MainHeader = () => {
 												}}
 											>
 												<div className="header-star-template">
-													<img className="template-img" src={template.img} />
+													<img className="template-img" src={`url${template.img}`} />
 													<span>{template.title}</span>
 												</div>
 												<span className="template-indactor">Template</span>
@@ -360,9 +362,20 @@ export const MainHeader = () => {
 							}}
 						/>
 					</label>
-					<section ref={refCreate1} className="header-modal hide">
+					<section ref={refCreate1} className="header-modal search hide">
+						<div className="modal-title" >
+							<h1>Information</h1>
+							<button
+								className="close-modal-btn"
+								onClick={() => toggleModal(refInfo)}
+							>
+								X
+							</button>
+						</div>
+						<hr />
+
 						<ul>
-							<p className="search-offer">Recent Board</p>
+							{/* <p className="search-offer">Recent Board</p> */}
 							{templates.map((template, index) => {
 								return (
 									index < 5 && (
@@ -391,9 +404,11 @@ export const MainHeader = () => {
 													onSelectTemplate(template._id)
 												}}
 											>
-												<img className="template-img" src={template.img} />
+												<div style={{ display: 'inline-block', borderRadius: '3px', background: `url${template.img} center center/cover`, height: '32px', width: '40px' }}></div>
+
+												{/* <img className="template-img" src={template.img} /> */}
 												<span className="">{template.title}</span>
-												<span className="template-indactor">Template</span>
+												<span className="template-indactor ">Template</span>
 											</span>
 										</li>
 									)
@@ -515,7 +530,7 @@ export const MainHeader = () => {
 						height: '32px'
 					}}
 
-				>{!currUser.imgUrl&&<span>{boardService.getInitials(currUser.fullname)}</span>}
+				>{!currUser.imgUrl && <span>{boardService.getInitials(currUser.fullname)}</span>}
 				</div>
 			</div>
 		</header>

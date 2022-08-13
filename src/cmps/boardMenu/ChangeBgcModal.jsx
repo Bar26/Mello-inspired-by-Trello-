@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import colorsSrc from '../../assets/img/colors.jpg'
-import collabSrc from '../../assets/img/imgcollobration.jpg'
+// import colorsSrc from '../../assets/img/colors.jpg'
+// import collabSrc from '../../assets/img/imgcollobration.jpg'
 import plusSrc from '../../assets/img/plus.png'
 import { boardService } from "../../services/board.service"
 import { uploadService } from "../../services/upload.service"
 import { onSaveBoard, setCurrBoard } from "../../store/actions/board.actions"
 
+
+const COLORS = 'https://res.cloudinary.com/noambar/image/upload/v1659655428/Trello/colors_ww1its.jpg'
+const COLLAB = 'https://res.cloudinary.com/noambar/image/upload/v1659655423/Trello/photos_i2ycx9.jpg'
 
 export const ChangeBgcModal = ({ setLastType, setLastTitle, onChangeBGImgStyle, onUploadImg, menuShow, onToggleBoardMenu, setSelectedType, setTitle }) => {
 
@@ -41,8 +44,8 @@ export const ChangeBgcModal = ({ setLastType, setLastTitle, onChangeBGImgStyle, 
     return (
         <section className="change-bgc-modal-container">
             <section className="implented">
-                <div className="implented-img-colors" onClick={() => { setSelectedType('pics-modal'); setTitle('Photos by NoamBar') }}><img src={collabSrc} /><p className="title">Photos</p></div>
-                <div className="implented-img-colors" onClick={() => { setSelectedType('colors-modal'); setTitle('Colors') }}><img src={colorsSrc} /><p className="title">Colors</p></div>
+                <div className="implented-img-colors" onClick={() => { setSelectedType('pics-modal'); setTitle('Photos by NoamBar') }}><img src={COLLAB} /><p>Photos</p></div>
+                <div className="implented-img-colors" onClick={() => { setSelectedType('colors-modal'); setTitle('Colors') }}><img src={COLORS} /><p>Colors</p></div>
             </section>
             <hr />
             <section className="custom">

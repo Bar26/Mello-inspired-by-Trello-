@@ -136,6 +136,24 @@
                 }
             }
 
+            .due-date {
+                text-align: start;
+                display: flex;
+                gap: 3px;
+                span{
+                    margin-top: 1px;
+                }
+                // align-items: center;
+                // justify-content: center;
+                input{
+                    margin: 3px 0;
+                    margin-left: 3px;
+                }
+
+
+            }
+
+
             .description-prev {
                 margin: 0;
                 padding-top: 4px;

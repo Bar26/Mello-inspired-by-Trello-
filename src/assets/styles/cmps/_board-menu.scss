@@ -16,7 +16,8 @@
 	height: 100%;
 	transition: 0.4s;
 	right: -100%;
-	
+	overflow-y: auto;
+	// padding: 12px;
 
 	&.show {
 		right: 0;

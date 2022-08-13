@@ -11,7 +11,7 @@ export const InfoBoardHeader = () => {
     ]
 
     const tips = [
-        'New to Trello? Check out the guide',
+        'New to Mello? Check out the guide',
         'Make boards more powerful with Mello Power-Ups',
         'It`s easy to get your team up and running with Mello playbooks',
         'Get inspired by dozens of different Mello workflows',

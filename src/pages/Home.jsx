@@ -15,6 +15,9 @@ import { teasersInfo } from '../services/home-data.service'
 import { HomeTeaser } from '../cmps/HomeTeaser'
 import trelloIcon from '../assets/img/trello-icon.png'
 import { useSelector } from 'react-redux'
+import { boardService } from '../services/board.service'
+
+
 export function Home() {
 	const dispatch = useDispatch()
 	const { users } = useSelector((state) => state.userModule)
@@ -31,11 +34,12 @@ export function Home() {
 	// }
 
 	const onSetGuestMode = async () => {
+		let newScrum = await boardService.getBoardForGuest()
 		const guestUser = {
 			name: 'Guest',
 			imgUrl:
 				'https://res.cloudinary.com/dgjmjxkct/image/upload/v1653899076/dl6faof1ecyjnfnknkla_gxwbcq.svg',
-			boards: ['629d8fac2f760e2ec9cf7d8d'],
+			boards: [newScrum._id],
 		}
 		dispatch(setCurrUser(guestUser))
 		userService.saveLocalUser(guestUser)

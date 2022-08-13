@@ -49,8 +49,7 @@ export function TaskDetails() {
     const [startDate, setStartDate] = useState(new Date());
 
     const dateModalRef = useRef()
-    const dateStyle = useRef(task.dates?.completed ? { backgroundColor: "green", color: 'white' } : { backgroundColor: "" })
-
+    let dateStyle2 = task.dates?.completed ? { backgroundColor: "rgb(97, 189, 79)", color: 'white', borderRadius: '3px', width: '170px' } : { backgroundColor: "" }
 
 
 
@@ -282,7 +281,7 @@ export function TaskDetails() {
 
 
     const onCheckBoxDueDate = async (ev) => {
-        
+
         console.log(ev.target.checked);
         const newBoard = await boardService.checkBoxDueDate(currBoard, group, task, ev.target.checked)
         await dispatch(onSaveBoard(newBoard))
@@ -328,7 +327,7 @@ export function TaskDetails() {
 
                         {task.dates?.dueDate && <section className='task-details-date' >
                             <span className="date-title">Due Date</span>
-                            <div style={dateStyle.current}>
+                            <div style={dateStyle2}>
                                 <input type='checkbox' checked={task.dates.completed} onChange={(ev) => onCheckBoxDueDate(ev)} />
                                 {/* {style = task.dates.completed ? { backgroundColor: 'green' } : { backgroundColor: 'transperent' }} */}
                                 <span >{task.dates.dueDate}   </span>
@@ -579,7 +578,10 @@ export function TaskDetails() {
                                     <i className="fa-regular fa-window-maximize fa-xs"></i>
                                     {task.style?.isCover && <span>Remove Cover</span>}
                                     {!task.style?.isCover && <span>Make Cover</span>}
+                                    <span onClick={() => { onDeleteElement('attachment'); onDeleteElement('style'); onAttachment() }} >Edit</span>
+                                    <span onClick={() => { onDeleteElement('attachment'); onDeleteElement('style'); }}>Delete</span>
                                 </span>
+                                {/* <span onClick={onRemoveAttachment}>Remove Attachment</span> */}
                             </div>
                         </section>}
                     </section>}
