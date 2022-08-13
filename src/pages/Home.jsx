@@ -1,10 +1,9 @@
-import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import hero1 from '../assets/img/hero1.png'
 import { AppHeader } from '../cmps/AppHeader'
 import { userService } from '../services/user.service'
-import { loadUsers, setCurrUser } from '../store/actions/user.actions.js'
+import { setCurrUser } from '../store/actions/user.actions.js'
 import melloPic from '../assets/img/mello pic.png'
 import coinbasePic from '../assets/img/coinbase-pic.svg'
 import googlePic from '../assets/img/google-pic.svg'
@@ -12,7 +11,6 @@ import grandPic from '../assets/img/grand-pic.svg'
 import johnPic from '../assets/img/john-pic.svg'
 import visaPic from '../assets/img/visa-pic.svg'
 import zoomPic from '../assets/img/zoom-pic.webp'
-import boardTeaser from '../assets/img/boradTeaser.svg'
 import { teasersInfo } from '../services/home-data.service'
 import { HomeTeaser } from '../cmps/HomeTeaser'
 import trelloIcon from '../assets/img/trello-icon.png'
@@ -24,7 +22,7 @@ export function Home() {
 	const dispatch = useDispatch()
 	const { users } = useSelector((state) => state.userModule)
 
-	
+
 
 	// useEffect(() => {
 	// 	SetStore()
@@ -79,9 +77,12 @@ export function Home() {
 						Start with a Trello board, lists, and cards. Customize and expand with more features as your teamwork grows.<br />
 						Manage projects, organize tasks, and build team spirit—all in one place.
 					</p>
-					<button className="sign-up">
+					<Link className="sign-up" to="/signup">
+
 						Sign up, it's free
-					</button>
+					</Link>
+
+
 
 					<img className="mello-pic" src={melloPic} />
 				</section>
@@ -111,7 +112,7 @@ export function Home() {
 			<p className="responsive">
 				Mello also works great on your smaller screen.
 			</p>
-			
+
 			<footer className="main-footer">
 				<h1 className="logo">
 					<img src={trelloIcon} alt="melloIcom" />

@@ -19,15 +19,15 @@ export function setCurrBoard(boardId) {
 		}
 	}
 }
-export function setGuestCurrBoard(guestBoard) {
-	return async (dispatch) => {
-		try {
-			dispatch({ type: 'SET_GUEST_BOARD', guestBoard })
-		} catch (err) {
-			console.log('Cannot set board', err)
-		}
-	}
-}
+// export function setGuestCurrBoard(guestBoard) {
+// 	return async (dispatch) => {
+// 		try {
+// 			dispatch({ type: 'SET_GUEST_BOARD', guestBoard })
+// 		} catch (err) {
+// 			console.log('Cannot set board', err)
+// 		}
+// 	}
+// }
 
 export function setFilter(filterBy) {
 	return (dispatch) => {

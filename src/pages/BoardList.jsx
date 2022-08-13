@@ -38,8 +38,7 @@ export const BoardList = () => {
 
 	useEffect(() => {
 		loadTemplates()
-		if (currUser.name !== 'Guest') loadUserBoards()
-		else loadGuestBoards()
+		loadUserBoards()
 	}, [currUser])
 
 
@@ -50,16 +49,16 @@ export const BoardList = () => {
 
 	// }
 
-	const loadGuestBoards = async () => {
-		Promise.all(
-			currUser.boards
-				?.map(async (userBoardId) => {
-					const board = await boardService.getById(userBoardId)
-					return board
-				})
-		)
-			.then((userBoards) => { setBoards(userBoards || []) })
-	}
+	// const loadGuestBoards = async () => {
+	// 	Promise.all(
+	// 		currUser.boards
+	// 			?.map(async (userBoardId) => {
+	// 				const board = await boardService.getById(userBoardId)
+	// 				return board
+	// 			})
+	// 	)
+	// 		.then((userBoards) => { setBoards(userBoards || []) })
+	// }
 
 	
 
@@ -110,6 +109,9 @@ export const BoardList = () => {
 	const starredBoards = () => {
 		return boards.filter((board) => board.isStared)
 	}
+	const starredTemplates = () => {
+		return templates.filter((template) => template.isStared)
+	}
 
 	const toggleModal = (refType) => {
 		refType.current.classList.toggle('hide')
@@ -119,14 +121,14 @@ export const BoardList = () => {
 
 	if (!Object.keys(currUser).length) return <div className="loader"></div>
 	return (
-		<section className="board-list">
+		<section className="board-list-container">
 			<MainHeader />
 			<section className="container">
 				<div className="workspace-board-list">
+					<section className="board-list">
 					<h3 className="workspace">
 						Your workpace
 					</h3>
-					<section className="board-list">
 						{boards.map((board, idx) => {
 							return (
 								<BoardPreview
@@ -137,12 +139,13 @@ export const BoardList = () => {
 							)
 						})}
 					</section>
-					<h3 className="stared">
+					
+					{!!starredBoards().length && (
+						<section className="board-list">
+							<h3 className="stared">
 						<i className="fa-regular fa-star"></i>
 						Starred Boards
 					</h3>
-					{/* {!!starredBoards().length && (
-						<section className="board-list">
 							{starredBoards().map((board, idx) => {
 								return (
 									<BoardPreview
@@ -152,13 +155,23 @@ export const BoardList = () => {
 									/>
 								)
 							})}
+							{starredTemplates().map((template, idx) => {
+								return (
+									<TemplatePreview
+										template={template}
+										key={template._id + idx}
+										// getStarredTemplates={getStarredTemplates}
+									/>
+								)
+							})}
 						</section>
-					)} */}
+					)}
+				
+
+					<section className="board-list">
 					<h3 className="templates">
 						<img className="full-icon" src={trelloFullIcon} />
 						Most popular templates</h3>
-
-					<section className="board-list">
 						<article className="create-preview" onClick={() => toggleModal(refCreate)}>
 							<h1>Create New Board</h1>
 							<section onClick={(ev)=>{ev.stopPropagation()}} ref={refCreate} className='create-container hide'>

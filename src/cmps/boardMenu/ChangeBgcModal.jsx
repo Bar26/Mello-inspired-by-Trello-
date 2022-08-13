@@ -49,7 +49,7 @@ export const ChangeBgcModal = ({ setLastType, setLastTitle, onChangeBGImgStyle, 
             </section>
             <hr />
             <section className="custom">
-                <h2>Custom</h2>
+                <h2 className="title">Custom</h2>
                 <div className="select-container">
                     <div className="form-div">
                         <form method="post" onChange={(ev) => onSelect(ev)}>

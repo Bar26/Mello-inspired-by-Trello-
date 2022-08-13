@@ -132,7 +132,7 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu, onSetCoverMode }) => {
 					<span className="icon members-icon">
 						<i className="fa-regular fa-user"></i>
 					</span>
-					<span>members</span>
+					<span>Members</span>
 				</button>
 
 			

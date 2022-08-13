@@ -57,9 +57,7 @@ function remove(userId) {
 }
 
 async function update(user) {
-	// await storageService.put('user', user)
 	user = await httpService.put(`user/${user._id}`, user)
-	// Handle case in which admin updates other user's details
 	const loggedInUser = await getLoggedinUser()
 	if (loggedInUser._id === user._id) {
 		saveLocalUser(user)
@@ -70,8 +68,11 @@ async function update(user) {
 async function toggleBoardToMember(board, member) {
 	const updatedUser = { ...member }
 	const boardIdx = updatedUser.boards.findIndex((boardId) => boardId === board._id)
-	if (boardIdx !== -1&& board.createdBy._id!==member._id) updatedUser.boards.splice(boardIdx, 1)
-	else updatedUser.boards.push(board._id)
+	if (board.createdBy._id !== member._id) {
+		if (boardIdx !== -1) updatedUser.boards.splice(boardIdx, 1)
+		else updatedUser.boards.push(board._id)
+	}
+
 	return updatedUser
 }
 
