@@ -53,7 +53,7 @@ export const CreateTemplateHeader = ({ onSelectTemplate }) => {
                     return (
                         <li key={utilService.makeId()} id={template.id} onClick={() => onSelect(template._id)}>
                             <div className="header-star-template">
-                                <img className="template-img" src={template.img} />
+                                <div style={{ borderRadius: '3px', background: `url${template.img} center center/cover`, height: '32px', width: '40px' }}></div>
                                 <span>{template.title}</span>
                             </div>
                             {/* <span className="template-indactor">Template</span> */}

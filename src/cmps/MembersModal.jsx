@@ -24,7 +24,7 @@ export function AddMemberModal({ onToggleMemberModal, task = null, group = null 
     const dispatch = useDispatch()
 
     useEffect(() => {
-        console.log(group)
+        // console.log(group)
         let val = task ? currBoard.members : users
         setMemberToShow(val)
         if (!task) memberContainerRef.current.style = "left:105%"

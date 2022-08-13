@@ -25,7 +25,7 @@ export function TaskPreview({ task, group }) {
 	const editModalRef = useRef()
 	const addMemberModalRef = useRef()
 	const dateModalRef = useRef()
-	const dateStyle = useRef(task.dates?.completed ? { backgroundColor: "green", color: 'white' } : { backgroundColor: "" })
+	const dateStyle = useRef(task.dates?.completed ? { backgroundColor: "rgb(97, 189, 79)", color: 'white', borderRadius: '3px', width: '122px' } : { backgroundColor: "" })
 	const { currUser } = useSelector((state) => state.userModule)
 
 	let dateHoverInd = 'none'
@@ -105,7 +105,7 @@ export function TaskPreview({ task, group }) {
 
 	const onCheckBoxDueDate = async (ev) => {
 		const newBoard = await boardService.checkBoxDueDate(currBoard, group, task, ev.target.checked)
-		dateStyle.current = task.dates.completed ? { backgroundColor: 'green', color: 'white' } : { backgroundColor: '' }
+		dateStyle.current = task.dates.completed ? { borderRadius: '3px', width: '122px', backgroundColor: '#61bd4f', color: 'white', } : { backgroundColor: '' }
 		dispatch(onSaveBoard(newBoard))
 	}
 
@@ -147,8 +147,8 @@ export function TaskPreview({ task, group }) {
 							onToggleMemberToTask={onToggleMemberToTask}
 							task={task}
 							group={group}
-							
-							/>
+
+						/>
 					</div>
 				</div>
 				<div onClick={onToggleCoverModal} className="change-cover">
@@ -301,7 +301,7 @@ export function TaskPreview({ task, group }) {
 						</div>
 					</div>
 					}
-					{console.log(task.dates?.dueDate)}
+					{/* {console.log(task.dates?.dueDate)} */}
 
 					{task.dates?.dueDate &&
 						<section className="due-date" style={dateStyle.current}>

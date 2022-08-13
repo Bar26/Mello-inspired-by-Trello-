@@ -13,17 +13,21 @@ export const ChangeBgcPic = ({ setSelectedType, setTitle, setLastType, setLastTi
     const dispatch = useDispatch()
 
     const pics = [
-        'https://res.cloudinary.com/noambar/image/upload/v1658930875/Trello/pexels-sam-kolder-2387873_slu6mu.jpg',
-        'https://res.cloudinary.com/noambar/image/upload/v1658930870/Trello/pexels-maxime-francis-2246476_glogkz.jpg',
-        'https://res.cloudinary.com/noambar/image/upload/v1658930867/Trello/pexels-stefan-stefancik-919606_hy0bpa.jpg',
-        'https://res.cloudinary.com/noambar/image/upload/v1658930863/Trello/pexels-fauxels-3183198_w3iead.jpg',
-        'https://res.cloudinary.com/noambar/image/upload/v1658930859/Trello/pexels-philippe-donn-1114690_joyof8.jpg',
+        // 'https://res.cloudinary.com/noambar/image/upload/v1658930875/Trello/pexels-sam-kolder-2387873_slu6mu.jpg',
+        'https://res.cloudinary.com/noambar/image/upload/v1659656628/Trello/wallpaperflare.com_wallpaper_1_tblvd1.jpg',
+        'https://res.cloudinary.com/noambar/image/upload/v1659656634/Trello/wallpaperflare.com_wallpaper_5_zjp1if.jpg',
+        'https://res.cloudinary.com/noambar/image/upload/v1659656637/Trello/wallpaperflare.com_wallpaper_3_vmrn75.jpg',
+        'https://res.cloudinary.com/noambar/image/upload/v1659656640/Trello/wallpaperflare.com_wallpaper6_b0aciq.jpg',
+        'https://res.cloudinary.com/noambar/image/upload/v1659656640/Trello/wallpaperflare.com_wallpaper_a19rlb.jpg',
+        'https://res.cloudinary.com/noambar/image/upload/v1659656641/Trello/wallpaperflare.com_wallpaper_4_z789dg.jpg',
+        'https://res.cloudinary.com/noambar/image/upload/v1659656643/Trello/wallpaperflare.com_wallpaper_2_l0khr0.jpg',
         'https://res.cloudinary.com/noambar/image/upload/v1658930857/Trello/pexels-emma-pollard-1534925_fchw5g.jpg',
-        'https://res.cloudinary.com/noambar/image/upload/v1658930855/Trello/pexels-errin-casano-2356045_dndqam.jpg',
+        // 'https://res.cloudinary.com/noambar/image/upload/v1658930867/Trello/pexels-stefan-stefancik-919606_hy0bpa.jpg',
+        // 'https://res.cloudinary.com/noambar/image/upload/v1658930863/Trello/pexels-fauxels-3183198_w3iead.jpg',
+        'https://res.cloudinary.com/noambar/image/upload/v1658930859/Trello/pexels-philippe-donn-1114690_joyof8.jpg',
         'https://res.cloudinary.com/noambar/image/upload/v1658930853/Trello/pexels-cesar-perez-733745_csgmjr.jpg',
         'https://res.cloudinary.com/noambar/image/upload/v1658930852/Trello/pexels-carlos-oliva-3586966_bn5ug8.jpg',
         'https://res.cloudinary.com/noambar/image/upload/v1658930851/Trello/pexels-c%C3%A1tia-matos-1072179_dfmohb.jpg',
-        'https://res.cloudinary.com/noambar/image/upload/v1658930850/Trello/pexels-sean-patrick-1057663_aqywha.jpg',
     ]
 
 

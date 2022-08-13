@@ -49,7 +49,8 @@ export const boardService = {
 	// changeBoardStyle,
 	uploadImgToBoard,
 	changeBoardBGStyle,
-	getInitials
+	getInitials,
+	getBoardForGuest
 }
 
 
@@ -101,6 +102,39 @@ async function getEmptyBoard(template, toSave = true) {
 		members: [await userService.getLoggedinUser()],
 		groups: template.groups ? template.groups : [],
 		activities: [],
+		isStared: false,
+	}
+	if (toSave) {
+		try {
+			const savedBoard = await httpService.post('board', newBoard)
+			console.log(savedBoard);
+			return savedBoard
+		} catch (err) {
+			console.log('Cannot save board', err)
+		}
+	} else {
+		newBoard._id = utilService.makeId()
+		return storageService.post(STORAGE_KEY, newBoard)
+	}
+}
+async function getBoardForGuest(toSave = true) {
+	let template = await getById('629e05339a28133be456c12a')
+	console.log(template);
+	let newStyle
+	if (template.style.backgroundImage) {
+		newStyle = { backgroundImage: template.style.backgroundImage }
+	} else {
+		newStyle = { backgroundColor: template.color }
+	}
+	const newBoard = {
+		title: 'Try Out Now',
+		createdBy: await userService.getLoggedinUser(),
+		style: newStyle,
+		labels: template.labels,
+		members: template.members,
+		groups: template.groups ? template.groups : [],
+		activities: [],
+		uploadImgs: template.uploadImgs,
 		isStared: false,
 	}
 	if (toSave) {
@@ -287,7 +321,7 @@ async function toggleMemberToTask(board, group, taskId, memberId) {
 async function toggleMemberToBoard(board, member) {
 	const updatedBoard = { ...board }
 	const memberIdx = updatedBoard.members.findIndex((m) => m._id === member._id)
-	if (memberIdx !== -1&& updatedBoard.createdBy._id!==member._id) updatedBoard.members.splice(memberIdx, 1)
+	if (memberIdx !== -1 && updatedBoard.createdBy._id !== member._id) updatedBoard.members.splice(memberIdx, 1)
 	else updatedBoard.members.push(member)
 	return updatedBoard
 }
@@ -347,10 +381,11 @@ async function addAttachment(board, group, task, attachmentImg = null) {
 		(_task) => _task.id === task.id
 	)
 	newBoard.groups[groupIdx].tasks[taskIdx].attachment = newAttachment
+	if (attachmentImg !== null && newBoard.groups[groupIdx].tasks[taskIdx].style) newBoard.groups[groupIdx].tasks[taskIdx].style.isCover = false
 	return newBoard
 }
 
-async function makeAttachmentCoverTask(board, group, task, bool) {
+async function makeAttachmentCoverTask(board, group, task) {
 	let newBoard = { ...board }
 	const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
 	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex((_task) => _task.id === task.id)
@@ -466,7 +501,7 @@ function changeBoardBGStyle(style, currBoard, user) {
 	const newBoard = { ...currBoard, style }
 	let createdAt = new Date()
 	createdAt = _getFormatedDate(createdAt)
-	newBoard.activities.push({ type: 'change-BG', userName: user.fullname, userImg: user.imgUrl, createdAt })
+	newBoard.activities.unshift({ type: 'change-BG', userName: user.fullname, userImg: user.imgUrl, createdAt })
 
 	return newBoard
 }
