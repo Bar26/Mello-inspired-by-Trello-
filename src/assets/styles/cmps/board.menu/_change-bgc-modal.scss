@@ -5,11 +5,17 @@
 
     .implented-img-colors {
         color: $clr-text-group;
+        cursor: pointer;
 
+        .title{
+            font-size: rem(14px);
+        }
+
+       
         img {
             width: 152.5px;
             height: 96px;
-            border-radius: 6px;
+            border-radius: 8px;
         }
     }
 }
@@ -21,9 +27,11 @@
     padding: 12px 6px 8px 12px;
     gap: 4px;
     
-    h2 {
+    .title {
         font-size: 20px;
         line-height: 24px;
+        font-weight: 500;
+        color:$clr5;
     }
 
     .select-container {
@@ -42,7 +50,7 @@
         
         
         img {
-            border-radius: 6px;
+            border-radius: 8px;
             width: 152.5px;
             height: 96px;
             // filter:grayscale(0.1)

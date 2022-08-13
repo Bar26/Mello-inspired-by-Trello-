@@ -38,8 +38,7 @@ export const BoardList = () => {
 
 	useEffect(() => {
 		loadTemplates()
-		if (currUser.name !== 'Guest') loadUserBoards()
-		else loadGuestBoards()
+		loadUserBoards()
 	}, [currUser])
 
 
@@ -50,16 +49,16 @@ export const BoardList = () => {
 
 	// }
 
-	const loadGuestBoards = async () => {
-		Promise.all(
-			currUser.boards
-				?.map(async (userBoardId) => {
-					const board = await boardService.getById(userBoardId)
-					return board
-				})
-		)
-			.then((userBoards) => { setBoards(userBoards || []) })
-	}
+	// const loadGuestBoards = async () => {
+	// 	Promise.all(
+	// 		currUser.boards
+	// 			?.map(async (userBoardId) => {
+	// 				const board = await boardService.getById(userBoardId)
+	// 				return board
+	// 			})
+	// 	)
+	// 		.then((userBoards) => { setBoards(userBoards || []) })
+	// }
 
 	
 
@@ -110,6 +109,9 @@ export const BoardList = () => {
 	const starredBoards = () => {
 		return boards.filter((board) => board.isStared)
 	}
+	const starredTemplates = () => {
+		return templates.filter((template) => template.isStared)
+	}
 
 	const toggleModal = (refType) => {
 		refType.current.classList.toggle('hide')
@@ -141,7 +143,7 @@ export const BoardList = () => {
 						<i className="fa-regular fa-star"></i>
 						Starred Boards
 					</h3>
-					{/* {!!starredBoards().length && (
+					{!!starredBoards().length && (
 						<section className="board-list">
 							{starredBoards().map((board, idx) => {
 								return (
@@ -152,8 +154,17 @@ export const BoardList = () => {
 									/>
 								)
 							})}
+							{starredTemplates().map((template, idx) => {
+								return (
+									<TemplatePreview
+										template={template}
+										key={template._id + idx}
+										// getStarredTemplates={getStarredTemplates}
+									/>
+								)
+							})}
 						</section>
-					)} */}
+					)}
 					<h3 className="templates">
 						<img className="full-icon" src={trelloFullIcon} />
 						Most popular templates</h3>

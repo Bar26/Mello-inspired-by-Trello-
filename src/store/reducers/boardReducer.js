@@ -12,8 +12,8 @@ export function boardReducer(state = initialState, action) {
 	switch (action.type) {
 		case 'SET_BOARD':
 			return (newState = { ...state, currBoard: action.currBoard })
-		case 'SET_GUEST_BOARD':
-			return (newState = { ...state, currBoard: action.guestBoard })
+		// case 'SET_GUEST_BOARD':
+		// 	return (newState = { ...state, currBoard: action.guestBoard })
 		case 'ADD_BOARD':
 			return (newState = { ...state, boards: [...state.boards, action.board] })
 		case 'SET_BOARDS':

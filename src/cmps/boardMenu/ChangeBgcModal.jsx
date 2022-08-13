@@ -41,12 +41,12 @@ export const ChangeBgcModal = ({ setLastType, setLastTitle, onChangeBGImgStyle, 
     return (
         <section className="change-bgc-modal-container">
             <section className="implented">
-                <div className="implented-img-colors" onClick={() => { setSelectedType('pics-modal'); setTitle('Photos by NoamBar') }}><img src={collabSrc} /><p>Photos</p></div>
-                <div className="implented-img-colors" onClick={() => { setSelectedType('colors-modal'); setTitle('Colors') }}><img src={colorsSrc} /><p>Colors</p></div>
+                <div className="implented-img-colors" onClick={() => { setSelectedType('pics-modal'); setTitle('Photos by NoamBar') }}><img src={collabSrc} /><p className="title">Photos</p></div>
+                <div className="implented-img-colors" onClick={() => { setSelectedType('colors-modal'); setTitle('Colors') }}><img src={colorsSrc} /><p className="title">Colors</p></div>
             </section>
             <hr />
             <section className="custom">
-                <h2>Custom</h2>
+                <h2 className="title">Custom</h2>
                 <div className="select-container">
                     <div className="form-div">
                         <form method="post" onChange={(ev) => onSelect(ev)}>
