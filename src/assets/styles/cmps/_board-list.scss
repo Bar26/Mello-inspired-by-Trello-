@@ -70,7 +70,7 @@
 			height: 96px;
 			border-radius: 3px;
 			cursor: pointer;
-			
+
 
 			h1 {
 				text-shadow: 0px 1px 5px rgb(42 41 41);
@@ -87,14 +87,14 @@
 				background-color: #ffff;
 				z-index: 5;
 				position: absolute;
-				top:-1;
+				top: -1;
 				left: 105%;
 				display: flex;
 				// align-items: center;
 				text-align: center;
 				justify-content: center;
 				flex-direction: column;
-	
+
 				.closebtn {
 					background-color: inherit;
 					border: none;
@@ -104,7 +104,7 @@
 					top: 6px;
 					right: 25px;
 				}
-	
+
 				h1 {
 					font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans,
 						Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
@@ -115,14 +115,34 @@
 					color: $clr4;
 					line-height: 1;
 					text-shadow: none;
-	
+
 				}
-	
+
 				.hide2 {
 					visibility: none;
 				}
 			}
 		}
 
+	}
+}
+
+
+
+
+
+@include for-mobile-layout {
+
+	.board-list {
+		width: 100%;
+
+		.container {
+			.board-list {
+				width: 400px;
+				// grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+				grid-template-columns: auto-fit(minmax(120px,170px) minmax(120px,170px));
+				gap: 3px;
+			}
+		}
 	}
 }

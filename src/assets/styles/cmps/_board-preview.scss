@@ -44,3 +44,12 @@
 		padding-left: 1rem;
 	}
 }
+
+
+
+@include for-mobile-layout {
+	.board-preview{
+		width: 100%;
+
+	}
+}
