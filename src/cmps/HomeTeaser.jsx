@@ -10,6 +10,7 @@ export function HomeTeaser({ teaser }) {
         
 
         {teaser.img && <img className={`img ${teaser.img.title}`}  src={teaser.img.src} alt="teaser img" />}
+        {/* {teaser.img && <div  style={{background:`${teaser.img.src} center center / cover`, width:'400px' }}></div>} */}
 
     </section>
 }

@@ -1,31 +1,40 @@
 .main-header {
-
     height: 60px;
     // background-color: transparent;
     background-color: white;
     padding: 16px;
-    margin-bottom: 60px;
+
+    // margin-bottom: 60px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 -0.5px 4px 0px #a9aaaf;
 
     .logo {
         font-family: Charlie-text-bold;
-        font-size: 40px;
+        font-size: rem(40px);
         font-weight: bold;
         color: $clr1;
-        @include flex-center; 
+        @include flex-center;
         text-decoration: none;
-        gap:10px;
+        gap: 10px;
 
-        .fa-logo-container{
-            color:$clr2;
-
+        .fa-logo-container {
+            color: $clr2;
         }
+    }
 
-     
+    .btn-menu{
+            display: none;
+    }
+
+    .close-menu{
+            display: none;
     }
 
     .nav-header {
-        gap:5px;
-        &>* {
+        gap: 5px;
+        & > * {
             @include flex-center;
 
             padding-bottom: 4px;
@@ -35,26 +44,116 @@
             border-radius: 3.2px;
             font-size: 1.09rem;
             height: 100%;
-            width:80px;
+            width: 80px;
             line-height: rem(25px);
+
+      
         }
+
+    
 
         .login {
             color: $clr2;
             background-color: transparent;
-            font-family:charlie-text-reg ;
-            width:67px;
-            text-decoration: none;
-            padding-top: 1px;
-        }
-        
-        .signup {
-            color: white;
-            background-color: $clr2;
-            font-family:charlie-text-semi-bold ;
+            font-family: charlie-text-reg;
+            width: 67px;
             text-decoration: none;
             padding-top: 1px;
         }
 
+        .signup {
+            color: white;
+            background-color: $clr2;
+            font-family: charlie-text-semi-bold;
+            text-decoration: none;
+            padding-top: 1px;
+        }
+    }
+}
+
+@include for-laptop-layout {
+    
+
+}
+
+@include for-tablet-layout {
+
+}
+
+@include for-mobile-layout {
+    .main-header {
+        z-index: 3;
+        .logo {
+            font-size: 1.8rem;
+        }
+
+        .nav-header {
+            position: fixed;
+            top: 60px;
+            right: 0;
+            flex-direction: column;
+            justify-content: start;
+            gap: 16px;
+            height: 100vh;
+            width: 100%;
+            min-width: 220px;
+            // border-left: solid 1px var(--color3);
+            // transform: translateX(calc(-100vh - 60px));
+            transform: translateX(100%);
+            // transform: translateY(-100vh);
+
+            transition: transform 0.6s;
+            background-color: rgba(255, 255, 255, 0.947);
+            // padding-top: 30px;
+            // z-index: 2;
+            // gap: 40px;
+            padding: 16px;
+
+            &.nav-open {
+                transform: translateX(0);
+            }
+
+            .login {
+                color: $clr5;
+                width: 100%;
+                height: 64px;
+                border: 1px solid $clr2;
+            }
+
+            .signup {
+                color: white;
+                width: 100%;
+                height: 64px;
+                background-color: $clr2;
+            }
+        }
+        .btn-menu {
+            font-size: 20px;
+            background-color: transparent;
+            display: block;
+            
+            
+            // width: 26px;
+            // height: 26px;
+            // background-color:#0065ff;
+            > * {
+                // color:#0065ff;
+                color: $clr5;
+                // color:white;
+            }
+            &.hide {
+                display: none;
+            }
+        }
+        .close-menu {
+            display: block;
+            background-color: transparent;
+            font-size: 20px;
+
+            color: $clr5;
+            &.hide {
+                display: none;
+            }
+        }
     }
 }

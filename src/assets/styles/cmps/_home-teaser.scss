@@ -1,11 +1,10 @@
 .teaser {
     display: flex;
     justify-content: space-between;
-    // align-items: center;
+    width: 100%;
 
     .content {
-        // width: 665px;
-        // padding: 16px 16px 48px;
+        flex: 1;
         padding: 16px;
         text-align: start;
         .mini-title {
@@ -45,23 +44,69 @@
         box-sizing: content-box;
         &.boardTeaser {
             width: 415px;
-            height: 312px;
+            aspect-ratio: 415 / 312;
         }
 
         &.cardTeaser {
             width: 339px;
-            height: 275px;
+            aspect-ratio: 339 / 275;
         }
 
         &.autoTeaser {
             width: 443px;
-            height: 335px;
+            aspect-ratio: 443 / 335;
         }
 
         &.powerUpsTeaser {
             width: 376.5px;
-            height: 339px;
+            aspect-ratio: 376.5 / 339;
+        }
+    }
+}
 
+@include for-laptop-layout {
+    .home .main-container .teasers-container {
+        .teaser {
+            align-items: flex-start;
+            .img {
+                width: 300px;
+            }
+        }
+    }
+}
+
+@include for-tablet-layout {
+    .home .main-container .teasers-container {
+        .teaser {
+            flex-direction: column-reverse;
+            align-items: center;
+            .content {
+                width: 100%;
+                .title {
+                    font-size: 1.5rem;
+                    margin-bottom: 8px;
+                }
+            }
+
+            .img {
+                padding: 0 0 16px 0;
+                width: 50%;
+            }
+        }
+
+        &:not(:first-child) .content {
+        }
+    }
+}
+
+@include for-mobile-layout {
+    .home .main-container {
+        width: calc(100vw - 32px);
+
+        .teasers-container {
+            .img {
+                width: 70%;
+            }
         }
     }
 }

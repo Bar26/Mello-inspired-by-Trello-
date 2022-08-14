@@ -136,3 +136,13 @@
         }
     }
 }
+
+
+@include for-mobile-layout{
+    .member-modal-container{
+        position: fixed;
+        top:45px;
+        left:50% !important;
+        transform: translateX(-50%);
+    }
+}

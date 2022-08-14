@@ -101,6 +101,7 @@ export const BoardDeatails = () => {
 
 	// console.log(currBoard.style.backgroundImage);
 	if (!Object.keys(currBoard || {}).length) return <div className="loader"></div>
+
 	return (
 		<section
 			className="board-details"
@@ -115,7 +116,9 @@ export const BoardDeatails = () => {
 			}
 		>
 			{/* {console.log((currBoard.style.backgroundImage) ? { background: currBoard.style.backgroundImage } : { background: currBoard.style.backgroundColor })} */}
+			<div className="main-header-container">
 			<MainHeader />
+			</div>
 			<section className="board-content">
 				<BoardHeader
 					menuShow={menuShow}
