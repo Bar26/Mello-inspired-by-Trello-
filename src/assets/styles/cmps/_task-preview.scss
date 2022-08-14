@@ -63,14 +63,14 @@
     .edit-task-modal {
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        // justify-content: center;
         align-items: flex-start;
         position: absolute;
         top: 0;
         left: 103%;
         gap: 4px;
         z-index: 5;
-        width: fit-content;
+        // width: fit-content;
 
 
         >* {
@@ -79,6 +79,8 @@
             display: flex;
             align-items: center;
             gap:6px;
+            width: fit-content;
+            height: 32px;
             // justify-content: space-between;
             border-radius: 3px;
             padding: 6px 12px 6px 8px;
@@ -103,6 +105,10 @@
 
         .change-cover{
             position: relative;
+        }
+        
+        .edit-change-members{
+            width: 160px;
         }
 
         .hide {
