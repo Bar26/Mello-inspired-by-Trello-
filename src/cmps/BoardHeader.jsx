@@ -132,7 +132,7 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu, onSetCoverMode }) => {
 					<span className="icon members-icon">
 						<i className="fa-regular fa-user"></i>
 					</span>
-					<span>Members</span>
+					<span className="members-txt">Members</span>
 				</button>
 
 			
@@ -154,7 +154,7 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu, onSetCoverMode }) => {
 						<circle cx="416" cy="256" r="48"></circle>
 						<circle cx="96" cy="256" r="48"></circle>
 					</svg>
-					<p>Show menu</p>
+					<p className="show-menu">Show menu</p>
 				</button>
 			</div>
 		</header>

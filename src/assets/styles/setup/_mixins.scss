@@ -15,24 +15,24 @@
 // 530px
 
 @mixin for-tablet-layout {
-	@media (min-width: 480px) {
+	@media (max-width: 767px) {
 		@content;
 	}
 }
 
 // 760px
 @mixin for-laptop-layout {
-	@media (min-width: 767px) {
+	@media (max-width: 1200px) {
 		@content;
 	}
 }
 
 // @
-@mixin for-desktop-layout {
-	@media (min-width: 1200px) {
-		@content;
-	}
-}
+// @mixin for-desktop-layout {
+// 	@media (min-width: 1200px) {
+// 		@content;
+// 	}
+// }
 
 
 

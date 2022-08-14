@@ -5,41 +5,60 @@
     display: flex;
     flex-direction: column;
     color: $clr1;
-    
+
     .main-container {
-        width: 1140px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+
+        width: 1172px;
+
+        // width: 1140px;
         padding-inline: 16px;
         // @include flex-center;
         // flex-direction: column;
         align-self: center;
-       
-    
-        
+        // width: 100%;
+        padding-top: 120px;
+
         .main-article {
             gap: 6.875rem;
-            height: 450px;
+
+            //for now
+            // height: 450px;
+
             margin-bottom: 64px;
             @include flex-center;
-    
+
+            width: 100%;
+
             .hero1 {
                 // width: 445px;
-                height: 100%;
+
+                // height: 100%;
+
+                //for now
+                // height: 450px;
+                width: 347.67px;
+                aspect-ratio: 347.67 / 450;
             }
-    
+
             .content {
-                width: 41rem;
-    
+                // width: 41rem;
+                flex:1;
+
                 .title {
                     font-family: Charlie-display-semi-bold;
-                    font-size: 48px;
+                    font-size: rem(48px);
                     font-weight: 500;
-                    line-height: em(60px,48px);
+                    line-height: em(60px, 48px);
                     display: flex;
                     align-items: center;
                     text-align: start;
                     margin-bottom: 8px;
                 }
-    
+
                 .trello-prev {
                     font-family: Charlie-text-reg;
                     font-size: 20px;
@@ -50,12 +69,12 @@
                     text-align: start;
                     margin-bottom: 24px;
                 }
-    
+
                 .link-to-start-as-guest {
                     text-decoration: none;
-    
+
                     .start-as-guest {
-                        line-height: 1em; 
+                        line-height: 1em;
                         padding-bottom: 5px;
                         padding-left: 8px;
                         padding-right: 8px;
@@ -69,50 +88,42 @@
                         font-family: charlie-text-semi-bold;
                         @include flex-center;
                         text-decoration: none;
-    
-    
                     }
                 }
-    
             }
-    
         }
-        
-        hr{
+
+        hr {
             margin: 0;
             width: 100%;
             margin-bottom: 64px;
         }
-       
-        .start-working-container{
-    
+
+        .start-working-container {
             @include flex-center;
             flex-direction: column;
             padding: 0 16px;
             width: 100%;
-    
-            .title{
-                margin-bottom:8px;
+
+            .title {
+                margin-bottom: 8px;
                 font-family: "Charlie-display-semi-bold";
                 font-size: rem(36px);
                 line-height: em(48px, 36px);
                 font-weight: 500;
-         
-    
             }
-    
-            .content{
-                margin-bottom:24px;
+
+            .content {
+                margin-bottom: 24px;
                 font-family: Charlie-text-reg;
                 font-size: rem(20px);
-                line-height: em(30px,20px);
-    
+                line-height: em(30px, 20px);
             }
-    
-            .sign-up{
-                line-height: em(24px, 16px); 
+
+            .sign-up {
+                line-height: em(24px, 16px);
                 border-radius: rem(4.8px);
-                font-size:rem(16px);
+                font-size: rem(16px);
                 height: 50px;
                 width: 160px;
                 color: white;
@@ -123,85 +134,75 @@
                 text-decoration: none;
                 padding: 0;
                 margin-bottom: 64px;
-    
             }
-    
-            .mello-pic{
+
+            .mello-pic {
                 width: 951px;
                 margin-bottom: 48px;
             }
-    
-            
         }
-        .mello-teams{
+        .mello-teams {
             @include flex-center;
             flex-direction: column;
-            gap:32px;
+            gap: 32px;
             margin-bottom: 48px;
-    
-            .title{
+
+            .title {
                 font-family: Charlie-text-reg;
                 font-size: 20px;
                 font-weight: 400;
                 margin-bottom: 8px;
-    
             }
-    
-            .teams-icons{
+
+            .teams-icons {
                 @include flex-center;
-                gap:32px;
-                
-                >*{
+                flex-wrap: wrap;
+                gap: 32px;
+
+                > * {
                     width: 162px;
                 }
             }
         }
-    
-        .teasers-container{
+
+        .teasers-container {
             display: flex;
             flex-direction: column;
             gap: 64px;
-            :nth-child(even){
+            width: 100%;
+            :nth-child(even) {
                 flex-direction: row-reverse;
             }
-            :first-child{
-                .content{
+            :first-child {
+                .content {
                     width: 570px;
                 }
             }
-            :not(:first-child){
-                .content{
+            :not(:first-child) {
+                .content {
                     width: 665px;
                 }
             }
-    
         }
         margin-bottom: 64px;
-    
-        
-        
-        
     }
 
-    .responsive{
+    .responsive {
         margin-bottom: 16px;
-        font-family:"Charlie-text-reg" ;
+        font-family: "Charlie-text-reg";
         font-size: rem(20px);
     }
 
-
-
-    .main-footer{
+    .main-footer {
         height: 300px;
-        background-color:$clr5 ;
+        background-color: $clr5;
         @include flex-center;
         flex-direction: column;
         color: white;
         box-sizing: content-box;
         // padding: 200px;
         padding: 40px;
-        gap:10px;
-
+        gap: 10px;
 
         .logo {
             width: 80px;
@@ -209,22 +210,124 @@
             align-items: center;
             font-size: 20px;
             font-weight: 700;
-    
+
             span {
             }
-    
+
             img {
                 width: 30px;
                 height: 30px;
                 object-fit: contain;
-    
-                @include flex-center
+
+                @include flex-center;
             }
-    
         }
 
-        p{
+        p {
+        }
+    }
+}
 
+@include for-laptop-layout {
+    .home {
+        .main-container {
+            width: 720px;
+            .main-article {
+                height: fit-content;
+                gap: 32px;
+
+                .hero1 {
+                    width: 200px;
+                }
+
+                .content {
+                    .title {
+                        font-size: 2.5rem;
+                    }
+                }
+            }
+
+            .start-working-container {
+                .mello-pic {
+                    width: 100%;
+                }
+
+                .title {
+                    font-size: 2rem;
+                }
+            }
+
+        }
+    }
+}
+
+@include for-tablet-layout {
+    .home {
+        .main-container {
+            margin-bottom: 48px;
+            width: 480px;
+
+            .main-article {
+                flex-direction: column-reverse;
+
+                .hero1 {
+                    width: 50%;
+                }
+
+                .content {
+                    .title {
+                        @include flex-center;
+                        font-size: 2rem;
+                    }
+
+                    .trello-prev {
+                        text-align: center;
+                    }
+
+                    .link-to-start-as-guest {
+                        .start-as-guest {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+            .start-working-container {
+                .mello-pic {
+                    width: 100%;
+                }
+
+                .title {
+                    font-size: 1.5rem;
+                }
+
+                .sign-up {
+                    margin-bottom: 32px;
+                }
+            }
+            .teasers-container {
+                gap: 48px;
+                :nth-child(even) {
+                    flex-direction: column-reverse;
+                }
+            }
+        }
+    }
+
+}
+
+@include for-mobile-layout {
+    .home {
+        .main-container {
+            .main-article {
+                .hero1 {
+                    width: 40%;
+                }
+                .content {
+                    .title {
+                        text-align: center;
+                    }
+                }
+            }
         }
     }
 }
