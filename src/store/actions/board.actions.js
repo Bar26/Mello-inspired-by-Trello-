@@ -80,7 +80,6 @@ export function setCurrBoards(currUser) {
 }
 
 
-
 export function onCopyTask(ev, task, group, currBoard) {
 	return async (dispatch, getState) => {
 		try {

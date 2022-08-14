@@ -49,8 +49,8 @@ export const CreateTemplateHeader = ({ onSelectTemplate }) => {
                 <span onClick={onShowMore}>V</span>
             </div>
             {isShowMore && <ul>
-                {templates.map((template) => {
-                    return (
+                {templates.map((template, index) => {
+                    if (index < 8) return (
                         <li key={utilService.makeId()} id={template.id} onClick={() => onSelect(template._id)}>
                             <div className="header-star-template">
                                 <div style={{ borderRadius: '3px', background: `url${template.img} center center/cover`, height: '32px', width: '40px' }}></div>

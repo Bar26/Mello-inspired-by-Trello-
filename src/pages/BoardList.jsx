@@ -1,13 +1,13 @@
 import { createRef, useEffect, useState } from 'react'
 import { BoardPreview } from '../cmps/BoardPreview'
 import { userService } from '../services/user.service.js'
-import { CreateModal } from '../cmps/CreateModal'
+// import { CreateModal } from '../cmps/CreateModal'
 import { TemplatePreview } from '../cmps/TempletePreview'
 import { boardService } from '../services/board.service.js'
 import { MainHeader } from '../cmps/MainHeader.jsx'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUser, setCurrUser } from '../store/actions/user.actions'
-import { setCurrBoard } from '../store/actions/board.actions'
+import { setCurrBoard, setCurrBoards } from '../store/actions/board.actions'
 import trelloFullIcon from '../assets/img/trello-black-full.svg'
 import { useLocation, useRoutes } from 'react-router-dom'
 import { CreateBoardHeader } from '../cmps/createModalHeader/CreateBoardHeader'
@@ -31,7 +31,7 @@ export const BoardList = () => {
 
 
 	useEffect(() => {
-		dispatch(getUser()) 
+		dispatch(getUser())
 		console.log(users);
 	}, [])
 
@@ -60,7 +60,7 @@ export const BoardList = () => {
 	// 		.then((userBoards) => { setBoards(userBoards || []) })
 	// }
 
-	
+
 
 	const loadUserBoards = async () => {
 		if (!Object.keys(currUser).length || !currUser.boards) return
@@ -71,7 +71,9 @@ export const BoardList = () => {
 					return board
 				})
 			).then((userBoards) => {
+				console.log(userBoards);
 				setBoards(userBoards || [])
+				dispatch({ type: 'SET_BOARDS', boards: userBoards || [] })
 			})
 		} catch (err) {
 			console.log('Cannot load Boards !', err)
@@ -126,9 +128,9 @@ export const BoardList = () => {
 			<section className="container">
 				<div className="workspace-board-list">
 					<section className="board-list">
-					<h3 className="workspace">
-						Your workpace
-					</h3>
+						<h3 className="workspace">
+							Your workpace
+						</h3>
 						{boards.map((board, idx) => {
 							return (
 								<BoardPreview
@@ -139,13 +141,13 @@ export const BoardList = () => {
 							)
 						})}
 					</section>
-					
+
 					{!!starredBoards().length && (
 						<section className="board-list">
 							<h3 className="stared">
-						<i className="fa-regular fa-star"></i>
-						Starred Boards
-					</h3>
+								<i className="fa-regular fa-star"></i>
+								Starred Boards
+							</h3>
 							{starredBoards().map((board, idx) => {
 								return (
 									<BoardPreview
@@ -160,21 +162,21 @@ export const BoardList = () => {
 									<TemplatePreview
 										template={template}
 										key={template._id + idx}
-										// getStarredTemplates={getStarredTemplates}
+									// getStarredTemplates={getStarredTemplates}
 									/>
 								)
 							})}
 						</section>
 					)}
-				
+
 
 					<section className="board-list">
-					<h3 className="templates">
-						<img className="full-icon" src={trelloFullIcon} />
-						Most popular templates</h3>
+						<h3 className="templates">
+							<img className="full-icon" src={trelloFullIcon} />
+							Most popular templates</h3>
 						<article className="create-preview" onClick={() => toggleModal(refCreate)}>
 							<h1>Create New Board</h1>
-							<section onClick={(ev)=>{ev.stopPropagation()}} ref={refCreate} className='create-container hide'>
+							<section onClick={(ev) => { ev.stopPropagation() }} ref={refCreate} className='create-container hide'>
 								<button className="closebtn" onClick={() => toggleModal(refCreate)}>
 									<svg
 										stroke="currentColor"

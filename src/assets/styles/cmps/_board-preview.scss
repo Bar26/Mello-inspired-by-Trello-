@@ -49,7 +49,18 @@
 
 @include for-mobile-layout {
 	.board-preview{
-		width: 100%;
+		width: 160px;
+	}
+}
 
+@include for-tablet-layout {
+	.board-preview{
+		width: 100%;
+	}
+}
+
+@include for-tablet-layout {
+	.board-preview{
+		width: 100%;
 	}
 }

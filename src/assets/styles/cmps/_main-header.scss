@@ -443,7 +443,7 @@ hr {
                 display: flex;
                 flex-wrap: wrap;
                 white-space: nowrap;
-                
+
                 h3 {
                     white-space: normal;
                     width: 100%;
@@ -558,7 +558,7 @@ hr {
 
 }
 
-.search{
+.search {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -566,20 +566,90 @@ hr {
     justify-content: center;
     width: 350px;
 
-    ul{
-        li{
-            .to-select-template{
+    ul {
+        li {
+            .to-select-template {
                 width: 100%;
                 display: flex;
                 gap: 8px;
                 align-items: center;
+
                 // justify-content: center;
-                .template-indactor{
+                .template-indactor {
                     align-self: center;
                     justify-self: flex-end;
                 }
             }
 
+        }
+    }
+}
+
+
+
+@include for-mobile-layout {
+
+    .secondary-header {
+        width: 100%;
+        gap: 4px;
+
+        .header-container {
+            width: 100%;
+            justify-content: space-between;
+            // .nav-header {
+            //     align-self: flex-end;
+            // }
+        }
+
+        .nav-header {
+            .button-top {
+                .starred {
+                    display: none;
+                }
+
+                .templates {
+                    display: none;
+                }
+
+                .header-modal {
+                    left: -250px;
+                }
+            }
+
+            .create {
+                border-radius: 50%;
+                width: 32px;
+
+                .create-for-responsive {
+                    display: none;
+                }
+
+                .plus-for-responsive {
+                    display: block;
+                    padding: 0;
+                }
+            }
+        }
+
+        .header-finish {
+            .header-search-div {
+                display: none;
+            }
+
+            .button-top {
+                background-color: rgba(255, 255, 255, 0.169);
+                border-radius: 50%;
+                width: 32px;
+
+                .info-modal{
+                    left: 0;
+                    left: -333px;
+                }
+            }
+
+            .bell {
+                display: none;
+            }
         }
     }
 }

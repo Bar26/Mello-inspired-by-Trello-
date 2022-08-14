@@ -33,6 +33,13 @@ export const MainHeader = () => {
 	const refInfo = React.createRef()
 
 
+	const [boardsToShow, setBoardsToShow] = useState([])
+	const [filterVal, setFilterVal] = useState('')
+
+	const onSearchBoard = ({ target }) => {
+		const val = target.value
+		setFilterVal(val)
+	}
 
 	const [createButtonState, setCreateState] = useState('main-create')
 	const [createModalTitle, setCreateModalTitle] = useState('Create')
@@ -41,11 +48,18 @@ export const MainHeader = () => {
 	const refCreateFirstModal = React.createRef()
 	const dispatch = useDispatch()
 	const { currUser } = useSelector((state) => state.userModule)
+	const { boards } = useSelector((state) => state.boardModule)
 	const bg = currUser.imgUrl ? `url(${currUser.imgUrl}) center center / cover` : '#de350b'
 
 	useEffect(() => {
 		// socketService.setup()
+		console.log(boards);
 	}, [])
+
+
+	useEffect(() => {
+		setBoardsToShow(boards)
+	}, [boards])
 
 	useEffect(() => {
 		if (!board._id) return
@@ -101,6 +115,11 @@ export const MainHeader = () => {
 		// dispatch(onSaveBoard(newBoard))
 		navigate(`/boards/${newBoard._id}`)
 	}
+	
+	const onSelectBoard = async (board) =>{
+		dispatch(setCurrBoard(board._id))
+		navigate(`/boards/${board._id}`)
+	}
 
 	const onSearchTyping = () => { }
 
@@ -142,7 +161,7 @@ export const MainHeader = () => {
 
 	return (
 		<header className="secondary-header flex">
-			<div className="flex">
+			<div className="header-container flex">
 				<h1 className="logo">
 					<img src={trelloIcon} />
 					<span>Mello</span>
@@ -210,7 +229,7 @@ export const MainHeader = () => {
 
 						<div className="button-top flex">
 							<button
-								className="secondary-header-button"
+								className="secondary-header-button starred"
 								onClick={() => toggleModal(refStarred)}
 							>
 								<span>Starred</span>
@@ -255,7 +274,7 @@ export const MainHeader = () => {
 
 						<div className="button-top flex">
 							<button
-								className="secondary-header-button"
+								className="secondary-header-button templates"
 								onClick={() => toggleModal(refTemplates)}
 							>
 								<span>Templates</span>
@@ -301,7 +320,7 @@ export const MainHeader = () => {
 
 						<div className="button-top flex">
 							<button className="secondary-header-button create"
-								onClick={() => toggleModal(refCreateFirstModal)}>Create</button>
+								onClick={() => toggleModal(refCreateFirstModal)}><span className='create-for-responsive'>Create</span><span className='plus-for-responsive hide2'><i className="fa-solid fa-plus" style={{ outline: 'none', fontWeight: '700' }}></i></span></button>
 							<section ref={refCreateFirstModal} className='header-modal create-first hide'>
 								<div className='modal-title'>
 									{createButtonState !== 'main-create' && <button className='on-go-back-button' onClick={onGoBack}><i className="fa fa-angle-left" ></i></button>}
@@ -354,12 +373,13 @@ export const MainHeader = () => {
 					<label className="label-search flex">
 						<i className="fa-solid fa-magnifying-glass"></i>
 						<input
-							onChange={handleSearch}
+							onChange={onSearchBoard}
 							className="header-search"
 							placeholder="Search"
 							onFocus={() => {
 								toggleModal(refCreate1)
 							}}
+							value={filterVal}
 						/>
 					</label>
 					<section ref={refCreate1} className="header-modal search hide">
@@ -367,7 +387,7 @@ export const MainHeader = () => {
 							<h1>Information</h1>
 							<button
 								className="close-modal-btn"
-								onClick={() => toggleModal(refInfo)}
+								onClick={() => toggleModal(refCreate1)}
 							>
 								X
 							</button>
@@ -376,9 +396,49 @@ export const MainHeader = () => {
 
 						<ul>
 							{/* <p className="search-offer">Recent Board</p> */}
+							{boards.map(board => {
+								if (board.title.toLowerCase().includes(filterVal.toLowerCase())) {
+									return <li key={utilService.makeId()} id={board.id}>
+										<span className="header-search-star">
+											{board.isStared && (
+												<i
+													onClick={(event) => onSetStar(event, board)}
+													className="fa-solid fa-star"
+													style={{
+														color: 'yellow',
+														'--fa-border-color': 'black',
+													}}
+												></i>
+											)}
+											{!board.isStared && (
+												<i
+													onClick={(event) => onSetStar(event, board)}
+													className="fa-regular fa-star"
+												></i>
+											)}
+										</span>
+										<span
+											className="to-select-template"
+											onClick={() => {
+												onSelectBoard(board)
+											}}
+										>
+											{board.style.backgroundImage && <div style={{ display: 'inline-block', borderRadius: '3px', background: `url${board.style.backgroundImage} center center/cover`, height: '32px', width: '40px' }}></div>}
+											{!board.style.backgroundImage && <div style={{ display: 'inline-block', borderRadius: '3px', background: board.style.backgroundColor, height: '32px', width: '40px' }}></div>}
+											<span className="">{board.title}</span>
+											{/* <span className="template-indactor ">Template</span> */}
+										</span>
+									</li>
+								}
+							})}
 							{templates.map((template, index) => {
-								return (
-									index < 5 && (
+								if (filterVal === '') {
+									if (index > 4) {
+										return
+									}
+								}
+								if (template.title.toLowerCase().includes(filterVal.toLowerCase()))
+									return (
 										<li key={utilService.makeId()} id={template.id}>
 											<span className="header-search-star">
 												{template.isStared && (
@@ -386,8 +446,8 @@ export const MainHeader = () => {
 														onClick={(event) => onSetStar(event, template)}
 														className="fa-solid fa-star"
 														style={{
-															color: 'yellow',
-															'--fa-border-color': 'black',
+															color: 'rgb(255,184,5)',
+															'--fa-border-color': '1px black solid',
 														}}
 													></i>
 												)}
@@ -406,21 +466,20 @@ export const MainHeader = () => {
 											>
 												<div style={{ display: 'inline-block', borderRadius: '3px', background: `url${template.img} center center/cover`, height: '32px', width: '40px' }}></div>
 
-												{/* <img className="template-img" src={template.img} /> */}
 												<span className="">{template.title}</span>
 												<span className="template-indactor ">Template</span>
 											</span>
 										</li>
+
 									)
-								)
 							})}
 						</ul>
 					</section>
 				</div>
-				<div className="button-top  flex">
-					<label>
+				<div className="button-top info flex">
+					<label className='info-label'>
 						<button
-							className="secondary-header-button"
+							className="secondary-header-button info"
 							onClick={() => toggleModal(refInfo)}
 						></button>
 						<i className="fa-regular fa-square-info"></i>
@@ -517,7 +576,7 @@ export const MainHeader = () => {
                         </section>
                         </section>
                     </div > */}
-				<div className="button-top flex">
+				<div className="button-top bell flex">
 					<label>
 						<button className="secondary-header-button"></button>
 						<i className="fa-regular fa-bell"></i>
