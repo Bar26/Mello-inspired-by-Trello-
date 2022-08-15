@@ -160,6 +160,7 @@ async function getById(id, fromLocal = false) {
 }
 
 async function getTemplateById(id) {
+	// console.log(httpService.get(`template/${id}`));
 	return httpService.get(`template/${id}`)
 }
 

@@ -9,8 +9,7 @@ export function userReducer(state = INITIAL_STATE, action) {
 	var users = state.users
 	switch (action.type) {
 		case 'SET_USER':
-			newState = { ...state, currUser: action.user }
-
+			return (newState = { ...state, currUser: {...action.user} })
 			break
 
 		case 'REMOVE_USER':

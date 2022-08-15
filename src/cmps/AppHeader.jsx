@@ -10,7 +10,7 @@ export function AppHeader() {
 
 	const toggleMenu = () => {
 		navMenuRef.current.classList.toggle('nav-open')
-		closeNavMenuRef.current.classList.toggle('hide')
+		closeNavMenuRef.current.classList.toggle('none')
 		openNavMenuRef.current.classList.toggle('hide')
 
 	}
@@ -29,7 +29,7 @@ export function AppHeader() {
 
 			</section>
 			<button ref={openNavMenuRef} className=" btn-menu " onClick={toggleMenu}><i class="fa-solid fa-bars"></i></button>
-			<button ref={closeNavMenuRef} className=" close-menu " onClick={toggleMenu}>   <i className="fa-solid fa-xmark"></i></button>
+			<button ref={closeNavMenuRef} className=" close-menu none" onClick={toggleMenu}>   <i className="fa-solid fa-xmark"></i></button>
 		</header>
 	)
 }

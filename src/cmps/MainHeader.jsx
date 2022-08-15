@@ -35,6 +35,8 @@ export const MainHeader = () => {
 	const refInfo = React.createRef()
 
 
+
+
 	const [boardsToShow, setBoardsToShow] = useState([])
 	const [filterVal, setFilterVal] = useState('')
 
@@ -49,7 +51,9 @@ export const MainHeader = () => {
 
 	const { currUser } = useSelector((state) => state.userModule)
 	const { boards } = useSelector((state) => state.boardModule)
-	const { starredBoards } = useSelector((state) => state.boardModule)
+	const [staredBoards, setStaredBoards] = useState([])
+
+	// const { starredBoards } = useSelector((state) => state.boardModule)
 
 
 	const bg = currUser.imgUrl ? `url(${currUser.imgUrl}) center center / cover` : '#de350b'
@@ -57,13 +61,20 @@ export const MainHeader = () => {
 	useEffect(() => {
 		// socketService.setup()
 		// console.log(boards);
-		setStarredBoards(currUser)
-		console.log(starredBoards);
+		// console.log(starredBoards);
+		console.log(currUser);
 	}, [])
 
 	useEffect(() => {
 		setBoardsToShow(boards)
 	}, [boards])
+
+
+	useEffect(() => {
+		console.log('user changed in main header');
+		loadUserStarredBoards()
+
+	}, [currUser])
 
 	useEffect(() => {
 		if (!board._id) return
@@ -72,6 +83,8 @@ export const MainHeader = () => {
 		onSend(board)
 		navigate(`/boards/${board._id}`)
 	}, [board])
+
+
 
 	const onSearchBoard = ({ target }) => {
 		const val = target.value
@@ -101,8 +114,9 @@ export const MainHeader = () => {
 		ev.stopPropagation()
 		// boardService.setStarred(template)
 		let newUser = await userService.setStarUser(currUser, template._id)
+
 		await dispatch(updateUser(newUser))
-		console.log(currUser);
+		console.log(currUser, newUser);
 	}
 
 	//////// !!!!!! NOT GOOD LOG
@@ -131,6 +145,29 @@ export const MainHeader = () => {
 	const onSelectBoard = async (board) => {
 		dispatch(setCurrBoard(board._id))
 		navigate(`/boards/${board._id}`)
+	}
+
+	const loadUserStarredBoards = async () => {
+		if (!currUser.starred?.length) return
+		try {
+			Promise.all(
+				currUser.starred?.map(async (boardId) => {
+					let board
+					if (currUser.boards.includes(boardId))
+						// console.log(('includes'));
+							board = await boardService.getById(boardId)
+							// boardService.getTemplateById(boardId)
+						else board = await boardService.getTemplateById(boardId)
+						console.log(board)
+					return board
+				})
+			).then((userBoards) => {
+				setStaredBoards(userBoards || [])
+				// dispatch({ type: 'SET_STARRED_BOARDS', starredBoards: userBoards || [] })
+			})
+		} catch (err) {
+			console.log('Cannot load Boards !', err)
+		}
 	}
 
 	const DynamicCmp = () => {
@@ -173,6 +210,20 @@ export const MainHeader = () => {
 		></i>
 	}
 
+	const getBackground = (board) => {
+		let background
+		if (currUser.boards.includes(board._id)) {
+			background = board.style.backgroundImage ? `url${board.style.backgroundImage}` : board.style.backgroundColor
+			// const backgroundIndactor = board.style.backgroundImage ? 'img' : 'color'
+
+		} else {
+			background = `url${board.img}`
+		}
+		return background
+
+
+	}
+
 	return (
 		<header className="secondary-header flex">
 			<div className="header-container flex">
@@ -203,26 +254,28 @@ export const MainHeader = () => {
 								</div>
 								<hr />
 								<ul>
-									{templates.map((template) => {
+									{staredBoards.map((template) => {
 										// if (recentMap(template)) return <li key={utilService.makeId()} id={template.id} onClick={() => { onSelectTemplate(template._id) }}>
-										if (template.isStared)
-											return (
-												<li
-													key={utilService.makeId()}
-													id={template.id}
-													onClick={() => {
-														onSelectTemplate(template._id)
-													}}
-												>
-													<div className="header-star-template">
-														<div style={{ borderRadius: '3px', background: `url${template.img} center center/cover`, height: '32px', width: '40px' }}></div>
+										// if (template.isStared)
+										return (
+											<li
+												key={utilService.makeId()}
+												// id={template.id}
+												onClick={() => {
+													onSelectTemplate(template._id)
+												}}
+											>
+												<div className="header-star-template">
+													{/* <div style={{ borderRadius: '3px', background: `url${template.img} center center/cover`, height: '32px', width: '40px' }}></div> */}
+													<div style={{ borderRadius: '3px', background: `${getBackground(template)} center center/cover`, height: '32px', width: '40px' }}></div>
 
-														{/* <img className="template-img" src={template.img} /> */}
-														<span>{template.title}</span>
-													</div>
-													<span className="template-indactor">Template</span>
-												</li>
-											)
+													{/* <img className="template-img" src={template.img} /> */}
+													<span>{template.title}</span>
+												</div>
+												{!currUser.boards.includes(template._id) && <span className="template-indactor ">Template</span>}
+
+											</li>
+										)
 									})}
 								</ul>
 							</section>

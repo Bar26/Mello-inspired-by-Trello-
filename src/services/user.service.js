@@ -59,7 +59,8 @@ function remove(userId) {
 }
 
 async function update(user) {
-	user = await httpService.put(`user/${user._id}`, user)
+	// user = await httpService.put(`user/${user._id}`, user)
+	await httpService.put(`user/${user._id}`, user)
 	const loggedInUser = await getLoggedinUser()
 	if (loggedInUser._id === user._id) {
 		saveLocalUser(user)
@@ -139,7 +140,7 @@ async function setStarUser(user, boardId) {
 
 
 
-	let boardIdIdx = user.starred.findIndex(boardIdUser => boardId === boardIdUser)
+	let boardIdIdx = user.starred?.findIndex(boardIdUser => boardId === boardIdUser)
 	// (boardId)
 	if (user.starred) {
 		if (boardIdIdx === -1) user.starred.push(boardId)

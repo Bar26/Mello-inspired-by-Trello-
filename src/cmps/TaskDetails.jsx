@@ -24,6 +24,10 @@ export function TaskDetails() {
     const [task, setTask] = useState({})
     const [group, setGroup] = useState({})
     const navigate = useNavigate()
+    const sideActionsIcon = useRef()
+    const sideActionsRef = useRef()
+    const sideActionsGoBack = useRef()
+
 
     const penRef = useRef()
     const editLabelModalRef = useRef()
@@ -123,6 +127,9 @@ export function TaskDetails() {
         let newBoard = await boardService.createChecklist(currBoard, group, task)
         await boardService.update(newBoard)
         await dispatch(onSaveBoard(newBoard))
+        // sideActionsRef.current.classList.toggle('side-open')
+        toggleSideActions()
+
     }
 
     const onAttachment = async () => {
@@ -132,7 +139,8 @@ export function TaskDetails() {
             await boardService.update(newBoard)
             await dispatch(onSaveBoard(newBoard))
         }
-        // return newBoard
+        toggleSideActions()
+
     }
 
     const getLabel = (labelId) => {
@@ -287,9 +295,20 @@ export function TaskDetails() {
         await dispatch(onSaveBoard(newBoard))
     }
 
+    const toggleSideActions = () => {
+        console.log('on toggle side');
+        sideActionsRef.current.classList.toggle('side-open')
+
+        sideActionsIcon.current.classList.toggle('none')
+        sideActionsGoBack.current.classList.toggle('none')
+    }
+
     if (!Object.keys(task).length || !Object.keys(group).length) return 'loading'
     return (
         <div className="task-details" >
+            <span onClick={toggleSideActions} ref={sideActionsIcon} className="actions-menu-icon"><i class="fa-solid fa-ellipsis"></i></span>
+            <span onClick={toggleSideActions} ref={sideActionsGoBack} className="actions-menu-go-back none"><i class="fa-solid fa-arrow-right"></i></span>
+
             {task.style && task.style.backgroundColor && !task.style.isCover && (<header
                 className="task-details-header"
                 style={{ backgroundColor: task.style.backgroundColor }}
@@ -307,7 +326,7 @@ export function TaskDetails() {
             )}
 
             <div className="main-aside-container">
-                <main className="task-details-conatiner">
+                <main className="task-details-conatiner" >
                     {/* <div className="forListener" ref={forListenerUpRef}> */}
                     <section className="task-details-title-container">
                         <span className="task-icon"><i className="fa-solid fa-window-maximize fa-lg"></i></span>
@@ -687,7 +706,7 @@ export function TaskDetails() {
 
                     <section></section>
                 </main>
-                <section className="details-aside">
+                <section ref={sideActionsRef} className="details-aside">
 
 
 

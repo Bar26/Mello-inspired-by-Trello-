@@ -48,7 +48,7 @@ export function onSignup(credentials) {
 				user,
 			})
 			dispatch({
-				type:'ADD_USER',
+				type: 'ADD_USER',
 				user
 			}
 			)
@@ -104,13 +104,15 @@ export function getUser() {
 	}
 }
 
-export function updateUser(user){
-	return async (dispatch)=>{
-		try{
-			await userService.update(user)
-			dispatch({type:'SAVE_USER', user})
+export function updateUser(user) {
+	return async (dispatch) => {
+		try {
+			let updatedUser = await userService.update(user)
+			console.log(updatedUser, 'from updateuser in user actions');
+			dispatch({ type: 'SAVE_USER', user: updatedUser })
+			dispatch({ type: 'SET_USER', user: updatedUser })
 
-		}catch(err){
+		} catch (err) {
 			console.log('cannot save user', err);
 		}
 	}

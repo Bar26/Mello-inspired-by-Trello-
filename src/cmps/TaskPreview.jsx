@@ -27,8 +27,8 @@ export function TaskPreview({ task, group }) {
 	const dateModalRef = useRef()
 	const dateStyle = useRef(task.dates?.completed ? { backgroundColor: "rgb(97, 189, 79)", color: 'white', borderRadius: '3px', width: '122px' } : { backgroundColor: "" })
 	const { currUser } = useSelector((state) => state.userModule)
-
 	let dateHoverInd = 'none'
+	const [taskPad,setTaskPad]=useState({paddingBottom:"0"})
 
 	useEffect(() => {
 		if (!Object.keys(currBoard).length) {
@@ -36,18 +36,9 @@ export function TaskPreview({ task, group }) {
 				.getById('board', params.boardId)
 				.then((board) => dispatch(setCurrBoard(board)))
 		}
+		if(task.memberIds) setTaskPad({paddingBottom:"10px"})
 	})
 
-
-	// useEffect(() => {
-	// 	if (!Object.keys(currBoard).length) {
-	// 		boardService
-	// 			.getById('board', params.boardId)
-	// 			.then((board) => dispatch(setCurrBoard(board)))
-
-	// 		if (!task.labelIds) penRef.current.classList.add('noLabel')
-	// 	}
-	// }, [])
 
 	const onToggleMemberModal = () => {
 		addMemberModalRef.current.classList.toggle('hide')
@@ -70,7 +61,7 @@ export function TaskPreview({ task, group }) {
 
 	const onToggleEditModal = (ev) => {
 		ev.stopPropagation()
-		editModalRef.current.classList.toggle('hide')
+		editModalRef.current.classList.toggle('none')
 	}
 
 	const onToggleMemberToTask = async (memberId) => {
@@ -113,13 +104,13 @@ export function TaskPreview({ task, group }) {
 
 	return (
 		<section
-			className="task"
+			className="task" style={taskPad}
 			onClick={() => navigate(`/boards/${currBoard._id}/${task.id}`)}
 		>
 			<div ref={penRef} className="pen-container" onClick={onToggleEditModal}>
 				<img className="pen-img" src={pen} />
 			</div>
-			<div ref={editModalRef} className="edit-task-modal hide" onClick={ev => ev.stopPropagation()} >
+			<div ref={editModalRef} className="edit-task-modal none" onClick={ev => ev.stopPropagation()} >
 				<div onClick={() => navigate(`/boards/${currBoard._id}/${task.id}`)}>
 					<span className="icon task-icon"><i className="fa-solid fa-window-maximize fa-lg"></i></span>
 					<span>Open Card</span>
