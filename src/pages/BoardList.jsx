@@ -41,10 +41,10 @@ export const BoardList = () => {
 		loadUserStarredBoards()
 	}, [currUser])
 
-	useEffect(() => {
-		console.log('infintey');
-		loadUserStarredBoards()
-	}, [staredBoards])
+	// useEffect(() => {
+	// 	console.log('infintey');
+	// 	loadUserStarredBoards()
+	// }, [staredBoards])
 
 
 	// const getUser = async () => {
@@ -89,11 +89,17 @@ export const BoardList = () => {
 		try {
 			Promise.all(
 				currUser.starred?.map(async (boardId) => {
-					const board = await boardService.getById(boardId)
+					let board
+					if (currUser.boards.includes(boardId))
+						// console.log(('includes'));
+							board = await boardService.getById(boardId)
+							// boardService.getTemplateById(boardId)
+						else board = await boardService.getTemplateById(boardId)
+						console.log(board)
 					return board
 				})
 			).then((userBoards) => {
-				if(!isEqual(userBoards,staredBoards)) setStaredBoards(userBoards || [])
+				if (!isEqual(userBoards, staredBoards)) setStaredBoards(userBoards || [])
 				// dispatch({ type: 'SET_STARRED_BOARDS', starredBoards: userBoards || [] })
 			})
 		} catch (err) {
@@ -131,12 +137,6 @@ export const BoardList = () => {
 		const user = await userService.getLoggedinUser()
 		await dispatch(setCurrUser(user))
 		loadUserBoards()
-	}
-	const starredBoards = () => {
-		return boards.filter((board) => board.isStared)
-	}
-	const starredTemplates = () => {
-		return templates.filter((template) => template.isStared)
 	}
 
 	const toggleModal = (refType) => {
@@ -176,7 +176,7 @@ export const BoardList = () => {
 	if (!Object.keys(currUser).length) return <div className="loader"></div>
 	return (
 		<section className="board-list-container">
-			<MainHeader />
+			<MainHeader staredBoards={staredBoards} />
 			<section className="container">
 				<div className="workspace-board-list">
 					<section className="board-list">
@@ -201,7 +201,10 @@ export const BoardList = () => {
 							Starred Boards
 						</h3>
 						{staredBoards.map(board => {
+							if(currUser.boards.includes(board._id))
 							return <BoardPreview board={board} />
+							else
+							return <TemplatePreview template={board} />
 
 						})}
 						{/* {currUser.starred.map(boardId => {
