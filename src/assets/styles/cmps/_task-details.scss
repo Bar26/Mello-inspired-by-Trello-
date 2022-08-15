@@ -17,6 +17,31 @@
     padding-bottom: 24px;
     overflow-x: hidden;
 
+    .actions-menu-icon, .actions-menu-go-back{
+        position: absolute;
+        top:4px;
+        right: 12px;
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+        @include flex-center;
+        z-index: 2;
+        color:$clr5;
+        &.none{
+            display: none;
+        }
+    }
+
+    .actions-menu-icon{
+        display: none;
+    }
+
+    // .actions-menu-go-back{
+    //     &.none{
+    //         display: none;
+    //     }
+    // }
+
     &::-webkit-scrollbar {
         width: 8px;
     }
@@ -31,11 +56,10 @@
         background: #888;
     }
 
-
     button {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+            "Helvetica Neue", sans-serif;
     }
-
 
     &.close {
         display: none;
@@ -50,8 +74,10 @@
     .main-aside-container {
         display: flex;
         gap: 16px;
+        position: relative;
         // overflow-y: auto;
         overflow-x: hidden;
+        height: 100%;
 
         .task-details-conatiner {
             padding-inline-start: 16px;
@@ -70,7 +96,6 @@
                 gap: 8px;
                 align-items: center;
 
-
                 .task-icon {
                     width: 32px;
                     height: 32px;
@@ -88,7 +113,8 @@
                         height: 33px;
                         padding: 4px 0;
                         font-size: em(20px, 14px);
-                        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
+                            "Open Sans", "Helvetica Neue", sans-serif;
                         font-weight: 600;
                         color: $clr-text-group;
                         background-color: $clr-task-details-bg;
@@ -100,22 +126,15 @@
                     }
 
                     .in-group {
-
                         color: $clr-small-text;
 
                         .list-name {
                             text-decoration: underline;
                             cursor: pointer;
                         }
-
                     }
                 }
-
-
             }
-
-
-
 
             .task-details-labels {
                 display: flex;
@@ -139,13 +158,12 @@
                         color: $clr-small-text;
                     }
 
-
                     .task-details-labels-container {
                         display: flex;
                         gap: 4px;
                         align-items: center;
 
-                        >* {
+                        > * {
                             @include flex-center;
                             padding: 0 12px;
                             color: white;
@@ -159,7 +177,6 @@
                             padding: 0;
                             position: relative;
 
-
                             .task-details-add-label {
                                 color: $clr-text-group;
                                 background-color: $clr-btn-details;
@@ -171,9 +188,7 @@
                                     background-color: $clr-btn-hover;
                                     cursor: pointer;
                                 }
-
                             }
-
                         }
                     }
                 }
@@ -182,23 +197,20 @@
                     display: flex;
                     flex-direction: column;
                     align-items: flex-start;
-                    gap:4px;
-                    
+                    gap: 4px;
+
                     .date-title {
                         font-size: 12px;
                         font-weight: 700;
                         color: $clr-small-text;
                     }
 
-                    div{
-                        input{
+                    div {
+                        input {
                             margin: 0;
                         }
                     }
-
                 }
-
-
 
                 .add-label-modal {
                     width: 304px;
@@ -211,16 +223,12 @@
                     padding: 0 12px 12px;
                     box-shadow: 0 0px 16px -4px rgb(9 30 66 / 25%), 0 0 0 1px rgb(9 30 66 / 8%);
 
-
                     // top: calc(100% + 4px);
-
 
                     &.hide {
                         display: none;
                     }
                 }
-
-
 
                 .task-details-members {
                     display: flex;
@@ -240,9 +248,7 @@
                         gap: 4px;
                         align-items: center;
 
-
-
-                        >* {
+                        > * {
                             @include flex-center;
                             padding: 0 12px;
                             color: white;
@@ -258,7 +264,6 @@
 
                             .task-details-add-member {
                                 .plus {
-
                                     color: #42526e;
                                     background-color: $clr-btn-details;
                                     @include flex-center;
@@ -275,16 +280,10 @@
                                         border-radius: 50%;
                                     }
                                 }
-
-
-
                             }
                         }
                     }
                 }
-
-
-
             }
 
             .description {
@@ -300,8 +299,6 @@
                     color: $clr-icon;
 
                     // padding-top: 14px;
-
-
                 }
 
                 .description-content {
@@ -312,7 +309,10 @@
                     .description-header {
                         display: flex;
                         align-items: center;
-                        width: 512px;
+
+                        // width: 512px;
+                        width: 100%;
+
                         height: 48px;
                         gap: 8px;
                         padding: 8px 0;
@@ -320,9 +320,6 @@
                         .desc-title {
                             font-weight: 600;
                             font-size: 1rem;
-
-
-
                         }
 
                         // .edit-desc {
@@ -338,9 +335,10 @@
                         // }
                     }
 
-
                     .edit-prev {
-                        width: 512px;
+                        // width: 512px;
+                        width: 100%;
+
                         height: 56px;
                         padding: 8px;
                         display: flex;
@@ -348,7 +346,6 @@
                         align-items: flex-start;
                         margin-left: 32px;
                         // background-color: $clr-btn-details;
-
 
                         &.close {
                             display: none;
@@ -361,10 +358,10 @@
                         width: 100%;
                         gap: 4px;
                         padding-inline-start: 40px;
-                        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
+                            "Open Sans", "Helvetica Neue", sans-serif;
 
                         &.close {
-
                             display: none;
                         }
 
@@ -375,15 +372,14 @@
                             border: none;
                             width: 100%;
                             color: $clr-text-group;
-                            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+                                Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
                             resize: none;
 
                             &:focus {
                                 box-shadow: inset 0 0 0 2px #0079bf;
                                 outline: none;
                             }
-
-
                         }
 
                         .desc-btn {
@@ -395,24 +391,19 @@
                                 color: white;
                                 padding: 6px 12px;
                                 border-radius: 3px;
-
-
                             }
 
                             .cancel-change {
                                 padding: 6px 12px;
-                                background-color: $clr-task-details-bg ;
+                                background-color: $clr-task-details-bg;
 
                                 &:hover {
                                     background-color: $clr-btn-hover;
                                 }
                             }
                         }
-
                     }
-
                 }
-
             }
 
             .activity-container-details {
@@ -427,7 +418,6 @@
                     align-items: center;
                     padding: 8px 0;
 
-
                     .title-icon-container {
                         display: flex;
                         gap: 8px;
@@ -435,22 +425,17 @@
                         font-size: 14px;
                         color: $clr-icon;
 
-
                         .activity-icon {
                             width: 32px;
                             height: 32px;
-                            @include flex-center
+                            @include flex-center;
                         }
-
-
 
                         .activity-title {
                             font-weight: 600;
                             font-size: 1rem;
-
                         }
                     }
-
 
                     .show-details {
                         @include flex-center;
@@ -462,9 +447,7 @@
                         &:hover {
                             background-color: $clr-btn-hover;
                         }
-
                     }
-
                 }
 
                 .input-container {
@@ -478,7 +461,7 @@
                         height: 32px;
                         width: 32px;
                         @include flex-center;
-                        color: white
+                        color: white;
                     }
 
                     .comment {
@@ -489,17 +472,13 @@
                         border-radius: 3px;
                         box-shadow: inset 0px -0.5px 0px 1px #dfe1e6;
 
-
                         // border-radius: 3px;
                         &:focus {
                             outline: none;
-
                         }
                     }
                 }
             }
-
-
         }
 
         .details-aside {
@@ -518,14 +497,11 @@
                 padding-right: 16px;
                 gap: 8px;
 
-
-
                 .members-btn {
                     position: relative;
-
                 }
 
-                >* {
+                > * {
                     background-color: $clr-btn-details;
                     padding: 6px 12px;
                     padding-left: 8px;
@@ -547,16 +523,13 @@
                         @include flex-center;
                         color: $clr-text-group;
                     }
-
-
                 }
 
-                .change-cover{
+                .change-cover {
                     position: relative;
                 }
 
                 .add-to-task-title {
-
                     background-color: transparent;
                     font-size: rem(12px);
                     font-weight: 600;
@@ -567,7 +540,6 @@
             }
 
             .task-details-actions {
-
                 width: 192px;
                 // padding: 0 16px 8px 8px;
                 // height: 100%;
@@ -577,7 +549,7 @@
                 padding-right: 16px;
                 gap: 8px;
 
-                >* {
+                > * {
                     background-color: $clr-btn-details;
                     padding: 6px 12px;
                     padding-left: 8px;
@@ -611,9 +583,6 @@
                 }
             }
         }
-
-
-
     }
 
     .close-details-btn {
@@ -628,23 +597,20 @@
 
         &:hover {
             background-color: $clr-btn-hover;
-
         }
 
         font-size: 15px;
-
     }
-
-
-
 }
-
 
 .checklist-container {
     .checklist-header {
         display: flex;
         align-items: center;
-        width: 512px;
+
+        // width: 512px;
+        width: 100%;
+
         height: 48px;
         gap: 8px;
         padding: 8px 0;
@@ -696,15 +662,13 @@
                     border: none;
                     box-shadow: none;
                     color: #0079bf;
-                    outline: 0
+                    outline: 0;
                 }
             }
         }
-
     }
 
     .proggres-bar {
-
         // display:flex;
         .checklist-prog {
             // background-color: green;
@@ -725,7 +689,7 @@
         // padding-left: 40px;
         position: relative;
         transform-origin: left bottom;
-        transition-duration: .14s;
+        transition-duration: 0.14s;
         // transition-property: transform, opacity, height, padding, margin;
         // transition-timing-function: ease-in;
         color: #172b4d;
@@ -759,7 +723,7 @@
                 // overflow: hidden;
                 text-align: center;
                 top: 5px;
-                transition: all .2s ease-in-out;
+                transition: all 0.2s ease-in-out;
                 white-space: nowrap;
                 width: 16px;
             }
@@ -821,7 +785,6 @@
             display: flex;
             justify-content: space-between;
 
-
             button {
                 // background-color: $clr-btn-color;
                 // color: white;
@@ -845,7 +808,6 @@
                     box-shadow: none;
                     color: #0079bf;
                 }
-
             }
 
             .checklist-add-btn {
@@ -891,7 +853,10 @@
     .attachment-header {
         display: flex;
         align-items: center;
-        width: 512px;
+
+        // width: 512px;
+        width: 100%;
+
         height: 48px;
         gap: 8px;
         padding: 8px 0;
@@ -909,7 +874,6 @@
         .attachment-title-button {
             width: 100%;
             justify-content: space-between;
-
 
             .attachment-title {
                 font-weight: 600;
@@ -937,11 +901,10 @@
                     border: none;
                     box-shadow: none;
                     color: #0079bf;
-                    outline: 0
+                    outline: 0;
                 }
             }
         }
-
     }
 
     .attachment-list-container {
@@ -949,7 +912,7 @@
         padding-left: 37px;
         gap: 16px;
         position: relative;
-        transition-duration: .14s;
+        transition-duration: 0.14s;
         color: #172b4d;
         font-size: 14px;
         font-weight: 400;
@@ -978,7 +941,8 @@
                 outline: none;
                 font-size: 14px;
                 font-weight: 700;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
+                    "Open Sans", "Helvetica Neue", sans-serif;
             }
 
             .attachment-created-at {
@@ -999,7 +963,6 @@
                 gap: 8px;
             }
         }
-
     }
 
     .add-item-attachment {
@@ -1054,7 +1017,6 @@
             display: flex;
             justify-content: space-between;
 
-
             button {
                 // background-color: $clr-btn-color;
                 // color: white;
@@ -1078,7 +1040,6 @@
                     box-shadow: none;
                     color: #0079bf;
                 }
-
             }
 
             .attachment-add-btn {
@@ -1120,7 +1081,102 @@
     }
 }
 
-
 .date-container {
     position: relative;
+}
+
+@include for-laptop-layout {
+    .task-details {
+        width: 700px;
+    }
+}
+
+@include for-tablet-layout {
+    .task-details {
+        width: 100%;
+        height: 100%;
+        top: 0;
+
+        .task-details-title-container{
+            margin-top: 40px;
+        }
+
+        
+    .close-details-btn {
+     
+        left: 12px;
+        top: 4px;
+    }
+
+
+        .main-aside-container {
+            gap:40px;
+            .details-aside {
+                .add-to-task {
+                    width: 145px;
+                 
+                }
+                .task-details-actions {
+                    width: 145px;
+                
+                }
+            }
+        }
+        .add-to-task {
+        }
+    }
+}
+
+@include for-mobile-layout {
+
+    .task-details{
+
+        .actions-menu-icon{
+            display: flex ;
+        }
+
+        .task-details-header{
+            display: none;
+        }
+
+        .main-aside-container{
+            .task-details-conatiner{
+                padding-inline: 16px;
+            }
+            .details-aside{
+                        position: absolute;
+                        top:80px;
+                        height: 100%;
+                        width: 100vw;
+                        box-shadow: inset 0 0.5px 5px 0px rgb(205, 203, 203);
+                        transform: translateX(100%);
+                        transition: transform 0.6s;
+                        background-color: white;
+                        &.side-open {
+                            transform: translateX(0);
+                        }
+                        padding-inline:16px;
+
+                        // align-items: center;
+
+                        .add-to-task{
+                            padding-top: 40px;
+                        width: 100%;
+
+                        }
+
+                        .task-details-actions{
+                            width: 100%;
+                        }
+                        
+            }
+    
+    
+        }    
+    
+
+
+    }
+
+    
 }

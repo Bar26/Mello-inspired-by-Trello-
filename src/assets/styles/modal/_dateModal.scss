@@ -72,3 +72,12 @@
         }
     }
 }
+
+@include for-mobile-layout{
+    .date-modal  {
+        position: fixed;
+        top: 45px;
+        right: 50%;
+        transform: translateX(50%);
+    }    
+}

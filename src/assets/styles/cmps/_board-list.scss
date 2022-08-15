@@ -155,7 +155,7 @@
 
 
 
-@include for-desktop-layout {
+@include for-laptop-layout {
 	.board-list-container {
 	
 		.container {
@@ -215,7 +215,7 @@
 			padding-right: 0;
 
 			.board-list {
-				grid-template-columns: repeat(auto-fit, 160px);
+				grid-template-columns: repeat(auto-fit, 180px);
 				gap: 5px;
 			}
 		}

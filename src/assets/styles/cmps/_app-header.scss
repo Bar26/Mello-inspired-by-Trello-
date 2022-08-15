@@ -29,7 +29,10 @@
     }
 
     .close-menu{
-            display: none;
+            // display: none;
+            &.none{
+                display: none;
+            }
     }
 
     .nav-header {
@@ -146,14 +149,12 @@
             }
         }
         .close-menu {
-            display: block;
+            // display: none;
             background-color: transparent;
             font-size: 20px;
 
             color: $clr5;
-            &.hide {
-                display: none;
-            }
+          
         }
     }
 }

@@ -79,6 +79,8 @@ export const BoardList = () => {
 			console.log('Cannot load Boards !', err)
 		}
 	}
+
+	
 	const loadTemplates = async () => {
 		try {
 			const templatesT = await boardService.queryTemplates()
