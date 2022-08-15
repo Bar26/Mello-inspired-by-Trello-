@@ -7,6 +7,7 @@ import {
 	setCurrBoard,
 	onSaveBoard,
 	setFilter,
+	setStarredBoards,
 } from '../store/actions/board.actions.js'
 import { utilService } from '../services/util.service.js'
 import { userService } from '../services/user.service.js'
@@ -19,6 +20,7 @@ import { MainCreate } from './createModalHeader/MainCreate.jsx'
 import { CreateBoardHeader } from './createModalHeader/CreateBoardHeader.jsx'
 import { CreateTemplateHeader } from './createModalHeader/CreateTemplateHeader.jsx'
 import { InfoBoardHeader } from './InfoBoardHeader.jsx'
+import { updateUser } from '../store/actions/user.actions.js'
 
 
 export const MainHeader = () => {
@@ -36,10 +38,6 @@ export const MainHeader = () => {
 	const [boardsToShow, setBoardsToShow] = useState([])
 	const [filterVal, setFilterVal] = useState('')
 
-	const onSearchBoard = ({ target }) => {
-		const val = target.value
-		setFilterVal(val)
-	}
 
 	const [createButtonState, setCreateState] = useState('main-create')
 	const [createModalTitle, setCreateModalTitle] = useState('Create')
@@ -47,15 +45,21 @@ export const MainHeader = () => {
 
 	const refCreateFirstModal = React.createRef()
 	const dispatch = useDispatch()
+
+
 	const { currUser } = useSelector((state) => state.userModule)
 	const { boards } = useSelector((state) => state.boardModule)
+	const { starredBoards } = useSelector((state) => state.boardModule)
+
+
 	const bg = currUser.imgUrl ? `url(${currUser.imgUrl}) center center / cover` : '#de350b'
 
 	useEffect(() => {
 		// socketService.setup()
-		console.log(boards);
+		// console.log(boards);
+		setStarredBoards(currUser)
+		console.log(starredBoards);
 	}, [])
-
 
 	useEffect(() => {
 		setBoardsToShow(boards)
@@ -68,6 +72,11 @@ export const MainHeader = () => {
 		onSend(board)
 		navigate(`/boards/${board._id}`)
 	}, [board])
+
+	const onSearchBoard = ({ target }) => {
+		const val = target.value
+		setFilterVal(val)
+	}
 
 	const onSend = async (board) => {
 		await dispatch(setCurrBoard(board._id))
@@ -88,9 +97,12 @@ export const MainHeader = () => {
 
 	}
 
-	const onSetStar = (ev, template) => {
+	const onSetStar = async (ev, template) => {
 		ev.stopPropagation()
-		boardService.setStarred(template)
+		// boardService.setStarred(template)
+		let newUser = await userService.setStarUser(currUser, template._id)
+		await dispatch(updateUser(newUser))
+		console.log(currUser);
 	}
 
 	//////// !!!!!! NOT GOOD LOG
@@ -115,26 +127,10 @@ export const MainHeader = () => {
 		// dispatch(onSaveBoard(newBoard))
 		navigate(`/boards/${newBoard._id}`)
 	}
-	
-	const onSelectBoard = async (board) =>{
+
+	const onSelectBoard = async (board) => {
 		dispatch(setCurrBoard(board._id))
 		navigate(`/boards/${board._id}`)
-	}
-
-	const onSearchTyping = () => { }
-
-	const handleSearch = (ev) => {
-		console.log(ev.target)
-		const txt = ev.target.value
-		dispatch(setFilter(txt))
-		// console.log(board)
-		// const returnedTasks = board.groups.map((group) => {
-		// return group.task.map((task) => {
-		// task.title.includs(txt)
-		// return task
-		// })
-		// })
-		// return returnedTasks
 	}
 
 	const DynamicCmp = () => {
@@ -148,15 +144,33 @@ export const MainHeader = () => {
 			case 'create-template':
 				return <CreateTemplateHeader onSelectTemplate={onSelectTemplate} setCreateModalTitle={setCreateModalTitle} setCreateState={setCreateState}></CreateTemplateHeader>
 				break;
-			// return <NoteTxt onTextClick={props.onTextClick} onDeleteNote={props.onDeleteNote} note={props.note} />
-			// return <MainCreate  onToggleBoardMenu={onToggleBoardMenu} setSelectedType={setSelectedType} setTitle={setTitle}></MainBoardMenu>
-			// case 'change-bgc': {
-			// 	// return <NoteImg  onDeleteNote={props.onDeleteNote} note={props.note} />
-			// 	// return <ChangeBgcModal menuShow={menuShow} onToggleBoardMenu={onToggleBoardMenu} setSelectedType={setSelectedType} setTitle={setTitle}></ChangeBgcModal>
-			// }
 			default:
 				return
 		}
+	}
+
+
+	const whichStar = (boardId) => {
+		// 	className="fa-solid fa-star",
+		// 	style= {
+		// 		color: 'rgb(255,184,5)',
+		// 		// '--fa-border-color': 'black'
+		// 	}
+		// }
+		// else return  className="fa-regular fa-star" 
+
+
+		// currUser.starred?.map((id, index) => {
+		// if (id === board._id) {
+		if (currUser.starred.includes(boardId)) return <i
+			className="fa-solid fa-star"
+			style={{
+				color: 'rgb(255,184,5)',
+			}}
+		></i>
+		else return <i
+			className="fa-regular fa-star"
+		></i>
 	}
 
 	return (
@@ -168,64 +182,6 @@ export const MainHeader = () => {
 				</h1>
 				<section className="nav-header flex">
 					<div className="header-btn" style={{ width: '100%' }}>
-						{/* <div className="button-top flex">
-							<button
-								className="secondary-header-button"
-								onClick={() => toggleModal(refRecent)}
-							>
-								<span>Recent</span>
-								<i className="fa-solid fa-chevron-down"></i>
-							</button>
-							<section ref={refRecent} className="header-modal recent hide">
-								<div className="modal-title">
-									<h1>Recent Boards</h1>
-									<button
-										className="close-modal-btn"
-										onClick={() => toggleModal(refRecent)}
-									>
-										<i className="fa-solid fa-xmark"></i>
-									</button>
-								</div>
-								<hr />
-								<ul>
-									{templates.map((template) => {
-										return (
-											<li
-												key={utilService.makeId()}
-												id={template.id}
-												onClick={() => {
-													onSelectTemplate(template._id)
-												}}
-											>
-												<div className="header-star-template">
-													<div style={{ borderRadius: '3px', background: `url${template.img} center center/cover`, height: '32px', width: '40px' }}></div>
-													<span>{template.title}</span>
-												</div>
-												<span className="template-indactor">Template</span>
-												<span className="header-star hide2">
-													{template.isStared && (
-														<i
-															onClick={(event) => onSetStar(event, template)}
-															className="fa-solid fa-star"
-															style={{
-																color: 'yellow',
-																'--fa-border-color': 'black',
-															}}
-														></i>
-													)}
-													{!template.isStared && (
-														<i
-															onClick={(event) => onSetStar(event, template)}
-															className="fa-regular fa-star"
-														></i>
-													)}
-												</span>
-											</li>
-										)
-									})}
-								</ul>
-							</section>
-						</div> */}
 
 						<div className="button-top flex">
 							<button
@@ -399,24 +355,53 @@ export const MainHeader = () => {
 							{boards.map(board => {
 								if (board.title.toLowerCase().includes(filterVal.toLowerCase())) {
 									return <li key={utilService.makeId()} id={board.id}>
-										<span className="header-search-star">
-											{board.isStared && (
+										<span className="header-search-star" onClick={(event) => onSetStar(event, board)}>
+											{whichStar(board._id)}
+
+										</span>
+										{/* {currUser.starred?.map((id, index) => {
+										{whichStar(board._id)}
+											if (id === board._id) {
+												return <span className="header-search-star" onClick={(event) => onSetStar(event, board)}>
+													<i
+														className="fa-solid fa-star"
+														style={{
+															color: 'rgb(255,184,5)',
+															'--fa-border-color': 'black',
+														}}
+													></i>
+												</span>
+											}
+											// if (index === currUser.starred.length - 1) 
+											else return <span className="header-search-star" onClick={(event) => onSetStar(event, board)}>
 												<i
-													onClick={(event) => onSetStar(event, board)}
-													className="fa-solid fa-star"
-													style={{
-														color: 'yellow',
-														'--fa-border-color': 'black',
-													}}
-												></i>
-											)}
-											{!board.isStared && (
-												<i
-													onClick={(event) => onSetStar(event, board)}
 													className="fa-regular fa-star"
 												></i>
-											)}
-										</span>
+											</span>
+										})} */}
+
+
+										{/* <span className="header-search-star" onClick={(event) => onSetStar(event, board)}> */}
+										{/* <i
+										></i> */}
+										{/* </span> */}
+
+
+
+										{/* {!currUser.starred.length && <span className="header-search-star" onClick={(event) => onSetStar(event, board)}>
+										<i
+											className="fa-regular fa-star"
+										></i>
+									</span>} */}
+										{/* <span className="header-search-star" onClick={(event) => onSetStar(event, board)}>
+											<i
+												className="fa-regular fa-star"
+											></i>
+										</span> */}
+
+
+
+
 										<span
 											className="to-select-template"
 											onClick={() => {
@@ -440,8 +425,8 @@ export const MainHeader = () => {
 								if (template.title.toLowerCase().includes(filterVal.toLowerCase()))
 									return (
 										<li key={utilService.makeId()} id={template.id}>
-											<span className="header-search-star">
-												{template.isStared && (
+											<span className="header-search-star" onClick={(event) => onSetStar(event, template)}>
+												{/* {template.isStared && (
 													<i
 														onClick={(event) => onSetStar(event, template)}
 														className="fa-solid fa-star"
@@ -456,7 +441,8 @@ export const MainHeader = () => {
 														onClick={(event) => onSetStar(event, template)}
 														className="fa-regular fa-star"
 													></i>
-												)}
+												)} */}
+												{whichStar(template._id)}
 											</span>
 											<span
 												className="to-select-template"
@@ -500,82 +486,6 @@ export const MainHeader = () => {
 					</section>
 				</div>
 
-				{/* 
-                <div className='button-top flex'>
-                    <button className="secondary-header-button" onClick={() => toggleModal(refCreate)}>
-                        Create</button>
-                    <section ref={refCreate} className='header-modal recent hide'>
-                        <div className='modal-title'>
-                            <h1 >Create</h1>
-                            <button className='close-modal-btn' onClick={() => toggleModal(refCreate)}><i className="fa-solid fa-xmark"></i></button>
-                        </div>
-                        <hr />
-                        <ul>
-                            {templates.map(template => {
-                                // if (recentMap(template)) return <li key={utilService.makeId()} id={template.id} onClick={() => { onSelectTemplate(template._id) }}>
-                                return <li key={utilService.makeId()} id={template.id} onClick={() => { onSelectTemplate(template._id) }}>
-                                    <div className='header-star-template'>
-                                        <img className='template-img' src={template.img} />
-                                        <span>{template.title}</span>
-                                    </div>
-                                    <span className='template-indactor'>Template</span>
-                                </li>
-                            })}
-                        </ul>
-                    </section>
-                </div > */}
-				{/* <div className='header-finish flex'>
-                <div className='header-search-div'>
-                <label className='label-search flex'>
-                <i className="fa-solid fa-magnifying-glass"></i>
-                        <input onChange={handleSearch} className='header-search' placeholder='Search' onFocus={() => { toggleModal(refCreate1) }} />
-                    </label>
-                    <section ref={refCreate1} className='header-modal hide'>
-                    <ul>
-                    <p className='search-offer'>Recent Board</p>
-                    {templates.map((template, index) => {
-                        return (index < 5) && <li key={utilService.makeId()} id={template.id} >
-                        <span className='header-search-star'>{template.isStared && <i onClick={(event) => onSetStar(event, template)} className="fa-solid fa-star" style={{ color: 'yellow', '--fa-border-color': 'black' }}></i>}
-                        {!template.isStared && <i onClick={(event) => onSetStar(event, template)} class="fa-regular fa-star"></i>}</span>
-                        <span className='to-select-template' onClick={() => { onSelectTemplate(template._id) }}>
-                        <img className='template-img' src={template.img} />
-                                        <span className=''>{template.title}</span>
-                                        <span className='template-indactor'>Template</span>
-                                    </span>
-                                    </li>
-                                }
-                            )}
-                            </ul>
-                            </section>
-                            </div>
-                            <div className='button-top  flex'>
-                            <label>
-                            <button className="secondary-header-button" onClick={() => toggleModal(refInfo)}></button>
-                        <i class="fa-regular fa-square-info"></i>
-                    </label>
-                    <section ref={refInfo} className='header-modal info-modal hide'>
-                    <div className='modal-title'>
-                    <h1 >Information</h1>
-                    <button className='close-modal-btn' onClick={() => toggleModal(refInfo)}>X</button>
-                    </div>
-                        <hr />
-                        <section className='info-img-div'>
-                        <img src={infoImg} />
-                        <div className='for-h3'>
-                        <h3 >New to Trello? Check out the guide</h3>
-                        </div>
-                        <button>Get a new tip</button>
-                        <hr />
-                        <div className='info-button-buttom'>
-                        <button>Pricing</button>
-                        <button>Apps</button>
-                        <button>Blog</button>
-                        <button>Privacy</button>
-                        <button>More...</button>
-                        </div>
-                        </section>
-                        </section>
-                    </div > */}
 				<div className="button-top bell flex">
 					<label>
 						<button className="secondary-header-button"></button>

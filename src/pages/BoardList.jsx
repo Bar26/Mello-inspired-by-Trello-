@@ -14,7 +14,7 @@ import { CreateBoardHeader } from '../cmps/createModalHeader/CreateBoardHeader'
 
 export const BoardList = () => {
 	const [boards, setBoards] = useState([])
-	// const [staredBoards, setStaredBoards] = useState([])
+	const [staredBoards, setStaredBoards] = useState([])
 	const [templates, setTemplates] = useState([])
 	const [createMode, setCreateMode] = useState('')
 	const { currUser } = useSelector((state) => state.userModule)
@@ -32,14 +32,19 @@ export const BoardList = () => {
 
 	useEffect(() => {
 		dispatch(getUser())
-		console.log(users);
 	}, [])
 
 
 	useEffect(() => {
 		loadTemplates()
 		loadUserBoards()
+		loadUserStarredBoards()
 	}, [currUser])
+
+	useEffect(() => {
+		console.log('infintey');
+		loadUserStarredBoards()
+	}, [staredBoards])
 
 
 	// const getUser = async () => {
@@ -71,7 +76,6 @@ export const BoardList = () => {
 					return board
 				})
 			).then((userBoards) => {
-				console.log(userBoards);
 				setBoards(userBoards || [])
 				dispatch({ type: 'SET_BOARDS', boards: userBoards || [] })
 			})
@@ -79,6 +83,26 @@ export const BoardList = () => {
 			console.log('Cannot load Boards !', err)
 		}
 	}
+
+	const loadUserStarredBoards = async () => {
+		if (!currUser.starred?.length) return
+		try {
+			Promise.all(
+				currUser.starred?.map(async (boardId) => {
+					const board = await boardService.getById(boardId)
+					return board
+				})
+			).then((userBoards) => {
+				if(!isEqual(userBoards,staredBoards)) setStaredBoards(userBoards || [])
+				// dispatch({ type: 'SET_STARRED_BOARDS', starredBoards: userBoards || [] })
+			})
+		} catch (err) {
+			console.log('Cannot load Boards !', err)
+		}
+	}
+
+
+
 	const loadTemplates = async () => {
 		try {
 			const templatesT = await boardService.queryTemplates()
@@ -121,6 +145,30 @@ export const BoardList = () => {
 	}
 
 
+	const getStarredBoardFromUser = async (boardId) => {
+		// try {
+		// 	const board = await boardService.getById(boardId)
+		// 		.then((board) => {
+		// 			return board
+		// 		})
+		// 	return board
+		// } catch (err) {
+		// 	console.log('Cannot load Boards !', err)
+		// }
+
+		console.log(staredBoards);
+	}
+
+
+
+
+	function isEqual(a, b) {
+		console.log(a);
+		console.log(b);
+		return a.join() === b.join();
+	}
+
+
 	if (!Object.keys(currUser).length) return <div className="loader"></div>
 	return (
 		<section className="board-list-container">
@@ -142,7 +190,34 @@ export const BoardList = () => {
 						})}
 					</section>
 
-					{!!starredBoards().length && (
+
+					{!!currUser.starred.length && <section className="board-list">
+						<h3 className="stared">
+							<i className="fa-regular fa-star"></i>
+							Starred Boards
+						</h3>
+						{staredBoards.map(board => {
+							return <BoardPreview board={board} />
+
+						})}
+						{/* {currUser.starred.map(boardId => {
+							let returnedBoard = getStarredBoardFromUser(boardId)
+							console.log(returnedBoard);
+							// return <BoardPreview board={currUserBoard} key={boardId}></BoardPreview>
+
+
+							// .then(
+							// 	console.log('starred board boardlist', currUserBoard)
+							// )
+							// return <BoardPreview currUserBoard={currUserBoard} key={boardId} />
+							// getStarredBoards={getStarredBoards}
+
+							// getStarredBoardFromUser(boardId)
+						})} */}
+
+					</section>}
+
+					{/* {!!starredBoards().length && (
 						<section className="board-list">
 							<h3 className="stared">
 								<i className="fa-regular fa-star"></i>
@@ -167,7 +242,7 @@ export const BoardList = () => {
 								)
 							})}
 						</section>
-					)}
+					)} */}
 
 
 					<section className="board-list">

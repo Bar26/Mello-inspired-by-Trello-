@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { onSaveBoard, setCurrBoard, setStaredBoard } from '../store/actions/board.actions'
 import { boardService } from '../services/board.service.js'
 
-export const BoardPreview = ({ board, saveStarredBoard }) => {
+export const BoardPreview = ({ board }) => {
 	const [star, setStar] = useState('')
 	const background = board.style.backgroundImage ? `url${board.style.backgroundImage}` : board.style.backgroundColor
 	const backgroundIndactor = board.style.backgroundImage ? 'img' : 'color'
