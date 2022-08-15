@@ -57,13 +57,17 @@ export const MainHeader = () => {
 	useEffect(() => {
 		// socketService.setup()
 		// console.log(boards);
-		setStarredBoards(currUser)
-		console.log(starredBoards);
+		// console.log(starredBoards);
+		console.log(currUser);
 	}, [])
 
 	useEffect(() => {
 		setBoardsToShow(boards)
 	}, [boards])
+
+	useEffect(() => {
+		console.log('user changed in main header');
+	}, [currUser])
 
 	useEffect(() => {
 		if (!board._id) return
@@ -102,7 +106,7 @@ export const MainHeader = () => {
 		// boardService.setStarred(template)
 		let newUser = await userService.setStarUser(currUser, template._id)
 		await dispatch(updateUser(newUser))
-		console.log(currUser);
+		console.log(currUser, newUser);
 	}
 
 	//////// !!!!!! NOT GOOD LOG
@@ -162,7 +166,7 @@ export const MainHeader = () => {
 
 		// currUser.starred?.map((id, index) => {
 		// if (id === board._id) {
-		if (currUser.starred.includes(boardId)) return <i
+		if (currUser.starred?.includes(boardId)) return <i
 			className="fa-solid fa-star"
 			style={{
 				color: 'rgb(255,184,5)',

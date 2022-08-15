@@ -160,6 +160,10 @@ export const BoardList = () => {
 	}
 
 
+	useEffect(() => {
+		console.log('user changed in board list');
+	}, [currUser])
+
 
 
 	function isEqual(a, b) {
@@ -191,7 +195,7 @@ export const BoardList = () => {
 					</section>
 
 
-					{!!currUser.starred.length && <section className="board-list">
+					{!!currUser.starred?.length && <section className="board-list">
 						<h3 className="stared">
 							<i className="fa-regular fa-star"></i>
 							Starred Boards
