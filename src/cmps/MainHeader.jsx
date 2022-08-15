@@ -162,7 +162,7 @@ export const MainHeader = () => {
 
 		// currUser.starred?.map((id, index) => {
 		// if (id === board._id) {
-		if (currUser.starred.includes(boardId)) return <i
+		if (currUser.starred?.includes(boardId)) return <i
 			className="fa-solid fa-star"
 			style={{
 				color: 'rgb(255,184,5)',
