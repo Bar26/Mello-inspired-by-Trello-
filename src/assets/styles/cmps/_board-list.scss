@@ -172,21 +172,21 @@
 }
 
 
-@include for-laptop-layout {
-	.board-list-container {
+// @include for-laptop-layout {
+// 	.board-list-container {
 	
-		.container {
-			padding-left: 35px;
-			padding-right: 35px;
+// 		.container {
+// 			padding-left: 35px;
+// 			padding-right: 35px;
 	
-			.board-list {
-				grid-template-columns: repeat(auto-fit, 190px);
-				gap: 10px;
-				width: 100%;
-			}
-		}
-	}
-}
+// 			.board-list {
+// 				grid-template-columns: repeat(auto-fit, 190px);
+// 				gap: 10px;
+// 				width: 100%;
+// 			}
+// 		}
+// 	}
+// }
 
 
 @include for-tablet-layout {

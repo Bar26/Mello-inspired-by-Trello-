@@ -9,6 +9,8 @@ import { Signup } from './pages/Signup.jsx'
 import { TaskDetails } from './cmps/TaskDetails'
 
 function App() {
+
+
 	return (
 		<Router>
 			<div className="App">

@@ -79,6 +79,25 @@ export function setCurrBoards(currUser) {
 	}
 }
 
+export function setStarredBoards(currUser) {
+	return async (dispatch) => {
+		try {
+			Promise.all(currUser.starred?.map(async (boardId) => {
+				// try {
+				const board = await boardService.getById(boardId)
+				return board
+				// } catch (err) {
+				// 	console.log('cannot get boards', err);
+				// }
+			})).then((starredBoards) => {
+				dispatch({ type: 'SET_STARRED_BOARDS', starredBoards: starredBoards })
+			})
+		}catch(err){
+			console.log(err);
+		}
+	}
+}
+
 
 export function onCopyTask(ev, task, group, currBoard) {
 	return async (dispatch, getState) => {

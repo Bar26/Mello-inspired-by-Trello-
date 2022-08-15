@@ -3,7 +3,8 @@ const initialState = {
 	boards: [],
 	filterBy: { labels: [], members: [], txt: '' },
 	isTaskDetailScreenOpen: false,
-	activity:[]
+	activity:[],
+	starredBoards:[]
 }
 
 export function boardReducer(state = initialState, action) {
@@ -18,6 +19,8 @@ export function boardReducer(state = initialState, action) {
 			return (newState = { ...state, boards: [...state.boards, action.board] })
 		case 'SET_BOARDS':
 			return (newState = { ...state, boards: action.boards })
+		case 'SET_STARRED_BOARDS':
+			return (newState = { ...state, starredBoards: action.boards })
 		case 'SET_FILTER':
 			return (newState = { ...state, filterBy: { ...action.filterBy } })
 

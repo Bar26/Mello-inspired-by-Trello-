@@ -123,7 +123,9 @@ export function TaskPreview({ task, group }) {
 					onToggleMemberModal()
 					// addMemberModalRef.current.style.right="100%"
 					// addMemberModalRef.current.style.bottom="100px"
-				}} >
+				}} 
+					className='edit-change-members'
+				>
 					<span className="icon members-icon">
 						<i className="fa-regular fa-user"></i>
 					</span>

@@ -7,6 +7,7 @@ import {
 	SOCKET_EVENT_USER_UPDATED,
 	SOCKET_EMIT_USER_WATCH,
 } from './socket.service'
+import { updateUser } from '../store/actions/user.actions'
 // import { showSuccessMsg } from '../services/event-bus.service'
 
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
@@ -23,6 +24,7 @@ export const userService = {
 	remove,
 	update,
 	addBoardUser,
+	setStarUser,
 	toggleBoardToMember
 }
 
@@ -129,5 +131,22 @@ async function addBoardUser(boardId, user) {
 
 	user.boards = [...user.boards, boardId]
 	saveLocalUser(user)
+	return user
+}
+
+
+async function setStarUser(user, boardId) {
+
+
+
+	let boardIdIdx = user.starred.findIndex(boardIdUser => boardId === boardIdUser)
+	// (boardId)
+	if (user.starred) {
+		if (boardIdIdx === -1) user.starred.push(boardId)
+		else user.starred.splice(boardIdIdx, 1)
+	}
+	else user.starred = [boardId]
+	// updateUser(user)
+	console.log('Set Star User', user.starred);
 	return user
 }
