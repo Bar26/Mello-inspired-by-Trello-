@@ -39,7 +39,6 @@ export const BoardDeatails = () => {
 
 	useEffect(() => {
 		dispatch(getUser())
-		console.log(currBoard.members);
 
 	}, [])
 
