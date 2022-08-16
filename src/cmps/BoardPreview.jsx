@@ -7,9 +7,9 @@ import { userService } from '../services/user.service'
 import { useSelector } from 'react-redux'
 import { updateUser } from '../store/actions/user.actions'
 
-export const BoardPreview = ({ board }) => {
-	const [star, setStar] = useState('')
-	const [staredBoards, setStaredBoards] = useState([])
+export const BoardPreview = ({ board, loadUserStarredBoards, isStared }) => {
+	const [star, setStar] = useState(isStared)
+	// const [staredBoards, setStaredBoards] = useState([])
 	const background = board.style.backgroundImage ? `url${board.style.backgroundImage}` : board.style.backgroundColor
 	const backgroundIndactor = board.style.backgroundImage ? 'img' : 'color'
 	const [backgroundState, setBackgroudState] = useState()
@@ -19,42 +19,29 @@ export const BoardPreview = ({ board }) => {
 
 	useEffect(() => {
 		setBackgroudState(background)
-		if (board.isStared) {
-			setStar('starred fa-solid')
-		} else {
-			setStar('')
-		}
+		// if (board.isStared) {
+		// 	setStar('starred fa-solid')
+		// } else {
+		// 	setStar('')
+		// }
 	}, [board])
-
-	const loadUserStarredBoards = async () => {
-		if (!currUser.starred?.length) return
-		try {
-			Promise.all(
-				currUser.starred?.map(async (boardId) => {
-					let board
-					if (currUser.boards.includes(boardId))
-						// console.log(('includes'));
-							board = await boardService.getById(boardId)
-							// boardService.getTemplateById(boardId)
-						else board = await boardService.getTemplateById(boardId)
-						console.log(board)
-					return board
-				})
-			).then((userBoards) => {
-				setStaredBoards(userBoards || [])
-				// dispatch({ type: 'SET_STARRED_BOARDS', starredBoards: userBoards || [] })
-			})
-		} catch (err) {
-			console.log('Cannot load Boards !', err)
-		}
-	}
 
 
 	useEffect(() => {
-		console.log('user changed in main header');
-		loadUserStarredBoards()
+
+	}, [isStared])
+
+
+
+	useEffect(() => {
+		console.log('user changed in BP',currUser);
+		setStar(isStared)
 
 	}, [currUser])
+
+	useEffect(() => {
+		console.log(star);
+	}, [])
 	// const onSetStar = async (e) => {
 	// 	try{
 	// 			e.stopPropagation()
@@ -79,7 +66,8 @@ export const BoardPreview = ({ board }) => {
 		let newUser = await userService.setStarUser(currUser, template._id)
 
 		await dispatch(updateUser(newUser))
-		console.log(currUser, newUser);
+		setStar(!isStared)
+		// console.log(currUser, newUser);
 	}
 
 	const whichStar = (boardId) => {
@@ -103,7 +91,7 @@ export const BoardPreview = ({ board }) => {
 	const getBoardStyle = () => {
 		return board.style?.backgroundColor
 			? board.style.backgroundColor
-			: `URL(${board.style.backgroundImage}) center center / cover`
+			: `URL${board.style.backgroundImage} center center / cover`
 	}
 
 	return (
@@ -112,12 +100,16 @@ export const BoardPreview = ({ board }) => {
 				<article
 					className="board-preview"
 					style={{ backgroundImage: backgroundState, backgroundSize: 'cover' }}
+					// style = {getBoardStyle()}
 					onClick={onGetBoard}
 				>
 					<div onClick={() => dispatch(setCurrBoard(board))} className="link">
 						<h1>{board.title}</h1>
 						<label className="star" onClick={(event) => onSetStar(event, board)}>
-							{whichStar(board._id)}
+							{/* {whichStar(board._id)} */}
+							{star ? <i className="fa-solid fa-star"
+								style={{ color: 'rgb(255,184,5)', }}></i> :
+								<i className="fa-regular fa-star" ></i>}
 						</label>
 					</div>
 				</article>

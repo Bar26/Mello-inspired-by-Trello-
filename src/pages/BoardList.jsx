@@ -36,13 +36,14 @@ export const BoardList = () => {
 
 
 	useEffect(() => {
+		console.log(currUser);
 		loadTemplates()
 		loadUserBoards()
 		loadUserStarredBoards()
 	}, [currUser])
 
 	// useEffect(() => {
-	// 	console.log('infintey');
+	// 	
 	// 	loadUserStarredBoards()
 	// }, [staredBoards])
 
@@ -92,10 +93,9 @@ export const BoardList = () => {
 					let board
 					if (currUser.boards.includes(boardId))
 						// console.log(('includes'));
-							board = await boardService.getById(boardId)
-							// boardService.getTemplateById(boardId)
-						else board = await boardService.getTemplateById(boardId)
-						console.log(board)
+						board = await boardService.getById(boardId)
+					// boardService.getTemplateById(boardId)
+					else board = await boardService.getTemplateById(boardId)
 					return board
 				})
 			).then((userBoards) => {
@@ -162,16 +162,18 @@ export const BoardList = () => {
 
 	useEffect(() => {
 		console.log('user changed in board list');
-	}, [currUser])
+	}, [currUser.starred])
 
 
 
 	function isEqual(a, b) {
-		console.log(a);
-		console.log(b);
 		return a.join() === b.join();
 	}
 
+	const starInd = (boardId) => {
+		let ind = currUser.starred.includes(boardId)	
+		return ind
+	}
 
 	if (!Object.keys(currUser).length) return <div className="loader"></div>
 	return (
@@ -188,7 +190,7 @@ export const BoardList = () => {
 								<BoardPreview
 									board={board}
 									key={board._id + idx}
-									getStarredBoards={getStarredBoards}
+									isStared = {starInd(board._id)}
 								/>
 							)
 						})}
@@ -201,56 +203,13 @@ export const BoardList = () => {
 							Starred Boards
 						</h3>
 						{staredBoards.map(board => {
-							if(currUser.boards.includes(board._id))
-							return <BoardPreview board={board} />
+							if (currUser.boards.includes(board._id))
+								return <BoardPreview board={board} setStaredBoards={setStaredBoards}
+									loadUserStarredBoards={loadUserStarredBoards} isStared = {starInd(board._id)} />
 							else
-							return <TemplatePreview template={board} />
-
+								return <TemplatePreview template={board} />
 						})}
-						{/* {currUser.starred.map(boardId => {
-							let returnedBoard = getStarredBoardFromUser(boardId)
-							console.log(returnedBoard);
-							// return <BoardPreview board={currUserBoard} key={boardId}></BoardPreview>
-
-
-							// .then(
-							// 	console.log('starred board boardlist', currUserBoard)
-							// )
-							// return <BoardPreview currUserBoard={currUserBoard} key={boardId} />
-							// getStarredBoards={getStarredBoards}
-
-							// getStarredBoardFromUser(boardId)
-						})} */}
-
 					</section>}
-
-					{/* {!!starredBoards().length && (
-						<section className="board-list">
-							<h3 className="stared">
-								<i className="fa-regular fa-star"></i>
-								Starred Boards
-							</h3>
-							{starredBoards().map((board, idx) => {
-								return (
-									<BoardPreview
-										board={board}
-										key={board._id + idx}
-										getStarredBoards={getStarredBoards}
-									/>
-								)
-							})}
-							{starredTemplates().map((template, idx) => {
-								return (
-									<TemplatePreview
-										template={template}
-										key={template._id + idx}
-									// getStarredTemplates={getStarredTemplates}
-									/>
-								)
-							})}
-						</section>
-					)} */}
-
 
 					<section className="board-list">
 						<h3 className="templates">
@@ -295,8 +254,6 @@ export const BoardList = () => {
 							)
 						})}
 					</section>
-
-					{/* <h1>Recently Viewed Boards</h1> */}
 
 				</div>
 			</section>

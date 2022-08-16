@@ -59,9 +59,6 @@ export const MainHeader = () => {
 	const bg = currUser.imgUrl ? `url(${currUser.imgUrl}) center center / cover` : '#de350b'
 
 	useEffect(() => {
-		// socketService.setup()
-		// console.log(boards);
-		// console.log(starredBoards);
 		console.log(currUser);
 	}, [])
 
@@ -71,15 +68,12 @@ export const MainHeader = () => {
 
 
 	useEffect(() => {
-		console.log('user changed in main header');
-		loadUserStarredBoards()
+		// loadUserStarredBoards()
 
 	}, [currUser])
 
 	useEffect(() => {
 		if (!board._id) return
-		// loadTemplates()
-		// await dispatch(onSaveBoard(board))
 		onSend(board)
 		navigate(`/boards/${board._id}`)
 	}, [board])
@@ -93,10 +87,6 @@ export const MainHeader = () => {
 
 	const onSend = async (board) => {
 		await dispatch(setCurrBoard(board._id))
-	}
-	const loadUser = async () => {
-		const user = await userService.getLoggedinUser()
-		setUser(user)
 	}
 
 	const toggleModal = async (refType) => {
@@ -112,19 +102,9 @@ export const MainHeader = () => {
 
 	const onSetStar = async (ev, template) => {
 		ev.stopPropagation()
-		// boardService.setStarred(template)
 		let newUser = await userService.setStarUser(currUser, template._id)
-
 		await dispatch(updateUser(newUser))
-		console.log(currUser, newUser);
 	}
-
-	//////// !!!!!! NOT GOOD LOG
-	const recentMap = (template) => {
-		// console.log(template.viewedAt)
-		return true
-	}
-
 
 	const onGoBack = () => {
 		setCreateModalTitle('Create')
@@ -132,7 +112,6 @@ export const MainHeader = () => {
 	}
 
 
-	// console.log('template', templates);
 	const onSelectTemplate = async (templateId) => {
 		const template = await boardService.getTemplateById(templateId)
 		const newBoard = await boardService.getEmptyBoard(template)
@@ -145,29 +124,6 @@ export const MainHeader = () => {
 	const onSelectBoard = async (board) => {
 		dispatch(setCurrBoard(board._id))
 		navigate(`/boards/${board._id}`)
-	}
-
-	const loadUserStarredBoards = async () => {
-		if (!currUser.starred?.length) return
-		try {
-			Promise.all(
-				currUser.starred?.map(async (boardId) => {
-					let board
-					if (currUser.boards.includes(boardId))
-						// console.log(('includes'));
-							board = await boardService.getById(boardId)
-							// boardService.getTemplateById(boardId)
-						else board = await boardService.getTemplateById(boardId)
-						console.log(board)
-					return board
-				})
-			).then((userBoards) => {
-				setStaredBoards(userBoards || [])
-				// dispatch({ type: 'SET_STARRED_BOARDS', starredBoards: userBoards || [] })
-			})
-		} catch (err) {
-			console.log('Cannot load Boards !', err)
-		}
 	}
 
 	const DynamicCmp = () => {
@@ -188,17 +144,6 @@ export const MainHeader = () => {
 
 
 	const whichStar = (boardId) => {
-		// 	className="fa-solid fa-star",
-		// 	style= {
-		// 		color: 'rgb(255,184,5)',
-		// 		// '--fa-border-color': 'black'
-		// 	}
-		// }
-		// else return  className="fa-regular fa-star" 
-
-
-		// currUser.starred?.map((id, index) => {
-		// if (id === board._id) {
 		if (currUser.starred?.includes(boardId)) return <i
 			className="fa-solid fa-star"
 			style={{
@@ -214,8 +159,6 @@ export const MainHeader = () => {
 		let background
 		if (currUser.boards.includes(board._id)) {
 			background = board.style.backgroundImage ? `url${board.style.backgroundImage}` : board.style.backgroundColor
-			// const backgroundIndactor = board.style.backgroundImage ? 'img' : 'color'
-
 		} else {
 			background = `url${board.img}`
 		}
@@ -255,8 +198,6 @@ export const MainHeader = () => {
 								<hr />
 								<ul>
 									{staredBoards.map((template) => {
-										// if (recentMap(template)) return <li key={utilService.makeId()} id={template.id} onClick={() => { onSelectTemplate(template._id) }}>
-										// if (template.isStared)
 										return (
 											<li
 												key={utilService.makeId()}
@@ -266,14 +207,10 @@ export const MainHeader = () => {
 												}}
 											>
 												<div className="header-star-template">
-													{/* <div style={{ borderRadius: '3px', background: `url${template.img} center center/cover`, height: '32px', width: '40px' }}></div> */}
 													<div style={{ borderRadius: '3px', background: `${getBackground(template)} center center/cover`, height: '32px', width: '40px' }}></div>
-
-													{/* <img className="template-img" src={template.img} /> */}
 													<span>{template.title}</span>
 												</div>
 												{!currUser.boards.includes(template._id) && <span className="template-indactor ">Template</span>}
-
 											</li>
 										)
 									})}
@@ -410,51 +347,7 @@ export const MainHeader = () => {
 									return <li key={utilService.makeId()} id={board.id}>
 										<span className="header-search-star" onClick={(event) => onSetStar(event, board)}>
 											{whichStar(board._id)}
-
 										</span>
-										{/* {currUser.starred?.map((id, index) => {
-										{whichStar(board._id)}
-											if (id === board._id) {
-												return <span className="header-search-star" onClick={(event) => onSetStar(event, board)}>
-													<i
-														className="fa-solid fa-star"
-														style={{
-															color: 'rgb(255,184,5)',
-															'--fa-border-color': 'black',
-														}}
-													></i>
-												</span>
-											}
-											// if (index === currUser.starred.length - 1) 
-											else return <span className="header-search-star" onClick={(event) => onSetStar(event, board)}>
-												<i
-													className="fa-regular fa-star"
-												></i>
-											</span>
-										})} */}
-
-
-										{/* <span className="header-search-star" onClick={(event) => onSetStar(event, board)}> */}
-										{/* <i
-										></i> */}
-										{/* </span> */}
-
-
-
-										{/* {!currUser.starred.length && <span className="header-search-star" onClick={(event) => onSetStar(event, board)}>
-										<i
-											className="fa-regular fa-star"
-										></i>
-									</span>} */}
-										{/* <span className="header-search-star" onClick={(event) => onSetStar(event, board)}>
-											<i
-												className="fa-regular fa-star"
-											></i>
-										</span> */}
-
-
-
-
 										<span
 											className="to-select-template"
 											onClick={() => {
@@ -479,22 +372,6 @@ export const MainHeader = () => {
 									return (
 										<li key={utilService.makeId()} id={template.id}>
 											<span className="header-search-star" onClick={(event) => onSetStar(event, template)}>
-												{/* {template.isStared && (
-													<i
-														onClick={(event) => onSetStar(event, template)}
-														className="fa-solid fa-star"
-														style={{
-															color: 'rgb(255,184,5)',
-															'--fa-border-color': '1px black solid',
-														}}
-													></i>
-												)}
-												{!template.isStared && (
-													<i
-														onClick={(event) => onSetStar(event, template)}
-														className="fa-regular fa-star"
-													></i>
-												)} */}
 												{whichStar(template._id)}
 											</span>
 											<span
