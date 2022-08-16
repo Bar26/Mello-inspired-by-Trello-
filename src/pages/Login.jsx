@@ -24,7 +24,6 @@ export function Login() {
 	const onLoginUser = async () => {
 		try {
 			await dispatch(onLogin(credentials))
-			// console.log(user);
 			navigate(`/boards`)
 		} catch (err) {
 			handleError()

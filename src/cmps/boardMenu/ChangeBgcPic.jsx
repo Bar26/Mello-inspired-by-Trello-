@@ -13,7 +13,6 @@ export const ChangeBgcPic = ({ setSelectedType, setTitle, setLastType, setLastTi
     const dispatch = useDispatch()
 
     const pics = [
-        // 'https://res.cloudinary.com/noambar/image/upload/v1658930875/Trello/pexels-sam-kolder-2387873_slu6mu.jpg',
         'https://res.cloudinary.com/noambar/image/upload/v1659656628/Trello/wallpaperflare.com_wallpaper_1_tblvd1.jpg',
         'https://res.cloudinary.com/noambar/image/upload/v1659656634/Trello/wallpaperflare.com_wallpaper_5_zjp1if.jpg',
         'https://res.cloudinary.com/noambar/image/upload/v1659656637/Trello/wallpaperflare.com_wallpaper_3_vmrn75.jpg',
@@ -22,8 +21,6 @@ export const ChangeBgcPic = ({ setSelectedType, setTitle, setLastType, setLastTi
         'https://res.cloudinary.com/noambar/image/upload/v1659656641/Trello/wallpaperflare.com_wallpaper_4_z789dg.jpg',
         'https://res.cloudinary.com/noambar/image/upload/v1659656643/Trello/wallpaperflare.com_wallpaper_2_l0khr0.jpg',
         'https://res.cloudinary.com/noambar/image/upload/v1658930857/Trello/pexels-emma-pollard-1534925_fchw5g.jpg',
-        // 'https://res.cloudinary.com/noambar/image/upload/v1658930867/Trello/pexels-stefan-stefancik-919606_hy0bpa.jpg',
-        // 'https://res.cloudinary.com/noambar/image/upload/v1658930863/Trello/pexels-fauxels-3183198_w3iead.jpg',
         'https://res.cloudinary.com/noambar/image/upload/v1658930859/Trello/pexels-philippe-donn-1114690_joyof8.jpg',
         'https://res.cloudinary.com/noambar/image/upload/v1658930853/Trello/pexels-cesar-perez-733745_csgmjr.jpg',
         'https://res.cloudinary.com/noambar/image/upload/v1658930852/Trello/pexels-carlos-oliva-3586966_bn5ug8.jpg',
@@ -39,15 +36,11 @@ export const ChangeBgcPic = ({ setSelectedType, setTitle, setLastType, setLastTi
             const newBoard = boardService.changeBoardBGStyle(styleToSend,currBoard,currUser)
             await dispatch(onSaveBoard(newBoard))
             await dispatch(setCurrBoard(newBoard._id))
-            // await dispatch(setCurrBoard(newBoard))
         } catch {
             console.err();
         }
     }
 
-    // const selectedPic = (img) => {
-    //     onChangeBGImgStyle(img)
-    // }
 
     return (
         <section className="select-pic-container">

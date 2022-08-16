@@ -7,7 +7,6 @@ export const utilService = {
     monthName
 }
 
-//? makeId length =10
 function makeId( length = 6) {
     var txt = '';
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -40,15 +39,6 @@ function delay(ms = 500) {
         setTimeout(resolve, ms)
     })
 }
-
-
-
-// console.log('id:', makeId('task'));
-// console.log('id:', makeId('group'));
-// console.log('id:', makeId('checklist'));
-// //!BUG WITH THE TASK !
-// console.log('id:', makeId('todos'));
-// console.log('id:', makeId('labels'));
 
 function getMonthName(date) {
   

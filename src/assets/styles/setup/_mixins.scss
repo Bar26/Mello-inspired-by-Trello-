@@ -4,16 +4,12 @@
 	align-items: center;
 }
 
-// Max width
-
-// 760px
 @mixin for-laptop-layout {
 	@media (max-width: 1200px) {
 		@content;
 	}
 }
 
-// 530px
 
 @mixin for-tablet-layout {
 	@media (max-width: 767px) {
@@ -27,46 +23,6 @@
 		@content;
 	}
 }
-// @
-// @mixin for-desktop-layout {
-// 	@media (min-width: 1200px) {
-// 		@content;
-// 	}
-// }
 
 
 
-// @mixin for-narrow-layout {
-// 	@media (min-width: $padded-break-narrow) {
-// 		@content;
-// 	}
-// }
-
-
-// @mixin for-585-layout {
-// 	@media (min-width: $break-585) {
-// 		@content;
-// 	}
-// }
-
-
-// @mixin for-mobile-layout {
-// 	@media (max-width: $padded-break-narrow) {
-// 		@content;
-// 	}
-// }
-// @mixin for-normal-layout {
-// 	@media (min-width: $padded-break-normal) {
-// 		@content;
-// 	}
-// }
-
-
-
-
-// 1000px
-// @mixin for-wide-layout {
-// 	@media (min-width: $padded-break-wide) {
-// 		@content;
-// 	}
-// }

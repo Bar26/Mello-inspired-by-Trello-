@@ -3,9 +3,6 @@ import { userService } from './user.service.js'
 import { httpService } from './http.service.js'
 import { utilService } from './util.service.js'
 
-// const board = require('../data/board.json')
-const templates = require('../data/templete.json')
-
 const STORAGE_KEY = 'Board'
 const STORAGE_KEY2 = 'Template'
 
@@ -46,7 +43,6 @@ export const boardService = {
 	deleteDateElement,
 	addDateToTask,
 	checkBoxDueDate,
-	// changeBoardStyle,
 	uploadImgToBoard,
 	changeBoardBGStyle,
 	getInitials,
@@ -67,7 +63,6 @@ function setStarred(board) {
 	const updatedBoard = { ...board }
 	updatedBoard.isStared = !updatedBoard.isStared
 	return updatedBoard
-	// return storageService.put(STORAGE_KEY, board)
 }
 function setStarredTemplate(template) {
 	if (!template.isStared) {
@@ -107,7 +102,6 @@ async function getEmptyBoard(template, toSave = true) {
 	if (toSave) {
 		try {
 			const savedBoard = await httpService.post('board', newBoard)
-			console.log(savedBoard);
 			return savedBoard
 		} catch (err) {
 			console.log('Cannot save board', err)
@@ -119,7 +113,6 @@ async function getEmptyBoard(template, toSave = true) {
 }
 async function getBoardForGuest(toSave = true) {
 	let template = await getById('629e05339a28133be456c12a')
-	console.log(template);
 	let newStyle
 	if (template.style.backgroundImage) {
 		newStyle = { backgroundImage: template.style.backgroundImage }
@@ -160,7 +153,6 @@ async function getById(id, fromLocal = false) {
 }
 
 async function getTemplateById(id) {
-	// console.log(httpService.get(`template/${id}`));
 	return httpService.get(`template/${id}`)
 }
 
@@ -275,7 +267,6 @@ async function changeTaskTitle(board, group, taskId, value) {
 }
 
 async function changeGroupTitle(board, group, value) {
-	// console.log('in change group title servie')
 	const updatedBoard = { ...board }
 	updatedBoard.groups.find((_group) => _group.id === group.id).title = value
 	return updatedBoard
@@ -322,14 +313,19 @@ async function toggleMemberToTask(board, group, taskId, memberId) {
 async function toggleMemberToBoard(board, member) {
 	const updatedBoard = { ...board }
 	const memberIdx = updatedBoard.members.findIndex((m) => m._id === member._id)
-	if (memberIdx !== -1 && updatedBoard.createdBy._id !== member._id) updatedBoard.members.splice(memberIdx, 1)
+	if (memberIdx !== -1 && updatedBoard.createdBy._id !== member._id) {
+		updatedBoard.members.splice(memberIdx, 1)
+		updatedBoard.tasks.map(task => {
+			const memberIdx = task.memberIds?.findIndex((_memberId) => _memberId === member.id)
+			if (memberIdx !== -1) task.memberIds?.splice(memberIdx, 1)
+		})
+	}
 	else updatedBoard.members.push(member)
 	return updatedBoard
 }
 
 async function createLabel(board, group, task, backgroundColor, title) {
 	const updatedBoard = { ...board }
-	console.log(backgroundColor, title)
 	const id = utilService.makeId()
 	updatedBoard.labels.push({ id, backgroundColor, title })
 	const groupIdx = updatedBoard.groups.findIndex(
@@ -373,7 +369,6 @@ async function addTodo(board, group, task, todoTitle) {
 	return newBoard
 }
 async function addAttachment(board, group, task, attachmentImg = null) {
-	// const id = utilService.makeId()
 	const newAttachment = { imgUrl: '', title: 'Uploded Img', createdAt: new Date() }
 	if (attachmentImg !== null) newAttachment.imgUrl = attachmentImg
 	let newBoard = { ...board }
@@ -394,19 +389,6 @@ async function makeAttachmentCoverTask(board, group, task) {
 	else newBoard.groups[groupIdx].tasks[taskIdx].style.isCover = !newBoard.groups[groupIdx].tasks[taskIdx].style.isCover;
 	return newBoard
 }
-// async function updateAttachment(board, group, task, src) {
-// 	// const id = utilService.makeId()
-// 	const newAttachment = { ...task.attachment, imgUrl: src }
-// 	let newBoard = { ...board }
-// 	const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
-// 	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(
-// 		(_task) => _task.id === task.id
-// 	)
-// 	newBoard.groups[groupIdx].tasks[taskIdx].attachment = newAttachment
-// 	console.log(newBoard)
-// 	return newBoard
-// }
-
 
 async function updateTodo(board, group, task, todo) {
 	const newTodo = { ...todo, isDone: !todo.isDone }
@@ -442,7 +424,6 @@ function calculateProg(task) {
 	let todoLength = task.checklist.todos.length;
 	if (todoLength === 0) todoLength = 1
 	const todoDone = task.checklist.todos.filter((todo) => todo.isDone)
-	// console.log('board Service ', todoLength);
 	let integer = Math.trunc((todoDone.length / todoLength) * 100)
 	return integer
 }
@@ -476,11 +457,6 @@ function addDateToTask(board, group, task, date) {
 	}
 	return newBoard
 }
-
-// function changeBoardStyle(board,newStyle){
-// 	const updatedBoard ={...board, style: { backgroundColor: newStyle }}
-// 	return updatedBoard
-// }
 
 
 function checkBoxDueDate(board, group, task, isChecked) {

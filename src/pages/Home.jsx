@@ -14,25 +14,12 @@ import zoomPic from '../assets/img/zoom-pic.webp'
 import { teasersInfo } from '../services/home-data.service'
 import { HomeTeaser } from '../cmps/HomeTeaser'
 import trelloIcon from '../assets/img/trello-icon.png'
-import { useSelector } from 'react-redux'
 import { boardService } from '../services/board.service'
 
 
 export function Home() {
+
 	const dispatch = useDispatch()
-	const { users } = useSelector((state) => state.userModule)
-
-
-
-	// useEffect(() => {
-	// 	SetStore()
-	// 	console.log(users);
-	// }, [])
-
-	// const SetStore = async () => {
-	// 	await dispatch(setCurrUser({}))
-	// }
-
 	const onSetGuestMode = async () => {
 		let newScrum = await boardService.getBoardForGuest()
 		const guestUser = {
@@ -82,8 +69,6 @@ export function Home() {
 						Sign up, it's free
 					</Link>
 
-
-
 					<img className="mello-pic" src={melloPic} />
 				</section>
 
@@ -104,9 +89,6 @@ export function Home() {
 				<section className="teasers-container">
 					{teasersInfo.map(teaser => <HomeTeaser teaser={teaser} />)}
 				</section>
-
-
-
 			</main>
 
 			<p className="responsive">

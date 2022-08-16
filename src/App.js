@@ -1,6 +1,5 @@
 // import logo from './logo.svg';
 import { HashRouter as Router, Route, Routes } from 'react-router-dom'
-import './App.css'
 import { BoardDeatails } from './pages/BoardDetails'
 import { BoardList } from './pages/BoardList.jsx'
 import { Home } from './pages/Home'
@@ -9,7 +8,6 @@ import { Signup } from './pages/Signup.jsx'
 import { TaskDetails } from './cmps/TaskDetails'
 
 function App() {
-
 
 	return (
 		<Router>

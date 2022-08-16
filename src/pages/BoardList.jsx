@@ -1,34 +1,20 @@
 import { createRef, useEffect, useState } from 'react'
 import { BoardPreview } from '../cmps/BoardPreview'
-import { userService } from '../services/user.service.js'
-// import { CreateModal } from '../cmps/CreateModal'
 import { TemplatePreview } from '../cmps/TempletePreview'
 import { boardService } from '../services/board.service.js'
 import { MainHeader } from '../cmps/MainHeader.jsx'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUser, setCurrUser } from '../store/actions/user.actions'
-import { setCurrBoard, setCurrBoards } from '../store/actions/board.actions'
+import { getUser } from '../store/actions/user.actions'
 import trelloFullIcon from '../assets/img/trello-black-full.svg'
-import { useLocation, useRoutes } from 'react-router-dom'
 import { CreateBoardHeader } from '../cmps/createModalHeader/CreateBoardHeader'
 
 export const BoardList = () => {
 	const [boards, setBoards] = useState([])
 	const [staredBoards, setStaredBoards] = useState([])
 	const [templates, setTemplates] = useState([])
-	const [createMode, setCreateMode] = useState('')
 	const { currUser } = useSelector((state) => state.userModule)
-	const { currBoard } = useSelector((state) => state.boardModule)
 	const dispatch = useDispatch()
-
 	const refCreate = createRef()
-	const { users } = useSelector((state) => state.userModule)
-
-
-
-
-	const calledFrom = null
-
 
 	useEffect(() => {
 		dispatch(getUser())
@@ -41,31 +27,6 @@ export const BoardList = () => {
 		loadUserBoards()
 		loadUserStarredBoards()
 	}, [currUser])
-
-	// useEffect(() => {
-	// 	
-	// 	loadUserStarredBoards()
-	// }, [staredBoards])
-
-
-	// const getUser = async () => {
-	// 	let user = await userService.getLoggedinUser()
-	// 	console.log('OnEffect', user)
-	// 	dispatch(setCurrUser(user))
-
-	// }
-
-	// const loadGuestBoards = async () => {
-	// 	Promise.all(
-	// 		currUser.boards
-	// 			?.map(async (userBoardId) => {
-	// 				const board = await boardService.getById(userBoardId)
-	// 				return board
-	// 			})
-	// 	)
-	// 		.then((userBoards) => { setBoards(userBoards || []) })
-	// }
-
 
 
 	const loadUserBoards = async () => {
@@ -92,20 +53,19 @@ export const BoardList = () => {
 				currUser.starred?.map(async (boardId) => {
 					let board
 					if (currUser.boards.includes(boardId))
-						// console.log(('includes'));
-						board = await boardService.getById(boardId)
-					// boardService.getTemplateById(boardId)
-					else board = await boardService.getTemplateById(boardId)
+							board = await boardService.getById(boardId)
+						else board = await boardService.getTemplateById(boardId)
 					return board
 				})
 			).then((userBoards) => {
-				if (!isEqual(userBoards, staredBoards)) setStaredBoards(userBoards || [])
-				// dispatch({ type: 'SET_STARRED_BOARDS', starredBoards: userBoards || [] })
+				setStaredBoards(userBoards || [])
 			})
 		} catch (err) {
 			console.log('Cannot load Boards !', err)
 		}
 	}
+
+
 
 
 
@@ -118,25 +78,11 @@ export const BoardList = () => {
 		}
 	}
 
-	const onSetCreateMode = () => {
-		if (!createMode.length) {
-			setCreateMode('create-mode')
-		} else {
-			setCreateMode('')
-		}
-	}
-
 	const getStarredBoards = (board) => {
 		const updatedBoards = boards.map((currBoard) =>
 			currBoard._id === board._id ? board : currBoard
 		)
 		setBoards([...updatedBoards])
-	}
-
-	const setUserBoards = async () => {
-		const user = await userService.getLoggedinUser()
-		await dispatch(setCurrUser(user))
-		loadUserBoards()
 	}
 
 	const toggleModal = (refType) => {
@@ -145,35 +91,6 @@ export const BoardList = () => {
 	}
 
 
-	const getStarredBoardFromUser = async (boardId) => {
-		// try {
-		// 	const board = await boardService.getById(boardId)
-		// 		.then((board) => {
-		// 			return board
-		// 		})
-		// 	return board
-		// } catch (err) {
-		// 	console.log('Cannot load Boards !', err)
-		// }
-
-		console.log(staredBoards);
-	}
-
-
-	useEffect(() => {
-		console.log('user changed in board list');
-	}, [currUser.starred])
-
-
-
-	function isEqual(a, b) {
-		return a.join() === b.join();
-	}
-
-	const starInd = (boardId) => {
-		let ind = currUser.starred.includes(boardId)	
-		return ind
-	}
 
 	if (!Object.keys(currUser).length) return <div className="loader"></div>
 	return (
@@ -190,7 +107,6 @@ export const BoardList = () => {
 								<BoardPreview
 									board={board}
 									key={board._id + idx}
-									isStared = {starInd(board._id)}
 								/>
 							)
 						})}
@@ -205,11 +121,13 @@ export const BoardList = () => {
 						{staredBoards.map(board => {
 							if (currUser.boards.includes(board._id))
 								return <BoardPreview board={board} setStaredBoards={setStaredBoards}
-									loadUserStarredBoards={loadUserStarredBoards} isStared = {starInd(board._id)} />
+									loadUserStarredBoards={loadUserStarredBoards}  />
 							else
 								return <TemplatePreview template={board} />
 						})}
+
 					</section>}
+
 
 					<section className="board-list">
 						<h3 className="templates">

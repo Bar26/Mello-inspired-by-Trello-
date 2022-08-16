@@ -25,22 +25,17 @@ function query(entityType, delay = 200) {
 		}
 	}
 
-	// console.log(entities);
 	return new Promise((resolve, reject) => {
 		setTimeout(() => {
-			// reject('OOOOPs')
-			// _save(entities)
 			resolve(entities)
 		}, delay)
 	})
-	// return Promise.resolve(entities)
 }
 
 function get(entityType, entityId) {
 	return query(entityType).then((entities) =>
 		entities.find((entity) => {
 			if (entity._id === entityId) {
-				// console.log('in get async  ', entity)
 				return entity
 			}
 		})
@@ -48,7 +43,6 @@ function get(entityType, entityId) {
 }
 function post(entityType, newEntity) {
 	newEntity._id = _makeId()
-	// console.log(newEntity)
 	return query(entityType).then((entities) => {
 		entities.push(newEntity)
 		_save(entityType, entities)
@@ -87,12 +81,3 @@ function _makeId(length = 5) {
 	return text
 }
 
-// function postMany(entityType, newEntities) {
-//     return query(entityType)
-//         .then(entities => {
-//             newEntities = newEntities.map(entity => ({...entity, _id: _makeId()}))
-//             entities.push(...newEntities)
-//             _save(entityType, entities)
-//             return entities
-//         })
-// }

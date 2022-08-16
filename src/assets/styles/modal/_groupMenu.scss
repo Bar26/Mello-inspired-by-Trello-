@@ -29,9 +29,6 @@
         padding: 0 12px 12px;
         box-shadow: 0 0px 16px -4px rgb(9 30 66 / 25%), 0 0 0 1px rgb(9 30 66 / 8%);
 
-
-        // top: calc(100% + 4px);
-
         .menu-modal-header {
             @include flex-center;
             height: 41px;
@@ -89,11 +86,6 @@
                 }
             }
 
-            .add-task-from-menu {}
-
-            .copy-list-from-menu {}
-
-            .archive-list-from-menu {}
         }
     }
 }

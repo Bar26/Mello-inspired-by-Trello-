@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { onSaveBoard, setCurrBoard } from '../store/actions/board.actions'
 export const BoardCoverModal = ({ coverMode, onSetCoverMode }) => {

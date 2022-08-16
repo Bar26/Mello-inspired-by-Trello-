@@ -1,4 +1,3 @@
-import { useRef } from "react"
 import { useDispatch } from "react-redux"
 import {  onUpdateCover } from '../store/actions/board.actions'
 

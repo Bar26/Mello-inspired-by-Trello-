@@ -6,13 +6,11 @@ import { onSaveBoard, setCurrBoard } from '../store/actions/board.actions'
 import { BoardHeader } from '../cmps/BoardHeader.jsx'
 import { BoardMenu } from '../cmps/BoardMenu.jsx'
 import { useEffect, useState } from 'react'
-// import { TaskDetails } from '../cmps/TaskDetails'
 import { Screen } from '../cmps/Screen.jsx'
 import { BoardCoverModal } from '../cmps/BoardCoverModal'
 import { boardService } from '../services/board.service'
 import { getUser, setCurrUser } from '../store/actions/user.actions'
 import { socketService, SOCKET_EMIT_UPDATE_BOARD } from '../services/socket.service'
-import { userService } from '../services/user.service'
 
 export const BoardDeatails = () => {
 	const [menuShow, setMenuShow] = useState('')
@@ -23,14 +21,8 @@ export const BoardDeatails = () => {
 	const { currUser } = useSelector((state) => state.userModule)
 
 	useEffect(() => {
-		// if (!Object.keys(currBoard).length) {
-		// 	getCurrBoard()
-		// }
-
 		socketService.on(SOCKET_EMIT_UPDATE_BOARD,(board)=>{
-			// dispatch({ type: 'SAVE_BOARD', board })
 			dispatch(setCurrBoard(boardId))
-
 		})
 		dispatch(setCurrBoard(boardId))
 
@@ -41,19 +33,15 @@ export const BoardDeatails = () => {
 		if (!currUser) {
 			dispatch(setCurrUser(currUser))
 		}
+		console.log(currUser);
 	}, [currUser])
 
 
 	useEffect(() => {
 		dispatch(getUser())
+		console.log(currBoard.members);
+
 	}, [])
-
-	// const getUser = async () => {
-	// 	let user = await userService.getLoggedinUser()
-	// 	console.log('OnEffect', user)
-	// 	dispatch(setCurrUser(user))
-
-	// }
 
 	const toggleBoardMenu = () => {
 		if (!menuShow.length) {
@@ -70,18 +58,6 @@ export const BoardDeatails = () => {
 		}
 	}
 
-	// const onChangeColorStyle = async (newStyle) => {
-	// 	try {
-	// 		const newBoard = { ...currBoard, style: { backgroundColor: newStyle } }
-	// 		await dispatch(onSaveBoard(newBoard))
-	// 		await dispatch(setCurrBoard(newBoard._id))
-	// 		return newBoard
-	// 		// await dispatch(setCurrBoard(newBoard))
-	// 	} catch {
-	// 		console.err();
-	// 	}
-	// }
-
 	const onUploadImg = async (imgArr) => {
 		let newBoard = await boardService.uploadImgToBoard(currBoard, imgArr)
 		await dispatch(onSaveBoard(newBoard))
@@ -92,14 +68,12 @@ export const BoardDeatails = () => {
 			const newBoard = { ...currBoard, style: { backgroundImage: `(${newStyle})` } }
 			await dispatch(onSaveBoard(newBoard))
 			await dispatch(setCurrBoard(newBoard._id))
-			// await dispatch(setCurrBoard(newBoard))
 		} catch {
 			console.err();
 		}
 	}
 
 
-	// console.log(currBoard.style.backgroundImage);
 	if (!Object.keys(currBoard || {}).length) return <div className="loader"></div>
 
 	return (
@@ -115,7 +89,6 @@ export const BoardDeatails = () => {
 					  }: { backgroundColor: currBoard.style.backgroundColor }
 			}
 		>
-			{/* {console.log((currBoard.style.backgroundImage) ? { background: currBoard.style.backgroundImage } : { background: currBoard.style.backgroundColor })} */}
 			<div className="main-header-container">
 			<MainHeader />
 			</div>
@@ -134,7 +107,6 @@ export const BoardDeatails = () => {
 				<Outlet />
 				<Screen />
 			</section>
-			{/* <BoardGroup/> */}
 		</section>
 	)
 }

@@ -1,47 +1,34 @@
 import { TaskPreview } from './TaskPreview'
 import React from 'react'
 import { boardService } from '../services/board.service'
-import { useCallback, useEffect, useState, useRef, useMemo } from 'react'
-import { setCurrBoard, onSaveBoard, onRemoveTask, addTask } from '../store/actions/board.actions'
+import { useRef } from 'react'
+import { onSaveBoard, addTask } from '../store/actions/board.actions'
 import { useDispatch } from 'react-redux'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import { utilService } from '../services/util.service'
-import { useEffectUpdate } from './useEffectUpdate'
+import {  Droppable, Draggable } from 'react-beautiful-dnd'
 import { useSelector } from 'react-redux'
 
 export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
-    // console.log(group)
     const dispatch = useDispatch()
     const formRef = React.createRef()
-    let onMount = useRef(true)
-    const [newTaskTitle, setNewTaskTitle] = useState('')
     const inputRef = useRef()
     const addTaskBtnRef = useRef()
     const { currBoard } = useSelector((state) => state.boardModule)
     const groupMenuRef = useRef()
 	const { currUser } = useSelector((state) => state.userModule)
 
-
-
-
     const onAddTask = async (value) => {
-
         const taskTitle = value
         await dispatch(addTask(taskTitle, group, currBoard))
-        // dispatch(onSaveBoard(updatedBoard))
-        // await dispatch(setCurrBoard(updatedBoard._id))
     }
 
     const onCopyGroup = async () => {
         try {
-            // ev.stopPropagation()
             const updatedBoard = await boardService.copyGroup(group, currBoard, currUser)
             await dispatch(onSaveBoard(updatedBoard))
         } catch (err) {
             console.log('Cant copy group', err)
         }
     }
-
 
     const onSubmit = (ev) => {
         ev.preventDefault()
@@ -51,7 +38,6 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
         ev.target[0].value = ''
 
     }
-
 
     const toggleForm = () => {
         formRef.current.classList.toggle('close')
@@ -65,27 +51,12 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
         groupMenuRef.current.classList.toggle('hide')
     }
 
-    // const onMyDrop = (res, groupIdDest, groupIdSource) => {
-    //     const groupDest = board.groups.find(_group => _group.id === groupIdDest)
-    //     const groupSource = board.groups.find(_group => _group.id === groupIdSource)
-    //     const taskToMove = groupSource.tasks.splice(res.source.index, 1)
-    //     const groupIdxDest = board.groups.findIndex(_group => _group.id === groupIdDest)
-    //     const groupIdxSour = board.groups.findIndex(_group => _group.id === groupIdSource)
-    //     groupDest.tasks.splice(res.destination.index, 0, taskToMove[0])
-    //     let newBoard = { ...board }
-    //     newBoard.groups.splice(groupIdxDest, 1, groupDest)
-    //     newBoard.groups.splice(groupIdxSour, 1, groupSource)
-    //     boardService.update(newBoard)
-    // }
-
     const onChangeGroupTitle = async (ev) => {
         const { value } = ev.target
         const updatedBoard = await boardService.changeGroupTitle(currBoard, group, value)
         await dispatch(onSaveBoard(updatedBoard))
     }
 
-    /////
-    //TODO: ADD STYLE
     return <article className='group'>
         <input className="group-title" defaultValue={group.title} type="text" onChange={onChangeGroupTitle} onBlur={onChangeGroupTitle} />
         <Droppable droppableId={group.id} direction='vertical'>
@@ -127,7 +98,6 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
                 </header>
                 <hr />
                 <div className='menu-btn'>
-                    {/* <button className='add-task-from-menu' >Add card...</button> */}
                     <button className='copy-list-from-menu' onClick={onCopyGroup}>Copy list...</button>
                     <button className='archive-list-from-menu' onClick={(ev) => onRemoveGroup(ev, group)}>Archive list...</button>
                 </div>
@@ -135,7 +105,6 @@ export const GroupPreview = ({ dragFunc, group, board, onRemoveGroup }) => {
 
 
         </div>
-
 
     </article >
 } 

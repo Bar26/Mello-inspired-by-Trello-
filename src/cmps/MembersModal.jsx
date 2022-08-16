@@ -1,30 +1,21 @@
-import { setCurrBoard, onSaveBoard } from '../store/actions/board.actions'
+import { onSaveBoard } from '../store/actions/board.actions'
 import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect, useRef, useState } from 'react'
 import { boardService } from '../services/board.service'
-import { loadUsers, updateUser } from '../store/actions/user.actions.js'
+import { updateUser } from '../store/actions/user.actions.js'
 import { userService } from '../services/user.service'
-
-
-
-
 
 
 export function AddMemberModal({ onToggleMemberModal, task = null, group = null }) {
 
     const { currBoard } = useSelector((state) => state.boardModule)
     const { users } = useSelector((state) => state.userModule)
-    // const [stateUsers, setStateUser] = useState(users)
     const [filterMember, setFilterMember] = useState('')
     const [membersToShow, setMemberToShow] = useState([])
     const memberContainerRef = useRef()
-
-
-
     const dispatch = useDispatch()
 
     useEffect(() => {
-        // console.log(group)
         let val = task ? currBoard.members : users
         setMemberToShow(val)
         if (!task) memberContainerRef.current.style = "left:105%"
@@ -47,9 +38,9 @@ export function AddMemberModal({ onToggleMemberModal, task = null, group = null 
     }
 
     const onToggleMemberToTask = async (memberId) => {
+        
         try {
             const updatedBoard = await boardService.toggleMemberToTask(currBoard, group, task?.id, memberId)
-            console.log(group);
             await dispatch(onSaveBoard(updatedBoard))
         } catch (err) {
             console.log('connot add member to task', err)
@@ -73,10 +64,7 @@ export function AddMemberModal({ onToggleMemberModal, task = null, group = null 
 
 
     return (
-        // <div
-        //     ref={addMemberModalRef}
-        //     className="add-member-modal hide"
-        // >
+   
         <section className="member-modal-container" ref={memberContainerRef} >
             <header className="add-member-modal-header">
                 <span className="add-member-modal-title">Members</span>
@@ -98,7 +86,6 @@ export function AddMemberModal({ onToggleMemberModal, task = null, group = null 
                 <span className="members-title">Board members</span>
                 <div className="members-list">
                     {membersToShow.map(member => {
-                        // const src = member.imgUrl
                         const username = member.username
                         const fullname = member.fullname
                         const bg = member.imgUrl ? `url(${member.imgUrl}) center center / cover` : '#de350b'
@@ -113,9 +100,6 @@ export function AddMemberModal({ onToggleMemberModal, task = null, group = null 
                                         className="member-in-modal"
                                         style={{
                                             background: bg,
-                                            // backgroundRepeat: 'no-repeat',
-                                            // backgroundSize: 'cover',
-                                            // backgroundPosition: 'center',
                                             height: '32px',
                                             width: '32px'
                                         }}
@@ -144,7 +128,6 @@ export function AddMemberModal({ onToggleMemberModal, task = null, group = null 
                     })}
                 </div>
             </div>
-            {/* // </div> */}
         </section>
     )
 }

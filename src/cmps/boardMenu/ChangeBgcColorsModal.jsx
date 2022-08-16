@@ -1,15 +1,13 @@
 import { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { boardService } from "../../services/board.service"
-import { onSaveBoard, setCurrBoard, onChangeColorStyle } from '../../store/actions/board.actions'
-import { useHistory, useNavigate } from "react-router-dom";
+import { onSaveBoard, setCurrBoard } from '../../store/actions/board.actions'
 
 
 export const ChangeBgcColorsModal = ({ setLastType, setLastTitle, menuShow, onToggleBoardMenu, setSelectedType, setTitle }) => {
     const { currBoard } = useSelector((state) => state.boardModule)
     const { currUser } = useSelector((state) => state.userModule)
     const dispatch = useDispatch()
-    const navigate = useNavigate()
     const palette = [
         '#0079BF',
         '#377D71',
@@ -39,9 +37,7 @@ export const ChangeBgcColorsModal = ({ setLastType, setLastTitle, menuShow, onTo
     }
 
     const onChangeColorStyle = async (newStyle) => {
-        console.log(newStyle)
         try {
-            // const newBoard = { ...currBoard, style: { backgroundColor: newStyle } }
             const styleToSend = { backgroundColor: newStyle }
             const newBoard = boardService.changeBoardBGStyle(styleToSend, currBoard, currUser)
             await dispatch(onSaveBoard(newBoard))
