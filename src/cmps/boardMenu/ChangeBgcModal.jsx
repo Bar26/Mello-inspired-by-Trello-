@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-// import colorsSrc from '../../assets/img/colors.jpg'
-// import collabSrc from '../../assets/img/imgcollobration.jpg'
 import plusSrc from '../../assets/img/plus.png'
-import { boardService } from "../../services/board.service"
 import { uploadService } from "../../services/upload.service"
-import { onSaveBoard, setCurrBoard } from "../../store/actions/board.actions"
 
 
 const COLORS = 'https://res.cloudinary.com/noambar/image/upload/v1659655428/Trello/colors_ww1its.jpg'
@@ -33,14 +29,12 @@ export const ChangeBgcModal = ({ setLastType, setLastTitle, onChangeBGImgStyle, 
         const boardUploaded = imgState
         const imgArr = [...boardUploaded, newImg.url]
         await onUploadImg(imgArr)
-        // console.log(currBoard);
         setImgState(imgArr)
     }
 
     const setUploadedBGImg = async (img) => {
         onChangeBGImgStyle(img)
     }
-    ////need to check for uploded img
     return (
         <section className="change-bgc-modal-container">
             <section className="implented">

@@ -1,15 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { DebounceInput } from 'react-debounce-input'
 import { boardService } from '../services/board.service.js'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import { setCurrBoard, onSaveBoard } from '../store/actions/board.actions'
+import { setCurrBoard} from '../store/actions/board.actions'
 import { useEffectUpdate } from './useEffectUpdate.js'
-import { socketService } from '../services/socket.service.js'
 import { loadUsers } from '../store/actions/user.actions.js'
 import { AddMemberModal } from './MembersModal.jsx'
 import { useRef } from 'react'
-import { utilService } from '../services/util.service.js'
 
 export const BoardHeader = ({ menuShow, toggleBoardMenu, onSetCoverMode }) => {
 	const { currBoard } = useSelector((state) => state.boardModule)
@@ -17,10 +14,7 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu, onSetCoverMode }) => {
 	const [star, setStar] = useState('')
 	const { currUser } = useSelector((state) => state.userModule)
 	const bg = currUser.imgUrl ? `url(${currUser.imgUrl}) center center / cover` : '#de350b'
-	const { users } = useSelector((state) => state.userModule)
-
 	const addMemberModalRef = useRef()
-
 	const dispatch = useDispatch()
 
 	useEffect(() => {
@@ -50,15 +44,8 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu, onSetCoverMode }) => {
 		boardService.setStarred(currBoard)
 	}
 
-	const getAvatarBackground = (member) => {
-		return { background: `url(${member.imgUrl}) center center / cover` }
-	}
-
 	const onToggleBoardMenu = () => {
 		toggleBoardMenu()
-	}
-	const onToggleCoverMode = () => {
-		onSetCoverMode()
 	}
 
 	const onToggleMemberModal = () => {
@@ -82,22 +69,6 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu, onSetCoverMode }) => {
 			console.log('CMP ERROR')
 		}
 	}
-
-
-
-	// const onToggleMemberToBoard = async (memberId) =>{
-	//     try {
-	//         const updatedBoard = await boardService.toggleMemberToBoard(currBoard, memberId)
-	//         await dispatch(onSaveBoard(updatedBoard))
-	//     } catch (err) {
-	//         console.log('connot add member to task', err)
-	//     }
-	// }
-
-
-
-
-
 
 	return (
 		<header className={`board-header ${menuShow}`}>
@@ -138,7 +109,6 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu, onSetCoverMode }) => {
 			
 			</div>
 			<div className="board-menu">
-				{/* <button className="board-menu-btn" onClick={onToggleCoverMode}>Cover</button> */}
 				<button className="board-menu-btn" onClick={onToggleBoardMenu}>
 					<svg
 						stroke="currentColor"

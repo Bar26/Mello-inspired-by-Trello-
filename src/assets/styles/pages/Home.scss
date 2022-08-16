@@ -10,42 +10,23 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-
-
         width: 1172px;
-
-        // width: 1140px;
         padding-inline: 16px;
-        // @include flex-center;
-        // flex-direction: column;
         align-self: center;
-        // width: 100%;
         padding-top: 120px;
 
         .main-article {
             gap: 6.875rem;
-
-            //for now
-            // height: 450px;
-
             margin-bottom: 64px;
             @include flex-center;
-
             width: 100%;
 
             .hero1 {
-                // width: 445px;
-
-                // height: 100%;
-
-                //for now
-                // height: 450px;
                 width: 347.67px;
                 aspect-ratio: 347.67 / 450;
             }
 
             .content {
-                // width: 41rem;
                 flex:1;
 
                 .title {
@@ -200,7 +181,6 @@
         flex-direction: column;
         color: white;
         box-sizing: content-box;
-        // padding: 200px;
         padding: 40px;
         gap: 10px;
 

@@ -18,7 +18,6 @@
 		.workspace-board-list {
 			align-self: center;
 			height: 100%;
-			// margin-top: 30px;
 			width: 100%;
 			display: flex;
 			text-align: left;
@@ -149,12 +148,6 @@
 
 
 
-
-
-
-
-
-
 @include for-laptop-layout {
 	.board-list-container {
 	
@@ -170,23 +163,6 @@
 		}
 	}
 }
-
-
-// @include for-laptop-layout {
-// 	.board-list-container {
-	
-// 		.container {
-// 			padding-left: 35px;
-// 			padding-right: 35px;
-	
-// 			.board-list {
-// 				grid-template-columns: repeat(auto-fit, 190px);
-// 				gap: 10px;
-// 				width: 100%;
-// 			}
-// 		}
-// 	}
-// }
 
 
 @include for-tablet-layout {

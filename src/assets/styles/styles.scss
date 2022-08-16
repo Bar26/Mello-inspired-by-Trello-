@@ -3,41 +3,40 @@
 @import './setup/variables';
 @import './setup/mixins';
 @import './setup/functions';
+
 @import './basic/screen';
-
-
 @import './basic/helpers';
 @import './basic/basic';
 
 @import './pages/Home.scss';
+@import './pages/boardDetails';
+@import './pages/boardDetails';
 @import './cmps/home-teaser';
+
 @import './cmps/app-header';
 @import './cmps/main-header';
 @import './cmps/loader';
-
-@import './pages/boardDetails';
-@import './cmps/board-preview';
 @import './cmps/sign-up';
+
+@import './cmps/board-list';
+@import './cmps/board-preview';
 @import './cmps/board-menu';
 @import './cmps/board-header';
-@import './cmps/create-preview';
-@import './cmps/create-modal';
-@import './cmps/board-list';
-@import './modal/groupMenu';
+@import './cmps/activity';
+@import './cmps/create.modal.header/create-board-header';
+@import './cmps/create.modal.header/create-template-header';
 
 @import './cmps/group-list';
 @import './cmps/group-preview';
 
 @import './cmps/task-preview';
 @import './cmps/task-details';
+
+@import './cmps/create-modal';
 @import './cmps/member-modal';
 @import './cmps/cover-task-modal';
-@import './cmps/activity';
-
-@import './cmps/create-preview';
 @import './cmps/create-modal';
 @import './cmps/cover-modal';
-@import './pages/boardDetails';
 @import './modal/addLabelModal';
 @import './modal/createLabel';
 @import './modal/dateModal';
@@ -46,8 +45,7 @@
 @import './cmps/board.menu/change-bgc-colors-modal';
 @import './cmps/board.menu/main-board-menu';
 @import './cmps/board.menu/change-bgc-pic';
+@import './modal/groupMenu';
 
-@import './cmps/create.modal.header/create-board-header';
-@import './cmps/create.modal.header/create-template-header';
 
 

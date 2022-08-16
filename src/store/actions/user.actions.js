@@ -4,7 +4,6 @@ export function loadUsers() {
 	return async (dispatch) => {
 		try {
 			const users = await userService.getUsers()
-			console.log(users);
 			dispatch({ type: 'SET_USERS', users })
 			return users
 		} catch (err) {
@@ -85,10 +84,6 @@ export function setCurrUser(user) {
 	}
 }
 
-// export function getUser(user) {
-// 	setCurrUser(user)
-// }
-
 export function getUser() {
 	return async (dispatch) => {
 		try {
@@ -108,31 +103,11 @@ export function updateUser(user) {
 	return async (dispatch) => {
 		try {
 			let updatedUser = await userService.update(user)
-			console.log(updatedUser, 'from updateuser in user actions');
 			dispatch({ type: 'SAVE_USER', user: updatedUser })
-			dispatch({ type: 'SET_USER', user: updatedUser })
-
 		} catch (err) {
 			console.log('cannot save user', err);
 		}
 	}
 }
 
-// export function loadAndWatchUser(userId) {
-// 	return async (dispatch) => {
-// 		try {
-// 			const user = await userService.getById(userId)
-// 			dispatch({ type: 'SET_WATCHED_USER', user })
-// 			// TODO: refactor to service
-// 			socketService.emit(SOCKET_EMIT_USER_WATCH, userId)
-// 			socketService.off(SOCKET_EVENT_USER_UPDATED)
-// 			socketService.on(SOCKET_EVENT_USER_UPDATED, (user) => {
 
-// 				dispatch({ type: 'SET_WATCHED_USER', user })
-// 			})
-// 		} catch (err) {
-
-// 			console.log('Cannot load user', err)
-// 		}
-// 	}
-// }

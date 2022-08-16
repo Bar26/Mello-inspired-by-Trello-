@@ -6,8 +6,8 @@ import { AppHeader } from '../cmps/AppHeader'
 import { userService } from '../services/user.service.js'
 import { loadUsers, onSignup } from '../store/actions/user.actions'
 import { uploadService } from '../services/upload.service'
-export function Signup() {
 
+export function Signup() {
 
 	const [imgUrl, setImgUrl] = useState('')
 	const [credentials, setCredentials] = useState({
@@ -16,31 +16,8 @@ export function Signup() {
 		fullname: '',
 		imgUrl: imgUrl
 	})
-	// const [users, setUsers] = useState([])
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
-
-	// useEffect(() => {
-	// 	loadUsers()
-	// }, [])
-
-
-	const onUploadImg = async (imgArr) => {
-		// await dispatch(onSaveBoard(newBoard))
-		// await dispatch(setCurrBoard(newBoard._id))
-	}
-
-
-	const onSelect = async (ev) => {
-		let newImg = await uploadService.uploadImg(ev)
-		console.log(newImg);
-		// const boardUploaded = imgState
-		// const imgArr = [...boardUploaded, newImg.url]
-		// await onUploadImg(imgArr)
-		// console.log(currBoard);
-		// setImgState(imgArr)
-	}
-
 
 	const handleChange = async (ev) => {
 		let value
@@ -48,7 +25,6 @@ export function Signup() {
 		if (ev.target.type === 'file') {
 			field = 'imgUrl'
 			let tempVal = await uploadService.uploadImg(ev)
-			// value = await uploadService.uploadImg(ev)
 			value = tempVal.url
 		}
 		else {
@@ -109,9 +85,7 @@ export function Signup() {
 					type="file"
 					name="imgUrl"
 					value={credentials.img}
-					// placeholder=""
 					onChange={handleChange}
-				// required
 				/>
 
 				<button className="sign-up-btn" onClick={onSignupNewUser}>

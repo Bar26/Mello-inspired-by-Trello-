@@ -1,35 +1,25 @@
 import { GroupPreview } from './GroupPreview'
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import { boardService } from '../services/board.service'
 import { Droppable } from 'react-beautiful-dnd'
 import { DragDropContext } from 'react-beautiful-dnd'
 import { Draggable } from 'react-beautiful-dnd'
-import { setCurrBoard, onSaveBoard } from '../store/actions/board.actions'
+import {  onSaveBoard } from '../store/actions/board.actions'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
 
 export function GroupList({onChangeColorStyle}) {
     const dispatch = useDispatch()
     const { currBoard } = useSelector((state) => state.boardModule)
     const { currUser } = useSelector((state) => state.userModule)
-    const { boardId } = useParams()
-    // const [board, setBoard] = useState({...currBoard})
     const listFormRef = React.createRef()
     const inputListRef = useRef()
     const addListRef = useRef()
     const [isGruopDraggable, setIsGruopDraggable] = useState(false)
 
-    // useEffect(() => {
-    //     // boardService.getById(currBoard._id).then(setBoard)
-    // }, [])
-
-
     const onAddList = async (value) => {
         try {
             const updatedBoard = await boardService.createList(currBoard, value, currUser)
             await dispatch(onSaveBoard(updatedBoard))
-            // await dispatch(setCurrBoard(updatedBoard._id))
-            // setBoard(updatedBoard)
         } catch (err) {
             console.error('cannot add list', err)
         }
@@ -39,7 +29,6 @@ export function GroupList({onChangeColorStyle}) {
     const onListSubmit = (ev) => {
         ev.preventDefault()
         const { value } = ev.target[0]
-        // setNewListTitle(value)
         onAddList(value)
         toggleListForm()
         ev.target[0].value = ''
@@ -61,7 +50,6 @@ export function GroupList({onChangeColorStyle}) {
     const onRemoveGroup = async (ev, group) => {
         const updatedBoard = await boardService.removeGroup(currBoard, group,currUser)
         await dispatch(onSaveBoard(updatedBoard))
-        // await dispatch(setCurrBoard(updatedBoard._id))
     }
 
     

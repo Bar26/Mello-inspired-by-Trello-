@@ -6,15 +6,10 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { onCopyTask, onRemoveTask } from '../store/actions/board.actions'
 import { AddMemberModal } from './MembersModal.jsx'
 import { CoverTaskModal } from './CoverTaskModal'
-
-import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import { DateModal } from './DateModal'
-
-
-import { setCurrBoard, setIsTaskDetailsScreenOpen, onSaveBoard } from '../store/actions/board.actions'
+import { onSaveBoard } from '../store/actions/board.actions'
 import ProgressBar from './proggresBar/ProggresBar'
-import { utilService } from '../services/util.service'
 
 export function TaskDetails() {
     const { currBoard } = useSelector((state) => state.boardModule)
@@ -27,17 +22,13 @@ export function TaskDetails() {
     const sideActionsIcon = useRef()
     const sideActionsRef = useRef()
     const sideActionsGoBack = useRef()
-
-
     const penRef = useRef()
     const editLabelModalRef = useRef()
     const addChecklistItem = useRef()
     const coverModalRef = useRef()
-
     const descInputRef = useRef()
     const descInputContainerRef = useRef()
     const descPrevRef = useRef()
-
 
     const addLabelModalRef = useRef()
     const attachmentModalRef = useRef()
@@ -48,14 +39,10 @@ export function TaskDetails() {
 
     const [filterLabel, setFilterLabel] = useState('')
     const closeDetailsRef = useRef()
-
     const addMemberModalRef = useRef()
-    const [startDate, setStartDate] = useState(new Date());
 
     const dateModalRef = useRef()
     let dateStyle2 = task.dates?.completed ? { backgroundColor: "rgb(97, 189, 79)", color: 'white', borderRadius: '3px', width: '170px' } : { backgroundColor: "" }
-
-
 
     const palette = [
         '#61bd4f',
@@ -71,13 +58,9 @@ export function TaskDetails() {
     ]
 
 
-
     useEffect(() => {
         getGroupTask()
     }, [currBoard])
-
-
-
 
 
     const getGroupTask = async () => {
@@ -127,13 +110,11 @@ export function TaskDetails() {
         let newBoard = await boardService.createChecklist(currBoard, group, task)
         await boardService.update(newBoard)
         await dispatch(onSaveBoard(newBoard))
-        // sideActionsRef.current.classList.toggle('side-open')
         toggleSideActions()
 
     }
 
     const onAttachment = async () => {
-        // if(task.attachment) return
         let newBoard = await boardService.addAttachment(currBoard, group, task)
         if (newBoard) {
             await boardService.update(newBoard)
@@ -167,7 +148,6 @@ export function TaskDetails() {
     const onToggleLabelModal = () => {
         addLabelModalRef.current.classList.toggle('hide')
         addLabelModalRef.current.focus()
-        // dispatch(setIsTaskDetailsScreenOpen(true))
     }
 
     const onToggleEditLabelModal = (ev) => {
@@ -180,21 +160,11 @@ export function TaskDetails() {
         try {
             const updatedBoard = await boardService.toggleLabelToTask(currBoard, group, taskId, labelId)
             await dispatch(onSaveBoard(updatedBoard))
-            // await dispatch(setCurrBoard(updatedBoard._id))
         } catch (err) {
             console.log('connot add label to task', err)
         }
 
     }
-    // const onToggleMemberToTask = async (memberId) => {
-    //     try {
-    //         const updatedBoard = await boardService.toggleMemberToTask(currBoard, group, taskId, memberId)
-    //         await dispatch(onSaveBoard(updatedBoard))
-    //     } catch (err) {
-    //         console.log('connot add member to task', err)
-    //     }
-
-    // }
 
 
     const onSearchLabel = ({ target }) => {
@@ -202,19 +172,16 @@ export function TaskDetails() {
         setFilterLabel(value)
     }
 
-
     const onSaveNewLabel = async () => {
         try {
-            const updatedBoard = boardService.createLabel(currBoard, group, task, newLabelColor, newLabelTitle)
+            const updatedBoard = await boardService.createLabel(currBoard, group, task, newLabelColor, newLabelTitle)
             await dispatch(onSaveBoard(updatedBoard))
-            // await dispatch(setCurrBoard(updatedBoard._id))
             onToggleCreateLabelModal()
         } catch (err) {
             console.log('connot add label to task', err)
         }
     }
     const onAddItem = async (ev) => {
-        // console.log(ev.target[0].value);
         const newTodo = ev.target[0].value
         const newBoard = await boardService.addTodo(currBoard, group, task, newTodo)
         ev.target[0].value = ''
@@ -225,7 +192,6 @@ export function TaskDetails() {
         const attachmentImg = ev.target[0].value;
         const newBoard = await boardService.addAttachment(currBoard, group, task, attachmentImg)
         await dispatch(onSaveBoard(newBoard))
-        // await dispatch(setCurrBoard(newBoard._id))
     }
 
     const onCheckBoxClick = async (ev, todo) => {
@@ -247,14 +213,10 @@ export function TaskDetails() {
     };
     const toggleDateModal = () => {
         dateModalRef.current.classList.toggle('hide2')
-        // checklistModalRef.current.value = ''
-        // addListRef.current.classList.toggle('close')
     };
 
     const toggleattAchmentModal = () => {
         attachmentModalRef.current.classList.toggle('hide2')
-        // checklistModalRef.current.value = ''
-        // addListRef.current.classList.toggle('close')
     }
 
     const onChangeAttachmentTitle = async (ev) => {
@@ -263,10 +225,6 @@ export function TaskDetails() {
         await dispatch(onSaveBoard(updatedBoard))
     }
 
-    // const onDeleteChecklist = async () => {
-    //     const newBoard = await boardService.deleteChecklist(currBoard, group, task)
-    //     await dispatch(onSaveBoard(newBoard))
-    // }
 
     const onMakeAttachmentCoverTask = async () => {
         const newBoard = await boardService.makeAttachmentCoverTask(currBoard, group, task)
@@ -287,10 +245,7 @@ export function TaskDetails() {
     }
 
 
-
     const onCheckBoxDueDate = async (ev) => {
-
-        console.log(ev.target.checked);
         const newBoard = await boardService.checkBoxDueDate(currBoard, group, task, ev.target.checked)
         await dispatch(onSaveBoard(newBoard))
     }
@@ -298,7 +253,6 @@ export function TaskDetails() {
     const toggleSideActions = () => {
         console.log('on toggle side');
         sideActionsRef.current.classList.toggle('side-open')
-
         sideActionsIcon.current.classList.toggle('none')
         sideActionsGoBack.current.classList.toggle('none')
     }
@@ -327,7 +281,6 @@ export function TaskDetails() {
 
             <div className="main-aside-container">
                 <main className="task-details-conatiner" >
-                    {/* <div className="forListener" ref={forListenerUpRef}> */}
                     <section className="task-details-title-container">
                         <span className="task-icon"><i className="fa-solid fa-window-maximize fa-lg"></i></span>
                         <section className="title-in-group">
@@ -348,7 +301,6 @@ export function TaskDetails() {
                             <span className="date-title">Due Date</span>
                             <div style={dateStyle2}>
                                 <input type='checkbox' checked={task.dates.completed} onChange={(ev) => onCheckBoxDueDate(ev)} />
-                                {/* {style = task.dates.completed ? { backgroundColor: 'green' } : { backgroundColor: 'transperent' }} */}
                                 <span >{task.dates.dueDate}   </span>
                                 {task.dates.completed && <span>Completed</span>}
                             </div>
@@ -379,7 +331,7 @@ export function TaskDetails() {
                                     <section className="add-label-container">
                                         <div
                                             onClick={onToggleLabelModal}
-                                            className="task-details-add-label"           /////////?????????????
+                                            className="task-details-add-label"         
                                         >
                                             <span className="plus"><i className="fa-solid fa-plus"></i></span>
                                         </div>
@@ -387,12 +339,10 @@ export function TaskDetails() {
                                     </section>
                                 </div></div>
                         </>}
-                        {/* <section className="add-label-container"> */}
                         <div
                             ref={addLabelModalRef}
                             className="add-label-modal hide"
                         >
-                            {/* onBlur={onToggleLabelModal} */}
                             <header className="add-label-modal-header">
                                 <span className="add-label-modal-title">Labels</span>
                                 <button
@@ -464,7 +414,6 @@ export function TaskDetails() {
 
                             </div>
                         </div>
-                        {/* </section> */}
 
 
 
@@ -495,7 +444,7 @@ export function TaskDetails() {
                                     <section className="add-member-container">
                                         <div
                                             onClick={onToggleMemberModal}
-                                            className="task-details-add-member"           /////////?????????????
+                                            className="task-details-add-member"           
                                         >
                                             <span className="plus"><i className="fa-solid fa-plus"></i></span>
                                         </div>
@@ -507,13 +456,11 @@ export function TaskDetails() {
 
 
                     </section>
-                    {/* </div> */}
                     <section className="description">
                         <div className="description-content">
                             <header className="description-header">
                                 <span className="desc-icon"><i className="fa-solid fa-align-left fa-lg"></i></span>
                                 <div className="desc-title">Description</div>
-                                {/* <button className="edit-desc">Edit</button> */}
                             </header>
 
                             <div
@@ -561,18 +508,15 @@ export function TaskDetails() {
                         </div>
                     </section>
 
-                    {/* Add Tnai */}
                     {task.attachment && task.attachment.title !== '' && <section className='attachment-container' ref={attachmentModalRef}>
                         <header className='attachment-header' >
                             <span className="attachment-icon"><i className="fa-solid fa-paperclip fa-lg"></i></span>
                             <div className='attachment-title-button flex'>
                                 <span className="attachment-title">Attachments</span>
-                                {/* <button className='attachment-title-delete' onClick={console.log('Make Delete')}>Delete</button> */}
                             </div>
                         </header>
                         {task.attachment.imgUrl === '' && <div>
                             <div className='add-item-attachment' >
-                                {/* add className name hide */}
                                 <div className='add-item-attachment-modal'>
                                     <form id='add-item-attachment' onSubmit={(event) => onAddAttachment(event)}>
                                         <input type='text' className='add-item-attachment-input' placeholder='Add an URL' />
@@ -600,14 +544,12 @@ export function TaskDetails() {
                                     <span onClick={() => { onDeleteElement('attachment'); onDeleteElement('style'); onAttachment() }} >Edit</span>
                                     <span onClick={() => { onDeleteElement('attachment'); onDeleteElement('style'); }}>Delete</span>
                                 </span>
-                                {/* <span onClick={onRemoveAttachment}>Remove Attachment</span> */}
                             </div>
                         </section>}
                     </section>}
 
 
 
-                    {/* checklist title to input */}
                     {task.checklist && task.checklist.todos && <section className='checklist-container' ref={checklistModalRef}>
                         <header className='checklist-header'>
                             <span className="checklist-icon"><i className="fa-regular fa-square-check fa-lg"></i></span>
@@ -620,7 +562,6 @@ export function TaskDetails() {
                             <span className='checklist-prog'>{boardService.calculateProg(task)}%</span>
                             <ProgressBar completed={boardService.calculateProg(task)}></ProgressBar>
                         </div>
-                        {/* task.checkList.length>0&& */}
 
                         <section className='checklist-todos-list-container '>
                             <ul style={{ padding: 0 }}>
@@ -636,7 +577,6 @@ export function TaskDetails() {
                             </ul>
                             <button className='prev-btn-add-item' onClick={() => onToggleRef(addChecklistItem)}>Add an item</button>
                             <div className='add-item-checklist hide2' ref={addChecklistItem} >
-                                {/* add className name hide */}
                                 <div className='add-item-checklist-modal'>
                                     <form id='add-item' onSubmit={(event) => onAddItem(event)}>
                                         <input type='text' className='add-item-checklist-input' placeholder='Add an item' />
@@ -656,34 +596,10 @@ export function TaskDetails() {
                             </div>
                         </section>
 
-                        {/* <h1>{this.titleCheck()}</h1>
-            <ul key={`todo ${id}`}>
-                <div className='li-to-scroll'>
-                {todos.map((todo, idx) => {
-                    return <li className='todo-li flex' key={`line-${idx}`}>
-                        <span className='todo-txt' onClick={() => this.clickTodo(todo, id)} style={{ textDecoration: todo.doneAt ? "line-through" : "none" }} >
-                            {todo.txt}
-                        </span>
-                        <label className='todo-delete' title='Delete Line'>
-                            <i className="fa-solid fa-circle-minus"></i>
-                            <button onClick={(event) => this.onDeleteTodo(todo, id, event)} value={idx}  ></button>
-                        </label>
-                    </li>
-                })}
-                </div>
-                <li className='todo-li flex'>
-                    <form onSubmit={() => this.onAddToDo(id)}>
-                        <input type='text' placeholder='Add Todo...'/>
-                    </form>
-                </li>
-            </ul> */}
-
-
+                      
                     </section>}
 
-                    {/* <section className="custom-fields">
-            </section> */}
-
+                 
                     <section className="activity-container-details">
                         <header className="activity-header">
                             <div className="title-icon-container">
@@ -728,7 +644,6 @@ export function TaskDetails() {
 
                                     currBoard={currBoard}
                                     group={group}
-                                    // onToggleMemberToTask={onToggleMemberToTask}
                                     task={task} />
                             </div>
 
@@ -780,39 +695,18 @@ export function TaskDetails() {
                             </span>
                             <span>Location</span>
                         </div>
-                        {/* <div className="">
-                            <span className="">
-                                <i className="fa-regular fa-pen-field"></i>
-                            </span>
-                            <span>Custom fields</span>
-                        </div> */}
+                        
                     </section>
                     <section className="task-details-actions">
                         <span className="actions-title">Actions</span>
-                        {/* <div className="">
-                            <span className="i">
-                                <i className="fa-solid fa-arrow-right"></i>
-                            </span>
-                            <span>Move</span>
-                        </div> */}
+                       
                         <div className="task-actions-copy" onClick={(ev) => dispatch(onCopyTask(ev, task, group, currBoard))}>
                             <span className="i">
                                 <i className="fa-regular fa-copy"></i>
                             </span>
                             <span>Copy</span>
                         </div>
-                        {/* <div className="">
-                            <span className="">
-                                <i className="fa-solid fa-photo-film"></i>
-                            </span>
-                            <span>Make template</span>
-                        </div> */}
-                        {/* <div className="">
-                            <span className="">
-                                <i className="fa-regular fa-eye"></i>
-                            </span>
-                            <span>Watch</span>
-                        </div> */}
+                        
                         <div className="task-actions-remove" onClick={(ev) => {
                             dispatch(onRemoveTask(ev, task, group, currBoard))
                             navigate(`/boards/${currBoard._id}`)
@@ -836,7 +730,6 @@ export function TaskDetails() {
 
             <div ref={createLabelRef} className="create-label-modal-container hide">
                 <header className="create-label-modal-header">
-                    {/* <span className="go-back-to-label-modal">*</span> */}
                     <span className="create-label-modal-title">
                         Create label
                     </span>
@@ -867,7 +760,7 @@ export function TaskDetails() {
                                 className="label-color"
                                 style={{ backgroundColor: clr }}
                             >
-                                {newLabelColor === clr && <div>✔</div>}
+                                {newLabelColor === clr && <div className="indication">✔</div>}
                             </div>
                         )
                     })}

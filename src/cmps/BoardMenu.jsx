@@ -1,6 +1,5 @@
 import { useState } from "react"
-import { useSelector, useDispatch } from "react-redux"
-import { onSaveBoard, setCurrBoard } from "../store/actions/board.actions"
+import { useSelector } from "react-redux"
 import { ChangeBgcColorsModal } from "./boardMenu/ChangeBgcColorsModal"
 import { ChangeBgcModal } from "./boardMenu/ChangeBgcModal"
 import { ChangeBgcPic } from "./boardMenu/ChangeBgcPic"
@@ -30,7 +29,6 @@ export const BoardMenu = ({ onChangeBGImgStyle, onUploadImg, onSetCoverMode, men
 	]
 
 	const DynamicCmp = ({ menuShow }) => {
-		// console.log(props.selectedType)
 		switch (selectedType) {
 			case 'main-board': {
 				return <MainBoardMenu menuShow={menuShow} onToggleBoardMenu={onToggleBoardMenu} setSelectedType={setSelectedType} setTitle={setTitle}></MainBoardMenu>
@@ -47,39 +45,11 @@ export const BoardMenu = ({ onChangeBGImgStyle, onUploadImg, onSetCoverMode, men
 		}
 	}
 
-	// const onSelect = async (newStyle) => {
-	// 	// console.log(currBoard);
-	// 	await onChangeColorStyle(newStyle)
-	// 	// console.log(currBoard);
-	// 	setTitle('Menu')
-	// 	setSelectedType('main-board')
-	// }
-
 	const onToggleBoardMenu = () => {
-		// setSelectedType('main-board')
 		toggleBoardMenu()
 	}
 
-	// const onChangeColorStyle = async (newStyle) => {
-	// 	try {
-	// 		const newBoard = { ...currBoard, style: { backgroundColor: newStyle } }
-	// 		await dispatch(onSaveBoard(newBoard))
-	// 		setSelectedType('main-board')
-	// 		setTitle('Menu')
-	// 		// await dispatch(setCurrBoard(newBoard))
-	// 	} catch {
-	// 		console.err();
-	// 	}
-	// }
-
-	// const setUpFunc = (lastType, lastTitle) => {
-	// 	setTitle(lastTitle)
-	// 	setSelectedType(lastType)
-	// }
-
 	const onGoBack = () => {
-		const type = selectedType
-		const titleToRem = title
 		setSelectedType(lastSelectedType)
 		setTitle(lastTitle)
 		setLastType('main-board')
@@ -90,23 +60,6 @@ export const BoardMenu = ({ onChangeBGImgStyle, onUploadImg, onSetCoverMode, men
 		<section className={`board-menu-details ${menuShow}`}>
 			<header className="menu-header">
 			<button className="closebtn" onClick={onToggleBoardMenu}>
-				{/* <svg
-					stroke="currentColor"
-					fill="currentColor"
-					strokeWidth="0"
-					viewBox="0 0 24 24"
-					className="btn-content"
-					height="1em"
-					width="1em"
-					xmlns="http://www.w3.org/2000/svg"
-				>
-					<path
-						fill="none"
-						stroke="#000"
-						strokeWidth="2"
-						d="M3,3 L21,21 M3,21 L21,3"
-					></path>
-				</svg> */}
 				   <i className="fa-solid fa-xmark"></i>
 			</button>
 			{selectedType !== 'main-board' &&

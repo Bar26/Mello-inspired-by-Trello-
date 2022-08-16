@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
-import { useLocation, useNavigate, useParams } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { boardService } from "../../services/board.service"
 import { userService } from "../../services/user.service"
-import { onSaveBoard, setCurrBoard } from "../../store/actions/board.actions"
+import { setCurrBoard } from "../../store/actions/board.actions"
 
 
 export const CreateBoardHeader = (calledFrom) => {
@@ -43,19 +43,13 @@ export const CreateBoardHeader = (calledFrom) => {
 
     const createNewBoard = async (ev) => {
         ev.preventDefault()
-        // console.log(ev.target['create-title'].value);
-
         const newBoard = imageOrColor === 'img' ? { title: ev.target['create-title'].value, img: stateBackground } : { title: ev.target['create-title'].value, color: stateBackground }
         const boardToSave = await boardService.getEmptyBoard(newBoard, true)
-        // console.log(boardToSave);
-        // dispatch(onSaveBoard(boardToSave))
         const updateUser = await userService.addBoardUser(boardToSave._id, currUser)
         await userService.update(updateUser)
         navigate(`/boards/${boardToSave._id}`)
         dispatch(setCurrBoard(boardToSave._id))
     }
-
-
 
     const changeBgcPrev = (selectedEntity) => {
         setBackgroud(selectedEntity)
@@ -68,7 +62,6 @@ export const CreateBoardHeader = (calledFrom) => {
                 </div>
             }
             {imageOrColor === 'img' &&
-                // console.log(background)
                 <div className="img-preview" style={{ backgroundImage: `${stateBackground}`, backgroundSize: 'cover', width: '200px', height: '120px' }}>
                     <img src="https://res.cloudinary.com/dgjmjxkct/image/upload/v1653575898/Trello/board-preview.25c287ae7ad9fc2da090aeeddd284374_qjegso.svg" />
                 </div>
@@ -78,7 +71,6 @@ export const CreateBoardHeader = (calledFrom) => {
                 <h3>Background</h3>
                 <div className="background-imgs">
                     {imgArr.map(img =>
-                        // console.log(img)
                         <img src={img} className="background-container" onClick={() => { changeBgcPrev(`url(${img})`); setImageOrColor('img') }} key={`${img}`} style={{ height: '40px', width: '64px' }} />
                     )}
                 </div>
@@ -86,11 +78,7 @@ export const CreateBoardHeader = (calledFrom) => {
                     {palette.map(color =>
                         <div className="color-container" onClick={() => { changeBgcPrev(color); setImageOrColor('color') }} key={color} style={{ height: '32px', width: '40px', backgroundColor: color }} ></div>
                     )}
-                    {/* <div>...
-                        <div className="more-bgcs">
-
-                        </div>
-                    </div> */}
+                   
                 </div>
                 <div className="board-title-select">
                     <h3>Board title<span>*</span></h3>

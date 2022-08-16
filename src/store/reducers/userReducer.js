@@ -1,5 +1,3 @@
-import { userService } from '../../services/user.service.js'
-
 const INITIAL_STATE = {
 	currUser: {},
 	users: [],
@@ -19,7 +17,6 @@ export function userReducer(state = INITIAL_STATE, action) {
 			}
 			break
 		case 'SET_USERS':
-			console.log('in set users');
 			return (newState = { ...state, users: action.users })
 
 			break

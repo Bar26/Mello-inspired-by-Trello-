@@ -1,8 +1,4 @@
 .add-label-modal {
-    // z-index: 101;
-    
-    // max-height: 100%;
-    // box-shadow: 0 0 10px rgb(0 0 0 / 30%);
     
     &:focus{
         outline: none
@@ -85,7 +81,6 @@
                     color:white;
                     font-weight: 700;
                     font-size: 14px;
-                    // @include flex-center;
                     display: flex;
                     align-items: center;
                     justify-content: flex-start;

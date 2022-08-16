@@ -1,4 +1,3 @@
-// import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 import React, { useEffect, useRef, useState } from 'react'
 import { utilService } from '../services/util.service'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,20 +13,16 @@ import { DateModal } from './DateModal'
 export function TaskPreview({ task, group }) {
 	const coverModalRef = useRef()
 	const navigate = useNavigate()
-	const [date, setDate] = useState(new Date())
 	const [style, setStyle] = useState({ height: '32px', width: '100%' })
 	const { currBoard } = useSelector((state) => state.boardModule)
 	const refs = useRef([])
 	const params = useParams()
 	const dispatch = useDispatch()
 	const penRef = useRef()
-	const [isLabel, setIsLabel] = useState(false)
 	const editModalRef = useRef()
 	const addMemberModalRef = useRef()
 	const dateModalRef = useRef()
 	const dateStyle = useRef(task.dates?.completed ? { backgroundColor: "rgb(97, 189, 79)", color: 'white', borderRadius: '3px', width: '122px' } : { backgroundColor: "" })
-	const { currUser } = useSelector((state) => state.userModule)
-	let dateHoverInd = 'none'
 	const [taskPad,setTaskPad]=useState({paddingBottom:"0"})
 
 	useEffect(() => {
@@ -37,6 +32,7 @@ export function TaskPreview({ task, group }) {
 				.then((board) => dispatch(setCurrBoard(board)))
 		}
 		if(task.memberIds) setTaskPad({paddingBottom:"10px"})
+
 	})
 
 
@@ -78,28 +74,16 @@ export function TaskPreview({ task, group }) {
 		coverModalRef.current.classList.toggle('hide')
 	}
 
-	// const onUpdateCover = async(color) => {
-	// 	try {
-	// 		const updatedBoard = await boardService.updateCover(currBoard, group, task.id, color)
-	// 		await dispatch(onSaveBoard(updatedBoard))
-
-
-	// 	} catch (err) {
-	// 		console.log('connot update cover of task', err)
-	// 	}
-	// }
 
 	const toggleElement = async (inputRef) => {
 		inputRef.current.classList.toggle('hide')
 	}
-
 
 	const onCheckBoxDueDate = async (ev) => {
 		const newBoard = await boardService.checkBoxDueDate(currBoard, group, task, ev.target.checked)
 		dateStyle.current = task.dates.completed ? { borderRadius: '3px', width: '122px', backgroundColor: '#61bd4f', color: 'white', } : { backgroundColor: '' }
 		dispatch(onSaveBoard(newBoard))
 	}
-
 
 
 	return (
@@ -115,14 +99,10 @@ export function TaskPreview({ task, group }) {
 					<span className="icon task-icon"><i className="fa-solid fa-window-maximize fa-lg"></i></span>
 					<span>Open Card</span>
 				</div>
-				{/* <div>
-					<span>+</span>
-					<span>Edit labels</span>
-				</div> */}
+			
 				<div onClick={(ev) => {
 					onToggleMemberModal()
-					// addMemberModalRef.current.style.right="100%"
-					// addMemberModalRef.current.style.bottom="100px"
+					
 				}} 
 					className='edit-change-members'
 				>
@@ -158,10 +138,7 @@ export function TaskPreview({ task, group }) {
 
 					</div>
 				</div>
-				{/* <div>
-					<span>+</span>
-					<span>Move</span>
-				</div> */}
+			
 				<div onClick={(ev) => {
 					dispatch(onCopyTask(ev, task, group, currBoard))
 				}}>
@@ -193,7 +170,6 @@ export function TaskPreview({ task, group }) {
 
 			{task.style && task.style.backgroundColor && !task.style.isCover && (
 				<>
-					{/* {()=>onChangePad()} */}
 					<div className="task-bg" style={{ ...style, background: `${task.style.backgroundColor}` }}></div>
 				</>
 			)}
@@ -212,7 +188,6 @@ export function TaskPreview({ task, group }) {
 							const label = getLabel(labelId)
 
 							const backgroundColor = label.backgroundColor
-							const title = label.title
 							return (
 								<div
 									key={labelId + idx}
@@ -248,7 +223,6 @@ export function TaskPreview({ task, group }) {
 								<div
 									key={memberId + idx}
 									className="member-container"
-									// onClick={onOpenMember}
 									style={{
 										background: `url(${src})`,
 										backgroundRepeat: 'no-repeat',
@@ -259,14 +233,7 @@ export function TaskPreview({ task, group }) {
 										borderRadius: '50%'
 									}}
 								>
-									{/* <span
-										ref={(element) => {
-											refs.current[idx] = element
-										}}
-										className="label-title hide"
-									>
-										{label.title}
-									</span> */}
+								
 								</div>
 							)
 						})}
@@ -294,7 +261,6 @@ export function TaskPreview({ task, group }) {
 						</div>
 					</div>
 					}
-					{/* {console.log(task.dates?.dueDate)} */}
 
 					{task.dates?.dueDate &&
 						<section className="due-date" style={dateStyle.current}>
@@ -304,7 +270,6 @@ export function TaskPreview({ task, group }) {
 							{task.dates.completed && <span>Completed</span>}
 						</section>
 					}
-					{/* } */}
 				</div>
 			</section>
 		</section>

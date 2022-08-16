@@ -29,8 +29,7 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 5px;
-        // justify-content: flex-start;
-        padding-inline-start: 44px; //////////CHANGE AFTER ADDING USER ICON
+        padding-inline-start: 44px; 
         width: 100%;
         position: relative;
 
@@ -43,14 +42,11 @@
                 left:0;
                 @include flex-center;
                 color:white;
-                
-
             }
 
         .content {
             text-align: start;
            
-
             .user-name {
                 font-weight: 700;
             }
