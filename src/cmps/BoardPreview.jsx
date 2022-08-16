@@ -31,16 +31,14 @@ export const BoardPreview = ({ board, loadUserStarredBoards, isStared }) => {
 
 	}, [currUser])
 
-	useEffect(() => {
-		console.log(star);
-	}, [])
-
 
 	const onSetStar = async (ev, template) => {
 		ev.stopPropagation()
 		let newUser = await userService.setStarUser(currUser, template._id)
 
 		await dispatch(updateUser(newUser))
+		dispatch({ type: 'SET_USER', user: newUser })
+
 		setStar(!isStared)
 	}
 
@@ -79,9 +77,7 @@ export const BoardPreview = ({ board, loadUserStarredBoards, isStared }) => {
 					<div onClick={() => dispatch(setCurrBoard(board))} className="link">
 						<h1>{board.title}</h1>
 						<label className="star" onClick={(event) => onSetStar(event, board)}>
-							{star ? <i className="fa-solid fa-star"
-								style={{ color: 'rgb(255,184,5)', }}></i> :
-								<i className="fa-regular fa-star" ></i>}
+						{whichStar(board._id)}
 						</label>
 					</div>
 				</article>
