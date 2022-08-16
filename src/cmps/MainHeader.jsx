@@ -1,9 +1,9 @@
 import { boardService } from '../services/board.service.js'
-import React from 'react'
+import React, { useRef } from 'react'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import {setCurrBoard,} from '../store/actions/board.actions.js'
+import { setCurrBoard, } from '../store/actions/board.actions.js'
 import { utilService } from '../services/util.service.js'
 import { userService } from '../services/user.service.js'
 import trelloIcon from '../assets/img/trello-icon.png'
@@ -17,11 +17,11 @@ import { updateUser } from '../store/actions/user.actions.js'
 export const MainHeader = () => {
 	const [templates, setTemplates] = useState([])
 	const [board, setBoards] = useState({})
+	const refInfo = useRef()
 	const navigate = useNavigate()
 	const refTemplates = React.createRef()
 	const refStarred = React.createRef()
 	const refCreate = React.createRef()
-	const refInfo = React.createRef()
 	const [filterVal, setFilterVal] = useState('')
 	const [createButtonState, setCreateState] = useState('main-create')
 	const [createModalTitle, setCreateModalTitle] = useState('Create')
@@ -45,7 +45,7 @@ export const MainHeader = () => {
 
 	}, [board])
 
-	
+
 	const onSearchBoard = ({ target }) => {
 		const val = target.value
 		setFilterVal(val)
@@ -96,9 +96,9 @@ export const MainHeader = () => {
 				currUser.starred?.map(async (boardId) => {
 					let board
 					if (currUser.boards.includes(boardId))
-							board = await boardService.getById(boardId)
-						else board = await boardService.getTemplateById(boardId)
-						console.log(board)
+						board = await boardService.getById(boardId)
+					else board = await boardService.getTemplateById(boardId)
+					console.log(board)
 					return board
 				})
 			).then((userBoards) => {
@@ -142,7 +142,6 @@ export const MainHeader = () => {
 		let background
 		if (currUser.boards.includes(board._id)) {
 			background = board.style.backgroundImage ? `url${board.style.backgroundImage}` : board.style.backgroundColor
-
 		} else {
 			background = `url${board.img}`
 		}
@@ -194,7 +193,6 @@ export const MainHeader = () => {
 													<span>{template.title}</span>
 												</div>
 												{!currUser.boards.includes(template._id) && <span className="template-indactor ">Template</span>}
-
 											</li>
 										)
 									})}
@@ -327,9 +325,8 @@ export const MainHeader = () => {
 									return <li key={utilService.makeId()} id={board.id}>
 										<span className="header-search-star" onClick={(event) => onSetStar(event, board)}>
 											{whichStar(board._id)}
-
 										</span>
-										
+
 										<span
 											className="to-select-template"
 											onClick={() => {
@@ -353,7 +350,7 @@ export const MainHeader = () => {
 									return (
 										<li key={utilService.makeId()} id={template.id}>
 											<span className="header-search-star" onClick={(event) => onSetStar(event, template)}>
-											
+
 												{whichStar(template._id)}
 											</span>
 											<span

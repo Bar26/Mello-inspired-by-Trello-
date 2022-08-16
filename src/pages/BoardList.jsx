@@ -1,11 +1,10 @@
 import { createRef, useEffect, useState } from 'react'
 import { BoardPreview } from '../cmps/BoardPreview'
-import { userService } from '../services/user.service.js'
 import { TemplatePreview } from '../cmps/TempletePreview'
 import { boardService } from '../services/board.service.js'
 import { MainHeader } from '../cmps/MainHeader.jsx'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUser, setCurrUser } from '../store/actions/user.actions'
+import { getUser } from '../store/actions/user.actions'
 import trelloFullIcon from '../assets/img/trello-black-full.svg'
 import { CreateBoardHeader } from '../cmps/createModalHeader/CreateBoardHeader'
 
@@ -13,7 +12,6 @@ export const BoardList = () => {
 	const [boards, setBoards] = useState([])
 	const [staredBoards, setStaredBoards] = useState([])
 	const [templates, setTemplates] = useState([])
-	const [createMode, setCreateMode] = useState('')
 	const { currUser } = useSelector((state) => state.userModule)
 	const dispatch = useDispatch()
 	const refCreate = createRef()
@@ -24,6 +22,7 @@ export const BoardList = () => {
 
 
 	useEffect(() => {
+		console.log(currUser);
 		loadTemplates()
 		loadUserBoards()
 		loadUserStarredBoards()
@@ -108,7 +107,6 @@ export const BoardList = () => {
 								<BoardPreview
 									board={board}
 									key={board._id + idx}
-									getStarredBoards={getStarredBoards}
 								/>
 							)
 						})}
@@ -121,11 +119,11 @@ export const BoardList = () => {
 							Starred Boards
 						</h3>
 						{staredBoards.map(board => {
-							if(currUser.boards.includes(board._id))
-							return <BoardPreview board={board} />
+							if (currUser.boards.includes(board._id))
+								return <BoardPreview board={board} setStaredBoards={setStaredBoards}
+									loadUserStarredBoards={loadUserStarredBoards}  />
 							else
-							return <TemplatePreview template={board} />
-
+								return <TemplatePreview template={board} />
 						})}
 
 					</section>}
