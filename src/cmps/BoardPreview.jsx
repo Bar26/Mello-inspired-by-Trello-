@@ -26,7 +26,6 @@ export const BoardPreview = ({ board, loadUserStarredBoards, isStared }) => {
 	}, [isStared])
 
 	useEffect(() => {
-		console.log('user changed in BP',currUser);
 		setStar(isStared)
 
 	}, [currUser])
