@@ -27,6 +27,7 @@ export function Home() {
 			imgUrl:
 				'https://res.cloudinary.com/dgjmjxkct/image/upload/v1653899076/dl6faof1ecyjnfnknkla_gxwbcq.svg',
 			boards: [newScrum._id],
+			starred:[newScrum._id]
 		}
 		dispatch(setCurrUser(guestUser))
 		userService.saveLocalUser(guestUser)
@@ -61,10 +62,10 @@ export function Home() {
 						It's more than work. It's a way of working together.
 					</h2>
 					<p className="content">
-						Start with a Trello board, lists, and cards. Customize and expand with more features as your teamwork grows.<br />
+						Start with a Mello board, lists, and cards. Customize and expand with more features as your teamwork grows.<br />
 						Manage projects, organize tasks, and build team spirit—all in one place.
 					</p>
-					<Link className="sign-up" to="/signup">
+					<Link className="sign-up-free " to="/signup">
 
 						Sign up, it's free
 					</Link>
@@ -73,7 +74,7 @@ export function Home() {
 				</section>
 
 				<section className="mello-teams">
-					<p className="title">Join over 2,000,000 teams worldwide that are using Trello to get more done.</p>
+					<p className="title">Join over 2,000,000 teams worldwide that are using Mello to get more done.</p>
 					<div className="teams-icons">
 						<img src={coinbasePic} alt="teamPic" />
 						<img src={johnPic} alt="teamPic" />

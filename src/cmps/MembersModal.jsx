@@ -91,7 +91,7 @@ export function AddMemberModal({ onToggleMemberModal, task = null, group = null 
                         const bg = member.imgUrl ? `url(${member.imgUrl}) center center / cover` : '#de350b'
 
 
-                        if (member.username.toLowerCase().includes(filterMember)) {
+                        if (member.username?.toLowerCase().includes(filterMember)) {
 
                             return (
                                 <section className="member-in-modal-container" onClick={() => setToggleChoice(member)}>

@@ -1,3 +1,4 @@
+import { boardService } from '../../services/board.service.js'
 import { userService } from '../../services/user.service.js'
 
 export function loadUsers() {
@@ -39,8 +40,10 @@ export function onLogin(credentials) {
 
 export function onSignup(credentials) {
 	return async (dispatch) => {
+		let newScrum = await boardService.getBoardForGuest()
+		let newCred = {...credentials, boards:[newScrum._id], starred:[newScrum._id]}
 		try {
-			const user = await userService.signup(credentials)
+			const user = await userService.signup(newCred)
 
 			dispatch({
 				type: 'SET_USER',
@@ -103,7 +106,7 @@ export function updateUser(user) {
 	return async (dispatch) => {
 		try {
 			let updatedUser = await userService.update(user)
-			dispatch({ type: 'SAVE_USER', user: updatedUser })
+			 dispatch({ type: 'SAVE_USER', user:updatedUser })
 		} catch (err) {
 			console.log('cannot save user', err);
 		}

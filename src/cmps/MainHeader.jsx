@@ -16,7 +16,7 @@ import { updateUser } from '../store/actions/user.actions.js'
 
 export const MainHeader = () => {
 	const [templates, setTemplates] = useState([])
-	const [board, setBoards] = useState({})
+	// const [board, setBoards] = useState({})
 	const refInfo = useRef()
 	const navigate = useNavigate()
 	const refTemplates = React.createRef()
@@ -30,6 +30,7 @@ export const MainHeader = () => {
 	const dispatch = useDispatch()
 	const { currUser } = useSelector((state) => state.userModule)
 	const { boards } = useSelector((state) => state.boardModule)
+	const { currBoard} = useSelector((state) => state.boardModule)
 	const [staredBoards, setStaredBoards] = useState([])
 	const bg = currUser.imgUrl ? `url(${currUser.imgUrl}) center center / cover` : '#de350b'
 
@@ -37,22 +38,9 @@ export const MainHeader = () => {
 		loadUserStarredBoards()
 	}, [currUser])
 
-	useEffect(() => {
-		if (!board._id) return
-		onSend(board)
-		navigate(`/boards/${board._id}`)
-		console.log(boards);
-
-	}, [board])
-
-
 	const onSearchBoard = ({ target }) => {
 		const val = target.value
 		setFilterVal(val)
-	}
-
-	const onSend = async (board) => {
-		await dispatch(setCurrBoard(board._id))
 	}
 
 	const toggleModal = async (refType) => {
@@ -63,13 +51,13 @@ export const MainHeader = () => {
 		} catch (err) {
 			console.log('cannot get templates', err);
 		}
-
 	}
 
 	const onSetStar = async (ev, template) => {
 		ev.stopPropagation()
 		let newUser = await userService.setStarUser(currUser, template._id)
 		await dispatch(updateUser(newUser))
+		dispatch({ type: 'SET_USER', user: newUser })
 	}
 
 	const onGoBack = () => {
@@ -98,7 +86,6 @@ export const MainHeader = () => {
 					if (currUser.boards.includes(boardId))
 						board = await boardService.getById(boardId)
 					else board = await boardService.getTemplateById(boardId)
-					console.log(board)
 					return board
 				})
 			).then((userBoards) => {
@@ -170,7 +157,7 @@ export const MainHeader = () => {
 							</button>
 							<section ref={refStarred} className="header-modal starred hide">
 								<div className="modal-title">
-									<h1>Starred Templates</h1>
+									<h1>Starred Boards</h1>
 									<button
 										className="close-modal-btn"
 										onClick={() => toggleModal(refStarred)}
@@ -185,7 +172,7 @@ export const MainHeader = () => {
 											<li
 												key={utilService.makeId()}
 												onClick={() => {
-													onSelectTemplate(template._id)
+													onSelectBoard(template)
 												}}
 											>
 												<div className="header-star-template">
@@ -309,7 +296,7 @@ export const MainHeader = () => {
 					</label>
 					<section ref={refCreate1} className="header-modal search hide">
 						<div className="modal-title" >
-							<h1>Information</h1>
+							<h1>Recent Boards</h1>
 							<button
 								className="close-modal-btn"
 								onClick={() => toggleModal(refCreate1)}

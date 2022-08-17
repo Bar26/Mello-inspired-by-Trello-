@@ -3,11 +3,11 @@ const templates = require('../data/templete.json')
 const user = require('../data/user.json')
 
 export const storageService = {
-	query,
-	get,
-	post,
-	put,
-	remove,
+	// query,
+	// get,
+	// post,
+	// put,
+	// remove,
 }
 
 function query(entityType, delay = 200) {

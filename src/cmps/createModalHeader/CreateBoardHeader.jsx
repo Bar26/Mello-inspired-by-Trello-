@@ -43,12 +43,14 @@ export const CreateBoardHeader = (calledFrom) => {
 
     const createNewBoard = async (ev) => {
         ev.preventDefault()
-        const newBoard = imageOrColor === 'img' ? { title: ev.target['create-title'].value, img: stateBackground } : { title: ev.target['create-title'].value, color: stateBackground }
+        
+        const newBoard = imageOrColor === 'img' ? { title: ev.target['create-title'].value, img: `(${stateBackground})` } : { title: ev.target['create-title'].value, color: stateBackground }
         const boardToSave = await boardService.getEmptyBoard(newBoard, true)
         const updateUser = await userService.addBoardUser(boardToSave._id, currUser)
         await userService.update(updateUser)
+        dispatch({ type: 'ADD_BOARD', board:boardToSave })
+        await dispatch(setCurrBoard(boardToSave._id))
         navigate(`/boards/${boardToSave._id}`)
-        dispatch(setCurrBoard(boardToSave._id))
     }
 
     const changeBgcPrev = (selectedEntity) => {
@@ -62,7 +64,7 @@ export const CreateBoardHeader = (calledFrom) => {
                 </div>
             }
             {imageOrColor === 'img' &&
-                <div className="img-preview" style={{ backgroundImage: `${stateBackground}`, backgroundSize: 'cover', width: '200px', height: '120px' }}>
+                <div className="img-preview" style={{ backgroundImage: `url(${stateBackground})`, backgroundSize: 'cover', width: '200px', height: '120px' }}>
                     <img src="https://res.cloudinary.com/dgjmjxkct/image/upload/v1653575898/Trello/board-preview.25c287ae7ad9fc2da090aeeddd284374_qjegso.svg" />
                 </div>
             }
@@ -71,7 +73,7 @@ export const CreateBoardHeader = (calledFrom) => {
                 <h3>Background</h3>
                 <div className="background-imgs">
                     {imgArr.map(img =>
-                        <img src={img} className="background-container" onClick={() => { changeBgcPrev(`url(${img})`); setImageOrColor('img') }} key={`${img}`} style={{ height: '40px', width: '64px' }} />
+                        <img src={img} className="background-container" onClick={() => { changeBgcPrev(img); setImageOrColor('img') }} key={`${img}`} style={{ height: '40px', width: '64px' }} />
                     )}
                 </div>
                 <div className="background-colors">

@@ -101,7 +101,7 @@
                 line-height: em(30px, 20px);
             }
 
-            .sign-up {
+            .sign-up-free {
                 line-height: em(24px, 16px);
                 border-radius: rem(4.8px);
                 font-size: rem(16px);
@@ -172,6 +172,7 @@
         margin-bottom: 16px;
         font-family: "Charlie-text-reg";
         font-size: rem(20px);
+        text-align: center;
     }
 
     .main-footer {
@@ -298,7 +299,9 @@
 @include for-mobile-layout {
     .home {
         .main-container {
+            padding-top: 100px;;
             .main-article {
+                margin-bottom: 40px;
                 .hero1 {
                     width: 40%;
                 }
@@ -307,6 +310,10 @@
                         text-align: center;
                     }
                 }
+            }
+
+            hr{
+                margin-bottom: 40px;
             }
         }
     }

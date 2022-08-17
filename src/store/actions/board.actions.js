@@ -147,7 +147,7 @@ export function onSaveBoard(board) {
 		try {
 			socketService.emit(SOCKET_EMIT_UPDATED_BOARD,board)
 			const savedBoard = await boardService.update(board)
-			dispatch({ type: 'SAVE_BOARD', board: savedBoard })
+			dispatch({ type: 'SAVE_BOARD', board: {...savedBoard} })
 		} catch (err) {
 			console.log('BoardActions: err in onSaveBoard', err)
 		}

@@ -1,5 +1,5 @@
 import { MainHeader } from '../cmps/MainHeader'
-import { Outlet, useParams } from 'react-router-dom'
+import { useNavigate, Outlet, useParams } from 'react-router-dom'
 import { GroupList } from '../cmps/GroupList'
 import { useDispatch, useSelector } from 'react-redux'
 import { onSaveBoard, setCurrBoard } from '../store/actions/board.actions'
@@ -19,28 +19,26 @@ export const BoardDeatails = () => {
 	const dispatch = useDispatch()
 	const { currBoard } = useSelector((state) => state.boardModule)
 	const { currUser } = useSelector((state) => state.userModule)
+	const navigate = useNavigate()
 
 	useEffect(() => {
-		socketService.on(SOCKET_EMIT_UPDATE_BOARD,(board)=>{
+		socketService.on(SOCKET_EMIT_UPDATE_BOARD, (board) => {
 			dispatch(setCurrBoard(boardId))
 		})
 		dispatch(setCurrBoard(boardId))
 
-	}, [])
+	}, [boardId])
 
 	useEffect(() => {
 
 		if (!currUser) {
 			dispatch(setCurrUser(currUser))
 		}
-		console.log(currUser);
 	}, [currUser])
 
 
 	useEffect(() => {
 		dispatch(getUser())
-		console.log(currBoard.members);
-
 	}, [])
 
 	const toggleBoardMenu = () => {
@@ -82,15 +80,15 @@ export const BoardDeatails = () => {
 			style={
 				currBoard.style.backgroundImage
 					? {
-							backgroundImage: `URL${currBoard?.style?.backgroundImage || '()'}` ,
-							backgroundRepeat: 'no-repeat',
-							backgroundSize: 'cover',
-							backgroundPosition: 'center',
-					  }: { backgroundColor: currBoard.style.backgroundColor }
+						backgroundImage: `URL${currBoard?.style?.backgroundImage || '()'}`,
+						backgroundRepeat: 'no-repeat',
+						backgroundSize: 'cover',
+						backgroundPosition: 'center',
+					} : { backgroundColor: currBoard.style.backgroundColor }
 			}
 		>
 			<div className="main-header-container">
-			<MainHeader />
+				<MainHeader />
 			</div>
 			<section className="board-content">
 				<BoardHeader
@@ -103,7 +101,7 @@ export const BoardDeatails = () => {
 					onSetCoverMode={onSetCoverMode}
 					coverMode={coverMode}
 				/>
-				<GroupList boardId={boardId}  />
+				<GroupList boardId={boardId} />
 				<Outlet />
 				<Screen />
 			</section>

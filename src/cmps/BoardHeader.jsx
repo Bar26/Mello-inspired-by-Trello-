@@ -2,16 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { DebounceInput } from 'react-debounce-input'
 import { boardService } from '../services/board.service.js'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCurrBoard} from '../store/actions/board.actions'
+import { setCurrBoard } from '../store/actions/board.actions'
 import { useEffectUpdate } from './useEffectUpdate.js'
+import { userService } from '../services/user.service'
 import { loadUsers } from '../store/actions/user.actions.js'
 import { AddMemberModal } from './MembersModal.jsx'
+import { updateUser } from '../store/actions/user.actions'
 import { useRef } from 'react'
 
-export const BoardHeader = ({ menuShow, toggleBoardMenu, onSetCoverMode }) => {
+export const BoardHeader = ({ menuShow, toggleBoardMenu }) => {
 	const { currBoard } = useSelector((state) => state.boardModule)
 	const [board, setBoard] = useState(currBoard)
-	const [star, setStar] = useState('')
+	// const [star, setStar] = useState('')
 	const { currUser } = useSelector((state) => state.userModule)
 	const bg = currUser.imgUrl ? `url(${currUser.imgUrl}) center center / cover` : '#de350b'
 	const addMemberModalRef = useRef()
@@ -25,23 +27,16 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu, onSetCoverMode }) => {
 	useEffectUpdate(() => {
 		setBoardTitle()
 	}, [board])
+	
 
-	useEffect(() => {
-		if (currBoard.isStared) {
-			setStar('starred fa-solid')
-		} else {
-			setStar('')
-		}
-	}, [currBoard])
+	const onSetStar = async (ev) => {
+		ev.stopPropagation()
+		console.log(currBoard);
+		let newUser = await userService.setStarUser(currUser, currBoard._id)
+		let userToSave = { ...newUser }
 
-	const onSetStar = (e) => {
-		e.stopPropagation()
-		if (!star.length) {
-			setStar('starred fa-solid')
-		} else {
-			setStar('')
-		}
-		boardService.setStarred(currBoard)
+		await dispatch(updateUser(userToSave))
+		dispatch({ type: 'SET_USER', user: userToSave })
 	}
 
 	const onToggleBoardMenu = () => {
@@ -49,8 +44,8 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu, onSetCoverMode }) => {
 	}
 
 	const onToggleMemberModal = () => {
-        addMemberModalRef.current.classList.toggle('hide')
-    }
+		addMemberModalRef.current.classList.toggle('hide')
+	}
 
 	const handleChange = (ev) => {
 		try {
@@ -70,20 +65,36 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu, onSetCoverMode }) => {
 		}
 	}
 
+	const whichStar = (boardId) => {
+		console.log(currUser.starred?.includes(currBoard._id));
+
+		if (currUser.starred?.includes(boardId)) return <i
+			className="fa-solid fa-star"
+			style={{
+				color: 'rgb(255,184,5)',
+			}}
+		></i>
+		else return <i
+			className="fa-regular fa-star"
+		></i>
+	}
+
 	return (
 		<header className={`board-header ${menuShow}`}>
 			<div className="board-info">
 				<DebounceInput
 					className="board-title"
-					value={board.title}
+					value={currBoard.title}
 					name="title"
 					type="text"
 					debounceTimeout={2000}
 					onChange={handleChange}
 				/>
-				<label className="star" onClick={(event) => onSetStar(event)}>
-					<i className={`fa-regular fa-star ${star}`}></i>
-				</label>
+				<div className="star" onClick={(event) => onSetStar(event)}>
+					{ whichStar(currBoard._id)}
+
+
+				</div>
 				<div className="member-img" style={{ background: bg, }}>{!currUser.imgUrl && <span>{boardService.getInitials(currUser.fullname)}</span>}</div>
 
 
@@ -97,7 +108,7 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu, onSetCoverMode }) => {
 					>
 						<AddMemberModal onToggleMemberModal={onToggleMemberModal}
 							currBoard={currBoard}
-						
+
 						/>
 					</div>
 					<span className="icon members-icon">
@@ -106,7 +117,7 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu, onSetCoverMode }) => {
 					<span className="members-txt">Members</span>
 				</button>
 
-			
+
 			</div>
 			<div className="board-menu">
 				<button className="board-menu-btn" onClick={onToggleBoardMenu}>

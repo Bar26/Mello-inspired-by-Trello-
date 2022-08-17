@@ -251,7 +251,6 @@ export function TaskDetails() {
     }
 
     const toggleSideActions = () => {
-        console.log('on toggle side');
         sideActionsRef.current.classList.toggle('side-open')
         sideActionsIcon.current.classList.toggle('none')
         sideActionsGoBack.current.classList.toggle('none')

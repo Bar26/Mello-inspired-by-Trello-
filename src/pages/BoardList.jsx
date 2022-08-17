@@ -22,7 +22,6 @@ export const BoardList = () => {
 
 
 	useEffect(() => {
-		console.log(currUser);
 		loadTemplates()
 		loadUserBoards()
 		loadUserStarredBoards()

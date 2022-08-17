@@ -129,6 +129,7 @@
 
             .task-details-labels {
                 display: flex;
+                flex-wrap:wrap-reverse;
                 flex-direction: row-reverse;
                 justify-content: flex-end;
                 align-items: center;

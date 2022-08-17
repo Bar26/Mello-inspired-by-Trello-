@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { AppHeader } from '../cmps/AppHeader.jsx'
+import { boardService } from '../services/board.service.js'
 import { onLogin } from '../store/actions/user.actions.js'
 import { setCurrUser } from '../store/actions/user.actions.js'
 
@@ -36,12 +37,14 @@ export function Login() {
 	}
 
 	const onSetGuestMode = async () => {
+		let newScrum = await boardService.getBoardForGuest()
 		await dispatch(
 			setCurrUser({
 				name: 'Guest',
 				imgUrl:
 					'https://res.cloudinary.com/dgjmjxkct/image/upload/v1653899076/dl6faof1ecyjnfnknkla_gxwbcq.svg',
-				boards: [],
+				boards: [newScrum._id],
+				starred: [newScrum._id]
 			})
 		)
 		navigate(`/boards`)

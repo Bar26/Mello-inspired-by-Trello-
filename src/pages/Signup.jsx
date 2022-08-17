@@ -6,15 +6,20 @@ import { AppHeader } from '../cmps/AppHeader'
 import { userService } from '../services/user.service.js'
 import { loadUsers, onSignup } from '../store/actions/user.actions'
 import { uploadService } from '../services/upload.service'
+import { boardService } from '../services/board.service'
 
 export function Signup() {
+
+
 
 	const [imgUrl, setImgUrl] = useState('')
 	const [credentials, setCredentials] = useState({
 		username: '',
 		password: '',
 		fullname: '',
-		imgUrl: imgUrl
+		imgUrl: imgUrl,
+		boards: [],
+		starred: []
 	})
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
@@ -31,6 +36,7 @@ export function Signup() {
 			field = ev.target.name
 			value = ev.target.value
 		}
+		
 		setCredentials({ ...credentials, [field]: value })
 	}
 

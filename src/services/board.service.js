@@ -106,10 +106,11 @@ async function getEmptyBoard(template, toSave = true) {
 		} catch (err) {
 			console.log('Cannot save board', err)
 		}
-	} else {
-		newBoard._id = utilService.makeId()
-		return storageService.post(STORAGE_KEY, newBoard)
-	}
+	} 
+	// else {
+	// 	newBoard._id = utilService.makeId()
+	// 	return storageService.post(STORAGE_KEY, newBoard)
+	// }
 }
 async function getBoardForGuest(toSave = true) {
 	let template = await getById('629e05339a28133be456c12a')
@@ -133,7 +134,6 @@ async function getBoardForGuest(toSave = true) {
 	if (toSave) {
 		try {
 			const savedBoard = await httpService.post('board', newBoard)
-			console.log(savedBoard);
 			return savedBoard
 		} catch (err) {
 			console.log('Cannot save board', err)
@@ -145,11 +145,11 @@ async function getBoardForGuest(toSave = true) {
 }
 
 async function getById(id, fromLocal = false) {
-	if (fromLocal) {
-		return storageService.get(STORAGE_KEY, id)
-	} else {
+	// if (fromLocal) {
+	// 	return storageService.get(STORAGE_KEY, id)
+	// } else {
 		return httpService.get(`board/${id}`)
-	}
+	
 }
 
 async function getTemplateById(id) {
@@ -446,7 +446,6 @@ function deleteDateElement(board, group, task, key) {
 
 function addDateToTask(board, group, task, date) {
 	let newBoard = { ...board }
-	console.log(date);
 	const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)
 	const taskIdx = newBoard.groups[groupIdx].tasks.findIndex((_task) => _task.id === task.id)
 	if (newBoard.groups[groupIdx].tasks[taskIdx].dates) {

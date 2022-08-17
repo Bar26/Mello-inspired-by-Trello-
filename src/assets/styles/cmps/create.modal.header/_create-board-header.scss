@@ -4,6 +4,10 @@
     justify-content: center;
     align-items: center;
 
+    .img-preview{
+        @include flex-center;
+    }
+
     .background-select {
         width: 100%;
         padding: 12px;

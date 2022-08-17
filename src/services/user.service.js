@@ -96,8 +96,6 @@ async function addBoardUser(boardId, user) {
 
 async function setStarUser(user, boardId) {
 
-
-
 	let boardIdIdx = user.starred?.findIndex(boardIdUser => boardId === boardIdUser)
 	if (user.starred) {
 		if (boardIdIdx === -1) user.starred.push(boardId)

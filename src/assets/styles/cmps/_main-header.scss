@@ -568,7 +568,7 @@ hr {
         .header-container {
             width: 100%;
             justify-content: space-between;
-           
+
         }
 
         .nav-header {
@@ -611,9 +611,19 @@ hr {
                 border-radius: 50%;
                 width: 32px;
 
-                .info-modal{
-                    left: 0;
-                    left: -333px;
+                .info-modal {
+                    position: fixed;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 350px;
+
+                    .info-img-div {
+                        img {
+                            border-radius: 3px;
+                            width: 300px;
+                            height: 150px;
+                        }
+                    }
                 }
             }
 

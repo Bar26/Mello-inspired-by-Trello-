@@ -190,6 +190,11 @@
 			padding-left: 0;
 			padding-right: 0;
 
+			.create-container{
+				left:50%;
+				transform: translateX(-50%);
+			}
+
 			.board-list {
 				grid-template-columns: repeat(auto-fit, 180px);
 				gap: 5px;

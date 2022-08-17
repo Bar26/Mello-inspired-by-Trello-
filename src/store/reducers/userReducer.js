@@ -22,7 +22,7 @@ export function userReducer(state = INITIAL_STATE, action) {
 			break
 			case 'SAVE_USER':
 				users = state.users.map((user) =>
-					user._id === action.user._id ? action.user : user
+					user._id === action.user._id ? {...action.user} : user
 				)
 				return (newState = { ...state, users})
 		case 'ADD_USER':
