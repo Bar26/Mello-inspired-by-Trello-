@@ -25,7 +25,6 @@ export function GroupList({onChangeColorStyle}) {
         }
     }
 
-
     const onListSubmit = (ev) => {
         ev.preventDefault()
         const { value } = ev.target[0]

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import hero1 from '../assets/img/hero1.png'
 import { AppHeader } from '../cmps/AppHeader'
 import { userService } from '../services/user.service'
-import { setCurrUser } from '../store/actions/user.actions.js'
+import { onSignup, setCurrUser } from '../store/actions/user.actions.js'
 import melloPic from '../assets/img/mello pic.png'
 import coinbasePic from '../assets/img/coinbase-pic.svg'
 import googlePic from '../assets/img/google-pic.svg'
@@ -15,22 +15,28 @@ import { teasersInfo } from '../services/home-data.service'
 import { HomeTeaser } from '../cmps/HomeTeaser'
 import trelloIcon from '../assets/img/trello-icon.png'
 import { boardService } from '../services/board.service'
+import { utilService } from '../services/util.service'
 
 
 export function Home() {
 
 	const dispatch = useDispatch()
 	const onSetGuestMode = async () => {
-		let newScrum = await boardService.getBoardForGuest()
-		const guestUser = {
-			name: 'Guest',
+		let guestUser = {
+			fullname: 'Guest',
+			username: utilService.makeId(),
+			password: utilService.makeId(),
 			imgUrl:
 				'https://res.cloudinary.com/dgjmjxkct/image/upload/v1653899076/dl6faof1ecyjnfnknkla_gxwbcq.svg',
-			boards: [newScrum._id],
-			starred:[newScrum._id]
+			
 		}
+		await dispatch(onSignup(guestUser))
+		console.log(guestUser);
+		let newScrum = await boardService.getBoardForGuest()
+		guestUser = {...guestUser,boards: [newScrum._id],starred: [newScrum._id] }
+		guestUser = await userService.update(guestUser)
+		await userService.saveLocalUser(guestUser)
 		dispatch(setCurrUser(guestUser))
-		userService.saveLocalUser(guestUser)
 	}
 
 	return (

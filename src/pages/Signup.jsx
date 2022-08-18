@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 
 import { AppHeader } from '../cmps/AppHeader'
 import { userService } from '../services/user.service.js'
-import { loadUsers, onSignup } from '../store/actions/user.actions'
+import { loadUsers, onSignup, setCurrUser } from '../store/actions/user.actions'
 import { uploadService } from '../services/upload.service'
 import { boardService } from '../services/board.service'
 
@@ -36,19 +36,23 @@ export function Signup() {
 			field = ev.target.name
 			value = ev.target.value
 		}
-		
+
 		setCredentials({ ...credentials, [field]: value })
 	}
 
-	const onSignupNewUser = () => {
+	const onSignupNewUser = async () => {
 		if (
 			!credentials.username.length ||
 			!credentials.password.length ||
 			!credentials.fullname.length
 		)
 			return
-		userService.saveLocalUser(credentials)
-		dispatch(onSignup(credentials))
+		await dispatch(onSignup(credentials))
+		let newScrum = await boardService.getBoardForGuest()
+		let newUser = {...credentials,boards: [newScrum._id],starred: [newScrum._id] }
+		newUser = await userService.update(newUser)
+		await userService.saveLocalUser(newUser)
+		dispatch(setCurrUser(newUser))
 
 		setCredentials({
 			username: '',
