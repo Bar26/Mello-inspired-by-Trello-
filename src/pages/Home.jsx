@@ -31,7 +31,6 @@ export function Home() {
 			
 		}
 		await dispatch(onSignup(guestUser))
-		console.log(guestUser);
 		let newScrum = await boardService.getBoardForGuest()
 		guestUser = {...guestUser,boards: [newScrum._id],starred: [newScrum._id] }
 		guestUser = await userService.update(guestUser)

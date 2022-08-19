@@ -35,7 +35,6 @@ export const BoardDeatails = () => {
 	}, [])
 
 	useEffectUpdate(() => {
-		console.log('in use effect boardId!!!');
 		if(currBoard._id!==boardId) dispatch(setCurrBoard(boardId))
 
 	}, [boardId])

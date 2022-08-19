@@ -9,7 +9,7 @@ import { updateUser } from '../../store/actions/user.actions'
 
 
 
-export const CreateBoardHeader = () => {
+export const CreateBoardHeader = (refCreateFirstModal) => {
 
     const { currBoard } = useSelector((state) => state.boardModule)
     const { currUser } = useSelector((state) => state.userModule)
@@ -41,23 +41,21 @@ export const CreateBoardHeader = () => {
     ]
 
 
-    useEffect(() => {
-        console.log(currBoard);
-
-	}, [currBoard])
-
-
-
     const createNewBoard = async (ev) => {
         ev.preventDefault()
-        
+
         const newBoard = imageOrColor === 'img' ? { title: ev.target['create-title'].value, img: `(${stateBackground})` } : { title: ev.target['create-title'].value, color: stateBackground }
         const boardToSave = await boardService.getEmptyBoard(newBoard, true)
         const updatedUser = await userService.addBoardUser(boardToSave._id, currUser)
+        // toggleModal(refCreateFirstModal)
         navigate(`/boards/${boardToSave._id}`)
         dispatch(updateUser(updatedUser))
-        dispatch({ type: 'ADD_BOARD', board:boardToSave })
-        
+        dispatch({ type: 'ADD_BOARD', board: boardToSave })
+
+    }
+
+    const toggleModal = (refType) => {
+        refType.current.classList.toggle('hide')
     }
 
     const changeBgcPrev = (selectedEntity) => {
@@ -87,12 +85,12 @@ export const CreateBoardHeader = () => {
                     {palette.map(color =>
                         <div className="color-container" onClick={() => { changeBgcPrev(color); setImageOrColor('color') }} key={color} style={{ height: '32px', width: '40px', backgroundColor: color }} ></div>
                     )}
-                   
+
                 </div>
                 <div className="board-title-select">
                     <h3>Board title<span>*</span></h3>
                     <form onSubmit={ev => createNewBoard(ev)}>
-                        <input name='create-title' type='text' />
+                        <input name='create-title' type='text' required />
                         <button className="button-create-board" >Create</button>
                     </form>
                     <span>👋 Board title is requird</span>

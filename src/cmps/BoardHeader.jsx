@@ -31,7 +31,6 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu }) => {
 
 	const onSetStar = async (ev) => {
 		ev.stopPropagation()
-		console.log(currBoard);
 		let newUser = await userService.setStarUser(currUser, currBoard._id)
 		let userToSave = { ...newUser }
 

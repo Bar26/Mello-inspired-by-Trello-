@@ -100,7 +100,7 @@ export const MainHeader = () => {
 				return <MainCreate  setCreateModalTitle={setCreateModalTitle} setCreateState={setCreateState}></MainCreate>
 				break;
 			case 'create-board':
-				return <CreateBoardHeader></CreateBoardHeader>
+				return <CreateBoardHeader toggleModal={toggleModal} refCreateFirstModal={refCreateFirstModal}></CreateBoardHeader>
 				break;
 			case 'create-template':
 				return <CreateTemplateHeader  onSelectTemplate={onSelectTemplate} setCreateModalTitle={setCreateModalTitle} setCreateState={setCreateState}></CreateTemplateHeader>
