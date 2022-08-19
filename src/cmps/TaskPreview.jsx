@@ -26,11 +26,7 @@ export function TaskPreview({ task, group }) {
 	const [taskPad,setTaskPad]=useState({paddingBottom:"0"})
 
 	useEffect(() => {
-		if (!Object.keys(currBoard).length) {
-			boardService
-				.getById('board', params.boardId)
-				.then((board) => dispatch(setCurrBoard(board)))
-		}
+	
 		if(task.memberIds) setTaskPad({paddingBottom:"10px"})
 
 	})

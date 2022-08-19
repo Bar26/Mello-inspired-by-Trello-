@@ -8,7 +8,6 @@ export const BoardCoverModal = ({ coverMode, onSetCoverMode }) => {
 
 	useEffect(() => {
 		dispatch(onSaveBoard(board))
-		dispatch(setCurrBoard(board._id))
 	}, [board])
 
 	const onChangeColorStyle = (newStyle) => {

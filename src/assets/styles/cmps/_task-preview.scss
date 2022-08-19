@@ -128,9 +128,12 @@
 
         .icon-preview {
             gap:6px;
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+
             .checklists-prev {
                 margin: 0;
-                padding-top: 4px;
                 color: #5e6c84;
 
               
@@ -143,16 +146,14 @@
             }
 
             .due-date {
-                text-align: start;
-                display: flex;
                 gap: 3px;
-                margin-top: 4px;
-                span{
-                    margin-top: 1px;
-                }
+                @include flex-center;
+                padding: 2px;
+                
                 input{
-                    margin: 3px 0;
-                    margin-left: 3px;
+                
+                    margin:0;
+                    height: 12px;
                 }
 
 
@@ -161,7 +162,6 @@
 
             .description-prev {
                 margin: 0;
-                padding-top: 4px;
                 color: #5e6c84;
 
                 .fontawsome {

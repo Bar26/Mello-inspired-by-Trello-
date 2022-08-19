@@ -1,13 +1,15 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
 import { useLocation, useNavigate } from "react-router-dom"
 import { boardService } from "../../services/board.service"
 import { userService } from "../../services/user.service"
 import { setCurrBoard } from "../../store/actions/board.actions"
+import { updateUser } from '../../store/actions/user.actions'
 
 
-export const CreateBoardHeader = (calledFrom) => {
+
+export const CreateBoardHeader = () => {
 
     const { currBoard } = useSelector((state) => state.boardModule)
     const { currUser } = useSelector((state) => state.userModule)
@@ -39,6 +41,11 @@ export const CreateBoardHeader = (calledFrom) => {
     ]
 
 
+    useEffect(() => {
+        console.log(currBoard);
+
+	}, [currBoard])
+
 
 
     const createNewBoard = async (ev) => {
@@ -46,11 +53,11 @@ export const CreateBoardHeader = (calledFrom) => {
         
         const newBoard = imageOrColor === 'img' ? { title: ev.target['create-title'].value, img: `(${stateBackground})` } : { title: ev.target['create-title'].value, color: stateBackground }
         const boardToSave = await boardService.getEmptyBoard(newBoard, true)
-        const updateUser = await userService.addBoardUser(boardToSave._id, currUser)
-        await userService.update(updateUser)
-        dispatch({ type: 'ADD_BOARD', board:boardToSave })
-        await dispatch(setCurrBoard(boardToSave._id))
+        const updatedUser = await userService.addBoardUser(boardToSave._id, currUser)
         navigate(`/boards/${boardToSave._id}`)
+        dispatch(updateUser(updatedUser))
+        dispatch({ type: 'ADD_BOARD', board:boardToSave })
+        
     }
 
     const changeBgcPrev = (selectedEntity) => {

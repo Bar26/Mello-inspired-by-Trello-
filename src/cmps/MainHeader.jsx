@@ -68,12 +68,10 @@ export const MainHeader = () => {
 	const onSelectTemplate = async (templateId) => {
 		const template = await boardService.getTemplateById(templateId)
 		const newBoard = await boardService.getEmptyBoard(template)
-		dispatch(setCurrBoard(newBoard._id))
 		navigate(`/boards/${newBoard._id}`)
 	}
 
 	const onSelectBoard = async (board) => {
-		dispatch(setCurrBoard(board._id))
 		navigate(`/boards/${board._id}`)
 	}
 
@@ -99,13 +97,13 @@ export const MainHeader = () => {
 	const DynamicCmp = () => {
 		switch (createButtonState) {
 			case 'main-create':
-				return <MainCreate setCreateModalTitle={setCreateModalTitle} setCreateState={setCreateState}></MainCreate>
+				return <MainCreate  setCreateModalTitle={setCreateModalTitle} setCreateState={setCreateState}></MainCreate>
 				break;
 			case 'create-board':
 				return <CreateBoardHeader></CreateBoardHeader>
 				break;
 			case 'create-template':
-				return <CreateTemplateHeader onSelectTemplate={onSelectTemplate} setCreateModalTitle={setCreateModalTitle} setCreateState={setCreateState}></CreateTemplateHeader>
+				return <CreateTemplateHeader  onSelectTemplate={onSelectTemplate} setCreateModalTitle={setCreateModalTitle} setCreateState={setCreateState}></CreateTemplateHeader>
 				break;
 			default:
 				return
@@ -133,9 +131,8 @@ export const MainHeader = () => {
 			background = `url${board.img}`
 		}
 		return background
-
-
 	}
+
 
 	return (
 		<header className="secondary-header flex">
@@ -243,7 +240,7 @@ export const MainHeader = () => {
 									</button>
 								</div>
 								<hr />
-								<DynamicCmp></DynamicCmp>
+								<DynamicCmp ></DynamicCmp>
 							</section>
 							<section ref={refCreate} className="header-modal recent hide">
 								<div className="modal-title">

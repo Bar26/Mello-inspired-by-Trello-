@@ -1,12 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
 import { AppHeader } from '../cmps/AppHeader'
 import { userService } from '../services/user.service.js'
-import { loadUsers, onSignup, setCurrUser } from '../store/actions/user.actions'
+import {  onSignup, setCurrUser } from '../store/actions/user.actions'
 import { uploadService } from '../services/upload.service'
 import { boardService } from '../services/board.service'
+import uploadSvg from '../assets/img/add-user-add-svgrepo-com.svg'
 
 export function Signup() {
 
@@ -49,7 +50,7 @@ export function Signup() {
 			return
 		await dispatch(onSignup(credentials))
 		let newScrum = await boardService.getBoardForGuest()
-		let newUser = {...credentials,boards: [newScrum._id],starred: [newScrum._id] }
+		let newUser = { ...credentials, boards: [newScrum._id], starred: [newScrum._id] }
 		newUser = await userService.update(newUser)
 		await userService.saveLocalUser(newUser)
 		dispatch(setCurrUser(newUser))
@@ -66,7 +67,7 @@ export function Signup() {
 		<section className="sing-up-page">
 			<AppHeader />
 			<section className="sign-up">
-				<h1 className="sign-up-title">Sign up to Trello</h1>
+				<h1 className="sign-up-title">Sign up to Mello</h1>
 				<input
 					type="text"
 					name="fullname"
@@ -91,12 +92,17 @@ export function Signup() {
 					onChange={handleChange}
 					required
 				/>
-				<input
-					type="file"
-					name="imgUrl"
-					value={credentials.img}
-					onChange={handleChange}
-				/>
+				<label className="file-label" > 
+				<img className="upload-img" src={uploadSvg}/>
+				<span className="file-label-txt">Upload a profile picture</span>
+					<input
+						className="file-input"
+						type="file"
+						name="imgUrl"
+						value={credentials.img}
+						onChange={handleChange}
+						style={{visibility:"hidden"}}
+					/></label>
 
 				<button className="sign-up-btn" onClick={onSignupNewUser}>
 					Signup!

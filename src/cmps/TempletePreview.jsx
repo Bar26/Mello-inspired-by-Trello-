@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { boardService } from '../services/board.service.js'
 import { userService } from '../services/user.service.js'
 import { setCurrBoard } from '../store/actions/board.actions.js'
+import { updateUser } from '../store/actions/user.actions.js'
 
 export const TemplatePreview = ({ template, getStarredBoards }) => {
 	const navigate = useNavigate()
@@ -14,11 +15,13 @@ export const TemplatePreview = ({ template, getStarredBoards }) => {
 	
 	const onCreateBoard = async () => {
 		try {
-			const newBoard = await boardService.getEmptyBoard(template)
-			const updateUser = await userService.addBoardUser(newBoard._id, currUser)
-			await userService.update(updateUser)
-			dispatch(setCurrBoard(newBoard._id))
+			const newBoard = await boardService.getEmptyBoard(template, true)
+			const updatedUser = await userService.addBoardUser(newBoard._id, currUser)
+			await dispatch(setCurrBoard(newBoard._id))
 			navigate(`/boards/${newBoard._id}`)
+
+			dispatch(updateUser(updatedUser))
+			dispatch({ type: 'ADD_BOARD', board:newBoard })
 		} catch {
 			console.log('ERORR')
 		}

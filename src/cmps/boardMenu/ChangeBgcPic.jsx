@@ -35,7 +35,6 @@ export const ChangeBgcPic = ({ setSelectedType, setTitle, setLastType, setLastTi
             const styleToSend ={ backgroundImage: `(${newStyle})` }
             const newBoard = boardService.changeBoardBGStyle(styleToSend,currBoard,currUser)
             await dispatch(onSaveBoard(newBoard))
-            await dispatch(setCurrBoard(newBoard._id))
         } catch {
             console.err();
         }

@@ -26,6 +26,7 @@ export function GroupList({onChangeColorStyle}) {
     }
 
     const onListSubmit = (ev) => {
+        console.log(currBoard);
         ev.preventDefault()
         const { value } = ev.target[0]
         onAddList(value)

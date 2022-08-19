@@ -41,7 +41,6 @@ export const ChangeBgcColorsModal = ({ setLastType, setLastTitle, menuShow, onTo
             const styleToSend = { backgroundColor: newStyle }
             const newBoard = boardService.changeBoardBGStyle(styleToSend, currBoard, currUser)
             await dispatch(onSaveBoard(newBoard))
-            await dispatch(setCurrBoard(newBoard._id))
             setSelectedType('main-board')
             setTitle('Menu')
         } catch {

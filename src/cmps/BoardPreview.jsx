@@ -55,7 +55,8 @@ export const BoardPreview = ({ board, loadUserStarredBoards, isStared }) => {
 
 	const onGetBoard = async () => {
 		const currBoard = await boardService.getById(board._id)
-		setCurrBoard(currBoard.id)
+		const boardToSave={...currBoard}
+		await dispatch(setCurrBoard(boardToSave._id))
 		navigate(`/boards/${board._id}`)
 	}
 
@@ -73,7 +74,8 @@ export const BoardPreview = ({ board, loadUserStarredBoards, isStared }) => {
 					style={{ backgroundImage: backgroundState, backgroundSize: 'cover' }}
 					onClick={onGetBoard}
 				>
-					<div onClick={() => dispatch(setCurrBoard(board))} className="link">
+					<div  className="link">
+						
 						<h1>{board.title}</h1>
 						<label className="star" onClick={(event) => onSetStar(event, board)}>
 						{whichStar(board._id)}
@@ -87,7 +89,7 @@ export const BoardPreview = ({ board, loadUserStarredBoards, isStared }) => {
 					style={{ background: backgroundState }}
 					onClick={onGetBoard}
 				>
-					<div onClick={() => dispatch(setCurrBoard(board))} className="link">
+					<div  className="link">
 						<h1>{board.title}</h1>
 						<label className="star" onClick={(event) => onSetStar(event, board)}>
 							{whichStar(board._id)}

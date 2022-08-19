@@ -105,6 +105,7 @@ export function addTask(taskTitle, group, currBoard) {
 			const state=getState()
 			const {currUser}=state.userModule
 			const board = await boardService.createTask(taskTitle, group, currBoard, currUser)
+			console.log(currBoard);
 			dispatch(onSaveBoard(board))
 	
 		} catch (err) {
@@ -132,7 +133,6 @@ export function onChangeColorStyle (currBoard,newStyle) {
 		try {
 		const newBoard = await boardService.changeBoardStyle(currBoard, newStyle)
 		await dispatch(onSaveBoard(newBoard))
-		dispatch(setCurrBoard(newBoard._id))
 	} catch {
 		console.err();
 	}

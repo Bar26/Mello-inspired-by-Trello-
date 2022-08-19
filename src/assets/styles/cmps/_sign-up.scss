@@ -5,18 +5,18 @@
 	justify-content: center;
 	max-width: 350px;
 	padding: 15px 40px;
-	margin-top: 120px;
+	margin-top: 90px;
 	position: relative;
 	border-radius: 3px;
 	box-shadow: 0 0 10px rgb(0 0 0 / 10%);
 	.sign-up-title {
-		color: #5e6c84;
-		font-size: 16px;
+		color: $clr4;
+		font-size: 17px;
 		font-weight: 700;
 		letter-spacing: -0.01em;
 		line-height: 28px;
-		margin-bottom: 25px;
-		margin-top: 10px;
+		margin-bottom: 15px;
+		margin-top: 5px;
 		text-align: center;
 	}
 
@@ -31,9 +31,32 @@
 		border-radius: 3px;
 		font-size: 14px;
 		height: 44px;
-		margin-bottom: 17px;
+		margin-bottom: 15px;
 		max-width: 400px;
 	}
+
+	.file-label {
+
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		.file-label-txt {
+			padding-inline-start: 3px;
+			font-size: rem(12px);
+			color: $clr4;
+			font-weight: 700;
+		}
+
+		.upload-img {
+			width: 80px;
+		}
+
+		.file-input{
+			height: 0;
+			margin: 0;
+		}
+	}
+
 	.sign-up-btn {
 		color: #fff;
 		background-color: #0065ff;
@@ -49,8 +72,8 @@
 
 	a {
 		color: #5e98ba;
-		font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-			Ubuntu, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+		font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Fira Sans, Droid Sans,
+			Helvetica Neue, sans-serif;
 		font-size: 14px;
 		text-align: center;
 		text-decoration: none;

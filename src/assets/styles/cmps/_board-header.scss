@@ -61,6 +61,7 @@
 			@include flex-center;
 			height: 30px;
 			width: 30px;
+			padding-bottom: 3px;
 			&:hover {
 				background-color: hsla(0, 0%, 100%, 0.459);
 			}

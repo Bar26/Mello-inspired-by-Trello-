@@ -11,6 +11,8 @@ import { BoardCoverModal } from '../cmps/BoardCoverModal'
 import { boardService } from '../services/board.service'
 import { getUser, setCurrUser } from '../store/actions/user.actions'
 import { socketService, SOCKET_EMIT_UPDATE_BOARD } from '../services/socket.service'
+import { useEffectUpdate } from '../cmps/useEffectUpdate'
+import { type } from '@testing-library/user-event/dist/type'
 
 export const BoardDeatails = () => {
 	const [menuShow, setMenuShow] = useState('')
@@ -23,11 +25,28 @@ export const BoardDeatails = () => {
 
 	useEffect(() => {
 		socketService.on(SOCKET_EMIT_UPDATE_BOARD, (board) => {
-			dispatch(setCurrBoard(boardId))
+			dispatch({type:"SAVE_BOARD",board})
+			
 		})
-		dispatch(setCurrBoard(boardId))
+		if(!currBoard||!Object.keys(currBoard).length) dispatch(setCurrBoard(boardId))
+
+		console.log('currboard in boarddetails', currBoard);
+
+	}, [])
+
+	useEffectUpdate(() => {
+		console.log('in use effect boardId!!!');
+		if(currBoard._id!==boardId) dispatch(setCurrBoard(boardId))
 
 	}, [boardId])
+	
+
+	useEffect(() => {
+	
+
+		console.log('currboard in boarddetails- after change in currBard', currBoard);
+
+	}, [currBoard])
 
 	useEffect(() => {
 
@@ -59,13 +78,11 @@ export const BoardDeatails = () => {
 	const onUploadImg = async (imgArr) => {
 		let newBoard = await boardService.uploadImgToBoard(currBoard, imgArr)
 		await dispatch(onSaveBoard(newBoard))
-		await dispatch(setCurrBoard(newBoard._id))
 	}
 	const onChangeBGImgStyle = async (newStyle) => {
 		try {
 			const newBoard = { ...currBoard, style: { backgroundImage: `(${newStyle})` } }
 			await dispatch(onSaveBoard(newBoard))
-			await dispatch(setCurrBoard(newBoard._id))
 		} catch {
 			console.err();
 		}
@@ -84,6 +101,7 @@ export const BoardDeatails = () => {
 						backgroundRepeat: 'no-repeat',
 						backgroundSize: 'cover',
 						backgroundPosition: 'center',
+						backgroundAttachment:'fixed'
 					} : { backgroundColor: currBoard.style.backgroundColor }
 			}
 		>

@@ -3,14 +3,16 @@ const initialState = {
 	boards: [],
 	filterBy: { labels: [], members: [], txt: '' },
 	isTaskDetailScreenOpen: false,
-	activity:[],
+	activity: [],
 }
 
 export function boardReducer(state = initialState, action) {
 	let newState = state
 	let boards
+	let currBoard
 	switch (action.type) {
 		case 'SET_BOARD':
+			console.log('in set board', action.currBoard);
 			return (newState = { ...state, currBoard: action.currBoard })
 		case 'ADD_BOARD':
 			return (newState = { ...state, boards: [...state.boards, action.board] })
@@ -25,7 +27,8 @@ export function boardReducer(state = initialState, action) {
 			boards = state.boards.map((board) =>
 				board._id === action.board._id ? action.board : board
 			)
-			return (newState = { ...state, boards})
+			currBoard = action.board
+			return (newState = { ...state, boards, currBoard })
 
 		case 'SET_IS_TASK_DETAILS_SCREEN_OPEN':
 			return {

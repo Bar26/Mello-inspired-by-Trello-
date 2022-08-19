@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { DebounceInput } from 'react-debounce-input'
 import { boardService } from '../services/board.service.js'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCurrBoard } from '../store/actions/board.actions'
+import { onSaveBoard, setCurrBoard } from '../store/actions/board.actions'
 import { useEffectUpdate } from './useEffectUpdate.js'
 import { userService } from '../services/user.service'
 import { loadUsers } from '../store/actions/user.actions.js'
@@ -59,14 +59,13 @@ export const BoardHeader = ({ menuShow, toggleBoardMenu }) => {
 	const setBoardTitle = async () => {
 		try {
 			const updatedBoard = await boardService.setTitle(board)
-			await dispatch(setCurrBoard(updatedBoard._id))
+			dispatch(onSaveBoard(updatedBoard))
 		} catch {
 			console.log('CMP ERROR')
 		}
 	}
 
 	const whichStar = (boardId) => {
-		console.log(currUser.starred?.includes(currBoard._id));
 
 		if (currUser.starred?.includes(boardId)) return <i
 			className="fa-solid fa-star"
