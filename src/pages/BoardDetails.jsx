@@ -96,11 +96,12 @@ export const BoardDeatails = () => {
 			style={
 				currBoard.style.backgroundImage
 					? {
-						backgroundImage: `URL${currBoard?.style?.backgroundImage || '()'}`,
+						backgroundImage: `URL${currBoard?.style?.backgroundImage || '()'} `,
 						backgroundRepeat: 'no-repeat',
 						backgroundSize: 'cover',
-						backgroundPosition: 'center',
-						backgroundAttachment:'fixed'
+						// backgroundPosition: 'center center',
+						position:'fixed',
+						// backgroundAttachment:'fixed'
 					} : { backgroundColor: currBoard.style.backgroundColor }
 			}
 		>

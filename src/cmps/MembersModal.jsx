@@ -38,7 +38,7 @@ export function AddMemberModal({ onToggleMemberModal, task = null, group = null 
     }
 
     const onToggleMemberToTask = async (memberId) => {
-        
+
         try {
             const updatedBoard = await boardService.toggleMemberToTask(currBoard, group, task?.id, memberId)
             await dispatch(onSaveBoard(updatedBoard))
@@ -64,7 +64,7 @@ export function AddMemberModal({ onToggleMemberModal, task = null, group = null 
 
 
     return (
-   
+
         <section className="member-modal-container" ref={memberContainerRef} >
             <header className="add-member-modal-header">
                 <span className="add-member-modal-title">Members</span>
@@ -91,7 +91,7 @@ export function AddMemberModal({ onToggleMemberModal, task = null, group = null 
                         const bg = member.imgUrl ? `url(${member.imgUrl}) center center / cover` : '#de350b'
 
 
-                        if (member.username?.toLowerCase().includes(filterMember)) {
+                        if (member.fullname !== 'Guest' && member.username?.toLowerCase().includes(filterMember)) {
 
                             return (
                                 <section className="member-in-modal-container" onClick={() => setToggleChoice(member)}>
