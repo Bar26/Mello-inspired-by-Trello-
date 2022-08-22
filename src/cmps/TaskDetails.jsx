@@ -144,6 +144,16 @@ export function TaskDetails() {
         }
 
     }
+    const onChangeChecklistTitle = async (ev) => {
+        try {
+            const { value } = ev.target
+            const updatedBoard = await boardService.changeChecklistTitle(currBoard, group, taskId, value)
+            await dispatch(onSaveBoard(updatedBoard))
+        } catch (err) {
+            console.log('cannot change task title', err);
+        }
+
+    }
 
     const onToggleLabelModal = () => {
         addLabelModalRef.current.classList.toggle('hide')
@@ -365,7 +375,7 @@ export function TaskDetails() {
                                     {currBoard.labels && currBoard.labels.map((label) => {
                                         const backgroundColor = label.backgroundColor
                                         const title = label.title
-                                        if (label.title.toLowerCase().includes(filterLabel)) {
+                                        if (label.title?.toLowerCase().includes(filterLabel)) {
 
                                             return (
                                                 <section className="label-in-modal-container">
@@ -553,7 +563,13 @@ export function TaskDetails() {
                         <header className='checklist-header'>
                             <span className="checklist-icon"><i className="fa-regular fa-square-check fa-lg"></i></span>
                             <div className='checklist-title-button flex'>
-                                <span className="checklist-title">Check List</span>
+                            <input
+                                className="checklist-title"
+                                defaultValue={task.checklist.title}
+                                type="text"
+                                onChange={onChangeChecklistTitle}
+                            />
+                                {/* <span className="checklist-title">{task.checklist.title}</span> */}
                                 <button className='checklist-title-delete' onClick={() => { onDeleteElement('checklist'); toggleChecklistModal(); }}>Delete</button>
                             </div>
                         </header>

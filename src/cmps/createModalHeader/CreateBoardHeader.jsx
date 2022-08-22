@@ -48,9 +48,10 @@ export const CreateBoardHeader = (refCreateFirstModal) => {
         const boardToSave = await boardService.getEmptyBoard(newBoard, true)
         const updatedUser = await userService.addBoardUser(boardToSave._id, currUser)
         // toggleModal(refCreateFirstModal)
-        navigate(`/boards/${boardToSave._id}`)
         dispatch(updateUser(updatedUser))
         dispatch({ type: 'ADD_BOARD', board: boardToSave })
+        dispatch(setCurrBoard(boardToSave._id))
+        navigate(`/boards/${boardToSave._id}`)
 
     }
 

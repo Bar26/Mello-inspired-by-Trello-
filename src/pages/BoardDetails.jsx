@@ -98,7 +98,10 @@ export const BoardDeatails = () => {
 					? {
 						backgroundImage: `URL${currBoard?.style?.backgroundImage || '()'} `,
 						backgroundRepeat: 'no-repeat',
-						backgroundSize: 'cover',
+						backgroundSize:'cover',
+						// backgroundSize: '100% 100%',
+						// minHeight:'100vh',
+						// minWidth:'100%',
 						// backgroundPosition: 'center center',
 						position:'fixed',
 						// backgroundAttachment:'fixed'

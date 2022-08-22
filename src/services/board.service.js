@@ -46,6 +46,7 @@ export const boardService = {
 	uploadImgToBoard,
 	changeBoardBGStyle,
 	getInitials,
+	changeChecklistTitle,
 	getBoardForGuest
 }
 
@@ -91,9 +92,7 @@ async function getEmptyBoard(template, toSave = true) {
 		title: template.title,
 		createdBy: await userService.getLoggedinUser(),
 		style: newStyle,
-		labels: [
-
-		],
+		labels: [],
 		members: [await userService.getLoggedinUser()],
 		groups: template.groups ? template.groups : [],
 		activities: [],
@@ -184,7 +183,7 @@ async function createTask(title, group, currBoard, currUser) {
 	const id = utilService.makeId()
 	let createdAt = new Date()
 	createdAt = _getFormatedDate(createdAt)
-	const task = { id, title }
+	const task = { id, title , labelIds:[], memberIds:[] }
 	const updatedBoard = { ...currBoard }
 	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
 	updatedBoard.groups[groupIdx].tasks.push(task)
@@ -262,6 +261,15 @@ async function changeTaskTitle(board, group, taskId, value) {
 		(_group) => _group.id === group.id
 	)
 	updatedBoard.groups[groupIdx].tasks.find((task) => task.id === taskId).title =
+		value
+	return updatedBoard
+}
+async function changeChecklistTitle(board, group, taskId, value) {
+	const updatedBoard = { ...board }
+	const groupIdx = updatedBoard.groups.findIndex(
+		(_group) => _group.id === group.id
+	)
+	updatedBoard.groups[groupIdx].tasks.find((task) => task.id === taskId).checklist.title =
 		value
 	return updatedBoard
 }

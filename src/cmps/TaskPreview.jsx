@@ -26,10 +26,8 @@ export function TaskPreview({ task, group }) {
 	const [taskPad,setTaskPad]=useState({paddingBottom:"0"})
 
 	useEffect(() => {
-	
 		if(task.memberIds) setTaskPad({paddingBottom:"10px"})
-
-	})
+	},[])
 
 
 	const onToggleMemberModal = () => {
