@@ -105,7 +105,7 @@ async function getEmptyBoard(template, toSave = true) {
 		} catch (err) {
 			console.log('Cannot save board', err)
 		}
-	} 
+	}
 	// else {
 	// 	newBoard._id = utilService.makeId()
 	// 	return storageService.post(STORAGE_KEY, newBoard)
@@ -147,8 +147,8 @@ async function getById(id, fromLocal = false) {
 	// if (fromLocal) {
 	// 	return storageService.get(STORAGE_KEY, id)
 	// } else {
-		return httpService.get(`board/${id}`)
-	
+	return httpService.get(`board/${id}`)
+
 }
 
 async function getTemplateById(id) {
@@ -183,7 +183,7 @@ async function createTask(title, group, currBoard, currUser) {
 	const id = utilService.makeId()
 	let createdAt = new Date()
 	createdAt = _getFormatedDate(createdAt)
-	const task = { id, title , labelIds:[], memberIds:[] }
+	const task = { id, title, labelIds: [], memberIds: [] }
 	const updatedBoard = { ...currBoard }
 	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
 	updatedBoard.groups[groupIdx].tasks.push(task)
@@ -323,9 +323,11 @@ async function toggleMemberToBoard(board, member) {
 	const memberIdx = updatedBoard.members.findIndex((m) => m._id === member._id)
 	if (memberIdx !== -1 && updatedBoard.createdBy._id !== member._id) {
 		updatedBoard.members.splice(memberIdx, 1)
-		updatedBoard.tasks.map(task => {
-			const memberIdx = task.memberIds?.findIndex((_memberId) => _memberId === member.id)
-			if (memberIdx !== -1) task.memberIds?.splice(memberIdx, 1)
+		updatedBoard.groups.map(group => {
+			group.tasks.map(task => {
+				const memberIdx = task.memberIds?.findIndex((_memberId) => _memberId === member._id)
+				if (memberIdx !== -1) task.memberIds?.splice(memberIdx, 1)
+			})
 		})
 	}
 	else updatedBoard.members.push(member)
