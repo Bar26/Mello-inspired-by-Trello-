@@ -7,19 +7,24 @@ A project management and team collaboration app, inspired by trello. CHECK IT OU
 For those of you who are hearing about Trello for the first time, you can read about it here.
 If you are familiar with everything Trello can do, scroll to our SHOWCASE of Mello.
 
-תמונת פריוויו**
+![mellopreview](https://res.cloudinary.com/debmbjvbh/image/upload/v1661780313/board_wo77dx.png)
 
+---
 
 ### About Trello
+---
 
 Trello is a project management app, using Kanban-style boards,allowing you to optimize work delivery across multiple teams and handle even the most complex projects in a single environment.
 Each board is composed of lists which contain different tasks. Users can modify the board, move tasks and lists across the board with D&D, label tasks, add attachments, set deadlines and more. Members of the board can witness every change made live. Everything you see in Trello, you will certainly see in Mello! 
 
 ### Features
+---
 
 ### Technologies
+---
 
 ### Showcase
+---
 
 #### Homepage
 
@@ -38,7 +43,7 @@ Our Kanban-style board, containing all of the functionality Trello has. Add list
 
 ![board](https://res.cloudinary.com/debmbjvbh/image/upload/v1661780313/board_wo77dx.png)
 
-###Task details
+### Task details
 
 When clicking a task, task details is opened and the user can edit the task, label it, add attachments, description, checklists and more. Every button on the right menu opens a dynamic modal, enabling a different action. All changes are being seen live, both in this page and the board's.  
 
