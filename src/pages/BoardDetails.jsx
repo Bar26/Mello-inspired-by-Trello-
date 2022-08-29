@@ -29,9 +29,6 @@ export const BoardDeatails = () => {
 			
 		})
 		if(!currBoard||!Object.keys(currBoard).length) dispatch(setCurrBoard(boardId))
-
-		console.log('currboard in boarddetails', currBoard);
-
 	}, [])
 
 	useEffectUpdate(() => {
