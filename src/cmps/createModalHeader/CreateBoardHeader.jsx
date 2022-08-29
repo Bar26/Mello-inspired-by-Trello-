@@ -47,10 +47,9 @@ export const CreateBoardHeader = (refCreateFirstModal) => {
         const newBoard = imageOrColor === 'img' ? { title: ev.target['create-title'].value, img: `(${stateBackground})` } : { title: ev.target['create-title'].value, color: stateBackground }
         const boardToSave = await boardService.getEmptyBoard(newBoard, true)
         const updatedUser = await userService.addBoardUser(boardToSave._id, currUser)
-        // toggleModal(refCreateFirstModal)
         dispatch(updateUser(updatedUser))
         dispatch({ type: 'ADD_BOARD', board: boardToSave })
-        dispatch(setCurrBoard(boardToSave._id))
+        await dispatch(setCurrBoard(boardToSave._id))
         navigate(`/boards/${boardToSave._id}`)
 
     }

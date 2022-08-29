@@ -39,16 +39,19 @@
 
     &::-webkit-scrollbar {
         width: 8px;
+       
     }
-
+    
     /* Track */
     &::-webkit-scrollbar-track {
         background: #f1f1f1;
-    }
 
+    }
+    
     /* Handle */
     &::-webkit-scrollbar-thumb {
         background: #888;
+    
     }
 
     button {
@@ -650,6 +653,9 @@
             text-align: center;
             width: 38px;
         }
+        .proggres-bar-inner{
+            transition: 0.3s;
+        }
     }
 
     .checklist-todos-list-container {
@@ -869,6 +875,7 @@
         font-weight: 400;
         line-height: 20px;
         align-items: center;
+        flex-wrap: wrap;
 
         .attachment-img {
             background-position: 50%;
@@ -1048,7 +1055,7 @@
         
     .close-details-btn {
      
-        left: 12px;
+        left: 5px;
         top: 4px;
     }
 

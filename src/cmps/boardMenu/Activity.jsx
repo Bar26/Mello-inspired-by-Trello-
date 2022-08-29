@@ -156,7 +156,7 @@ export function Activity() {
                         </div>
                         <div className="content">
                             <span className="user-name">{act.userName}</span>
-                            <span>copied</span> {act.groupTitle}</div>
+                            <span> copied</span> {act.groupTitle}</div>
                         <span className="created-at">
                             {act.createdAt}
                         </span>
