@@ -602,11 +602,11 @@ export function TaskDetails() {
                                         <button className='checklist-add-btn' type='submit' form='add-item'>Add</button>
                                         <button onClick={() => onToggleRef(addChecklistItem)}>Cancel</button>
                                     </div>
-                                    <div className='checklist-controller-btn'>
+                                    {/* <div className='checklist-controller-btn'>
                                         <button>Assign</button>
                                         <button>Due date</button>
                                         <button>@</button>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </section>

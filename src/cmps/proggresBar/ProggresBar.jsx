@@ -16,15 +16,18 @@ const ProgressBar = ({ completed }) => {
     width: `${completed}%`,
     backgroundColor: '#5ba4cf',
     borderRadius: 'inherit',
-    textAlign: 'right'
+    textAlign: 'right',
+    // TransitionEvent:'',
+    transition:'0.4s'
   }
-
+  
   const fillerStyles2={
     height: '100%',
     width: `${completed}%`,
     backgroundColor: '#61bd4f',
     borderRadius: 'inherit',
-    textAlign: 'right'
+    textAlign: 'right',
+    transition:'0.4s'
   }
 
   const labelStyles = {
