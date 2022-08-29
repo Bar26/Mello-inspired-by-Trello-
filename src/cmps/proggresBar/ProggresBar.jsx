@@ -38,7 +38,7 @@ const ProgressBar = ({ completed }) => {
 
   return (
     <div style={containerStyles}>
-      <div style={completed===100? fillerStyles2:fillerStyles}>
+      <div className="proggres-bar-inner" style={completed===100? fillerStyles2:fillerStyles}>
       <span style={labelStyles}></span>
       </div>
     </div>

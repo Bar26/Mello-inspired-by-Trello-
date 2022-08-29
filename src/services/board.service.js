@@ -187,7 +187,7 @@ async function createTask(title, group, currBoard, currUser) {
 	const updatedBoard = { ...currBoard }
 	const groupIdx = updatedBoard.groups.findIndex(_group => _group.id === group.id)
 	updatedBoard.groups[groupIdx].tasks.push(task)
-	updatedBoard.activities.push({ type: 'add-task', task, taskTitle: task.title, groupTitle: group.title, userName: currUser.fullname, userImg: currUser.imgUrl, createdAt })
+	updatedBoard.activities.unshift({ type: 'add-task', task, taskTitle: task.title, groupTitle: group.title, userName: currUser.fullname, userImg: currUser.imgUrl, createdAt })
 	return updatedBoard
 }
 
@@ -200,7 +200,7 @@ async function createList(board, title, user) {
 	let createdAt = new Date()
 	createdAt = _getFormatedDate(createdAt)
 
-	updatedBoard.activities.push({ type: 'add-group', groupTitle: group.title, userImg: user.imgUrl, userName: user.fullname, createdAt })
+	updatedBoard.activities.unshift({ type: 'add-group', groupTitle: group.title, userImg: user.imgUrl, userName: user.fullname, createdAt })
 	return updatedBoard
 }
 
@@ -214,7 +214,7 @@ async function copyTask(task, group, board, currUser) {
 	let createdAt = new Date()
 	createdAt = _getFormatedDate(createdAt)
 
-	updatedBoard.activities.push({ type: "copy-task", task, taskCopy, taskTitle: task.title, groupTitle: group.title, userImg: currUser.imgUrl, userName: currUser.fullname, createdAt })
+	updatedBoard.activities.unshift({ type: "copy-task", task, taskCopy, taskTitle: task.title, groupTitle: group.title, userImg: currUser.imgUrl, userName: currUser.fullname, createdAt })
 	return updatedBoard
 }
 
@@ -224,7 +224,9 @@ async function copyGroup(group, board, user) {
 	const newId = utilService.makeId()
 	groupCopy.id = newId
 	updatedBoard.groups.push(groupCopy)
-	updatedBoard.activities.push({ type: 'copy-group', groupTitle: group.title, userImg: user.imgUrl, userName: user.fullname })
+	let createdAt = new Date()
+	createdAt = _getFormatedDate(createdAt)
+	updatedBoard.activities.unshift({ type: 'copy-group', groupTitle: group.title, userImg: user.imgUrl, userName: user.fullname, createdAt })
 
 	return updatedBoard
 }
@@ -237,7 +239,7 @@ async function removeTask(board, group, task, user) {
 	let createdAt = new Date()
 	createdAt = _getFormatedDate(createdAt)
 
-	updatedBoard.activities.push({ type: "remove-task", taskTitle: task.title, userImg: user.imgUrl, userName: user.fullname, createdAt })
+	updatedBoard.activities.unshift({ type: "remove-task", taskTitle: task.title, userImg: user.imgUrl, userName: user.fullname, createdAt })
 
 	return updatedBoard
 }
@@ -250,7 +252,7 @@ async function removeGroup(board, group, user) {
 	let createdAt = new Date()
 	createdAt = _getFormatedDate(createdAt)
 
-	updatedBoard.activities.push({ type: 'remove-group', groupTitle: group.title, userImg: user.imgUrl, userName: user.fullname, createdAt })
+	updatedBoard.activities.unshift({ type: 'remove-group', groupTitle: group.title, userImg: user.imgUrl, userName: user.fullname, createdAt })
 
 	return updatedBoard
 }
@@ -323,11 +325,9 @@ async function toggleMemberToBoard(board, member) {
 	const memberIdx = updatedBoard.members.findIndex((m) => m._id === member._id)
 	if (memberIdx !== -1 && updatedBoard.createdBy._id !== member._id) {
 		updatedBoard.members.splice(memberIdx, 1)
-		updatedBoard.groups.map(group => {
-			group.tasks.map(task => {
-				const memberIdx = task.memberIds?.findIndex((_memberId) => _memberId === member._id)
-				if (memberIdx !== -1) task.memberIds?.splice(memberIdx, 1)
-			})
+		updatedBoard.tasks.map(task => {
+			const memberIdx = task.memberIds?.findIndex((_memberId) => _memberId === member.id)
+			if (memberIdx !== -1) task.memberIds?.splice(memberIdx, 1)
 		})
 	}
 	else updatedBoard.members.push(member)
