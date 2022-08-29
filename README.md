@@ -43,19 +43,19 @@ Our Kanban-style board, containing all of the functionality Trello has. Add list
 
 ![board](https://res.cloudinary.com/debmbjvbh/image/upload/v1661780313/board_wo77dx.png)
 
-### Task details
+#### Task details
 
 When clicking a task, task details is opened and the user can edit the task, label it, add attachments, description, checklists and more. Every button on the right menu opens a dynamic modal, enabling a different action. All changes are being seen live, both in this page and the board's.  
 
 ![taskdetails](https://res.cloudinary.com/debmbjvbh/image/upload/v1661780373/taskdetails1_lrv3xz.png)
 
-### Side menu
+#### Side menu
 
 The side menu on the right (opened by clicking "Show menu" button) displays the activity log of the board, documenting the time and action made by each member of the board. Moreover, users can change the background of the board by choosing from our selection of background images or upload directly from their computer. 
 
 ![sidemenu](https://res.cloudinary.com/debmbjvbh/image/upload/v1661780463/sidemenu_iokicl.png)
 
-### Signup
+#### Signup
 
 We have created an e2e authentication flow, in which we are encrypting user's information.
 
@@ -76,7 +76,7 @@ A taste of the mobile experience. we have used mixins, rem and em units, aspect 
 
 ![taskdetails-menu-mobile](https://res.cloudinary.com/debmbjvbh/image/upload/v1661782669/sidemenu-mobile_tqrqjy.png) -->
 
-### Authors
+#### Authors
 
 * Bar Ivri
 * Noam Bar
