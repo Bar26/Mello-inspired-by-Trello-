@@ -16,7 +16,7 @@ Each board is composed of lists which contain different tasks. Users can modify 
 ### Features
 
 * Create boards, create and move lists and tasks across the board using **D&D. 
-* Edit task to the deepest level: cover(color/image), labels, attachments, due date, description, members, checklists. filter members and labels. copy and remove tasks and lists.
+* Edit task to the deepest level: cover(color/image), labels, attachments, due dates, description, members, checklists. filter members and labels. copy and remove tasks and lists.
 * Activity log, background cover for the board. (on side-menu).
 * Login authentication, including encrypting user information.
 
@@ -42,7 +42,6 @@ User's Workspace, containing all his boards, including his starred boards. In ad
 
 ![workspace](https://res.cloudinary.com/debmbjvbh/image/upload/v1661780269/boards_fgekdi.png)
 
-The board
 Our Kanban-style board, containing all of the functionality Trello has. Add lists, tasks, move them across the board with D&D.Editing tasks to the deepest level. Add members to the board and to a specific task and much more! Check it out for yourself.
 
 ![board](https://res.cloudinary.com/debmbjvbh/image/upload/v1661780313/board_wo77dx.png)
