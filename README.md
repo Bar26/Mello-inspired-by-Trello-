@@ -10,7 +10,7 @@ If you are familiar with everything Trello can do, scroll to our [Showcase](#sho
 
 ### About Trello
 
-Trello is a project management app, using Kanban-style boards,allowing you to optimize work delivery across multiple teams and handle even the most complex projects in a single environment.
+Trello is a project management app, using Kanban-style boards, allowing you to optimize work delivery across multiple teams and handle even the most complex projects in a single environment.
 Each board is composed of lists which contain different tasks. Users can modify the board, move tasks and lists across the board with D&D, label tasks, add attachments, set deadlines and more. Members of the board can witness every change made live. Everything you see in Trello, you will certainly see in Mello! 
 
 ### Features
