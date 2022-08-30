@@ -5,7 +5,7 @@
 A project management and team collaboration app, inspired by trello. CHECK IT OUT HERE.
 
 For those of you who are hearing about Trello for the first time, you can read about it here.
-If you are familiar with everything Trello can do, scroll to our SHOWCASE of Mello.
+If you are familiar with everything Trello can do, scroll to our [Showcase](/#Showcase) SHOWCASE of Mello.
 
 ![mellopreview](https://res.cloudinary.com/debmbjvbh/image/upload/v1661780313/board_wo77dx.png)
 
