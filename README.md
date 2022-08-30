@@ -70,18 +70,13 @@ And on Mobile!
 
 A taste of the mobile experience. we have used mixins, rem and em units, aspect ratio and  more, to make our website responsive with minimun effort.
 
-<!-- ![homepage-mobile](https://res.cloudinary.com/debmbjvbh/image/upload/v1661782710/homepage-mobile_dkgfrv.png =250x250)
-
-
-![signup-mobile](https://res.cloudinary.com/debmbjvbh/image/upload/v1661782704/signup-mobile_pwavpo.png )
-
-<img src="https://res.cloudinary.com/debmbjvbh/image/upload/v1661782704/signup-mobile_pwavpo.png" alt="signup-mobile" width="50">
-
-![board-mobile](https://res.cloudinary.com/debmbjvbh/image/upload/v1661782676/board-mobile_hsxybz.png)
-
-![taskdetails-mobile](https://res.cloudinary.com/debmbjvbh/image/upload/v1661782716/taskdetails-mobile_jlylu0.png)
-
-![taskdetails-menu-mobile](https://res.cloudinary.com/debmbjvbh/image/upload/v1661782669/sidemenu-mobile_tqrqjy.png) -->
+<div style="display:flex">
+<img src="https://user-images.githubusercontent.com/102179997/187438857-af245de8-dd0a-4fcf-bcac-ee95151f7c69.png" alt="signup-mobile" width="19%"   />
+<img src="https://user-images.githubusercontent.com/102179997/187438916-5d56bc56-ea64-4c7f-9975-7bae3066b887.png" alt="board-mobile" width="19%" />
+<img src="https://user-images.githubusercontent.com/102179997/187438997-c397a104-1e40-459e-8902-eae8ebc59799.png" alt="workspace-mobile" width="19%" />
+<img src="https://user-images.githubusercontent.com/102179997/187439069-5c40f5bc-0aba-43a2-9180-519f0264d40d.png" alt="taskdetails-mobile" width="19%" />
+<img src="https://user-images.githubusercontent.com/102179997/187439098-eae1e817-f571-4e0b-9528-152c076c9016.png" alt="sidemenu-details-mobile" width="19%" />
+</div>
 
 #### Authors
 
@@ -91,27 +86,5 @@ A taste of the mobile experience. we have used mixins, rem and em units, aspect 
 
 
 
-
-
-simple text
-[githuv] (https://github.com)
-**bold**
-
-![imagename] (url)
-
-ordered list:
-1. item 1
-2. item 2
-3. item 3
-    * sub item
-
-unordered list:
-* item 1
-* item 2
-
-horisontal lines:
-
----
-***
 
 
