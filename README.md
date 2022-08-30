@@ -2,7 +2,7 @@
 
 # Mello - E2E, pixel perfect application for project management inspired by Trello. (React + Node.js)
 
-A project management and team collaboration app, inspired by trello. [CHECK IT OUT HERE](https://mello-by-bar-noam.herokuapp.com/).
+A project management and team collaboration app, inspired by trello. [Checl it our here](https://mello-by-bar-noam.herokuapp.com/).
 For those of you who are hearing about Trello for the first time, you can read about it [here](#about-trello).
 If you are familiar with everything Trello can do, scroll to our [Showcase](#showcase) of Mello.
 
@@ -64,7 +64,7 @@ We have created an e2e authentication flow, in which we are encrypting user's in
 
 ![signup](https://res.cloudinary.com/debmbjvbh/image/upload/v1661780512/signup_s7zdzp.png)
 
-And on Mobile!
+#### And on Mobile!
 
 A taste of the mobile experience. we have used mixins, rem and em units, aspect ratio and  more, to make our website responsive with minimun effort.
 
