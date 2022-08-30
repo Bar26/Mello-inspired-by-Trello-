@@ -69,11 +69,11 @@ We have created an e2e authentication flow, in which we are encrypting user's in
 A taste of the mobile experience. we have used mixins, rem and em units, aspect ratio and  more, to make our website responsive with minimun effort.
 
 <div style="display:flex">
-<img src="https://user-images.githubusercontent.com/102179997/187438857-af245de8-dd0a-4fcf-bcac-ee95151f7c69.png" alt="signup-mobile" width="19%"   />
-<img src="https://user-images.githubusercontent.com/102179997/187438916-5d56bc56-ea64-4c7f-9975-7bae3066b887.png" alt="board-mobile" width="19%" />
-<img src="https://user-images.githubusercontent.com/102179997/187438997-c397a104-1e40-459e-8902-eae8ebc59799.png" alt="workspace-mobile" width="19%" />
-<img src="https://user-images.githubusercontent.com/102179997/187439069-5c40f5bc-0aba-43a2-9180-519f0264d40d.png" alt="taskdetails-mobile" width="19%" />
-<img src="https://user-images.githubusercontent.com/102179997/187439098-eae1e817-f571-4e0b-9528-152c076c9016.png" alt="sidemenu-details-mobile" width="19%" />
+<img src="https://user-images.githubusercontent.com/102179997/187438857-af245de8-dd0a-4fcf-bcac-ee95151f7c69.png" alt="signup-mobile" width="19%" title="sign-up-mobile"   />
+<img src="https://user-images.githubusercontent.com/102179997/187438916-5d56bc56-ea64-4c7f-9975-7bae3066b887.png" alt="board-mobile" width="19%" title="board-mobile" />
+<img src="https://user-images.githubusercontent.com/102179997/187438997-c397a104-1e40-459e-8902-eae8ebc59799.png" alt="workspace-mobile" width="19%" title="workspace-mobile" />
+<img src="https://user-images.githubusercontent.com/102179997/187439069-5c40f5bc-0aba-43a2-9180-519f0264d40d.png" alt="taskdetails-mobile" width="19%" title="task-details-mobile" />
+<img src="https://user-images.githubusercontent.com/102179997/187439098-eae1e817-f571-4e0b-9528-152c076c9016.png" alt="sidemenu-details-mobile" width="19%" title="task-details-side-menu-mobile" />
 </div>
 
 #### Authors
