@@ -9,7 +9,6 @@ If you are familiar with everything Trello can do, scroll to our SHOWCASE of Mel
 
 ![mellopreview](https://res.cloudinary.com/debmbjvbh/image/upload/v1661780313/board_wo77dx.png)
 
-
 ### About Trello
 
 Trello is a project management app, using Kanban-style boards,allowing you to optimize work delivery across multiple teams and handle even the most complex projects in a single environment.
@@ -17,7 +16,18 @@ Each board is composed of lists which contain different tasks. Users can modify 
 
 ### Features
 
+* Create boards, create and move lists and tasks across the board using **D&D. 
+* Edit task to the deepest level: cover(color/image), labels, attachments, due date, description, members, checklists. filter members and labels. copy and remove tasks and lists.
+* Activity log, background cover for the board. (on side-menu).
+* Login authentication, including encrypting user information.
+
 ### Technologies
+
+The technnology stack we used is MERN - MongoDB, Express, React, Node.js.
+We used webSockets to enable real-time updates for all users. API calls to the backend are done with REST API method.
+In addition, we have incorporated third-side libraries, such as React beautiful D&D, Date-picker and more.
+the App's layout was made with Sass (functions, mixins, variables).
+
 
 ### Showcase
 
@@ -65,6 +75,8 @@ A taste of the mobile experience. we have used mixins, rem and em units, aspect 
 
 ![signup-mobile](https://res.cloudinary.com/debmbjvbh/image/upload/v1661782704/signup-mobile_pwavpo.png )
 
+<img src="https://res.cloudinary.com/debmbjvbh/image/upload/v1661782704/signup-mobile_pwavpo.png" alt="signup-mobile" width="50">
+
 ![board-mobile](https://res.cloudinary.com/debmbjvbh/image/upload/v1661782676/board-mobile_hsxybz.png)
 
 ![taskdetails-mobile](https://res.cloudinary.com/debmbjvbh/image/upload/v1661782716/taskdetails-mobile_jlylu0.png)
@@ -75,7 +87,7 @@ A taste of the mobile experience. we have used mixins, rem and em units, aspect 
 
 * Bar Ivri
 * Noam Bar
-* 
+* Itamar Sahar
 
 
 
