@@ -2,22 +2,31 @@
 
 # Mello - E2E, pixel perfect application for project management inspired by Trello. (React + Node.js)
 
-A project management and team collaboration app, inspired by trello. CHECK IT OUT HERE.
-
-For those of you who are hearing about Trello for the first time, you can read about it here.
-If you are familiar with everything Trello can do, scroll to our SHOWCASE of Mello.
+A project management and team collaboration app, inspired by trello - [Check it our here](https://mello-by-bar-noam.herokuapp.com/).
+For those of you who are hearing about Trello for the first time, you can read about it [here](#about-trello).
+If you are familiar with everything Trello can do, scroll to our [Showcase](#showcase) of Mello.
 
 ![mellopreview](https://res.cloudinary.com/debmbjvbh/image/upload/v1661780313/board_wo77dx.png)
 
-
 ### About Trello
 
-Trello is a project management app, using Kanban-style boards,allowing you to optimize work delivery across multiple teams and handle even the most complex projects in a single environment.
+Trello is a project management app, using Kanban-style boards, allowing you to optimize work delivery across multiple teams and handle even the most complex projects in a single environment.
 Each board is composed of lists which contain different tasks. Users can modify the board, move tasks and lists across the board with D&D, label tasks, add attachments, set deadlines and more. Members of the board can witness every change made live. Everything you see in Trello, you will certainly see in Mello! 
 
 ### Features
 
+* Create boards, create and move lists and tasks across the board using **D&D. 
+* Edit task to the deepest level: cover(color/image), labels, attachments, due dates, description, members, checklists. filter members and labels. copy and remove tasks and lists.
+* Activity log, background cover for the board. (on side-menu).
+* Login authentication, including encrypting user information.
+
 ### Technologies
+
+The technnology stack we used is MERN - MongoDB, Express, React, Node.js.
+We used webSockets to enable real-time updates for all users. API calls to the backend are done with REST API method.
+In addition, we have incorporated third-side libraries, such as React beautiful D&D, Date-picker and more.
+the App's layout was made with Sass (functions, mixins, variables).
+
 
 ### Showcase
 
@@ -33,8 +42,7 @@ User's Workspace, containing all his boards, including his starred boards. In ad
 
 ![workspace](https://res.cloudinary.com/debmbjvbh/image/upload/v1661780269/boards_fgekdi.png)
 
-The board
-Our Kanban-style board, containing all of the functionality Trello has. Add lists, tasks, move them across the board with D&D.Editing tasks to the deepest level. Add members to the board and to a specific task and much more! Check it out for yourself.
+Our Kanban-style board, containing all of the functionality Trello has. Add lists, tasks, move them across the board with D&D.Editing tasks to the deepest level. Add members to the board and to a specific task and much more! [Check it out for yourself](https://mello-by-bar-noam.herokuapp.com/)
 
 ![board](https://res.cloudinary.com/debmbjvbh/image/upload/v1661780313/board_wo77dx.png)
 
@@ -56,50 +64,25 @@ We have created an e2e authentication flow, in which we are encrypting user's in
 
 ![signup](https://res.cloudinary.com/debmbjvbh/image/upload/v1661780512/signup_s7zdzp.png)
 
-And on Mobile!
+#### And on Mobile!
 
 A taste of the mobile experience. we have used mixins, rem and em units, aspect ratio and  more, to make our website responsive with minimun effort.
 
-<!-- ![homepage-mobile](https://res.cloudinary.com/debmbjvbh/image/upload/v1661782710/homepage-mobile_dkgfrv.png =250x250)
-
-
-![signup-mobile](https://res.cloudinary.com/debmbjvbh/image/upload/v1661782704/signup-mobile_pwavpo.png )
-
-![board-mobile](https://res.cloudinary.com/debmbjvbh/image/upload/v1661782676/board-mobile_hsxybz.png)
-
-![taskdetails-mobile](https://res.cloudinary.com/debmbjvbh/image/upload/v1661782716/taskdetails-mobile_jlylu0.png)
-
-![taskdetails-menu-mobile](https://res.cloudinary.com/debmbjvbh/image/upload/v1661782669/sidemenu-mobile_tqrqjy.png) -->
+<div style="display:flex">
+<img src="https://user-images.githubusercontent.com/102179997/187438857-af245de8-dd0a-4fcf-bcac-ee95151f7c69.png" alt="signup-mobile" width="19%" title="sign-up-mobile"   />
+<img src="https://user-images.githubusercontent.com/102179997/187438916-5d56bc56-ea64-4c7f-9975-7bae3066b887.png" alt="board-mobile" width="19%" title="board-mobile" />
+<img src="https://user-images.githubusercontent.com/102179997/187438997-c397a104-1e40-459e-8902-eae8ebc59799.png" alt="workspace-mobile" width="19%" title="workspace-mobile" />
+<img src="https://user-images.githubusercontent.com/102179997/187439069-5c40f5bc-0aba-43a2-9180-519f0264d40d.png" alt="taskdetails-mobile" width="19%" title="task-details-mobile" />
+<img src="https://user-images.githubusercontent.com/102179997/187439098-eae1e817-f571-4e0b-9528-152c076c9016.png" alt="sidemenu-details-mobile" width="19%" title="task-details-side-menu-mobile" />
+</div>
 
 #### Authors
 
 * Bar Ivri
 * Noam Bar
-* 
+* Itamar Sahar
 
 
 
-
-
-simple text
-[githuv] (https://github.com)
-**bold**
-
-![imagename] (url)
-
-ordered list:
-1. item 1
-2. item 2
-3. item 3
-    * sub item
-
-unordered list:
-* item 1
-* item 2
-
-horisontal lines:
-
----
-***
 
 
