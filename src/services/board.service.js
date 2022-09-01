@@ -2,6 +2,7 @@ import { storageService } from './async-storage.service.js'
 import { userService } from './user.service.js'
 import { httpService } from './http.service.js'
 import { utilService } from './util.service.js'
+import { date } from 'yup'
 
 const STORAGE_KEY = 'Board'
 const STORAGE_KEY2 = 'Template'
@@ -47,7 +48,7 @@ export const boardService = {
 	changeBoardBGStyle,
 	getInitials,
 	changeChecklistTitle,
-	getBoardForGuest
+	getBoardForGuest,
 }
 
 
@@ -85,8 +86,10 @@ async function getEmptyBoard(template, toSave = true) {
 	let newStyle
 	if (template.img) {
 		newStyle = { backgroundImage: template.img }
-	} else {
+	} else if (template.color) {
 		newStyle = { backgroundColor: template.color }
+	} else if (template.style.backgroundImage) {
+		newStyle = { backgroundImage: template.style.backgroundImage }
 	}
 	const newBoard = {
 		title: template.title,
@@ -379,7 +382,7 @@ async function addTodo(board, group, task, todoTitle) {
 	return newBoard
 }
 async function addAttachment(board, group, task, attachmentImg = null) {
-	const newAttachment = { imgUrl: '', title: 'Uploded Img', createdAt: new Date() }
+	const newAttachment = { imgUrl: '', title: 'Uploded Img', createdAt: _getFormatedDate(new Date()) }
 	if (attachmentImg !== null) newAttachment.imgUrl = attachmentImg
 	let newBoard = { ...board }
 	const groupIdx = newBoard.groups.findIndex((_group) => _group.id === group.id)

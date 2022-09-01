@@ -244,6 +244,10 @@ export function TaskPreview({ task, group }) {
 						<span className='fontawsome'><i className="fa-solid fa-align-left"></i></span></div>
 					}
 
+					{task.attachment && <div className="attachment-prev">
+						<span className='fontawsome'><i className="fa-solid fa-paperclip"></i></span></div>
+					}
+
 
 					{task.checklist && <div className="checklists-prev flex">
 						<span className='fontawsome'><i className="fa-regular fa-square-check"></i></span>

@@ -66,8 +66,13 @@ export const MainHeader = () => {
 	}
 
 	const onSelectTemplate = async (templateId) => {
-		const template = await boardService.getTemplateById(templateId)
-		const newBoard = await boardService.getEmptyBoard(template)
+		// const template = await boardService.getTemplateById(templateId)
+		// const newBoard = await boardService.getEmptyBoard(template)
+		const board = await boardService.getById('630d1849603e7a69f05644d8')
+		const newBoard = await boardService.getEmptyBoard(board)
+		const updatedUser = await userService.addBoardUser(newBoard._id, currUser)
+		dispatch(updateUser(updatedUser))
+		dispatch({ type: 'ADD_BOARD', board:newBoard })
 		navigate(`/boards/${newBoard._id}`)
 	}
 

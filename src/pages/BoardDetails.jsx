@@ -38,10 +38,6 @@ export const BoardDeatails = () => {
 	
 
 	useEffect(() => {
-	
-
-		console.log('currboard in boarddetails- after change in currBard', currBoard);
-
 	}, [currBoard])
 
 	useEffect(() => {
