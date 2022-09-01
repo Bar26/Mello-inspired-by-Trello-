@@ -15,7 +15,7 @@ Each board is composed of lists which contain different tasks. Users can modify 
 
 ### Features
 
-* Create boards, create and move lists and tasks across the board using **D&D. 
+* Create boards, create and move lists and tasks across the board using D&D. 
 * Edit task to the deepest level: cover(color/image), labels, attachments, due dates, description, members, checklists. filter members and labels. copy and remove tasks and lists.
 * Activity log, background cover for the board. (on side-menu).
 * Login authentication, including encrypting user information.
