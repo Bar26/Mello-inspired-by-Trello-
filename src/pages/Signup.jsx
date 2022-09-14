@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 
 import { AppHeader } from '../cmps/AppHeader'
 import { userService } from '../services/user.service.js'
-import {  onSignup, setCurrUser } from '../store/actions/user.actions'
+import { onLogout, onSignup, setCurrUser } from '../store/actions/user.actions'
 import { uploadService } from '../services/upload.service'
 import { boardService } from '../services/board.service'
 import uploadSvg from '../assets/img/add-user-add-svgrepo-com.svg'
@@ -92,16 +92,16 @@ export function Signup() {
 					onChange={handleChange}
 					required
 				/>
-				<label className="file-label" > 
-				<img className="upload-img" src={uploadSvg}/>
-				<span className="file-label-txt">Upload a profile picture</span>
+				<label className="file-label" >
+					<img className="upload-img" src={uploadSvg} />
+					<span className="file-label-txt">Upload a profile picture</span>
 					<input
 						className="file-input"
 						type="file"
 						name="imgUrl"
 						value={credentials.img}
 						onChange={handleChange}
-						style={{visibility:"hidden"}}
+						style={{ visibility: "hidden" }}
 					/></label>
 
 				<button className="sign-up-btn" onClick={onSignupNewUser}>

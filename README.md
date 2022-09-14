@@ -8,6 +8,7 @@ If you are familiar with everything Trello can do, scroll to our [Showcase](#sho
 
 ![mellopreview](https://res.cloudinary.com/debmbjvbh/image/upload/v1661780313/board_wo77dx.png)
 
+
 ### About Trello
 
 Trello is a project management app, using Kanban-style boards, allowing you to optimize work delivery across multiple teams and handle even the most complex projects in a single environment.
@@ -48,7 +49,7 @@ Our Kanban-style board, containing all of the functionality Trello has. Add list
 
 #### Task details
 
-When clicking a task, task details is opened and the user can edit the task, label it, add attachments, description, checklists and more. Every button on the right menu opens a dynamic modal, enabling a different action. All changes are being seen live, both in this page and the board's.  
+When clicking a task, task details is opened and the user can edit the task, label it, add a description, checklists and more. Every button on the right menu opens a dynamic modal, enabling a different action. All changes are being seen live, both in this page and the board's.  
 
 ![taskdetails](https://res.cloudinary.com/debmbjvbh/image/upload/v1661780373/taskdetails1_lrv3xz.png)
 
