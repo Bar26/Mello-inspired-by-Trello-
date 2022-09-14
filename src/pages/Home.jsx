@@ -32,7 +32,7 @@ export function Home() {
 		}
 		await dispatch(onSignup(guestUser))
 		let newScrum = await boardService.getBoardForGuest()
-		guestUser = {...guestUser,boards: [newScrum._id],starred: [newScrum._id] }
+		guestUser = {...guestUser,boards: [newScrum._id] }
 		guestUser = await userService.update(guestUser)
 		await userService.saveLocalUser(guestUser)
 		dispatch(setCurrUser(guestUser))
