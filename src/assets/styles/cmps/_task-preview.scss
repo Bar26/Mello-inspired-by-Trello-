@@ -108,7 +108,7 @@
         }
         
         .edit-change-members{
-            width: 160px;
+            width: 162px;
         }
 
         .hide {
@@ -161,6 +161,17 @@
 
 
             .description-prev {
+                margin: 0;
+                color: #5e6c84;
+
+                .fontawsome {
+                    height: 24px;
+                    width: 24px;
+                    font-size: 12px;
+                }
+            }
+
+            .attachment-prev {
                 margin: 0;
                 color: #5e6c84;
 

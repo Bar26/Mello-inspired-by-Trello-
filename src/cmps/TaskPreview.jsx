@@ -23,11 +23,11 @@ export function TaskPreview({ task, group }) {
 	const addMemberModalRef = useRef()
 	const dateModalRef = useRef()
 	const dateStyle = useRef(task.dates?.completed ? { backgroundColor: "rgb(97, 189, 79)", color: 'white', borderRadius: '3px', width: '122px' } : { backgroundColor: "" })
-	const [taskPad,setTaskPad]=useState({paddingBottom:"0"})
+	const [taskPad, setTaskPad] = useState({ paddingBottom: "0" })
 
 	useEffect(() => {
-		if(task.memberIds) setTaskPad({paddingBottom:"10px"})
-	},[])
+		if (task.memberIds) setTaskPad({ paddingBottom: "10px" })
+	}, [])
 
 
 	const onToggleMemberModal = () => {
@@ -93,11 +93,11 @@ export function TaskPreview({ task, group }) {
 					<span className="icon task-icon"><i className="fa-solid fa-window-maximize fa-lg"></i></span>
 					<span>Open Card</span>
 				</div>
-			
+
 				<div onClick={(ev) => {
 					onToggleMemberModal()
-					
-				}} 
+
+				}}
 					className='edit-change-members'
 				>
 					<span className="icon members-icon">
@@ -132,7 +132,7 @@ export function TaskPreview({ task, group }) {
 
 					</div>
 				</div>
-			
+
 				<div onClick={(ev) => {
 					dispatch(onCopyTask(ev, task, group, currBoard))
 				}}>
@@ -227,7 +227,7 @@ export function TaskPreview({ task, group }) {
 										borderRadius: '50%'
 									}}
 								>
-								
+
 								</div>
 							)
 						})}
@@ -244,6 +244,10 @@ export function TaskPreview({ task, group }) {
 						<span className='fontawsome'><i className="fa-solid fa-align-left"></i></span></div>
 					}
 
+					{task.attachment && <div className="attachment-prev">
+						<span className='fontawsome'><i className="fa-solid fa-paperclip"></i></span></div>
+					}
+
 
 					{task.checklist && <div className="checklists-prev flex">
 						<span className='fontawsome'><i className="fa-regular fa-square-check"></i></span>
@@ -257,8 +261,8 @@ export function TaskPreview({ task, group }) {
 					}
 
 					{task.dates?.dueDate &&
-						<section className="due-date" style={dateStyle.current} onClick={(ev)=>ev.stopPropagation()}>
-							<input type='checkbox' style={{ accentColor: 'green' }} checked={task.dates?.completed} onClick={(ev) => { ev.stopPropagation(); onCheckBoxDueDate(ev) }} />
+						<section className="due-date" style={dateStyle.current}>
+							<input type='checkbox' style={{ accentColor: 'green' }} checked={task.dates?.completed} onChange={(ev) => { ev.stopPropagation(); onCheckBoxDueDate(ev) }} />
 							<span>{utilService.monthName(task.dates.dueDate.slice(3, 5))} </span>
 							<span>{Number(task.dates.dueDate.slice(0, 2))} </span>
 							{task.dates.completed && <span>Completed</span>}
