@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { AppHeader } from '../cmps/AppHeader.jsx'
 import { boardService } from '../services/board.service.js'
-import { onLogin } from '../store/actions/user.actions.js'
+import { onLogin, onLogout } from '../store/actions/user.actions.js'
 import { setCurrUser } from '../store/actions/user.actions.js'
 
 export function Login() {

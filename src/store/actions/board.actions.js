@@ -69,20 +69,20 @@ export function onCopyTask(ev, task, group, currBoard) {
 	}
 }
 
-export function addBoard(boardToAdd) {
-	return async (dispatch) => {
-		try {
-			const savedBoard = await boardService.add(
-				boardToAdd.title,
-				boardToAdd.style
-			)
-			const action = { type: 'ADD_BOARD', board: savedBoard }
-			dispatch(action)
-		} catch (err) {
-			console.log('Cant load boards', err)
-		}
-	}
-}
+// export function addBoard(boardToAdd) {
+// 	return async (dispatch) => {
+// 		try {
+// 			const savedBoard = await boardService.add(
+// 				boardToAdd.title,
+// 				boardToAdd.style
+// 			)
+// 			const action = { type: 'ADD_BOARD', board: savedBoard }
+// 			dispatch(action)
+// 		} catch (err) {
+// 			console.log('Cant load boards', err)
+// 		}
+// 	}
+// }
 
 export function onRemoveTask(ev,task,group, currBoard) {
 	return async (dispatch,getState) => {

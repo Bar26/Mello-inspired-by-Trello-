@@ -19,7 +19,6 @@ export const TemplatePreview = ({ template, getStarredBoards }) => {
 			const updatedUser = await userService.addBoardUser(newBoard._id, currUser)
 			await dispatch(setCurrBoard(newBoard._id))
 			navigate(`/boards/${newBoard._id}`)
-
 			dispatch(updateUser(updatedUser))
 			dispatch({ type: 'ADD_BOARD', board:newBoard })
 		} catch {
