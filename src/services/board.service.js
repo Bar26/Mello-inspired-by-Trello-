@@ -82,7 +82,7 @@ async function setTitle(newBoard) {
 		console.log('Service ERROR')
 	}
 }
-async function getEmptyBoard(template, toSave = true) {
+async function getEmptyBoard(template, boardForGroups, toSave = true) {
 	let newStyle
 	if (template.img) {
 		newStyle = { backgroundImage: template.img }
@@ -95,9 +95,9 @@ async function getEmptyBoard(template, toSave = true) {
 		title: template.title,
 		createdBy: await userService.getLoggedinUser(),
 		style: newStyle,
-		labels: template.labels ? template.labels : [],
-		members: template.members ? template.members : [await userService.getLoggedinUser()],
-		groups: template.groups ? template.groups : [],
+		labels: boardForGroups.labels ? boardForGroups.labels : [],
+		members: boardForGroups.members ? boardForGroups.members : [await userService.getLoggedinUser()],
+		groups: boardForGroups.groups ? boardForGroups.groups : [],
 		activities: [],
 		isStared: false,
 	}
