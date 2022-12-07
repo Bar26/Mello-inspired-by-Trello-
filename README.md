@@ -2,7 +2,7 @@
 
 # Mello - E2E, pixel perfect application for project management inspired by Trello. (React + Node.js)
 
-A project management and team collaboration app, inspired by trello - [Check it our here](https://mello-by-bar-noam.herokuapp.com/).
+A project management and team collaboration app, inspired by trello - [Check it our here](https://mello-r9cy.onrender.com).
 For those of you who are hearing about Trello for the first time, you can read about it [here](#about-trello).
 If you are familiar with everything Trello can do, scroll to our [Showcase](#showcase) of Mello.
 
@@ -43,7 +43,7 @@ User's Workspace, containing all his boards, including his starred boards. In ad
 
 ![workspace](https://res.cloudinary.com/debmbjvbh/image/upload/v1661780269/boards_fgekdi.png)
 
-Our Kanban-style board, containing all of the functionality Trello has. Add lists, tasks, move them across the board with D&D.Editing tasks to the deepest level. Add members to the board and to a specific task and much more! [Check it out for yourself](https://mello-by-bar-noam.herokuapp.com/)
+Our Kanban-style board, containing all of the functionality Trello has. Add lists, tasks, move them across the board with D&D.Editing tasks to the deepest level. Add members to the board and to a specific task and much more! [Check it out for yourself](https://mello-r9cy.onrender.com)
 
 ![board](https://res.cloudinary.com/debmbjvbh/image/upload/v1661780313/board_wo77dx.png)
 
